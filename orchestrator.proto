@@ -4,6 +4,8 @@ package document.orchestrator.v1;
 
 option go_package = "doc_processor/shared_protos";
 
+import "processor.proto";
+
 service OrchestratorService {
   // Client submits a large PDF and immediately receives a JobID
   rpc SubmitDocument(SubmitDocumentRequest) returns (SubmitDocumentResponse);
@@ -13,8 +15,7 @@ service OrchestratorService {
 }
 
 message SubmitDocumentRequest {
-  bytes pdf_content = 1;
-  string file_name = 2;
+  repeated bytes pdf_contents = 1;
   // Action to perform: "CLASSIFY" or "PARSE"
   string action = 3;
   
@@ -23,6 +24,13 @@ message SubmitDocumentRequest {
   
   // Any specific custom instructions for the LLM
   string custom_instructions = 5;
+  
+  // Fields mirrored from the AI Service ProcessDocumentRequest
+  document.processor.v1.ModelChoice model_choice = 6;
+  string document_type = 7;
+  repeated string target_fields = 8;
+  string app_id = 9;
+  string correlation_id = 10;
 }
 
 message SubmitDocumentResponse {

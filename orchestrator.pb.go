@@ -22,17 +22,22 @@ const (
 )
 
 type SubmitDocumentRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	PdfContent []byte                 `protobuf:"bytes,1,opt,name=pdf_content,json=pdfContent,proto3" json:"pdf_content,omitempty"`
-	FileName   string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	PdfContents [][]byte               `protobuf:"bytes,1,rep,name=pdf_contents,json=pdfContents,proto3" json:"pdf_contents,omitempty"`
 	// Action to perform: "CLASSIFY" or "PARSE"
 	Action string `protobuf:"bytes,3,opt,name=action,proto3" json:"action,omitempty"`
 	// The JSON schema to extract (Required if action == "PARSE")
 	ExpectedSchema string `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
 	// Any specific custom instructions for the LLM
 	CustomInstructions string `protobuf:"bytes,5,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Fields mirrored from the AI Service ProcessDocumentRequest
+	ModelChoice   ModelChoice `protobuf:"varint,6,opt,name=model_choice,json=modelChoice,proto3,enum=document.processor.v1.ModelChoice" json:"model_choice,omitempty"`
+	DocumentType  string      `protobuf:"bytes,7,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	TargetFields  []string    `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
+	AppId         string      `protobuf:"bytes,9,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	CorrelationId string      `protobuf:"bytes,10,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SubmitDocumentRequest) Reset() {
@@ -65,18 +70,11 @@ func (*SubmitDocumentRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SubmitDocumentRequest) GetPdfContent() []byte {
+func (x *SubmitDocumentRequest) GetPdfContents() [][]byte {
 	if x != nil {
-		return x.PdfContent
+		return x.PdfContents
 	}
 	return nil
-}
-
-func (x *SubmitDocumentRequest) GetFileName() string {
-	if x != nil {
-		return x.FileName
-	}
-	return ""
 }
 
 func (x *SubmitDocumentRequest) GetAction() string {
@@ -96,6 +94,41 @@ func (x *SubmitDocumentRequest) GetExpectedSchema() string {
 func (x *SubmitDocumentRequest) GetCustomInstructions() string {
 	if x != nil {
 		return x.CustomInstructions
+	}
+	return ""
+}
+
+func (x *SubmitDocumentRequest) GetModelChoice() ModelChoice {
+	if x != nil {
+		return x.ModelChoice
+	}
+	return ModelChoice_MODEL_CHOICE_UNSPECIFIED
+}
+
+func (x *SubmitDocumentRequest) GetDocumentType() string {
+	if x != nil {
+		return x.DocumentType
+	}
+	return ""
+}
+
+func (x *SubmitDocumentRequest) GetTargetFields() []string {
+	if x != nil {
+		return x.TargetFields
+	}
+	return nil
+}
+
+func (x *SubmitDocumentRequest) GetAppId() string {
+	if x != nil {
+		return x.AppId
+	}
+	return ""
+}
+
+func (x *SubmitDocumentRequest) GetCorrelationId() string {
+	if x != nil {
+		return x.CorrelationId
 	}
 	return ""
 }
@@ -269,14 +302,18 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\"\xc7\x01\n" +
-	"\x15SubmitDocumentRequest\x12\x1f\n" +
-	"\vpdf_content\x18\x01 \x01(\fR\n" +
-	"pdfContent\x12\x1b\n" +
-	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12\x16\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xfb\x02\n" +
+	"\x15SubmitDocumentRequest\x12!\n" +
+	"\fpdf_contents\x18\x01 \x03(\fR\vpdfContents\x12\x16\n" +
 	"\x06action\x18\x03 \x01(\tR\x06action\x12'\n" +
 	"\x0fexpected_schema\x18\x04 \x01(\tR\x0eexpectedSchema\x12/\n" +
-	"\x13custom_instructions\x18\x05 \x01(\tR\x12customInstructions\"G\n" +
+	"\x13custom_instructions\x18\x05 \x01(\tR\x12customInstructions\x12E\n" +
+	"\fmodel_choice\x18\x06 \x01(\x0e2\".document.processor.v1.ModelChoiceR\vmodelChoice\x12#\n" +
+	"\rdocument_type\x18\a \x01(\tR\fdocumentType\x12#\n" +
+	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12\x15\n" +
+	"\x06app_id\x18\t \x01(\tR\x05appId\x12%\n" +
+	"\x0ecorrelation_id\x18\n" +
+	" \x01(\tR\rcorrelationId\"G\n" +
 	"\x16SubmitDocumentResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"&\n" +
@@ -309,17 +346,19 @@ var file_orchestrator_proto_goTypes = []any{
 	(*SubmitDocumentResponse)(nil), // 1: document.orchestrator.v1.SubmitDocumentResponse
 	(*ListenRequest)(nil),          // 2: document.orchestrator.v1.ListenRequest
 	(*ProgressUpdate)(nil),         // 3: document.orchestrator.v1.ProgressUpdate
+	(ModelChoice)(0),               // 4: document.processor.v1.ModelChoice
 }
 var file_orchestrator_proto_depIdxs = []int32{
-	0, // 0: document.orchestrator.v1.OrchestratorService.SubmitDocument:input_type -> document.orchestrator.v1.SubmitDocumentRequest
-	2, // 1: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	1, // 2: document.orchestrator.v1.OrchestratorService.SubmitDocument:output_type -> document.orchestrator.v1.SubmitDocumentResponse
-	3, // 3: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: document.orchestrator.v1.SubmitDocumentRequest.model_choice:type_name -> document.processor.v1.ModelChoice
+	0, // 1: document.orchestrator.v1.OrchestratorService.SubmitDocument:input_type -> document.orchestrator.v1.SubmitDocumentRequest
+	2, // 2: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	1, // 3: document.orchestrator.v1.OrchestratorService.SubmitDocument:output_type -> document.orchestrator.v1.SubmitDocumentResponse
+	3, // 4: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }
@@ -327,6 +366,7 @@ func file_orchestrator_proto_init() {
 	if File_orchestrator_proto != nil {
 		return
 	}
+	file_processor_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
