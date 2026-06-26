@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package traceability;
+
+option go_package = "doc_processor/shared_protos;shared_protos";
+option csharp_namespace = "TraceabilityService.Protos";
+
+// The gRPC service for querying compliance and traceability events
+service TraceabilityQuery {
+  // Query the overall status and events for a specific job
+  rpc GetJobTrace (GetJobTraceRequest) returns (GetJobTraceResponse);
+  
+  // Query all events related to a specific correlation ID across all services
+  rpc GetCorrelationTrace (GetCorrelationTraceRequest) returns (GetCorrelationTraceResponse);
+}
+
+message GetJobTraceRequest {
+  string job_id = 1;
+}
+
+message GetJobTraceResponse {
+  string job_id = 1;
+  string status = 2; // e.g., "COMPLETED", "IN_PROGRESS", "FAILED"
+  repeated TraceEvent events = 3;
+}
+
+message GetCorrelationTraceRequest {
+  string correlation_id = 1;
+}
+
+message GetCorrelationTraceResponse {
+  string correlation_id = 1;
+  repeated TraceEvent events = 2;
+}
+
+// Mirrors the TraceabilityEvent we emit to NATS
+message TraceEvent {
+  string event_id = 1;
+  string job_id = 2;
+  string chunk_id = 3;
+  string correlation_id = 4;
+  string tenant_id = 5;
+  string user_id = 6;
+  string app_id = 7;
+  string action = 8;
+  string status = 9;
+  string message = 10;
+  string metadata = 11; // JSON string
+  string timestamp = 12; // ISO 8601
+}
