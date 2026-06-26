@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package document.processor.v1;
+
+option go_package = "doc_processor/shared_protos";
+
+service DocumentProcessor {
+  // Existing Async method (keeps current NATS architecture intact for legacy)
+  rpc ProcessDocument(ProcessDocumentRequest) returns (ProcessDocumentResponse);
+  
+  // NEW: Synchronous method for the Orchestrator to use for fast, blocking chunk processing
+  rpc ExtractDocumentData(ExtractRequest) returns (ExtractResponse);
+}
+
+enum ModelChoice {
+  MODEL_CHOICE_UNSPECIFIED = 0;
+  MODEL_CHOICE_LOCAL = 1;
+}
+
+message ProcessDocumentRequest {
+  bytes file_content = 1;
+  string file_name = 2;
+  ModelChoice model_choice = 3;
+  string document_type = 4;
+  repeated string target_fields = 5;
+  string json_schema = 6;
+  string custom_instructions = 7;
+  string app_id = 8;
+  string correlation_id = 9;
+}
+
+message ProcessDocumentResponse {
+  bool success = 1;
+  string error_message = 2;
+  string correlation_id = 3;
+  string status = 4;
+}
+
+// --- NEW MESSAGES FOR ORCHESTRATOR ---
+
+message ExtractRequest {
+  // The Orchestrator sends the physical PDF chunk
+  bytes chunk_pdf = 1;
+  
+  // The Orchestrator passes the exact prompt (e.g., "Find the document boundaries in this chunk")
+  string prompt = 2;
+  
+  // Strict JSON Schema to enforce the model's output format
+  string json_schema = 3;
+  
+  ModelChoice model_choice = 4;
+}
+
+message ExtractResponse {
+  bool success = 1;
+  string error_message = 2;
+  
+  // The raw JSON string returned by the LLM
+  string extracted_json = 3;
+}

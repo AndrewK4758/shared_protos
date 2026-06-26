@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package document.orchestrator.v1;
+
+option go_package = "doc_processor/shared_protos";
+
+service OrchestratorService {
+  // Client submits a large PDF and immediately receives a JobID
+  rpc SubmitDocument(SubmitDocumentRequest) returns (SubmitDocumentResponse);
+  
+  // Client listens to this Server Stream to get real-time progress of their JobID
+  rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
+}
+
+message SubmitDocumentRequest {
+  bytes pdf_content = 1;
+  string file_name = 2;
+  // Action to perform: "CLASSIFY" or "PARSE"
+  string action = 3;
+  
+  // The JSON schema to extract (Required if action == "PARSE")
+  string expected_schema = 4;
+  
+  // Any specific custom instructions for the LLM
+  string custom_instructions = 5;
+}
+
+message SubmitDocumentResponse {
+  string job_id = 1;
+  string status = 2; // e.g., "QUEUED"
+}
+
+message ListenRequest {
+  string job_id = 1;
+}
+
+message ProgressUpdate {
+  string job_id = 1;
+  string status = 2; // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
+  string message = 3; // Detailed message, e.g., "Processing chunk 2 of 5"
+  
+  // Only populated when status == "COMPLETE"
+  string final_results_json = 4;
+}
