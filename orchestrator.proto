@@ -31,6 +31,13 @@ message SubmitDocumentRequest {
   repeated string target_fields = 8;
   string app_id = 9;
   string correlation_id = 10;
+
+  // New Compliance & Traceability Metadata
+  string tenant_id = 11;
+  string user_id = 12;
+
+  // Allowed classification types for the CLASSIFY action
+  repeated string allowed_classifications = 13;
 }
 
 message SubmitDocumentResponse {

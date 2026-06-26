@@ -36,8 +36,13 @@ type SubmitDocumentRequest struct {
 	TargetFields  []string    `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	AppId         string      `protobuf:"bytes,9,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
 	CorrelationId string      `protobuf:"bytes,10,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// New Compliance & Traceability Metadata
+	TenantId string `protobuf:"bytes,11,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	UserId   string `protobuf:"bytes,12,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	// Allowed classification types for the CLASSIFY action
+	AllowedClassifications []string `protobuf:"bytes,13,rep,name=allowed_classifications,json=allowedClassifications,proto3" json:"allowed_classifications,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SubmitDocumentRequest) Reset() {
@@ -131,6 +136,27 @@ func (x *SubmitDocumentRequest) GetCorrelationId() string {
 		return x.CorrelationId
 	}
 	return ""
+}
+
+func (x *SubmitDocumentRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *SubmitDocumentRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *SubmitDocumentRequest) GetAllowedClassifications() []string {
+	if x != nil {
+		return x.AllowedClassifications
+	}
+	return nil
 }
 
 type SubmitDocumentResponse struct {
@@ -302,7 +328,7 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xfb\x02\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xea\x03\n" +
 	"\x15SubmitDocumentRequest\x12!\n" +
 	"\fpdf_contents\x18\x01 \x03(\fR\vpdfContents\x12\x16\n" +
 	"\x06action\x18\x03 \x01(\tR\x06action\x12'\n" +
@@ -313,7 +339,10 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12\x15\n" +
 	"\x06app_id\x18\t \x01(\tR\x05appId\x12%\n" +
 	"\x0ecorrelation_id\x18\n" +
-	" \x01(\tR\rcorrelationId\"G\n" +
+	" \x01(\tR\rcorrelationId\x12\x1b\n" +
+	"\ttenant_id\x18\v \x01(\tR\btenantId\x12\x17\n" +
+	"\auser_id\x18\f \x01(\tR\x06userId\x127\n" +
+	"\x17allowed_classifications\x18\r \x03(\tR\x16allowedClassifications\"G\n" +
 	"\x16SubmitDocumentResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"&\n" +
