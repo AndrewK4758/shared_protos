@@ -49,6 +49,9 @@ message ExtractRequest {
   string json_schema = 3;
   
   ModelChoice model_choice = 4;
+
+  // The Orchestrator sends raw text (if processing raw text instead of a PDF chunk)
+  string chunk_text = 5;
 }
 
 message ExtractResponse {

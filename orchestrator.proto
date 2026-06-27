@@ -38,6 +38,9 @@ message SubmitDocumentRequest {
 
   // Allowed classification types for the CLASSIFY action
   repeated string allowed_classifications = 13;
+
+  // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
+  repeated string raw_text_contents = 14;
 }
 
 message SubmitDocumentResponse {
