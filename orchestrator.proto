@@ -14,16 +14,18 @@ service OrchestratorService {
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
 }
 
+message WorkflowStep {
+  string step_name = 1; // User-defined name for logging/tracing
+  string custom_instructions = 2; // Prompt for the AI
+  string expected_schema = 3; // Expected JSON schema
+  string callback_address = 4; // Address to fetch dynamic instructions from
+}
+
 message SubmitDocumentRequest {
   repeated bytes pdf_contents = 1;
-  // Action to perform: "CLASSIFY" or "PARSE"
-  string action = 3;
   
-  // The JSON schema to extract (Required if action == "PARSE")
-  string expected_schema = 4;
-  
-  // Any specific custom instructions for the LLM
-  string custom_instructions = 5;
+  // The dynamically provided workflow steps to execute
+  repeated WorkflowStep steps = 2;
   
   // Fields mirrored from the AI Service ProcessDocumentRequest
   document.processor.v1.ModelChoice model_choice = 6;
@@ -36,14 +38,8 @@ message SubmitDocumentRequest {
   string tenant_id = 11;
   string user_id = 12;
 
-  // Allowed classification types for the CLASSIFY action
-  repeated string allowed_classifications = 13;
-
   // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
   repeated string raw_text_contents = 14;
-
-  // The base address of the gRPC callback server for this specific client app
-  string callback_address = 15;
 }
 
 message SubmitDocumentResponse {
