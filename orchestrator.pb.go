@@ -43,6 +43,8 @@ type SubmitDocumentRequest struct {
 	AllowedClassifications []string `protobuf:"bytes,13,rep,name=allowed_classifications,json=allowedClassifications,proto3" json:"allowed_classifications,omitempty"`
 	// Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
 	RawTextContents []string `protobuf:"bytes,14,rep,name=raw_text_contents,json=rawTextContents,proto3" json:"raw_text_contents,omitempty"`
+	// The base address of the gRPC callback server for this specific client app
+	CallbackAddress string `protobuf:"bytes,15,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -166,6 +168,13 @@ func (x *SubmitDocumentRequest) GetRawTextContents() []string {
 		return x.RawTextContents
 	}
 	return nil
+}
+
+func (x *SubmitDocumentRequest) GetCallbackAddress() string {
+	if x != nil {
+		return x.CallbackAddress
+	}
+	return ""
 }
 
 type SubmitDocumentResponse struct {
@@ -337,7 +346,7 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\x96\x04\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xc1\x04\n" +
 	"\x15SubmitDocumentRequest\x12!\n" +
 	"\fpdf_contents\x18\x01 \x03(\fR\vpdfContents\x12\x16\n" +
 	"\x06action\x18\x03 \x01(\tR\x06action\x12'\n" +
@@ -352,7 +361,8 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\ttenant_id\x18\v \x01(\tR\btenantId\x12\x17\n" +
 	"\auser_id\x18\f \x01(\tR\x06userId\x127\n" +
 	"\x17allowed_classifications\x18\r \x03(\tR\x16allowedClassifications\x12*\n" +
-	"\x11raw_text_contents\x18\x0e \x03(\tR\x0frawTextContents\"G\n" +
+	"\x11raw_text_contents\x18\x0e \x03(\tR\x0frawTextContents\x12)\n" +
+	"\x10callback_address\x18\x0f \x01(\tR\x0fcallbackAddress\"G\n" +
 	"\x16SubmitDocumentResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"&\n" +

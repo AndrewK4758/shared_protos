@@ -41,6 +41,9 @@ message SubmitDocumentRequest {
 
   // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
   repeated string raw_text_contents = 14;
+
+  // The base address of the gRPC callback server for this specific client app
+  string callback_address = 15;
 }
 
 message SubmitDocumentResponse {
