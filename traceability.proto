@@ -47,4 +47,6 @@ message TraceEvent {
   string message = 10;
   string metadata = 11; // JSON string
   string timestamp = 12; // ISO 8601
+  string document_type = 13;
+  int32 total_chunks = 14;
 }
