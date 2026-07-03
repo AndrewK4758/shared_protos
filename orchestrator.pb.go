@@ -374,6 +374,110 @@ func (x *ProgressUpdate) GetFinalResultsJson() string {
 	return ""
 }
 
+type ResumeJobRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	CorrectedJson string                 `protobuf:"bytes,2,opt,name=corrected_json,json=correctedJson,proto3" json:"corrected_json,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResumeJobRequest) Reset() {
+	*x = ResumeJobRequest{}
+	mi := &file_orchestrator_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResumeJobRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResumeJobRequest) ProtoMessage() {}
+
+func (x *ResumeJobRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResumeJobRequest.ProtoReflect.Descriptor instead.
+func (*ResumeJobRequest) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ResumeJobRequest) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+func (x *ResumeJobRequest) GetCorrectedJson() string {
+	if x != nil {
+		return x.CorrectedJson
+	}
+	return ""
+}
+
+type ResumeJobResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResumeJobResponse) Reset() {
+	*x = ResumeJobResponse{}
+	mi := &file_orchestrator_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResumeJobResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResumeJobResponse) ProtoMessage() {}
+
+func (x *ResumeJobResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResumeJobResponse.ProtoReflect.Descriptor instead.
+func (*ResumeJobResponse) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ResumeJobResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *ResumeJobResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
@@ -405,10 +509,17 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12,\n" +
-	"\x12final_results_json\x18\x04 \x01(\tR\x10finalResultsJson2\xf4\x01\n" +
+	"\x12final_results_json\x18\x04 \x01(\tR\x10finalResultsJson\"P\n" +
+	"\x10ResumeJobRequest\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12%\n" +
+	"\x0ecorrected_json\x18\x02 \x01(\tR\rcorrectedJson\"G\n" +
+	"\x11ResumeJobResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xda\x02\n" +
 	"\x13OrchestratorService\x12s\n" +
 	"\x0eSubmitDocument\x12/.document.orchestrator.v1.SubmitDocumentRequest\x1a0.document.orchestrator.v1.SubmitDocumentResponse\x12h\n" +
-	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01B\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
+	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
 
 var (
 	file_orchestrator_proto_rawDescOnce sync.Once
@@ -422,24 +533,28 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
-var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_orchestrator_proto_goTypes = []any{
 	(*WorkflowStep)(nil),           // 0: document.orchestrator.v1.WorkflowStep
 	(*SubmitDocumentRequest)(nil),  // 1: document.orchestrator.v1.SubmitDocumentRequest
 	(*SubmitDocumentResponse)(nil), // 2: document.orchestrator.v1.SubmitDocumentResponse
 	(*ListenRequest)(nil),          // 3: document.orchestrator.v1.ListenRequest
 	(*ProgressUpdate)(nil),         // 4: document.orchestrator.v1.ProgressUpdate
-	(ModelChoice)(0),               // 5: document.processor.v1.ModelChoice
+	(*ResumeJobRequest)(nil),       // 5: document.orchestrator.v1.ResumeJobRequest
+	(*ResumeJobResponse)(nil),      // 6: document.orchestrator.v1.ResumeJobResponse
+	(ModelChoice)(0),               // 7: document.processor.v1.ModelChoice
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	0, // 0: document.orchestrator.v1.SubmitDocumentRequest.steps:type_name -> document.orchestrator.v1.WorkflowStep
-	5, // 1: document.orchestrator.v1.SubmitDocumentRequest.model_choice:type_name -> document.processor.v1.ModelChoice
+	7, // 1: document.orchestrator.v1.SubmitDocumentRequest.model_choice:type_name -> document.processor.v1.ModelChoice
 	1, // 2: document.orchestrator.v1.OrchestratorService.SubmitDocument:input_type -> document.orchestrator.v1.SubmitDocumentRequest
 	3, // 3: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	2, // 4: document.orchestrator.v1.OrchestratorService.SubmitDocument:output_type -> document.orchestrator.v1.SubmitDocumentResponse
-	4, // 5: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	5, // 4: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	2, // 5: document.orchestrator.v1.OrchestratorService.SubmitDocument:output_type -> document.orchestrator.v1.SubmitDocumentResponse
+	4, // 6: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	6, // 7: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -457,7 +572,7 @@ func file_orchestrator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

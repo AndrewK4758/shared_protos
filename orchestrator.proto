@@ -12,6 +12,9 @@ service OrchestratorService {
   
   // Client listens to this Server Stream to get real-time progress of their JobID
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
+
+  // Resume a job after human validation has corrected the AI output
+  rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
 }
 
 message WorkflowStep {
@@ -58,4 +61,14 @@ message ProgressUpdate {
   
   // Only populated when status == "COMPLETE"
   string final_results_json = 4;
+}
+
+message ResumeJobRequest {
+  string job_id = 1;
+  string corrected_json = 2;
+}
+
+message ResumeJobResponse {
+  bool success = 1;
+  string message = 2;
 }

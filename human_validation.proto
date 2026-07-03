@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package document.validation.v1;
+
+option go_package = "doc_processor/shared_protos";
+
+service HumanValidationService {
+  // Orchestrator or Client registers a task needing human validation
+  rpc CreateValidationTask(CreateTaskRequest) returns (CreateTaskResponse);
+
+  // Retrieve pending tasks for review
+  rpc GetPendingTasks(GetPendingTasksRequest) returns (GetPendingTasksResponse);
+
+  // Submit corrected JSON from human UI or script
+  rpc SubmitCorrection(SubmitCorrectionRequest) returns (SubmitCorrectionResponse);
+}
+
+message CreateTaskRequest {
+  string job_id = 1;
+  string step_name = 2;
+  string failed_ai_output = 3;
+  string expected_schema = 4;
+  string prompt_instructions = 5;
+  string error_message = 6;
+  repeated string target_fields = 7;
+}
+
+message CreateTaskResponse {
+  string task_id = 1;
+  string status = 2; // e.g., "CREATED"
+}
+
+message GetPendingTasksRequest {
+  string filter_status = 1;
+}
+
+message PendingTask {
+  string task_id = 1;
+  string job_id = 2;
+  string step_name = 3;
+  string failed_ai_output = 4;
+  string expected_schema = 5;
+  string prompt_instructions = 6;
+  string error_message = 7;
+  repeated string target_fields = 8;
+  string status = 9; // e.g., "PENDING", "RESOLVED"
+}
+
+message GetPendingTasksResponse {
+  repeated PendingTask tasks = 1;
+}
+
+message SubmitCorrectionRequest {
+  string task_id = 1;
+  string corrected_json = 2;
+}
+
+message SubmitCorrectionResponse {
+  bool success = 1;
+  string message = 2;
+}
