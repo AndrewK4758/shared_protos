@@ -46,6 +46,10 @@ message SubmitDocumentRequest {
 
   // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
   repeated string raw_text_contents = 14;
+
+  // New Goal-Oriented ReAct Agent fields
+  string overarching_goal = 15; // Goal for the agent, e.g. "Extract total invoice amount and verify"
+  repeated string enabled_tools = 16; // List of tools the agent can use
 }
 
 message SubmitDocumentResponse {
