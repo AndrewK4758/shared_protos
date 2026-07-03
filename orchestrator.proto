@@ -22,6 +22,9 @@ message WorkflowStep {
   string custom_instructions = 2; // Prompt for the AI
   string expected_schema = 3; // Expected JSON schema
   string callback_address = 4; // Address to fetch dynamic instructions from
+  bool require_human_review = 5; // Force manual human review even if AI matches schema
+  bool bypass_human_fallback = 6; // Bypass human-in-the-loop validation completely on failure
+  string target_action_address = 7; // Generic gRPC/HTTP address to send final validated JSON to
 }
 
 message SubmitDocumentRequest {
@@ -71,4 +74,22 @@ message ResumeJobRequest {
 message ResumeJobResponse {
   bool success = 1;
   string message = 2;
+}
+
+// A completely generic gRPC service that any external application can implement
+// to execute deterministic end-actions on validated JSON payloads.
+service GenericActionService {
+  rpc ExecuteAction(GenericActionRequest) returns (GenericActionResponse);
+}
+
+message GenericActionRequest {
+  string job_id = 1;
+  string step_name = 2;
+  string payload_json = 3;
+}
+
+message GenericActionResponse {
+  bool success = 1;
+  string message = 2;
+  string result_json = 3;
 }
