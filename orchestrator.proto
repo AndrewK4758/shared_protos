@@ -20,6 +20,11 @@ service OrchestratorService {
   rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
 }
 
+message ActionDefinition {
+  string client_action_name = 1;
+  string orchestrator_primitive = 2;
+}
+
 message SubmitDocumentRequest {
   repeated bytes pdf_contents = 1;
   
@@ -36,6 +41,9 @@ message SubmitDocumentRequest {
 
   // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
   repeated string raw_text_contents = 14;
+
+  // Dynamic mapping of client actions to orchestrator primitives
+  repeated ActionDefinition action_definitions = 15;
 }
 
 message SubmitDocumentResponse {
