@@ -25,6 +25,8 @@ message WorkflowStep {
   bool require_human_review = 5; // Force manual human review even if AI matches schema
   bool bypass_human_fallback = 6; // Bypass human-in-the-loop validation completely on failure
   string target_action_address = 7; // Generic gRPC/HTTP address to send final validated JSON to
+  string writes_to_state_key = 8;
+  string reads_from_state_key = 9;
 }
 
 message SubmitDocumentRequest {
@@ -50,6 +52,9 @@ message SubmitDocumentRequest {
   // New Goal-Oriented ReAct Agent fields
   string overarching_goal = 15; // Goal for the agent, e.g. "Extract total invoice amount and verify"
   repeated string enabled_tools = 16; // List of tools the agent can use
+
+  // LangGraph State Architecture
+  string initial_state_json = 17;
 }
 
 message SubmitDocumentResponse {

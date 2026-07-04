@@ -30,6 +30,8 @@ type WorkflowStep struct {
 	RequireHumanReview  bool                   `protobuf:"varint,5,opt,name=require_human_review,json=requireHumanReview,proto3" json:"require_human_review,omitempty"`    // Force manual human review even if AI matches schema
 	BypassHumanFallback bool                   `protobuf:"varint,6,opt,name=bypass_human_fallback,json=bypassHumanFallback,proto3" json:"bypass_human_fallback,omitempty"` // Bypass human-in-the-loop validation completely on failure
 	TargetActionAddress string                 `protobuf:"bytes,7,opt,name=target_action_address,json=targetActionAddress,proto3" json:"target_action_address,omitempty"`  // Generic gRPC/HTTP address to send final validated JSON to
+	WritesToStateKey    string                 `protobuf:"bytes,8,opt,name=writes_to_state_key,json=writesToStateKey,proto3" json:"writes_to_state_key,omitempty"`
+	ReadsFromStateKey   string                 `protobuf:"bytes,9,opt,name=reads_from_state_key,json=readsFromStateKey,proto3" json:"reads_from_state_key,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -113,6 +115,20 @@ func (x *WorkflowStep) GetTargetActionAddress() string {
 	return ""
 }
 
+func (x *WorkflowStep) GetWritesToStateKey() string {
+	if x != nil {
+		return x.WritesToStateKey
+	}
+	return ""
+}
+
+func (x *WorkflowStep) GetReadsFromStateKey() string {
+	if x != nil {
+		return x.ReadsFromStateKey
+	}
+	return ""
+}
+
 type SubmitDocumentRequest struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	PdfContents [][]byte               `protobuf:"bytes,1,rep,name=pdf_contents,json=pdfContents,proto3" json:"pdf_contents,omitempty"`
@@ -132,8 +148,10 @@ type SubmitDocumentRequest struct {
 	// New Goal-Oriented ReAct Agent fields
 	OverarchingGoal string   `protobuf:"bytes,15,opt,name=overarching_goal,json=overarchingGoal,proto3" json:"overarching_goal,omitempty"` // Goal for the agent, e.g. "Extract total invoice amount and verify"
 	EnabledTools    []string `protobuf:"bytes,16,rep,name=enabled_tools,json=enabledTools,proto3" json:"enabled_tools,omitempty"`          // List of tools the agent can use
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// LangGraph State Architecture
+	InitialStateJson string `protobuf:"bytes,17,opt,name=initial_state_json,json=initialStateJson,proto3" json:"initial_state_json,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *SubmitDocumentRequest) Reset() {
@@ -248,6 +266,13 @@ func (x *SubmitDocumentRequest) GetEnabledTools() []string {
 		return x.EnabledTools
 	}
 	return nil
+}
+
+func (x *SubmitDocumentRequest) GetInitialStateJson() string {
+	if x != nil {
+		return x.InitialStateJson
+	}
+	return ""
 }
 
 type SubmitDocumentResponse struct {
@@ -643,7 +668,7 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xca\x02\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"\xaa\x03\n" +
 	"\fWorkflowStep\x12\x1b\n" +
 	"\tstep_name\x18\x01 \x01(\tR\bstepName\x12/\n" +
 	"\x13custom_instructions\x18\x02 \x01(\tR\x12customInstructions\x12'\n" +
@@ -651,7 +676,9 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x10callback_address\x18\x04 \x01(\tR\x0fcallbackAddress\x120\n" +
 	"\x14require_human_review\x18\x05 \x01(\bR\x12requireHumanReview\x122\n" +
 	"\x15bypass_human_fallback\x18\x06 \x01(\bR\x13bypassHumanFallback\x122\n" +
-	"\x15target_action_address\x18\a \x01(\tR\x13targetActionAddress\"\xf9\x03\n" +
+	"\x15target_action_address\x18\a \x01(\tR\x13targetActionAddress\x12-\n" +
+	"\x13writes_to_state_key\x18\b \x01(\tR\x10writesToStateKey\x12/\n" +
+	"\x14reads_from_state_key\x18\t \x01(\tR\x11readsFromStateKey\"\xa7\x04\n" +
 	"\x15SubmitDocumentRequest\x12!\n" +
 	"\fpdf_contents\x18\x01 \x03(\fR\vpdfContents\x12<\n" +
 	"\x05steps\x18\x02 \x03(\v2&.document.orchestrator.v1.WorkflowStepR\x05steps\x12E\n" +
@@ -665,7 +692,8 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\auser_id\x18\f \x01(\tR\x06userId\x12*\n" +
 	"\x11raw_text_contents\x18\x0e \x03(\tR\x0frawTextContents\x12)\n" +
 	"\x10overarching_goal\x18\x0f \x01(\tR\x0foverarchingGoal\x12#\n" +
-	"\renabled_tools\x18\x10 \x03(\tR\fenabledTools\"G\n" +
+	"\renabled_tools\x18\x10 \x03(\tR\fenabledTools\x12,\n" +
+	"\x12initial_state_json\x18\x11 \x01(\tR\x10initialStateJson\"G\n" +
 	"\x16SubmitDocumentResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"&\n" +
