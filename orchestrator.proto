@@ -7,9 +7,12 @@ option go_package = "doc_processor/shared_protos";
 import "processor.proto";
 
 service OrchestratorService {
-  // Client submits a large PDF and immediately receives a JobID
+  // Client submits a large PDF and immediately receives a JobID. Heavy payload is cached.
   rpc SubmitDocument(SubmitDocumentRequest) returns (SubmitDocumentResponse);
   
+  // Client submits a single, generic step to be executed for a specific JobID.
+  rpc SubmitStep(SubmitStepRequest) returns (SubmitStepResponse);
+
   // Client listens to this Server Stream to get real-time progress of their JobID
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
 
@@ -17,23 +20,8 @@ service OrchestratorService {
   rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
 }
 
-message WorkflowStep {
-  string step_name = 1; // User-defined name for logging/tracing
-  string custom_instructions = 2; // Prompt for the AI
-  string expected_schema = 3; // Expected JSON schema
-  string callback_address = 4; // Address to fetch dynamic instructions from
-  bool require_human_review = 5; // Force manual human review even if AI matches schema
-  bool bypass_human_fallback = 6; // Bypass human-in-the-loop validation completely on failure
-  string target_action_address = 7; // Generic gRPC/HTTP address to send final validated JSON to
-  string writes_to_state_key = 8;
-  string reads_from_state_key = 9;
-}
-
 message SubmitDocumentRequest {
   repeated bytes pdf_contents = 1;
-  
-  // The dynamically provided workflow steps to execute
-  repeated WorkflowStep steps = 2;
   
   // Fields mirrored from the AI Service ProcessDocumentRequest
   document.processor.v1.ModelChoice model_choice = 6;
@@ -42,24 +30,43 @@ message SubmitDocumentRequest {
   string app_id = 9;
   string correlation_id = 10;
 
-  // New Compliance & Traceability Metadata
+  // Compliance & Traceability Metadata
   string tenant_id = 11;
   string user_id = 12;
 
   // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
   repeated string raw_text_contents = 14;
-
-  // New Goal-Oriented ReAct Agent fields
-  string overarching_goal = 15; // Goal for the agent, e.g. "Extract total invoice amount and verify"
-  repeated string enabled_tools = 16; // List of tools the agent can use
-
-  // LangGraph State Architecture
-  string initial_state_json = 17;
 }
 
 message SubmitDocumentResponse {
   string job_id = 1;
-  string status = 2; // e.g., "QUEUED"
+  string status = 2; // e.g., "CACHED"
+}
+
+message SubmitStepRequest {
+  string job_id = 1; // Required. Associates this step with a stored document/payload.
+  string action_type = 2; // e.g., "AI_EXTRACTION", "HUMAN_VALIDATION"
+  
+  // The specific context for this single action
+  string step_name = 3;
+  string custom_instructions = 4; 
+  string expected_schema = 5;
+  
+  // Input data appended by the client (e.g., previous step results needed for this step)
+  string context_input = 6; 
+  
+  // Where the orchestrator should send the result of this step
+  string callback_address = 7; 
+  
+  // Execution flags
+  bool require_human_review = 8; // Force manual human review even if AI matches schema
+  bool bypass_human_fallback = 9; // Bypass human-in-the-loop validation completely on failure
+}
+
+message SubmitStepResponse {
+  bool success = 1;
+  string message = 2;
+  string step_id = 3; // Unique ID for tracking this specific step execution
 }
 
 message ListenRequest {
@@ -78,6 +85,7 @@ message ProgressUpdate {
 message ResumeJobRequest {
   string job_id = 1;
   string corrected_json = 2;
+  string step_id = 3;
 }
 
 message ResumeJobResponse {
@@ -86,19 +94,19 @@ message ResumeJobResponse {
 }
 
 // A completely generic gRPC service that any external application can implement
-// to execute deterministic end-actions on validated JSON payloads.
-service GenericActionService {
-  rpc ExecuteAction(GenericActionRequest) returns (GenericActionResponse);
+// to receive the lightweight callback containing the step result.
+service StepCallbackService {
+  rpc OnStepComplete(StepCompleteRequest) returns (StepCompleteResponse);
 }
 
-message GenericActionRequest {
+message StepCompleteRequest {
   string job_id = 1;
-  string step_name = 2;
-  string payload_json = 3;
+  string step_id = 2;
+  string action_type = 3;
+  string result_json = 4;
+  string error_message = 5;
 }
 
-message GenericActionResponse {
+message StepCompleteResponse {
   bool success = 1;
-  string message = 2;
-  string result_json = 3;
 }
