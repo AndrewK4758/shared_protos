@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DocumentProcessor_ProcessDocument_FullMethodName     = "/document.processor.v1.DocumentProcessor/ProcessDocument"
-	DocumentProcessor_ExtractDocumentData_FullMethodName = "/document.processor.v1.DocumentProcessor/ExtractDocumentData"
+	DocumentProcessor_ProcessDocument_FullMethodName = "/document.processor.v1.DocumentProcessor/ProcessDocument"
+	DocumentProcessor_PerformAction_FullMethodName   = "/document.processor.v1.DocumentProcessor/PerformAction"
 )
 
 // DocumentProcessorClient is the client API for DocumentProcessor service.
@@ -29,8 +29,8 @@ const (
 type DocumentProcessorClient interface {
 	// Existing Async method (keeps current NATS architecture intact for legacy)
 	ProcessDocument(ctx context.Context, in *ProcessDocumentRequest, opts ...grpc.CallOption) (*ProcessDocumentResponse, error)
-	// NEW: Synchronous method for the Orchestrator to use for fast, blocking chunk processing
-	ExtractDocumentData(ctx context.Context, in *ExtractRequest, opts ...grpc.CallOption) (*ExtractResponse, error)
+	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
+	PerformAction(ctx context.Context, in *PerformActionRequest, opts ...grpc.CallOption) (*PerformActionResponse, error)
 }
 
 type documentProcessorClient struct {
@@ -51,10 +51,10 @@ func (c *documentProcessorClient) ProcessDocument(ctx context.Context, in *Proce
 	return out, nil
 }
 
-func (c *documentProcessorClient) ExtractDocumentData(ctx context.Context, in *ExtractRequest, opts ...grpc.CallOption) (*ExtractResponse, error) {
+func (c *documentProcessorClient) PerformAction(ctx context.Context, in *PerformActionRequest, opts ...grpc.CallOption) (*PerformActionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExtractResponse)
-	err := c.cc.Invoke(ctx, DocumentProcessor_ExtractDocumentData_FullMethodName, in, out, cOpts...)
+	out := new(PerformActionResponse)
+	err := c.cc.Invoke(ctx, DocumentProcessor_PerformAction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,8 +67,8 @@ func (c *documentProcessorClient) ExtractDocumentData(ctx context.Context, in *E
 type DocumentProcessorServer interface {
 	// Existing Async method (keeps current NATS architecture intact for legacy)
 	ProcessDocument(context.Context, *ProcessDocumentRequest) (*ProcessDocumentResponse, error)
-	// NEW: Synchronous method for the Orchestrator to use for fast, blocking chunk processing
-	ExtractDocumentData(context.Context, *ExtractRequest) (*ExtractResponse, error)
+	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
+	PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error)
 	mustEmbedUnimplementedDocumentProcessorServer()
 }
 
@@ -82,8 +82,8 @@ type UnimplementedDocumentProcessorServer struct{}
 func (UnimplementedDocumentProcessorServer) ProcessDocument(context.Context, *ProcessDocumentRequest) (*ProcessDocumentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ProcessDocument not implemented")
 }
-func (UnimplementedDocumentProcessorServer) ExtractDocumentData(context.Context, *ExtractRequest) (*ExtractResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ExtractDocumentData not implemented")
+func (UnimplementedDocumentProcessorServer) PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PerformAction not implemented")
 }
 func (UnimplementedDocumentProcessorServer) mustEmbedUnimplementedDocumentProcessorServer() {}
 func (UnimplementedDocumentProcessorServer) testEmbeddedByValue()                           {}
@@ -124,20 +124,20 @@ func _DocumentProcessor_ProcessDocument_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DocumentProcessor_ExtractDocumentData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExtractRequest)
+func _DocumentProcessor_PerformAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PerformActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DocumentProcessorServer).ExtractDocumentData(ctx, in)
+		return srv.(DocumentProcessorServer).PerformAction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DocumentProcessor_ExtractDocumentData_FullMethodName,
+		FullMethod: DocumentProcessor_PerformAction_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DocumentProcessorServer).ExtractDocumentData(ctx, req.(*ExtractRequest))
+		return srv.(DocumentProcessorServer).PerformAction(ctx, req.(*PerformActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -154,8 +154,8 @@ var DocumentProcessor_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _DocumentProcessor_ProcessDocument_Handler,
 		},
 		{
-			MethodName: "ExtractDocumentData",
-			Handler:    _DocumentProcessor_ExtractDocumentData_Handler,
+			MethodName: "PerformAction",
+			Handler:    _DocumentProcessor_PerformAction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

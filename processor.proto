@@ -8,8 +8,8 @@ service DocumentProcessor {
   // Existing Async method (keeps current NATS architecture intact for legacy)
   rpc ProcessDocument(ProcessDocumentRequest) returns (ProcessDocumentResponse);
   
-  // NEW: Synchronous method for the Orchestrator to use for fast, blocking chunk processing
-  rpc ExtractDocumentData(ExtractRequest) returns (ExtractResponse);
+  // NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
+  rpc PerformAction(PerformActionRequest) returns (PerformActionResponse);
 }
 
 enum ModelChoice {
@@ -38,11 +38,11 @@ message ProcessDocumentResponse {
 
 // --- NEW MESSAGES FOR ORCHESTRATOR ---
 
-message ExtractRequest {
-  // The Orchestrator sends the physical PDF chunk
-  bytes chunk_pdf = 1;
+message PerformActionRequest {
+  // Optional raw binary input (e.g. image, pdf chunk, file content)
+  bytes input_bytes = 1;
   
-  // The Orchestrator passes the exact prompt (e.g., "Find the document boundaries in this chunk")
+  // The exact prompt dictating what action the LLM should take
   string prompt = 2;
   
   // Strict JSON Schema to enforce the model's output format
@@ -50,14 +50,14 @@ message ExtractRequest {
   
   ModelChoice model_choice = 4;
 
-  // The Orchestrator sends raw text (if processing raw text instead of a PDF chunk)
-  string chunk_text = 5;
+  // Optional text input (e.g. plain text, markdown, existing state)
+  string input_text = 5;
 }
 
-message ExtractResponse {
+message PerformActionResponse {
   bool success = 1;
   string error_message = 2;
   
-  // The raw JSON string returned by the LLM
-  string extracted_json = 3;
+  // The raw JSON string returned by the LLM conforming to json_schema
+  string action_result_json = 3;
 }

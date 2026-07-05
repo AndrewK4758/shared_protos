@@ -243,35 +243,35 @@ func (x *ProcessDocumentResponse) GetStatus() string {
 	return ""
 }
 
-type ExtractRequest struct {
+type PerformActionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The Orchestrator sends the physical PDF chunk
-	ChunkPdf []byte `protobuf:"bytes,1,opt,name=chunk_pdf,json=chunkPdf,proto3" json:"chunk_pdf,omitempty"`
-	// The Orchestrator passes the exact prompt (e.g., "Find the document boundaries in this chunk")
+	// Optional raw binary input (e.g. image, pdf chunk, file content)
+	InputBytes []byte `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
+	// The exact prompt dictating what action the LLM should take
 	Prompt string `protobuf:"bytes,2,opt,name=prompt,proto3" json:"prompt,omitempty"`
 	// Strict JSON Schema to enforce the model's output format
 	JsonSchema  string      `protobuf:"bytes,3,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
 	ModelChoice ModelChoice `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.processor.v1.ModelChoice" json:"model_choice,omitempty"`
-	// The Orchestrator sends raw text (if processing raw text instead of a PDF chunk)
-	ChunkText     string `protobuf:"bytes,5,opt,name=chunk_text,json=chunkText,proto3" json:"chunk_text,omitempty"`
+	// Optional text input (e.g. plain text, markdown, existing state)
+	InputText     string `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ExtractRequest) Reset() {
-	*x = ExtractRequest{}
+func (x *PerformActionRequest) Reset() {
+	*x = PerformActionRequest{}
 	mi := &file_processor_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ExtractRequest) String() string {
+func (x *PerformActionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ExtractRequest) ProtoMessage() {}
+func (*PerformActionRequest) ProtoMessage() {}
 
-func (x *ExtractRequest) ProtoReflect() protoreflect.Message {
+func (x *PerformActionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_processor_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -283,70 +283,70 @@ func (x *ExtractRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExtractRequest.ProtoReflect.Descriptor instead.
-func (*ExtractRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use PerformActionRequest.ProtoReflect.Descriptor instead.
+func (*PerformActionRequest) Descriptor() ([]byte, []int) {
 	return file_processor_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ExtractRequest) GetChunkPdf() []byte {
+func (x *PerformActionRequest) GetInputBytes() []byte {
 	if x != nil {
-		return x.ChunkPdf
+		return x.InputBytes
 	}
 	return nil
 }
 
-func (x *ExtractRequest) GetPrompt() string {
+func (x *PerformActionRequest) GetPrompt() string {
 	if x != nil {
 		return x.Prompt
 	}
 	return ""
 }
 
-func (x *ExtractRequest) GetJsonSchema() string {
+func (x *PerformActionRequest) GetJsonSchema() string {
 	if x != nil {
 		return x.JsonSchema
 	}
 	return ""
 }
 
-func (x *ExtractRequest) GetModelChoice() ModelChoice {
+func (x *PerformActionRequest) GetModelChoice() ModelChoice {
 	if x != nil {
 		return x.ModelChoice
 	}
 	return ModelChoice_MODEL_CHOICE_UNSPECIFIED
 }
 
-func (x *ExtractRequest) GetChunkText() string {
+func (x *PerformActionRequest) GetInputText() string {
 	if x != nil {
-		return x.ChunkText
+		return x.InputText
 	}
 	return ""
 }
 
-type ExtractResponse struct {
+type PerformActionResponse struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Success      bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	ErrorMessage string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	// The raw JSON string returned by the LLM
-	ExtractedJson string `protobuf:"bytes,3,opt,name=extracted_json,json=extractedJson,proto3" json:"extracted_json,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// The raw JSON string returned by the LLM conforming to json_schema
+	ActionResultJson string `protobuf:"bytes,3,opt,name=action_result_json,json=actionResultJson,proto3" json:"action_result_json,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
-func (x *ExtractResponse) Reset() {
-	*x = ExtractResponse{}
+func (x *PerformActionResponse) Reset() {
+	*x = PerformActionResponse{}
 	mi := &file_processor_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ExtractResponse) String() string {
+func (x *PerformActionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ExtractResponse) ProtoMessage() {}
+func (*PerformActionResponse) ProtoMessage() {}
 
-func (x *ExtractResponse) ProtoReflect() protoreflect.Message {
+func (x *PerformActionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_processor_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -358,28 +358,28 @@ func (x *ExtractResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExtractResponse.ProtoReflect.Descriptor instead.
-func (*ExtractResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use PerformActionResponse.ProtoReflect.Descriptor instead.
+func (*PerformActionResponse) Descriptor() ([]byte, []int) {
 	return file_processor_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ExtractResponse) GetSuccess() bool {
+func (x *PerformActionResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
 	return false
 }
 
-func (x *ExtractResponse) GetErrorMessage() string {
+func (x *PerformActionResponse) GetErrorMessage() string {
 	if x != nil {
 		return x.ErrorMessage
 	}
 	return ""
 }
 
-func (x *ExtractResponse) GetExtractedJson() string {
+func (x *PerformActionResponse) GetActionResultJson() string {
 	if x != nil {
-		return x.ExtractedJson
+		return x.ActionResultJson
 	}
 	return ""
 }
@@ -404,25 +404,26 @@ const file_processor_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x03 \x01(\tR\rcorrelationId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"\xcc\x01\n" +
-	"\x0eExtractRequest\x12\x1b\n" +
-	"\tchunk_pdf\x18\x01 \x01(\fR\bchunkPdf\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\xd6\x01\n" +
+	"\x14PerformActionRequest\x12\x1f\n" +
+	"\vinput_bytes\x18\x01 \x01(\fR\n" +
+	"inputBytes\x12\x16\n" +
 	"\x06prompt\x18\x02 \x01(\tR\x06prompt\x12\x1f\n" +
 	"\vjson_schema\x18\x03 \x01(\tR\n" +
 	"jsonSchema\x12E\n" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\".document.processor.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
-	"chunk_text\x18\x05 \x01(\tR\tchunkText\"w\n" +
-	"\x0fExtractResponse\x12\x18\n" +
+	"input_text\x18\x05 \x01(\tR\tinputText\"\x84\x01\n" +
+	"\x15PerformActionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
-	"\x0eextracted_json\x18\x03 \x01(\tR\rextractedJson*C\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
+	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson*C\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12MODEL_CHOICE_LOCAL\x10\x012\xeb\x01\n" +
+	"\x12MODEL_CHOICE_LOCAL\x10\x012\xf1\x01\n" +
 	"\x11DocumentProcessor\x12p\n" +
-	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12d\n" +
-	"\x13ExtractDocumentData\x12%.document.processor.v1.ExtractRequest\x1a&.document.processor.v1.ExtractResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12j\n" +
+	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
 
 var (
 	file_processor_proto_rawDescOnce sync.Once
@@ -442,16 +443,16 @@ var file_processor_proto_goTypes = []any{
 	(ModelChoice)(0),                // 0: document.processor.v1.ModelChoice
 	(*ProcessDocumentRequest)(nil),  // 1: document.processor.v1.ProcessDocumentRequest
 	(*ProcessDocumentResponse)(nil), // 2: document.processor.v1.ProcessDocumentResponse
-	(*ExtractRequest)(nil),          // 3: document.processor.v1.ExtractRequest
-	(*ExtractResponse)(nil),         // 4: document.processor.v1.ExtractResponse
+	(*PerformActionRequest)(nil),    // 3: document.processor.v1.PerformActionRequest
+	(*PerformActionResponse)(nil),   // 4: document.processor.v1.PerformActionResponse
 }
 var file_processor_proto_depIdxs = []int32{
 	0, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.processor.v1.ModelChoice
-	0, // 1: document.processor.v1.ExtractRequest.model_choice:type_name -> document.processor.v1.ModelChoice
+	0, // 1: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.processor.v1.ModelChoice
 	1, // 2: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
-	3, // 3: document.processor.v1.DocumentProcessor.ExtractDocumentData:input_type -> document.processor.v1.ExtractRequest
+	3, // 3: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
 	2, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
-	4, // 5: document.processor.v1.DocumentProcessor.ExtractDocumentData:output_type -> document.processor.v1.ExtractResponse
+	4, // 5: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
 	4, // [4:6] is the sub-list for method output_type
 	2, // [2:4] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
