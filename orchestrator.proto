@@ -53,7 +53,6 @@ message SubmitDocumentResponse {
 
 message WorkflowStep {
   string step_name = 1;
-  string action_type = 2; // e.g., "AI_EXTRACTION", "HUMAN_VALIDATION"
   string custom_instructions = 3; 
   string expected_schema = 4;
   string context_input = 5; 
@@ -110,7 +109,6 @@ service StepCallbackService {
 message StepCompleteRequest {
   string job_id = 1;
   string step_id = 2;
-  string action_type = 3;
   string result_json = 4;
   string error_message = 5;
   string step_name = 6;

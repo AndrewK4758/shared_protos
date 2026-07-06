@@ -248,7 +248,6 @@ func (x *SubmitDocumentResponse) GetStatus() string {
 type WorkflowStep struct {
 	state               protoimpl.MessageState `protogen:"open.v1"`
 	StepName            string                 `protobuf:"bytes,1,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
-	ActionType          string                 `protobuf:"bytes,2,opt,name=action_type,json=actionType,proto3" json:"action_type,omitempty"` // e.g., "AI_EXTRACTION", "HUMAN_VALIDATION"
 	CustomInstructions  string                 `protobuf:"bytes,3,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
 	ExpectedSchema      string                 `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
 	ContextInput        string                 `protobuf:"bytes,5,opt,name=context_input,json=contextInput,proto3" json:"context_input,omitempty"`
@@ -293,13 +292,6 @@ func (*WorkflowStep) Descriptor() ([]byte, []int) {
 func (x *WorkflowStep) GetStepName() string {
 	if x != nil {
 		return x.StepName
-	}
-	return ""
-}
-
-func (x *WorkflowStep) GetActionType() string {
-	if x != nil {
-		return x.ActionType
 	}
 	return ""
 }
@@ -718,7 +710,6 @@ type StepCompleteRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	StepId        string                 `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	ActionType    string                 `protobuf:"bytes,3,opt,name=action_type,json=actionType,proto3" json:"action_type,omitempty"`
 	ResultJson    string                 `protobuf:"bytes,4,opt,name=result_json,json=resultJson,proto3" json:"result_json,omitempty"`
 	ErrorMessage  string                 `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	StepName      string                 `protobuf:"bytes,6,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
@@ -766,13 +757,6 @@ func (x *StepCompleteRequest) GetJobId() string {
 func (x *StepCompleteRequest) GetStepId() string {
 	if x != nil {
 		return x.StepId
-	}
-	return ""
-}
-
-func (x *StepCompleteRequest) GetActionType() string {
-	if x != nil {
-		return x.ActionType
 	}
 	return ""
 }
@@ -864,11 +848,9 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x12action_definitions\x18\x0f \x03(\v2*.document.orchestrator.v1.ActionDefinitionR\x11actionDefinitions\"G\n" +
 	"\x16SubmitDocumentResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"\x91\x03\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\xf0\x02\n" +
 	"\fWorkflowStep\x12\x1b\n" +
-	"\tstep_name\x18\x01 \x01(\tR\bstepName\x12\x1f\n" +
-	"\vaction_type\x18\x02 \x01(\tR\n" +
-	"actionType\x12/\n" +
+	"\tstep_name\x18\x01 \x01(\tR\bstepName\x12/\n" +
 	"\x13custom_instructions\x18\x03 \x01(\tR\x12customInstructions\x12'\n" +
 	"\x0fexpected_schema\x18\x04 \x01(\tR\x0eexpectedSchema\x12#\n" +
 	"\rcontext_input\x18\x05 \x01(\tR\fcontextInput\x12/\n" +
@@ -899,12 +881,10 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\astep_id\x18\x03 \x01(\tR\x06stepId\"G\n" +
 	"\x11ResumeJobResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xc9\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xa8\x01\n" +
 	"\x13StepCompleteRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\x1f\n" +
-	"\vaction_type\x18\x03 \x01(\tR\n" +
-	"actionType\x12\x1f\n" +
 	"\vresult_json\x18\x04 \x01(\tR\n" +
 	"resultJson\x12#\n" +
 	"\rerror_message\x18\x05 \x01(\tR\ferrorMessage\x12\x1b\n" +
