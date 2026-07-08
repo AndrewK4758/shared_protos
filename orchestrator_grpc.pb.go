@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	OrchestratorService_SubmitJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/SubmitJob"
+	OrchestratorService_StartJob_FullMethodName          = "/document.orchestrator.v1.OrchestratorService/StartJob"
 	OrchestratorService_SubmitStep_FullMethodName        = "/document.orchestrator.v1.OrchestratorService/SubmitStep"
 	OrchestratorService_ListenForProgress_FullMethodName = "/document.orchestrator.v1.OrchestratorService/ListenForProgress"
 	OrchestratorService_ResumeJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/ResumeJob"
@@ -30,6 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorServiceClient interface {
 	SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error)
+	StartJob(ctx context.Context, in *StartJobRequest, opts ...grpc.CallOption) (*StartJobResponse, error)
 	// Client submits a single, generic step to be executed for a specific JobID.
 	SubmitStep(ctx context.Context, in *SubmitStepRequest, opts ...grpc.CallOption) (*SubmitStepResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
@@ -50,6 +52,16 @@ func (c *orchestratorServiceClient) SubmitJob(ctx context.Context, in *SubmitJob
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SubmitJobResponse)
 	err := c.cc.Invoke(ctx, OrchestratorService_SubmitJob_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orchestratorServiceClient) StartJob(ctx context.Context, in *StartJobRequest, opts ...grpc.CallOption) (*StartJobResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartJobResponse)
+	err := c.cc.Invoke(ctx, OrchestratorService_StartJob_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,6 +112,7 @@ func (c *orchestratorServiceClient) ResumeJob(ctx context.Context, in *ResumeJob
 // for forward compatibility.
 type OrchestratorServiceServer interface {
 	SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error)
+	StartJob(context.Context, *StartJobRequest) (*StartJobResponse, error)
 	// Client submits a single, generic step to be executed for a specific JobID.
 	SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
@@ -118,6 +131,9 @@ type UnimplementedOrchestratorServiceServer struct{}
 
 func (UnimplementedOrchestratorServiceServer) SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitJob not implemented")
+}
+func (UnimplementedOrchestratorServiceServer) StartJob(context.Context, *StartJobRequest) (*StartJobResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method StartJob not implemented")
 }
 func (UnimplementedOrchestratorServiceServer) SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitStep not implemented")
@@ -163,6 +179,24 @@ func _OrchestratorService_SubmitJob_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrchestratorServiceServer).SubmitJob(ctx, req.(*SubmitJobRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrchestratorService_StartJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartJobRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorServiceServer).StartJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrchestratorService_StartJob_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorServiceServer).StartJob(ctx, req.(*StartJobRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,6 +258,10 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitJob",
 			Handler:    _OrchestratorService_SubmitJob_Handler,
+		},
+		{
+			MethodName: "StartJob",
+			Handler:    _OrchestratorService_StartJob_Handler,
 		},
 		{
 			MethodName: "SubmitStep",

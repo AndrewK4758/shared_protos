@@ -10,6 +10,8 @@ import "models.proto";
 service OrchestratorService {
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
   
+  rpc StartJob(StartJobRequest) returns (StartJobResponse);
+
   // Client submits a single, generic step to be executed for a specific JobID.
   rpc SubmitStep(SubmitStepRequest) returns (SubmitStepResponse);
 
@@ -33,6 +35,17 @@ message SubmitJobRequest {
 message SubmitJobResponse {
   string job_id = 1;
   string status = 2; // e.g., "CACHED"
+}
+
+message StartJobRequest {
+  string job_id = 1;
+  repeated document.models.v1.StepDefinition initial_steps = 2;
+}
+
+message StartJobResponse {
+  bool success = 1;
+  string message = 2;
+  string active_step_id = 3;
 }
 
 message SubmitStepRequest {
