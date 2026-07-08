@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OrchestratorService_SubmitDocument_FullMethodName    = "/document.orchestrator.v1.OrchestratorService/SubmitDocument"
+	OrchestratorService_SubmitJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/SubmitJob"
 	OrchestratorService_SubmitStep_FullMethodName        = "/document.orchestrator.v1.OrchestratorService/SubmitStep"
 	OrchestratorService_ListenForProgress_FullMethodName = "/document.orchestrator.v1.OrchestratorService/ListenForProgress"
 	OrchestratorService_ResumeJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/ResumeJob"
@@ -29,8 +29,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorServiceClient interface {
-	// Client submits a large PDF and immediately receives a JobID. Heavy payload is cached.
-	SubmitDocument(ctx context.Context, in *SubmitDocumentRequest, opts ...grpc.CallOption) (*SubmitDocumentResponse, error)
+	SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error)
 	// Client submits a single, generic step to be executed for a specific JobID.
 	SubmitStep(ctx context.Context, in *SubmitStepRequest, opts ...grpc.CallOption) (*SubmitStepResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
@@ -47,10 +46,10 @@ func NewOrchestratorServiceClient(cc grpc.ClientConnInterface) OrchestratorServi
 	return &orchestratorServiceClient{cc}
 }
 
-func (c *orchestratorServiceClient) SubmitDocument(ctx context.Context, in *SubmitDocumentRequest, opts ...grpc.CallOption) (*SubmitDocumentResponse, error) {
+func (c *orchestratorServiceClient) SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SubmitDocumentResponse)
-	err := c.cc.Invoke(ctx, OrchestratorService_SubmitDocument_FullMethodName, in, out, cOpts...)
+	out := new(SubmitJobResponse)
+	err := c.cc.Invoke(ctx, OrchestratorService_SubmitJob_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,8 +99,7 @@ func (c *orchestratorServiceClient) ResumeJob(ctx context.Context, in *ResumeJob
 // All implementations must embed UnimplementedOrchestratorServiceServer
 // for forward compatibility.
 type OrchestratorServiceServer interface {
-	// Client submits a large PDF and immediately receives a JobID. Heavy payload is cached.
-	SubmitDocument(context.Context, *SubmitDocumentRequest) (*SubmitDocumentResponse, error)
+	SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error)
 	// Client submits a single, generic step to be executed for a specific JobID.
 	SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
@@ -118,8 +116,8 @@ type OrchestratorServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrchestratorServiceServer struct{}
 
-func (UnimplementedOrchestratorServiceServer) SubmitDocument(context.Context, *SubmitDocumentRequest) (*SubmitDocumentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SubmitDocument not implemented")
+func (UnimplementedOrchestratorServiceServer) SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitJob not implemented")
 }
 func (UnimplementedOrchestratorServiceServer) SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitStep not implemented")
@@ -151,20 +149,20 @@ func RegisterOrchestratorServiceServer(s grpc.ServiceRegistrar, srv Orchestrator
 	s.RegisterService(&OrchestratorService_ServiceDesc, srv)
 }
 
-func _OrchestratorService_SubmitDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubmitDocumentRequest)
+func _OrchestratorService_SubmitJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitJobRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrchestratorServiceServer).SubmitDocument(ctx, in)
+		return srv.(OrchestratorServiceServer).SubmitJob(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrchestratorService_SubmitDocument_FullMethodName,
+		FullMethod: OrchestratorService_SubmitJob_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServiceServer).SubmitDocument(ctx, req.(*SubmitDocumentRequest))
+		return srv.(OrchestratorServiceServer).SubmitJob(ctx, req.(*SubmitJobRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,8 +222,8 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrchestratorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SubmitDocument",
-			Handler:    _OrchestratorService_SubmitDocument_Handler,
+			MethodName: "SubmitJob",
+			Handler:    _OrchestratorService_SubmitJob_Handler,
 		},
 		{
 			MethodName: "SubmitStep",

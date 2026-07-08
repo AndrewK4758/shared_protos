@@ -7,8 +7,7 @@ option go_package = "doc_processor/shared_protos";
 import "processor.proto";
 
 service OrchestratorService {
-  // Client submits a large PDF and immediately receives a JobID. Heavy payload is cached.
-  rpc SubmitDocument(SubmitDocumentRequest) returns (SubmitDocumentResponse);
+  rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
   
   // Client submits a single, generic step to be executed for a specific JobID.
   rpc SubmitStep(SubmitStepRequest) returns (SubmitStepResponse);
@@ -25,49 +24,78 @@ message ActionDefinition {
   string orchestrator_primitive = 2;
 }
 
-message SubmitDocumentRequest {
-  repeated bytes pdf_contents = 1;
-  
-  // Fields mirrored from the AI Service ProcessDocumentRequest
-  document.processor.v1.ModelChoice model_choice = 6;
-  string document_type = 7;
-  repeated string target_fields = 8;
-  string app_id = 9;
-  string correlation_id = 10;
-
-  // Compliance & Traceability Metadata
-  string tenant_id = 11;
-  string user_id = 12;
-
-  // Raw text or HTML contents (e.g., email bodies) that bypass PDF chunking
-  repeated string raw_text_contents = 14;
-
-  // Dynamic mapping of client actions to orchestrator primitives
-  repeated ActionDefinition action_definitions = 15;
+message JobDefinition {
+  string id = 1;
+  int32 name = 2; // Maps to Jobs enum
+  string description = 3;
+  string global_instructions = 4;
+  bool is_active = 5;
+  string initial_step_id = 6;
 }
 
-message SubmitDocumentResponse {
+message StepDefinition {
+  string id = 1;
+  string step_name = 2;
+  string custom_instructions = 3;
+  string expected_schema = 4;
+  string reads_from_state_key = 5;
+  string writes_to_state_key = 6;
+  bool require_human_review = 7;
+  bool bypass_human_fallback = 8;
+  string dynamic_rule_table_name = 9;
+  string dynamic_rule_state_key = 10;
+  string context_input = 11;
+}
+
+message JobWorkflowEdge {
+  int32 id = 1;
+  string job_definition_id = 2;
+  string source_step_id = 3;
+  string condition_state_key = 4;
+  string condition_match_value = 5;
+  string target_step_id = 6;
+}
+
+message ActiveJobExecution {
+  string job_id = 1;
+  string job_definition_id = 2;
+  string current_step_id = 3;
+  string status = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message SubmitJobRequest {
+  ActiveJobExecution active_execution = 1;
+  JobDefinition job_definition = 2;
+  repeated StepDefinition steps = 3;
+  repeated JobWorkflowEdge edges = 4;
+  
+  string initial_state_json = 5;
+  
+  document.processor.v1.ModelChoice model_choice = 7;
+  repeated string target_fields = 8;
+
+  // Generic compliance & Traceability Metadata
+  map<string, string> metadata = 9;
+
+  repeated ActionDefinition action_definitions = 10;
+}
+
+message SubmitJobResponse {
   string job_id = 1;
   string status = 2; // e.g., "CACHED"
 }
 
-message WorkflowStep {
-  string step_name = 1;
-  string custom_instructions = 3; 
-  string expected_schema = 4;
-  string context_input = 5; 
-  string reads_from_state_key = 6;
-  string writes_to_state_key = 7;
-  bool require_human_review = 8;
-  bool bypass_human_fallback = 9;
-}
-
 message SubmitStepRequest {
-  string job_id = 1; // Required. Associates this step with a stored document/payload.
-  repeated WorkflowStep steps = 2; // A single step or a batched checklist of steps
-  string callback_address = 3; // Where the orchestrator should send the result after the batch completes
-  string initial_state_json = 4; // Optional starting state to merge into the GlobalState
-  bool complete_job = 5; // If true, the Orchestrator will teardown the cached document payload after completion
+  ActiveJobExecution active_execution = 1;
+  repeated StepDefinition steps = 2; // The linear batch of steps to execute for this turn
+  string callback_address = 3;
+  string initial_state_json = 4;
+  bool complete_job = 5;
+  
+  // Generic compliance & Traceability Metadata
+  map<string, string> metadata = 6;
 }
 
 message SubmitStepResponse {
