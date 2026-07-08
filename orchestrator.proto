@@ -40,6 +40,8 @@ message SubmitJobResponse {
 message StartJobRequest {
   string job_id = 1;
   repeated document.models.v1.StepDefinition initial_steps = 2;
+  string callback_address = 3;
+  bool complete_job = 4;
 }
 
 message StartJobResponse {

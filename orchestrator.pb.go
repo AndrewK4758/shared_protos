@@ -158,11 +158,13 @@ func (x *SubmitJobResponse) GetStatus() string {
 }
 
 type StartJobRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	InitialSteps  []*StepDefinition      `protobuf:"bytes,2,rep,name=initial_steps,json=initialSteps,proto3" json:"initial_steps,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	InitialSteps    []*StepDefinition      `protobuf:"bytes,2,rep,name=initial_steps,json=initialSteps,proto3" json:"initial_steps,omitempty"`
+	CallbackAddress string                 `protobuf:"bytes,3,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
+	CompleteJob     bool                   `protobuf:"varint,4,opt,name=complete_job,json=completeJob,proto3" json:"complete_job,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *StartJobRequest) Reset() {
@@ -207,6 +209,20 @@ func (x *StartJobRequest) GetInitialSteps() []*StepDefinition {
 		return x.InitialSteps
 	}
 	return nil
+}
+
+func (x *StartJobRequest) GetCallbackAddress() string {
+	if x != nil {
+		return x.CallbackAddress
+	}
+	return ""
+}
+
+func (x *StartJobRequest) GetCompleteJob() bool {
+	if x != nil {
+		return x.CompleteJob
+	}
+	return false
 }
 
 type StartJobResponse struct {
@@ -757,10 +773,12 @@ const file_orchestrator_proto_rawDesc = "" +
 	" \x03(\v2$.document.models.v1.ActionDefinitionR\x11actionDefinitions\"B\n" +
 	"\x11SubmitJobResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"q\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\xbf\x01\n" +
 	"\x0fStartJobRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12G\n" +
-	"\rinitial_steps\x18\x02 \x03(\v2\".document.models.v1.StepDefinitionR\finitialSteps\"l\n" +
+	"\rinitial_steps\x18\x02 \x03(\v2\".document.models.v1.StepDefinitionR\finitialSteps\x12)\n" +
+	"\x10callback_address\x18\x03 \x01(\tR\x0fcallbackAddress\x12!\n" +
+	"\fcomplete_job\x18\x04 \x01(\bR\vcompleteJob\"l\n" +
 	"\x10StartJobResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12$\n" +
