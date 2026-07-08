@@ -21,453 +21,21 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ActionDefinition struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	ClientActionName      string                 `protobuf:"bytes,1,opt,name=client_action_name,json=clientActionName,proto3" json:"client_action_name,omitempty"`
-	OrchestratorPrimitive string                 `protobuf:"bytes,2,opt,name=orchestrator_primitive,json=orchestratorPrimitive,proto3" json:"orchestrator_primitive,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *ActionDefinition) Reset() {
-	*x = ActionDefinition{}
-	mi := &file_orchestrator_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ActionDefinition) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ActionDefinition) ProtoMessage() {}
-
-func (x *ActionDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActionDefinition.ProtoReflect.Descriptor instead.
-func (*ActionDefinition) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *ActionDefinition) GetClientActionName() string {
-	if x != nil {
-		return x.ClientActionName
-	}
-	return ""
-}
-
-func (x *ActionDefinition) GetOrchestratorPrimitive() string {
-	if x != nil {
-		return x.OrchestratorPrimitive
-	}
-	return ""
-}
-
-type JobDefinition struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name               int32                  `protobuf:"varint,2,opt,name=name,proto3" json:"name,omitempty"` // Maps to Jobs enum
-	Description        string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	GlobalInstructions string                 `protobuf:"bytes,4,opt,name=global_instructions,json=globalInstructions,proto3" json:"global_instructions,omitempty"`
-	IsActive           bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
-	InitialStepId      string                 `protobuf:"bytes,6,opt,name=initial_step_id,json=initialStepId,proto3" json:"initial_step_id,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *JobDefinition) Reset() {
-	*x = JobDefinition{}
-	mi := &file_orchestrator_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *JobDefinition) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*JobDefinition) ProtoMessage() {}
-
-func (x *JobDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobDefinition.ProtoReflect.Descriptor instead.
-func (*JobDefinition) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *JobDefinition) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *JobDefinition) GetName() int32 {
-	if x != nil {
-		return x.Name
-	}
-	return 0
-}
-
-func (x *JobDefinition) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *JobDefinition) GetGlobalInstructions() string {
-	if x != nil {
-		return x.GlobalInstructions
-	}
-	return ""
-}
-
-func (x *JobDefinition) GetIsActive() bool {
-	if x != nil {
-		return x.IsActive
-	}
-	return false
-}
-
-func (x *JobDefinition) GetInitialStepId() string {
-	if x != nil {
-		return x.InitialStepId
-	}
-	return ""
-}
-
-type StepDefinition struct {
-	state                protoimpl.MessageState `protogen:"open.v1"`
-	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	StepName             string                 `protobuf:"bytes,2,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
-	CustomInstructions   string                 `protobuf:"bytes,3,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
-	ExpectedSchema       string                 `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
-	ReadsFromStateKey    string                 `protobuf:"bytes,5,opt,name=reads_from_state_key,json=readsFromStateKey,proto3" json:"reads_from_state_key,omitempty"`
-	WritesToStateKey     string                 `protobuf:"bytes,6,opt,name=writes_to_state_key,json=writesToStateKey,proto3" json:"writes_to_state_key,omitempty"`
-	RequireHumanReview   bool                   `protobuf:"varint,7,opt,name=require_human_review,json=requireHumanReview,proto3" json:"require_human_review,omitempty"`
-	BypassHumanFallback  bool                   `protobuf:"varint,8,opt,name=bypass_human_fallback,json=bypassHumanFallback,proto3" json:"bypass_human_fallback,omitempty"`
-	DynamicRuleTableName string                 `protobuf:"bytes,9,opt,name=dynamic_rule_table_name,json=dynamicRuleTableName,proto3" json:"dynamic_rule_table_name,omitempty"`
-	DynamicRuleStateKey  string                 `protobuf:"bytes,10,opt,name=dynamic_rule_state_key,json=dynamicRuleStateKey,proto3" json:"dynamic_rule_state_key,omitempty"`
-	ContextInput         string                 `protobuf:"bytes,11,opt,name=context_input,json=contextInput,proto3" json:"context_input,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
-}
-
-func (x *StepDefinition) Reset() {
-	*x = StepDefinition{}
-	mi := &file_orchestrator_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *StepDefinition) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*StepDefinition) ProtoMessage() {}
-
-func (x *StepDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StepDefinition.ProtoReflect.Descriptor instead.
-func (*StepDefinition) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *StepDefinition) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetStepName() string {
-	if x != nil {
-		return x.StepName
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetCustomInstructions() string {
-	if x != nil {
-		return x.CustomInstructions
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetExpectedSchema() string {
-	if x != nil {
-		return x.ExpectedSchema
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetReadsFromStateKey() string {
-	if x != nil {
-		return x.ReadsFromStateKey
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetWritesToStateKey() string {
-	if x != nil {
-		return x.WritesToStateKey
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetRequireHumanReview() bool {
-	if x != nil {
-		return x.RequireHumanReview
-	}
-	return false
-}
-
-func (x *StepDefinition) GetBypassHumanFallback() bool {
-	if x != nil {
-		return x.BypassHumanFallback
-	}
-	return false
-}
-
-func (x *StepDefinition) GetDynamicRuleTableName() string {
-	if x != nil {
-		return x.DynamicRuleTableName
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetDynamicRuleStateKey() string {
-	if x != nil {
-		return x.DynamicRuleStateKey
-	}
-	return ""
-}
-
-func (x *StepDefinition) GetContextInput() string {
-	if x != nil {
-		return x.ContextInput
-	}
-	return ""
-}
-
-type JobWorkflowEdge struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Id                  int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	JobDefinitionId     string                 `protobuf:"bytes,2,opt,name=job_definition_id,json=jobDefinitionId,proto3" json:"job_definition_id,omitempty"`
-	SourceStepId        string                 `protobuf:"bytes,3,opt,name=source_step_id,json=sourceStepId,proto3" json:"source_step_id,omitempty"`
-	ConditionStateKey   string                 `protobuf:"bytes,4,opt,name=condition_state_key,json=conditionStateKey,proto3" json:"condition_state_key,omitempty"`
-	ConditionMatchValue string                 `protobuf:"bytes,5,opt,name=condition_match_value,json=conditionMatchValue,proto3" json:"condition_match_value,omitempty"`
-	TargetStepId        string                 `protobuf:"bytes,6,opt,name=target_step_id,json=targetStepId,proto3" json:"target_step_id,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
-}
-
-func (x *JobWorkflowEdge) Reset() {
-	*x = JobWorkflowEdge{}
-	mi := &file_orchestrator_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *JobWorkflowEdge) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*JobWorkflowEdge) ProtoMessage() {}
-
-func (x *JobWorkflowEdge) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobWorkflowEdge.ProtoReflect.Descriptor instead.
-func (*JobWorkflowEdge) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *JobWorkflowEdge) GetId() int32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *JobWorkflowEdge) GetJobDefinitionId() string {
-	if x != nil {
-		return x.JobDefinitionId
-	}
-	return ""
-}
-
-func (x *JobWorkflowEdge) GetSourceStepId() string {
-	if x != nil {
-		return x.SourceStepId
-	}
-	return ""
-}
-
-func (x *JobWorkflowEdge) GetConditionStateKey() string {
-	if x != nil {
-		return x.ConditionStateKey
-	}
-	return ""
-}
-
-func (x *JobWorkflowEdge) GetConditionMatchValue() string {
-	if x != nil {
-		return x.ConditionMatchValue
-	}
-	return ""
-}
-
-func (x *JobWorkflowEdge) GetTargetStepId() string {
-	if x != nil {
-		return x.TargetStepId
-	}
-	return ""
-}
-
-type ActiveJobExecution struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	JobDefinitionId string                 `protobuf:"bytes,2,opt,name=job_definition_id,json=jobDefinitionId,proto3" json:"job_definition_id,omitempty"`
-	CurrentStepId   string                 `protobuf:"bytes,3,opt,name=current_step_id,json=currentStepId,proto3" json:"current_step_id,omitempty"`
-	Status          string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
-	CreatedAt       string                 `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt       string                 `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *ActiveJobExecution) Reset() {
-	*x = ActiveJobExecution{}
-	mi := &file_orchestrator_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ActiveJobExecution) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ActiveJobExecution) ProtoMessage() {}
-
-func (x *ActiveJobExecution) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActiveJobExecution.ProtoReflect.Descriptor instead.
-func (*ActiveJobExecution) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *ActiveJobExecution) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
-}
-
-func (x *ActiveJobExecution) GetJobDefinitionId() string {
-	if x != nil {
-		return x.JobDefinitionId
-	}
-	return ""
-}
-
-func (x *ActiveJobExecution) GetCurrentStepId() string {
-	if x != nil {
-		return x.CurrentStepId
-	}
-	return ""
-}
-
-func (x *ActiveJobExecution) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *ActiveJobExecution) GetCreatedAt() string {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return ""
-}
-
-func (x *ActiveJobExecution) GetUpdatedAt() string {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return ""
-}
-
 type SubmitJobRequest struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	ActiveExecution  *ActiveJobExecution    `protobuf:"bytes,1,opt,name=active_execution,json=activeExecution,proto3" json:"active_execution,omitempty"`
-	JobDefinition    *JobDefinition         `protobuf:"bytes,2,opt,name=job_definition,json=jobDefinition,proto3" json:"job_definition,omitempty"`
-	Steps            []*StepDefinition      `protobuf:"bytes,3,rep,name=steps,proto3" json:"steps,omitempty"`
-	Edges            []*JobWorkflowEdge     `protobuf:"bytes,4,rep,name=edges,proto3" json:"edges,omitempty"`
-	InitialStateJson string                 `protobuf:"bytes,5,opt,name=initial_state_json,json=initialStateJson,proto3" json:"initial_state_json,omitempty"`
-	ModelChoice      ModelChoice            `protobuf:"varint,7,opt,name=model_choice,json=modelChoice,proto3,enum=document.processor.v1.ModelChoice" json:"model_choice,omitempty"`
-	TargetFields     []string               `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
-	// Generic compliance & Traceability Metadata
-	Metadata          map[string]string   `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ActionDefinitions []*ActionDefinition `protobuf:"bytes,10,rep,name=action_definitions,json=actionDefinitions,proto3" json:"action_definitions,omitempty"`
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Context           *WorkflowContext       `protobuf:"bytes,1,opt,name=context,proto3" json:"context,omitempty"`
+	Steps             []*StepDefinition      `protobuf:"bytes,3,rep,name=steps,proto3" json:"steps,omitempty"`
+	Edges             []*JobWorkflowEdge     `protobuf:"bytes,4,rep,name=edges,proto3" json:"edges,omitempty"`
+	ModelChoice       ModelChoice            `protobuf:"varint,7,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
+	TargetFields      []string               `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
+	ActionDefinitions []*ActionDefinition    `protobuf:"bytes,10,rep,name=action_definitions,json=actionDefinitions,proto3" json:"action_definitions,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
 
 func (x *SubmitJobRequest) Reset() {
 	*x = SubmitJobRequest{}
-	mi := &file_orchestrator_proto_msgTypes[5]
+	mi := &file_orchestrator_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -479,7 +47,7 @@ func (x *SubmitJobRequest) String() string {
 func (*SubmitJobRequest) ProtoMessage() {}
 
 func (x *SubmitJobRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[5]
+	mi := &file_orchestrator_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -492,19 +60,12 @@ func (x *SubmitJobRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitJobRequest.ProtoReflect.Descriptor instead.
 func (*SubmitJobRequest) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{5}
+	return file_orchestrator_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SubmitJobRequest) GetActiveExecution() *ActiveJobExecution {
+func (x *SubmitJobRequest) GetContext() *WorkflowContext {
 	if x != nil {
-		return x.ActiveExecution
-	}
-	return nil
-}
-
-func (x *SubmitJobRequest) GetJobDefinition() *JobDefinition {
-	if x != nil {
-		return x.JobDefinition
+		return x.Context
 	}
 	return nil
 }
@@ -523,13 +84,6 @@ func (x *SubmitJobRequest) GetEdges() []*JobWorkflowEdge {
 	return nil
 }
 
-func (x *SubmitJobRequest) GetInitialStateJson() string {
-	if x != nil {
-		return x.InitialStateJson
-	}
-	return ""
-}
-
 func (x *SubmitJobRequest) GetModelChoice() ModelChoice {
 	if x != nil {
 		return x.ModelChoice
@@ -540,13 +94,6 @@ func (x *SubmitJobRequest) GetModelChoice() ModelChoice {
 func (x *SubmitJobRequest) GetTargetFields() []string {
 	if x != nil {
 		return x.TargetFields
-	}
-	return nil
-}
-
-func (x *SubmitJobRequest) GetMetadata() map[string]string {
-	if x != nil {
-		return x.Metadata
 	}
 	return nil
 }
@@ -568,7 +115,7 @@ type SubmitJobResponse struct {
 
 func (x *SubmitJobResponse) Reset() {
 	*x = SubmitJobResponse{}
-	mi := &file_orchestrator_proto_msgTypes[6]
+	mi := &file_orchestrator_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -580,7 +127,7 @@ func (x *SubmitJobResponse) String() string {
 func (*SubmitJobResponse) ProtoMessage() {}
 
 func (x *SubmitJobResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[6]
+	mi := &file_orchestrator_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -593,7 +140,7 @@ func (x *SubmitJobResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitJobResponse.ProtoReflect.Descriptor instead.
 func (*SubmitJobResponse) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{6}
+	return file_orchestrator_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SubmitJobResponse) GetJobId() string {
@@ -611,21 +158,18 @@ func (x *SubmitJobResponse) GetStatus() string {
 }
 
 type SubmitStepRequest struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	ActiveExecution  *ActiveJobExecution    `protobuf:"bytes,1,opt,name=active_execution,json=activeExecution,proto3" json:"active_execution,omitempty"`
-	Steps            []*StepDefinition      `protobuf:"bytes,2,rep,name=steps,proto3" json:"steps,omitempty"` // The linear batch of steps to execute for this turn
-	CallbackAddress  string                 `protobuf:"bytes,3,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
-	InitialStateJson string                 `protobuf:"bytes,4,opt,name=initial_state_json,json=initialStateJson,proto3" json:"initial_state_json,omitempty"`
-	CompleteJob      bool                   `protobuf:"varint,5,opt,name=complete_job,json=completeJob,proto3" json:"complete_job,omitempty"`
-	// Generic compliance & Traceability Metadata
-	Metadata      map[string]string `protobuf:"bytes,6,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Context         *WorkflowContext       `protobuf:"bytes,1,opt,name=context,proto3" json:"context,omitempty"`
+	Steps           []*StepDefinition      `protobuf:"bytes,2,rep,name=steps,proto3" json:"steps,omitempty"`
+	CallbackAddress string                 `protobuf:"bytes,3,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
+	CompleteJob     bool                   `protobuf:"varint,5,opt,name=complete_job,json=completeJob,proto3" json:"complete_job,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *SubmitStepRequest) Reset() {
 	*x = SubmitStepRequest{}
-	mi := &file_orchestrator_proto_msgTypes[7]
+	mi := &file_orchestrator_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -637,7 +181,7 @@ func (x *SubmitStepRequest) String() string {
 func (*SubmitStepRequest) ProtoMessage() {}
 
 func (x *SubmitStepRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[7]
+	mi := &file_orchestrator_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -650,12 +194,12 @@ func (x *SubmitStepRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitStepRequest.ProtoReflect.Descriptor instead.
 func (*SubmitStepRequest) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{7}
+	return file_orchestrator_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *SubmitStepRequest) GetActiveExecution() *ActiveJobExecution {
+func (x *SubmitStepRequest) GetContext() *WorkflowContext {
 	if x != nil {
-		return x.ActiveExecution
+		return x.Context
 	}
 	return nil
 }
@@ -674,25 +218,11 @@ func (x *SubmitStepRequest) GetCallbackAddress() string {
 	return ""
 }
 
-func (x *SubmitStepRequest) GetInitialStateJson() string {
-	if x != nil {
-		return x.InitialStateJson
-	}
-	return ""
-}
-
 func (x *SubmitStepRequest) GetCompleteJob() bool {
 	if x != nil {
 		return x.CompleteJob
 	}
 	return false
-}
-
-func (x *SubmitStepRequest) GetMetadata() map[string]string {
-	if x != nil {
-		return x.Metadata
-	}
-	return nil
 }
 
 type SubmitStepResponse struct {
@@ -706,7 +236,7 @@ type SubmitStepResponse struct {
 
 func (x *SubmitStepResponse) Reset() {
 	*x = SubmitStepResponse{}
-	mi := &file_orchestrator_proto_msgTypes[8]
+	mi := &file_orchestrator_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -718,7 +248,7 @@ func (x *SubmitStepResponse) String() string {
 func (*SubmitStepResponse) ProtoMessage() {}
 
 func (x *SubmitStepResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[8]
+	mi := &file_orchestrator_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -731,7 +261,7 @@ func (x *SubmitStepResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitStepResponse.ProtoReflect.Descriptor instead.
 func (*SubmitStepResponse) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{8}
+	return file_orchestrator_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SubmitStepResponse) GetSuccess() bool {
@@ -764,7 +294,7 @@ type ListenRequest struct {
 
 func (x *ListenRequest) Reset() {
 	*x = ListenRequest{}
-	mi := &file_orchestrator_proto_msgTypes[9]
+	mi := &file_orchestrator_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -776,7 +306,7 @@ func (x *ListenRequest) String() string {
 func (*ListenRequest) ProtoMessage() {}
 
 func (x *ListenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[9]
+	mi := &file_orchestrator_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -789,7 +319,7 @@ func (x *ListenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListenRequest.ProtoReflect.Descriptor instead.
 func (*ListenRequest) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{9}
+	return file_orchestrator_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListenRequest) GetJobId() string {
@@ -812,7 +342,7 @@ type ProgressUpdate struct {
 
 func (x *ProgressUpdate) Reset() {
 	*x = ProgressUpdate{}
-	mi := &file_orchestrator_proto_msgTypes[10]
+	mi := &file_orchestrator_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -824,7 +354,7 @@ func (x *ProgressUpdate) String() string {
 func (*ProgressUpdate) ProtoMessage() {}
 
 func (x *ProgressUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[10]
+	mi := &file_orchestrator_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -837,7 +367,7 @@ func (x *ProgressUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProgressUpdate.ProtoReflect.Descriptor instead.
 func (*ProgressUpdate) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{10}
+	return file_orchestrator_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ProgressUpdate) GetJobId() string {
@@ -879,7 +409,7 @@ type ResumeJobRequest struct {
 
 func (x *ResumeJobRequest) Reset() {
 	*x = ResumeJobRequest{}
-	mi := &file_orchestrator_proto_msgTypes[11]
+	mi := &file_orchestrator_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -891,7 +421,7 @@ func (x *ResumeJobRequest) String() string {
 func (*ResumeJobRequest) ProtoMessage() {}
 
 func (x *ResumeJobRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[11]
+	mi := &file_orchestrator_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -904,7 +434,7 @@ func (x *ResumeJobRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResumeJobRequest.ProtoReflect.Descriptor instead.
 func (*ResumeJobRequest) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{11}
+	return file_orchestrator_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ResumeJobRequest) GetJobId() string {
@@ -938,7 +468,7 @@ type ResumeJobResponse struct {
 
 func (x *ResumeJobResponse) Reset() {
 	*x = ResumeJobResponse{}
-	mi := &file_orchestrator_proto_msgTypes[12]
+	mi := &file_orchestrator_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -950,7 +480,7 @@ func (x *ResumeJobResponse) String() string {
 func (*ResumeJobResponse) ProtoMessage() {}
 
 func (x *ResumeJobResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[12]
+	mi := &file_orchestrator_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -963,7 +493,7 @@ func (x *ResumeJobResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResumeJobResponse.ProtoReflect.Descriptor instead.
 func (*ResumeJobResponse) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{12}
+	return file_orchestrator_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ResumeJobResponse) GetSuccess() bool {
@@ -993,7 +523,7 @@ type StepCompleteRequest struct {
 
 func (x *StepCompleteRequest) Reset() {
 	*x = StepCompleteRequest{}
-	mi := &file_orchestrator_proto_msgTypes[13]
+	mi := &file_orchestrator_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1005,7 +535,7 @@ func (x *StepCompleteRequest) String() string {
 func (*StepCompleteRequest) ProtoMessage() {}
 
 func (x *StepCompleteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[13]
+	mi := &file_orchestrator_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1018,7 +548,7 @@ func (x *StepCompleteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StepCompleteRequest.ProtoReflect.Descriptor instead.
 func (*StepCompleteRequest) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{13}
+	return file_orchestrator_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *StepCompleteRequest) GetJobId() string {
@@ -1065,7 +595,7 @@ type StepCompleteResponse struct {
 
 func (x *StepCompleteResponse) Reset() {
 	*x = StepCompleteResponse{}
-	mi := &file_orchestrator_proto_msgTypes[14]
+	mi := &file_orchestrator_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1077,7 +607,7 @@ func (x *StepCompleteResponse) String() string {
 func (*StepCompleteResponse) ProtoMessage() {}
 
 func (x *StepCompleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_orchestrator_proto_msgTypes[14]
+	mi := &file_orchestrator_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1090,7 +620,7 @@ func (x *StepCompleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StepCompleteResponse.ProtoReflect.Descriptor instead.
 func (*StepCompleteResponse) Descriptor() ([]byte, []int) {
-	return file_orchestrator_proto_rawDescGZIP(), []int{14}
+	return file_orchestrator_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *StepCompleteResponse) GetSuccess() bool {
@@ -1104,73 +634,23 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\"w\n" +
-	"\x10ActionDefinition\x12,\n" +
-	"\x12client_action_name\x18\x01 \x01(\tR\x10clientActionName\x125\n" +
-	"\x16orchestrator_primitive\x18\x02 \x01(\tR\x15orchestratorPrimitive\"\xcb\x01\n" +
-	"\rJobDefinition\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\x05R\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12/\n" +
-	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
-	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
-	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\"\xee\x03\n" +
-	"\x0eStepDefinition\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +
-	"\x13custom_instructions\x18\x03 \x01(\tR\x12customInstructions\x12'\n" +
-	"\x0fexpected_schema\x18\x04 \x01(\tR\x0eexpectedSchema\x12/\n" +
-	"\x14reads_from_state_key\x18\x05 \x01(\tR\x11readsFromStateKey\x12-\n" +
-	"\x13writes_to_state_key\x18\x06 \x01(\tR\x10writesToStateKey\x120\n" +
-	"\x14require_human_review\x18\a \x01(\bR\x12requireHumanReview\x122\n" +
-	"\x15bypass_human_fallback\x18\b \x01(\bR\x13bypassHumanFallback\x125\n" +
-	"\x17dynamic_rule_table_name\x18\t \x01(\tR\x14dynamicRuleTableName\x123\n" +
-	"\x16dynamic_rule_state_key\x18\n" +
-	" \x01(\tR\x13dynamicRuleStateKey\x12#\n" +
-	"\rcontext_input\x18\v \x01(\tR\fcontextInput\"\xfd\x01\n" +
-	"\x0fJobWorkflowEdge\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12*\n" +
-	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12$\n" +
-	"\x0esource_step_id\x18\x03 \x01(\tR\fsourceStepId\x12.\n" +
-	"\x13condition_state_key\x18\x04 \x01(\tR\x11conditionStateKey\x122\n" +
-	"\x15condition_match_value\x18\x05 \x01(\tR\x13conditionMatchValue\x12$\n" +
-	"\x0etarget_step_id\x18\x06 \x01(\tR\ftargetStepId\"\xd5\x01\n" +
-	"\x12ActiveJobExecution\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12*\n" +
-	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12&\n" +
-	"\x0fcurrent_step_id\x18\x03 \x01(\tR\rcurrentStepId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"updated_at\x18\x06 \x01(\tR\tupdatedAt\"\xc4\x05\n" +
-	"\x10SubmitJobRequest\x12W\n" +
-	"\x10active_execution\x18\x01 \x01(\v2,.document.orchestrator.v1.ActiveJobExecutionR\x0factiveExecution\x12N\n" +
-	"\x0ejob_definition\x18\x02 \x01(\v2'.document.orchestrator.v1.JobDefinitionR\rjobDefinition\x12>\n" +
-	"\x05steps\x18\x03 \x03(\v2(.document.orchestrator.v1.StepDefinitionR\x05steps\x12?\n" +
-	"\x05edges\x18\x04 \x03(\v2).document.orchestrator.v1.JobWorkflowEdgeR\x05edges\x12,\n" +
-	"\x12initial_state_json\x18\x05 \x01(\tR\x10initialStateJson\x12E\n" +
-	"\fmodel_choice\x18\a \x01(\x0e2\".document.processor.v1.ModelChoiceR\vmodelChoice\x12#\n" +
-	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12T\n" +
-	"\bmetadata\x18\t \x03(\v28.document.orchestrator.v1.SubmitJobRequest.MetadataEntryR\bmetadata\x12Y\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\x1a\fmodels.proto\"\x84\x03\n" +
+	"\x10SubmitJobRequest\x12=\n" +
+	"\acontext\x18\x01 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x128\n" +
+	"\x05steps\x18\x03 \x03(\v2\".document.models.v1.StepDefinitionR\x05steps\x129\n" +
+	"\x05edges\x18\x04 \x03(\v2#.document.models.v1.JobWorkflowEdgeR\x05edges\x12B\n" +
+	"\fmodel_choice\x18\a \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12#\n" +
+	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12S\n" +
 	"\x12action_definitions\x18\n" +
-	" \x03(\v2*.document.orchestrator.v1.ActionDefinitionR\x11actionDefinitions\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"B\n" +
+	" \x03(\v2$.document.models.v1.ActionDefinitionR\x11actionDefinitions\"B\n" +
 	"\x11SubmitJobResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"\xbc\x03\n" +
-	"\x11SubmitStepRequest\x12W\n" +
-	"\x10active_execution\x18\x01 \x01(\v2,.document.orchestrator.v1.ActiveJobExecutionR\x0factiveExecution\x12>\n" +
-	"\x05steps\x18\x02 \x03(\v2(.document.orchestrator.v1.StepDefinitionR\x05steps\x12)\n" +
-	"\x10callback_address\x18\x03 \x01(\tR\x0fcallbackAddress\x12,\n" +
-	"\x12initial_state_json\x18\x04 \x01(\tR\x10initialStateJson\x12!\n" +
-	"\fcomplete_job\x18\x05 \x01(\bR\vcompleteJob\x12U\n" +
-	"\bmetadata\x18\x06 \x03(\v29.document.orchestrator.v1.SubmitStepRequest.MetadataEntryR\bmetadata\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"a\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\xda\x01\n" +
+	"\x11SubmitStepRequest\x12=\n" +
+	"\acontext\x18\x01 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x128\n" +
+	"\x05steps\x18\x02 \x03(\v2\".document.models.v1.StepDefinitionR\x05steps\x12)\n" +
+	"\x10callback_address\x18\x03 \x01(\tR\x0fcallbackAddress\x12!\n" +
+	"\fcomplete_job\x18\x05 \x01(\bR\vcompleteJob\"a\n" +
 	"\x12SubmitStepResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
@@ -1205,7 +685,7 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
 	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse2\x86\x01\n" +
 	"\x13StepCallbackService\x12o\n" +
-	"\x0eOnStepComplete\x12-.document.orchestrator.v1.StepCompleteRequest\x1a..document.orchestrator.v1.StepCompleteResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\x0eOnStepComplete\x12-.document.orchestrator.v1.StepCompleteRequest\x1a..document.orchestrator.v1.StepCompleteResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_orchestrator_proto_rawDescOnce sync.Once
@@ -1219,53 +699,47 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
-var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_orchestrator_proto_goTypes = []any{
-	(*ActionDefinition)(nil),     // 0: document.orchestrator.v1.ActionDefinition
-	(*JobDefinition)(nil),        // 1: document.orchestrator.v1.JobDefinition
-	(*StepDefinition)(nil),       // 2: document.orchestrator.v1.StepDefinition
-	(*JobWorkflowEdge)(nil),      // 3: document.orchestrator.v1.JobWorkflowEdge
-	(*ActiveJobExecution)(nil),   // 4: document.orchestrator.v1.ActiveJobExecution
-	(*SubmitJobRequest)(nil),     // 5: document.orchestrator.v1.SubmitJobRequest
-	(*SubmitJobResponse)(nil),    // 6: document.orchestrator.v1.SubmitJobResponse
-	(*SubmitStepRequest)(nil),    // 7: document.orchestrator.v1.SubmitStepRequest
-	(*SubmitStepResponse)(nil),   // 8: document.orchestrator.v1.SubmitStepResponse
-	(*ListenRequest)(nil),        // 9: document.orchestrator.v1.ListenRequest
-	(*ProgressUpdate)(nil),       // 10: document.orchestrator.v1.ProgressUpdate
-	(*ResumeJobRequest)(nil),     // 11: document.orchestrator.v1.ResumeJobRequest
-	(*ResumeJobResponse)(nil),    // 12: document.orchestrator.v1.ResumeJobResponse
-	(*StepCompleteRequest)(nil),  // 13: document.orchestrator.v1.StepCompleteRequest
-	(*StepCompleteResponse)(nil), // 14: document.orchestrator.v1.StepCompleteResponse
-	nil,                          // 15: document.orchestrator.v1.SubmitJobRequest.MetadataEntry
-	nil,                          // 16: document.orchestrator.v1.SubmitStepRequest.MetadataEntry
-	(ModelChoice)(0),             // 17: document.processor.v1.ModelChoice
+	(*SubmitJobRequest)(nil),     // 0: document.orchestrator.v1.SubmitJobRequest
+	(*SubmitJobResponse)(nil),    // 1: document.orchestrator.v1.SubmitJobResponse
+	(*SubmitStepRequest)(nil),    // 2: document.orchestrator.v1.SubmitStepRequest
+	(*SubmitStepResponse)(nil),   // 3: document.orchestrator.v1.SubmitStepResponse
+	(*ListenRequest)(nil),        // 4: document.orchestrator.v1.ListenRequest
+	(*ProgressUpdate)(nil),       // 5: document.orchestrator.v1.ProgressUpdate
+	(*ResumeJobRequest)(nil),     // 6: document.orchestrator.v1.ResumeJobRequest
+	(*ResumeJobResponse)(nil),    // 7: document.orchestrator.v1.ResumeJobResponse
+	(*StepCompleteRequest)(nil),  // 8: document.orchestrator.v1.StepCompleteRequest
+	(*StepCompleteResponse)(nil), // 9: document.orchestrator.v1.StepCompleteResponse
+	(*WorkflowContext)(nil),      // 10: document.models.v1.WorkflowContext
+	(*StepDefinition)(nil),       // 11: document.models.v1.StepDefinition
+	(*JobWorkflowEdge)(nil),      // 12: document.models.v1.JobWorkflowEdge
+	(ModelChoice)(0),             // 13: document.models.v1.ModelChoice
+	(*ActionDefinition)(nil),     // 14: document.models.v1.ActionDefinition
 }
 var file_orchestrator_proto_depIdxs = []int32{
-	4,  // 0: document.orchestrator.v1.SubmitJobRequest.active_execution:type_name -> document.orchestrator.v1.ActiveJobExecution
-	1,  // 1: document.orchestrator.v1.SubmitJobRequest.job_definition:type_name -> document.orchestrator.v1.JobDefinition
-	2,  // 2: document.orchestrator.v1.SubmitJobRequest.steps:type_name -> document.orchestrator.v1.StepDefinition
-	3,  // 3: document.orchestrator.v1.SubmitJobRequest.edges:type_name -> document.orchestrator.v1.JobWorkflowEdge
-	17, // 4: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.processor.v1.ModelChoice
-	15, // 5: document.orchestrator.v1.SubmitJobRequest.metadata:type_name -> document.orchestrator.v1.SubmitJobRequest.MetadataEntry
-	0,  // 6: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.orchestrator.v1.ActionDefinition
-	4,  // 7: document.orchestrator.v1.SubmitStepRequest.active_execution:type_name -> document.orchestrator.v1.ActiveJobExecution
-	2,  // 8: document.orchestrator.v1.SubmitStepRequest.steps:type_name -> document.orchestrator.v1.StepDefinition
-	16, // 9: document.orchestrator.v1.SubmitStepRequest.metadata:type_name -> document.orchestrator.v1.SubmitStepRequest.MetadataEntry
-	5,  // 10: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
-	7,  // 11: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
-	9,  // 12: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	11, // 13: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	13, // 14: document.orchestrator.v1.StepCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
-	6,  // 15: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
-	8,  // 16: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
-	10, // 17: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	12, // 18: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	14, // 19: document.orchestrator.v1.StepCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
-	15, // [15:20] is the sub-list for method output_type
-	10, // [10:15] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	10, // 0: document.orchestrator.v1.SubmitJobRequest.context:type_name -> document.models.v1.WorkflowContext
+	11, // 1: document.orchestrator.v1.SubmitJobRequest.steps:type_name -> document.models.v1.StepDefinition
+	12, // 2: document.orchestrator.v1.SubmitJobRequest.edges:type_name -> document.models.v1.JobWorkflowEdge
+	13, // 3: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	14, // 4: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.models.v1.ActionDefinition
+	10, // 5: document.orchestrator.v1.SubmitStepRequest.context:type_name -> document.models.v1.WorkflowContext
+	11, // 6: document.orchestrator.v1.SubmitStepRequest.steps:type_name -> document.models.v1.StepDefinition
+	0,  // 7: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
+	2,  // 8: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
+	4,  // 9: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	6,  // 10: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	8,  // 11: document.orchestrator.v1.StepCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
+	1,  // 12: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
+	3,  // 13: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
+	5,  // 14: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	7,  // 15: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	9,  // 16: document.orchestrator.v1.StepCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }
@@ -1274,13 +748,14 @@ func file_orchestrator_proto_init() {
 		return
 	}
 	file_processor_proto_init()
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

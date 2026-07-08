@@ -148,7 +148,7 @@ const file_schema_registry_proto_rawDesc = "" +
 	"\vjson_schema\x18\x04 \x01(\tR\n" +
 	"jsonSchema2\x83\x01\n" +
 	"\x15SchemaRegistryService\x12j\n" +
-	"\x19GetRulesForClassification\x12%.document.registry.v1.GetRulesRequest\x1a&.document.registry.v1.GetRulesResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\x19GetRulesForClassification\x12%.document.registry.v1.GetRulesRequest\x1a&.document.registry.v1.GetRulesResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_schema_registry_proto_rawDescOnce sync.Once

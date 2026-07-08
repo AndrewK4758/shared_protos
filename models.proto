@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package document.models.v1;
+
+option go_package = "github.com/AndrewK4758/shared_protos";
+
+import "google/protobuf/struct.proto";
+
+enum ModelChoice {
+  MODEL_CHOICE_UNSPECIFIED = 0;
+  MODEL_CHOICE_LOCAL = 1;
+}
+
+message ActionDefinition {
+  string id = 1;
+  string name = 2; 
+  string prompt = 3;
+  repeated string rules = 4;
+  string expected_output_schema = 5;
+  string orchestrator_primitive = 6;
+}
+
+message JobDefinition {
+  string id = 1;
+  int32 name = 2; 
+  string description = 3;
+  string global_instructions = 4;
+  bool is_active = 5;
+  string initial_step_id = 6;
+}
+
+message StepDefinition {
+  string id = 1;
+  string step_name = 2;
+  string custom_instructions = 3;
+  string expected_schema = 4;
+  string reads_from_state_key = 5;
+  string writes_to_state_key = 6;
+  bool require_human_review = 7;
+  bool bypass_human_fallback = 8;
+  string dynamic_rule_table_name = 9;
+  string dynamic_rule_state_key = 10;
+  string context_input = 11;
+}
+
+message JobWorkflowEdge {
+  int32 id = 1;
+  string job_definition_id = 2;
+  string source_step_id = 3;
+  string condition_state_key = 4;
+  string condition_match_value = 5;
+  string target_step_id = 6;
+}
+
+message ActiveJobExecution {
+  string job_id = 1;
+  string job_definition_id = 2;
+  string current_step_id = 3;
+  string status = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message WorkflowContext {
+  string job_id = 1;
+  map<string, string> metadata = 2;
+  ActiveJobExecution active_execution = 3;
+  JobDefinition job_definition = 4;
+  StepDefinition current_step = 5;
+  google.protobuf.Struct global_state = 6;
+  
+  int32 current_step_index = 7;
+  repeated ActionDefinition pending_actions = 8;
+  int32 current_action_index = 9;
+  google.protobuf.Struct action_state = 10;
+}

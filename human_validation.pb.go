@@ -504,7 +504,7 @@ const file_human_validation_proto_rawDesc = "" +
 	"\x16HumanValidationService\x12m\n" +
 	"\x14CreateValidationTask\x12).document.validation.v1.CreateTaskRequest\x1a*.document.validation.v1.CreateTaskResponse\x12r\n" +
 	"\x0fGetPendingTasks\x12..document.validation.v1.GetPendingTasksRequest\x1a/.document.validation.v1.GetPendingTasksResponse\x12u\n" +
-	"\x10SubmitCorrection\x12/.document.validation.v1.SubmitCorrectionRequest\x1a0.document.validation.v1.SubmitCorrectionResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\x10SubmitCorrection\x12/.document.validation.v1.SubmitCorrectionRequest\x1a0.document.validation.v1.SubmitCorrectionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_human_validation_proto_rawDescOnce sync.Once

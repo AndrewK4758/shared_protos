@@ -21,57 +21,11 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ModelChoice int32
-
-const (
-	ModelChoice_MODEL_CHOICE_UNSPECIFIED ModelChoice = 0
-	ModelChoice_MODEL_CHOICE_LOCAL       ModelChoice = 1
-)
-
-// Enum value maps for ModelChoice.
-var (
-	ModelChoice_name = map[int32]string{
-		0: "MODEL_CHOICE_UNSPECIFIED",
-		1: "MODEL_CHOICE_LOCAL",
-	}
-	ModelChoice_value = map[string]int32{
-		"MODEL_CHOICE_UNSPECIFIED": 0,
-		"MODEL_CHOICE_LOCAL":       1,
-	}
-)
-
-func (x ModelChoice) Enum() *ModelChoice {
-	p := new(ModelChoice)
-	*p = x
-	return p
-}
-
-func (x ModelChoice) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (ModelChoice) Descriptor() protoreflect.EnumDescriptor {
-	return file_processor_proto_enumTypes[0].Descriptor()
-}
-
-func (ModelChoice) Type() protoreflect.EnumType {
-	return &file_processor_proto_enumTypes[0]
-}
-
-func (x ModelChoice) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ModelChoice.Descriptor instead.
-func (ModelChoice) EnumDescriptor() ([]byte, []int) {
-	return file_processor_proto_rawDescGZIP(), []int{0}
-}
-
 type ProcessDocumentRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	FileContent        []byte                 `protobuf:"bytes,1,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"`
 	FileName           string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
-	ModelChoice        ModelChoice            `protobuf:"varint,3,opt,name=model_choice,json=modelChoice,proto3,enum=document.processor.v1.ModelChoice" json:"model_choice,omitempty"`
+	ModelChoice        ModelChoice            `protobuf:"varint,3,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	DocumentType       string                 `protobuf:"bytes,4,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
 	TargetFields       []string               `protobuf:"bytes,5,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	JsonSchema         string                 `protobuf:"bytes,6,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
@@ -246,12 +200,10 @@ func (x *ProcessDocumentResponse) GetStatus() string {
 type PerformActionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Optional raw binary input (e.g. image, pdf chunk, file content)
-	InputBytes []byte `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
-	// The exact prompt dictating what action the LLM should take
-	Prompt string `protobuf:"bytes,2,opt,name=prompt,proto3" json:"prompt,omitempty"`
-	// Strict JSON Schema to enforce the model's output format
-	JsonSchema  string      `protobuf:"bytes,3,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
-	ModelChoice ModelChoice `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.processor.v1.ModelChoice" json:"model_choice,omitempty"`
+	InputBytes    []byte            `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
+	Context       *WorkflowContext  `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
+	CurrentAction *ActionDefinition `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
+	ModelChoice   ModelChoice       `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	// Optional text input (e.g. plain text, markdown, existing state)
 	InputText     string `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -295,18 +247,18 @@ func (x *PerformActionRequest) GetInputBytes() []byte {
 	return nil
 }
 
-func (x *PerformActionRequest) GetPrompt() string {
+func (x *PerformActionRequest) GetContext() *WorkflowContext {
 	if x != nil {
-		return x.Prompt
+		return x.Context
 	}
-	return ""
+	return nil
 }
 
-func (x *PerformActionRequest) GetJsonSchema() string {
+func (x *PerformActionRequest) GetCurrentAction() *ActionDefinition {
 	if x != nil {
-		return x.JsonSchema
+		return x.CurrentAction
 	}
-	return ""
+	return nil
 }
 
 func (x *PerformActionRequest) GetModelChoice() ModelChoice {
@@ -388,11 +340,11 @@ var File_processor_proto protoreflect.FileDescriptor
 
 const file_processor_proto_rawDesc = "" +
 	"\n" +
-	"\x0fprocessor.proto\x12\x15document.processor.v1\"\xf9\x02\n" +
+	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\"\xf6\x02\n" +
 	"\x16ProcessDocumentRequest\x12!\n" +
 	"\ffile_content\x18\x01 \x01(\fR\vfileContent\x12\x1b\n" +
-	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12E\n" +
-	"\fmodel_choice\x18\x03 \x01(\x0e2\".document.processor.v1.ModelChoiceR\vmodelChoice\x12#\n" +
+	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12B\n" +
+	"\fmodel_choice\x18\x03 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12#\n" +
 	"\rdocument_type\x18\x04 \x01(\tR\fdocumentType\x12#\n" +
 	"\rtarget_fields\x18\x05 \x03(\tR\ftargetFields\x12\x1f\n" +
 	"\vjson_schema\x18\x06 \x01(\tR\n" +
@@ -404,26 +356,22 @@ const file_processor_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x03 \x01(\tR\rcorrelationId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"\xd6\x01\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\xa6\x02\n" +
 	"\x14PerformActionRequest\x12\x1f\n" +
 	"\vinput_bytes\x18\x01 \x01(\fR\n" +
-	"inputBytes\x12\x16\n" +
-	"\x06prompt\x18\x02 \x01(\tR\x06prompt\x12\x1f\n" +
-	"\vjson_schema\x18\x03 \x01(\tR\n" +
-	"jsonSchema\x12E\n" +
-	"\fmodel_choice\x18\x04 \x01(\x0e2\".document.processor.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
+	"inputBytes\x12=\n" +
+	"\acontext\x18\x02 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x12K\n" +
+	"\x0ecurrent_action\x18\x03 \x01(\v2$.document.models.v1.ActionDefinitionR\rcurrentAction\x12B\n" +
+	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
 	"input_text\x18\x05 \x01(\tR\tinputText\"\x84\x01\n" +
 	"\x15PerformActionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
-	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson*C\n" +
-	"\vModelChoice\x12\x1c\n" +
-	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12MODEL_CHOICE_LOCAL\x10\x012\xf1\x01\n" +
+	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson2\xf1\x01\n" +
 	"\x11DocumentProcessor\x12p\n" +
 	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12j\n" +
-	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB\x1dZ\x1bdoc_processor/shared_protosb\x06proto3"
+	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_processor_proto_rawDescOnce sync.Once
@@ -437,27 +385,30 @@ func file_processor_proto_rawDescGZIP() []byte {
 	return file_processor_proto_rawDescData
 }
 
-var file_processor_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_processor_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_processor_proto_goTypes = []any{
-	(ModelChoice)(0),                // 0: document.processor.v1.ModelChoice
-	(*ProcessDocumentRequest)(nil),  // 1: document.processor.v1.ProcessDocumentRequest
-	(*ProcessDocumentResponse)(nil), // 2: document.processor.v1.ProcessDocumentResponse
-	(*PerformActionRequest)(nil),    // 3: document.processor.v1.PerformActionRequest
-	(*PerformActionResponse)(nil),   // 4: document.processor.v1.PerformActionResponse
+	(*ProcessDocumentRequest)(nil),  // 0: document.processor.v1.ProcessDocumentRequest
+	(*ProcessDocumentResponse)(nil), // 1: document.processor.v1.ProcessDocumentResponse
+	(*PerformActionRequest)(nil),    // 2: document.processor.v1.PerformActionRequest
+	(*PerformActionResponse)(nil),   // 3: document.processor.v1.PerformActionResponse
+	(ModelChoice)(0),                // 4: document.models.v1.ModelChoice
+	(*WorkflowContext)(nil),         // 5: document.models.v1.WorkflowContext
+	(*ActionDefinition)(nil),        // 6: document.models.v1.ActionDefinition
 }
 var file_processor_proto_depIdxs = []int32{
-	0, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.processor.v1.ModelChoice
-	0, // 1: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.processor.v1.ModelChoice
-	1, // 2: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
-	3, // 3: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
-	2, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
-	4, // 5: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	5, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.models.v1.WorkflowContext
+	6, // 2: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
+	4, // 3: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	0, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
+	2, // 5: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
+	1, // 6: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
+	3, // 7: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_processor_proto_init() }
@@ -465,19 +416,19 @@ func file_processor_proto_init() {
 	if File_processor_proto != nil {
 		return
 	}
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_processor_proto_rawDesc), len(file_processor_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_processor_proto_goTypes,
 		DependencyIndexes: file_processor_proto_depIdxs,
-		EnumInfos:         file_processor_proto_enumTypes,
 		MessageInfos:      file_processor_proto_msgTypes,
 	}.Build()
 	File_processor_proto = out.File

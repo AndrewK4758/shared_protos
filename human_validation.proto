@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package document.validation.v1;
 
-option go_package = "doc_processor/shared_protos";
+option go_package = "github.com/AndrewK4758/shared_protos";
 
 service HumanValidationService {
   // Orchestrator or Client registers a task needing human validation

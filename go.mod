@@ -1,4 +1,4 @@
-module shared_protos
+module github.com/AndrewK4758/shared_protos
 
 go 1.26.4
 

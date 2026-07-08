@@ -2,9 +2,10 @@ syntax = "proto3";
 
 package document.orchestrator.v1;
 
-option go_package = "doc_processor/shared_protos";
+option go_package = "github.com/AndrewK4758/shared_protos";
 
 import "processor.proto";
+import "models.proto";
 
 service OrchestratorService {
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
@@ -19,67 +20,14 @@ service OrchestratorService {
   rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
 }
 
-message ActionDefinition {
-  string client_action_name = 1;
-  string orchestrator_primitive = 2;
-}
-
-message JobDefinition {
-  string id = 1;
-  int32 name = 2; // Maps to Jobs enum
-  string description = 3;
-  string global_instructions = 4;
-  bool is_active = 5;
-  string initial_step_id = 6;
-}
-
-message StepDefinition {
-  string id = 1;
-  string step_name = 2;
-  string custom_instructions = 3;
-  string expected_schema = 4;
-  string reads_from_state_key = 5;
-  string writes_to_state_key = 6;
-  bool require_human_review = 7;
-  bool bypass_human_fallback = 8;
-  string dynamic_rule_table_name = 9;
-  string dynamic_rule_state_key = 10;
-  string context_input = 11;
-}
-
-message JobWorkflowEdge {
-  int32 id = 1;
-  string job_definition_id = 2;
-  string source_step_id = 3;
-  string condition_state_key = 4;
-  string condition_match_value = 5;
-  string target_step_id = 6;
-}
-
-message ActiveJobExecution {
-  string job_id = 1;
-  string job_definition_id = 2;
-  string current_step_id = 3;
-  string status = 4;
-  string created_at = 5;
-  string updated_at = 6;
-}
-
 message SubmitJobRequest {
-  ActiveJobExecution active_execution = 1;
-  JobDefinition job_definition = 2;
-  repeated StepDefinition steps = 3;
-  repeated JobWorkflowEdge edges = 4;
+  document.models.v1.WorkflowContext context = 1;
+  repeated document.models.v1.StepDefinition steps = 3;
+  repeated document.models.v1.JobWorkflowEdge edges = 4;
   
-  string initial_state_json = 5;
-  
-  document.processor.v1.ModelChoice model_choice = 7;
+  document.models.v1.ModelChoice model_choice = 7;
   repeated string target_fields = 8;
-
-  // Generic compliance & Traceability Metadata
-  map<string, string> metadata = 9;
-
-  repeated ActionDefinition action_definitions = 10;
+  repeated document.models.v1.ActionDefinition action_definitions = 10;
 }
 
 message SubmitJobResponse {
@@ -88,14 +36,10 @@ message SubmitJobResponse {
 }
 
 message SubmitStepRequest {
-  ActiveJobExecution active_execution = 1;
-  repeated StepDefinition steps = 2; // The linear batch of steps to execute for this turn
+  document.models.v1.WorkflowContext context = 1;
+  repeated document.models.v1.StepDefinition steps = 2;
   string callback_address = 3;
-  string initial_state_json = 4;
   bool complete_job = 5;
-  
-  // Generic compliance & Traceability Metadata
-  map<string, string> metadata = 6;
 }
 
 message SubmitStepResponse {
