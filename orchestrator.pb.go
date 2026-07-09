@@ -9,6 +9,7 @@ package shared_protos
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -639,14 +640,13 @@ func (x *ResumeJobResponse) GetMessage() string {
 }
 
 type StepCompleteRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepId        string                 `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	ResultJson    string                 `protobuf:"bytes,4,opt,name=result_json,json=resultJson,proto3" json:"result_json,omitempty"`
-	ErrorMessage  string                 `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	StepName      string                 `protobuf:"bytes,6,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	JobDefinitionId string                 `protobuf:"bytes,2,opt,name=job_definition_id,json=jobDefinitionId,proto3" json:"job_definition_id,omitempty"` // Extracted from ActiveJobExecution / Context
+	CompletedStepId string                 `protobuf:"bytes,3,opt,name=completed_step_id,json=completedStepId,proto3" json:"completed_step_id,omitempty"`
+	GlobalState     *structpb.Struct       `protobuf:"bytes,4,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"` // Contains extracted data to evaluate routing rules
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *StepCompleteRequest) Reset() {
@@ -686,32 +686,25 @@ func (x *StepCompleteRequest) GetJobId() string {
 	return ""
 }
 
-func (x *StepCompleteRequest) GetStepId() string {
+func (x *StepCompleteRequest) GetJobDefinitionId() string {
 	if x != nil {
-		return x.StepId
+		return x.JobDefinitionId
 	}
 	return ""
 }
 
-func (x *StepCompleteRequest) GetResultJson() string {
+func (x *StepCompleteRequest) GetCompletedStepId() string {
 	if x != nil {
-		return x.ResultJson
+		return x.CompletedStepId
 	}
 	return ""
 }
 
-func (x *StepCompleteRequest) GetErrorMessage() string {
+func (x *StepCompleteRequest) GetGlobalState() *structpb.Struct {
 	if x != nil {
-		return x.ErrorMessage
+		return x.GlobalState
 	}
-	return ""
-}
-
-func (x *StepCompleteRequest) GetStepName() string {
-	if x != nil {
-		return x.StepName
-	}
-	return ""
+	return nil
 }
 
 type StepCompleteResponse struct {
@@ -758,11 +751,115 @@ func (x *StepCompleteResponse) GetSuccess() bool {
 	return false
 }
 
+type JobFailedRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	FailedStepId  string                 `protobuf:"bytes,2,opt,name=failed_step_id,json=failedStepId,proto3" json:"failed_step_id,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JobFailedRequest) Reset() {
+	*x = JobFailedRequest{}
+	mi := &file_orchestrator_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JobFailedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobFailedRequest) ProtoMessage() {}
+
+func (x *JobFailedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobFailedRequest.ProtoReflect.Descriptor instead.
+func (*JobFailedRequest) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *JobFailedRequest) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+func (x *JobFailedRequest) GetFailedStepId() string {
+	if x != nil {
+		return x.FailedStepId
+	}
+	return ""
+}
+
+func (x *JobFailedRequest) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+type JobFailedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JobFailedResponse) Reset() {
+	*x = JobFailedResponse{}
+	mi := &file_orchestrator_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JobFailedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobFailedResponse) ProtoMessage() {}
+
+func (x *JobFailedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobFailedResponse.ProtoReflect.Descriptor instead.
+func (*JobFailedResponse) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *JobFailedResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\x1a\fmodels.proto\"\x8b\x03\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x8b\x03\n" +
 	"\x10SubmitJobRequest\x12=\n" +
 	"\acontext\x18\x01 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x128\n" +
 	"\x05steps\x18\x03 \x03(\v2\".document.models.v1.StepDefinitionR\x05steps\x12@\n" +
@@ -805,15 +902,19 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\astep_id\x18\x03 \x01(\tR\x06stepId\"G\n" +
 	"\x11ResumeJobResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xa8\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xc0\x01\n" +
 	"\x13StepCompleteRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
-	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\x1f\n" +
-	"\vresult_json\x18\x04 \x01(\tR\n" +
-	"resultJson\x12#\n" +
-	"\rerror_message\x18\x05 \x01(\tR\ferrorMessage\x12\x1b\n" +
-	"\tstep_name\x18\x06 \x01(\tR\bstepName\"0\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12*\n" +
+	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12*\n" +
+	"\x11completed_step_id\x18\x03 \x01(\tR\x0fcompletedStepId\x12:\n" +
+	"\fglobal_state\x18\x04 \x01(\v2\x17.google.protobuf.StructR\vglobalState\"0\n" +
 	"\x14StepCompleteResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"t\n" +
+	"\x10JobFailedRequest\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12$\n" +
+	"\x0efailed_step_id\x18\x02 \x01(\tR\ffailedStepId\x12#\n" +
+	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\"-\n" +
+	"\x11JobFailedResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\x97\x04\n" +
 	"\x13OrchestratorService\x12d\n" +
 	"\tSubmitJob\x12*.document.orchestrator.v1.SubmitJobRequest\x1a+.document.orchestrator.v1.SubmitJobResponse\x12a\n" +
@@ -821,9 +922,10 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
 	"SubmitStep\x12+.document.orchestrator.v1.SubmitStepRequest\x1a,.document.orchestrator.v1.SubmitStepResponse\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
-	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse2\x86\x01\n" +
-	"\x13StepCallbackService\x12o\n" +
-	"\x0eOnStepComplete\x12-.document.orchestrator.v1.StepCompleteRequest\x1a..document.orchestrator.v1.StepCompleteResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse2\xf6\x01\n" +
+	"\x1bOrchestratorCallbackService\x12o\n" +
+	"\x0eOnStepComplete\x12-.document.orchestrator.v1.StepCompleteRequest\x1a..document.orchestrator.v1.StepCompleteResponse\x12f\n" +
+	"\vOnJobFailed\x12*.document.orchestrator.v1.JobFailedRequest\x1a+.document.orchestrator.v1.JobFailedResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_orchestrator_proto_rawDescOnce sync.Once
@@ -837,7 +939,7 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
-var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_orchestrator_proto_goTypes = []any{
 	(*SubmitJobRequest)(nil),     // 0: document.orchestrator.v1.SubmitJobRequest
 	(*SubmitJobResponse)(nil),    // 1: document.orchestrator.v1.SubmitJobResponse
@@ -851,38 +953,44 @@ var file_orchestrator_proto_goTypes = []any{
 	(*ResumeJobResponse)(nil),    // 9: document.orchestrator.v1.ResumeJobResponse
 	(*StepCompleteRequest)(nil),  // 10: document.orchestrator.v1.StepCompleteRequest
 	(*StepCompleteResponse)(nil), // 11: document.orchestrator.v1.StepCompleteResponse
-	(*WorkflowContext)(nil),      // 12: document.models.v1.WorkflowContext
-	(*StepDefinition)(nil),       // 13: document.models.v1.StepDefinition
-	(*JobWorkflowEdge)(nil),      // 14: document.models.v1.JobWorkflowEdge
-	(ModelChoice)(0),             // 15: document.models.v1.ModelChoice
-	(*ActionDefinition)(nil),     // 16: document.models.v1.ActionDefinition
+	(*JobFailedRequest)(nil),     // 12: document.orchestrator.v1.JobFailedRequest
+	(*JobFailedResponse)(nil),    // 13: document.orchestrator.v1.JobFailedResponse
+	(*WorkflowContext)(nil),      // 14: document.models.v1.WorkflowContext
+	(*StepDefinition)(nil),       // 15: document.models.v1.StepDefinition
+	(*JobWorkflowEdge)(nil),      // 16: document.models.v1.JobWorkflowEdge
+	(ModelChoice)(0),             // 17: document.models.v1.ModelChoice
+	(*ActionDefinition)(nil),     // 18: document.models.v1.ActionDefinition
+	(*structpb.Struct)(nil),      // 19: google.protobuf.Struct
 }
 var file_orchestrator_proto_depIdxs = []int32{
-	12, // 0: document.orchestrator.v1.SubmitJobRequest.context:type_name -> document.models.v1.WorkflowContext
-	13, // 1: document.orchestrator.v1.SubmitJobRequest.steps:type_name -> document.models.v1.StepDefinition
-	14, // 2: document.orchestrator.v1.SubmitJobRequest.job_graph:type_name -> document.models.v1.JobWorkflowEdge
-	15, // 3: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.models.v1.ModelChoice
-	16, // 4: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.models.v1.ActionDefinition
-	13, // 5: document.orchestrator.v1.StartJobRequest.initial_steps:type_name -> document.models.v1.StepDefinition
-	12, // 6: document.orchestrator.v1.SubmitStepRequest.context:type_name -> document.models.v1.WorkflowContext
-	13, // 7: document.orchestrator.v1.SubmitStepRequest.steps:type_name -> document.models.v1.StepDefinition
-	0,  // 8: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
-	2,  // 9: document.orchestrator.v1.OrchestratorService.StartJob:input_type -> document.orchestrator.v1.StartJobRequest
-	4,  // 10: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
-	6,  // 11: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	8,  // 12: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	10, // 13: document.orchestrator.v1.StepCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
-	1,  // 14: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
-	3,  // 15: document.orchestrator.v1.OrchestratorService.StartJob:output_type -> document.orchestrator.v1.StartJobResponse
-	5,  // 16: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
-	7,  // 17: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	9,  // 18: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	11, // 19: document.orchestrator.v1.StepCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	14, // 0: document.orchestrator.v1.SubmitJobRequest.context:type_name -> document.models.v1.WorkflowContext
+	15, // 1: document.orchestrator.v1.SubmitJobRequest.steps:type_name -> document.models.v1.StepDefinition
+	16, // 2: document.orchestrator.v1.SubmitJobRequest.job_graph:type_name -> document.models.v1.JobWorkflowEdge
+	17, // 3: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	18, // 4: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.models.v1.ActionDefinition
+	15, // 5: document.orchestrator.v1.StartJobRequest.initial_steps:type_name -> document.models.v1.StepDefinition
+	14, // 6: document.orchestrator.v1.SubmitStepRequest.context:type_name -> document.models.v1.WorkflowContext
+	15, // 7: document.orchestrator.v1.SubmitStepRequest.steps:type_name -> document.models.v1.StepDefinition
+	19, // 8: document.orchestrator.v1.StepCompleteRequest.global_state:type_name -> google.protobuf.Struct
+	0,  // 9: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
+	2,  // 10: document.orchestrator.v1.OrchestratorService.StartJob:input_type -> document.orchestrator.v1.StartJobRequest
+	4,  // 11: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
+	6,  // 12: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	8,  // 13: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	10, // 14: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
+	12, // 15: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	1,  // 16: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
+	3,  // 17: document.orchestrator.v1.OrchestratorService.StartJob:output_type -> document.orchestrator.v1.StartJobResponse
+	5,  // 18: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
+	7,  // 19: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	9,  // 20: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	11, // 21: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
+	13, // 22: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }
@@ -898,7 +1006,7 @@ func file_orchestrator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

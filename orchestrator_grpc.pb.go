@@ -283,107 +283,140 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	StepCallbackService_OnStepComplete_FullMethodName = "/document.orchestrator.v1.StepCallbackService/OnStepComplete"
+	OrchestratorCallbackService_OnStepComplete_FullMethodName = "/document.orchestrator.v1.OrchestratorCallbackService/OnStepComplete"
+	OrchestratorCallbackService_OnJobFailed_FullMethodName    = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobFailed"
 )
 
-// StepCallbackServiceClient is the client API for StepCallbackService service.
+// OrchestratorCallbackServiceClient is the client API for OrchestratorCallbackService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// A completely generic gRPC service that any external application can implement
-// to receive the lightweight callback containing the step result.
-type StepCallbackServiceClient interface {
+type OrchestratorCallbackServiceClient interface {
 	OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error)
+	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
 }
 
-type stepCallbackServiceClient struct {
+type orchestratorCallbackServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewStepCallbackServiceClient(cc grpc.ClientConnInterface) StepCallbackServiceClient {
-	return &stepCallbackServiceClient{cc}
+func NewOrchestratorCallbackServiceClient(cc grpc.ClientConnInterface) OrchestratorCallbackServiceClient {
+	return &orchestratorCallbackServiceClient{cc}
 }
 
-func (c *stepCallbackServiceClient) OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error) {
+func (c *orchestratorCallbackServiceClient) OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StepCompleteResponse)
-	err := c.cc.Invoke(ctx, StepCallbackService_OnStepComplete_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnStepComplete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// StepCallbackServiceServer is the server API for StepCallbackService service.
-// All implementations must embed UnimplementedStepCallbackServiceServer
-// for forward compatibility.
-//
-// A completely generic gRPC service that any external application can implement
-// to receive the lightweight callback containing the step result.
-type StepCallbackServiceServer interface {
-	OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error)
-	mustEmbedUnimplementedStepCallbackServiceServer()
+func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(JobFailedResponse)
+	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnJobFailed_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedStepCallbackServiceServer must be embedded to have
+// OrchestratorCallbackServiceServer is the server API for OrchestratorCallbackService service.
+// All implementations must embed UnimplementedOrchestratorCallbackServiceServer
+// for forward compatibility.
+type OrchestratorCallbackServiceServer interface {
+	OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error)
+	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
+	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
+}
+
+// UnimplementedOrchestratorCallbackServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedStepCallbackServiceServer struct{}
+type UnimplementedOrchestratorCallbackServiceServer struct{}
 
-func (UnimplementedStepCallbackServiceServer) OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error) {
+func (UnimplementedOrchestratorCallbackServiceServer) OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnStepComplete not implemented")
 }
-func (UnimplementedStepCallbackServiceServer) mustEmbedUnimplementedStepCallbackServiceServer() {}
-func (UnimplementedStepCallbackServiceServer) testEmbeddedByValue()                             {}
+func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
+}
+func (UnimplementedOrchestratorCallbackServiceServer) mustEmbedUnimplementedOrchestratorCallbackServiceServer() {
+}
+func (UnimplementedOrchestratorCallbackServiceServer) testEmbeddedByValue() {}
 
-// UnsafeStepCallbackServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to StepCallbackServiceServer will
+// UnsafeOrchestratorCallbackServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrchestratorCallbackServiceServer will
 // result in compilation errors.
-type UnsafeStepCallbackServiceServer interface {
-	mustEmbedUnimplementedStepCallbackServiceServer()
+type UnsafeOrchestratorCallbackServiceServer interface {
+	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
 
-func RegisterStepCallbackServiceServer(s grpc.ServiceRegistrar, srv StepCallbackServiceServer) {
-	// If the following call panics, it indicates UnimplementedStepCallbackServiceServer was
+func RegisterOrchestratorCallbackServiceServer(s grpc.ServiceRegistrar, srv OrchestratorCallbackServiceServer) {
+	// If the following call panics, it indicates UnimplementedOrchestratorCallbackServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&StepCallbackService_ServiceDesc, srv)
+	s.RegisterService(&OrchestratorCallbackService_ServiceDesc, srv)
 }
 
-func _StepCallbackService_OnStepComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OrchestratorCallbackService_OnStepComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StepCompleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StepCallbackServiceServer).OnStepComplete(ctx, in)
+		return srv.(OrchestratorCallbackServiceServer).OnStepComplete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StepCallbackService_OnStepComplete_FullMethodName,
+		FullMethod: OrchestratorCallbackService_OnStepComplete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StepCallbackServiceServer).OnStepComplete(ctx, req.(*StepCompleteRequest))
+		return srv.(OrchestratorCallbackServiceServer).OnStepComplete(ctx, req.(*StepCompleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// StepCallbackService_ServiceDesc is the grpc.ServiceDesc for StepCallbackService service.
+func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JobFailedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorCallbackServiceServer).OnJobFailed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrchestratorCallbackService_OnJobFailed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorCallbackServiceServer).OnJobFailed(ctx, req.(*JobFailedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// OrchestratorCallbackService_ServiceDesc is the grpc.ServiceDesc for OrchestratorCallbackService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var StepCallbackService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "document.orchestrator.v1.StepCallbackService",
-	HandlerType: (*StepCallbackServiceServer)(nil),
+var OrchestratorCallbackService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "document.orchestrator.v1.OrchestratorCallbackService",
+	HandlerType: (*OrchestratorCallbackServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "OnStepComplete",
-			Handler:    _StepCallbackService_OnStepComplete_Handler,
+			Handler:    _OrchestratorCallbackService_OnStepComplete_Handler,
+		},
+		{
+			MethodName: "OnJobFailed",
+			Handler:    _OrchestratorCallbackService_OnJobFailed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

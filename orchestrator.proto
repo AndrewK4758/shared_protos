@@ -6,6 +6,7 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 
 import "processor.proto";
 import "models.proto";
+import "google/protobuf/struct.proto";
 
 service OrchestratorService {
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
@@ -87,20 +88,28 @@ message ResumeJobResponse {
   string message = 2;
 }
 
-// A completely generic gRPC service that any external application can implement
-// to receive the lightweight callback containing the step result.
-service StepCallbackService {
+service OrchestratorCallbackService {
   rpc OnStepComplete(StepCompleteRequest) returns (StepCompleteResponse);
+  rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
 }
 
 message StepCompleteRequest {
   string job_id = 1;
-  string step_id = 2;
-  string result_json = 4;
-  string error_message = 5;
-  string step_name = 6;
+  string job_definition_id = 2; // Extracted from ActiveJobExecution / Context
+  string completed_step_id = 3; 
+  google.protobuf.Struct global_state = 4; // Contains extracted data to evaluate routing rules
 }
 
 message StepCompleteResponse {
+  bool success = 1; 
+}
+
+message JobFailedRequest {
+  string job_id = 1;
+  string failed_step_id = 2;
+  string error_message = 3;
+}
+
+message JobFailedResponse {
   bool success = 1;
 }
