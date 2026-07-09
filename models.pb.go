@@ -160,6 +160,7 @@ type JobDefinition struct {
 	GlobalInstructions string                 `protobuf:"bytes,4,opt,name=global_instructions,json=globalInstructions,proto3" json:"global_instructions,omitempty"`
 	IsActive           bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	InitialStepId      string                 `protobuf:"bytes,6,opt,name=initial_step_id,json=initialStepId,proto3" json:"initial_step_id,omitempty"`
+	SystemContext      string                 `protobuf:"bytes,7,opt,name=system_context,json=systemContext,proto3" json:"system_context,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -232,6 +233,13 @@ func (x *JobDefinition) GetIsActive() bool {
 func (x *JobDefinition) GetInitialStepId() string {
 	if x != nil {
 		return x.InitialStepId
+	}
+	return ""
+}
+
+func (x *JobDefinition) GetSystemContext() string {
+	if x != nil {
+		return x.SystemContext
 	}
 	return ""
 }
@@ -647,14 +655,15 @@ const file_models_proto_rawDesc = "" +
 	"\x06prompt\x18\x03 \x01(\tR\x06prompt\x12\x14\n" +
 	"\x05rules\x18\x04 \x03(\tR\x05rules\x124\n" +
 	"\x16expected_output_schema\x18\x05 \x01(\tR\x14expectedOutputSchema\x125\n" +
-	"\x16orchestrator_primitive\x18\x06 \x01(\tR\x15orchestratorPrimitive\"\xcb\x01\n" +
+	"\x16orchestrator_primitive\x18\x06 \x01(\tR\x15orchestratorPrimitive\"\xf2\x01\n" +
 	"\rJobDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\x05R\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12/\n" +
 	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
-	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\"\xee\x03\n" +
+	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\x12%\n" +
+	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xee\x03\n" +
 	"\x0eStepDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +

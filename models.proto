@@ -27,6 +27,7 @@ message JobDefinition {
   string global_instructions = 4;
   bool is_active = 5;
   string initial_step_id = 6;
+  string system_context = 7;
 }
 
 message StepDefinition {
