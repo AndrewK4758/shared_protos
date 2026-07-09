@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package traceability;
 
-option go_package = "doc_processor/shared_protos;shared_protos";
+option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "TraceabilityService.Protos";
+
+import "orchestrator.proto";
 
 // The gRPC service for querying compliance and traceability events
 service TraceabilityQuery {
@@ -12,6 +14,11 @@ service TraceabilityQuery {
   
   // Query all events related to a specific correlation ID across all services
   rpc GetCorrelationTrace (GetCorrelationTraceRequest) returns (GetCorrelationTraceResponse);
+
+  // Orchestrator State Mirroring
+  rpc SaveJobState (SaveJobStateRequest) returns (SaveJobStateResponse);
+  rpc GetPendingJobs (GetPendingJobsRequest) returns (GetPendingJobsResponse);
+  rpc GetJobState (GetJobStateRequest) returns (GetJobStateResponse);
 }
 
 message GetJobTraceRequest {
@@ -48,4 +55,35 @@ message TraceEvent {
   string metadata = 11; // JSON string
   string timestamp = 12; // ISO 8601
   string document_type = 13;
+}
+
+message SaveJobStateRequest {
+  string job_id = 1;
+  document.orchestrator.v1.SubmitJobRequest original_request = 2; // Full config
+  string status = 3; // "PENDING", "COMPLETED", "FAILED"
+}
+
+message SaveJobStateResponse {
+  bool success = 1;
+}
+
+message GetPendingJobsRequest {}
+
+message GetPendingJobsResponse {
+  repeated JobStateRecord jobs = 1;
+}
+
+message JobStateRecord {
+  string job_id = 1;
+  document.orchestrator.v1.SubmitJobRequest original_request = 2;
+  string status = 3;
+}
+
+message GetJobStateRequest {
+  string job_id = 1;
+}
+
+message GetJobStateResponse {
+  bool found = 1;
+  JobStateRecord job = 2;
 }

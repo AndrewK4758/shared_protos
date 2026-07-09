@@ -3,6 +3,7 @@ syntax = "proto3";
 package document.processor.v1;
 
 option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Document.Processor.V1";
 
 import "models.proto";
 

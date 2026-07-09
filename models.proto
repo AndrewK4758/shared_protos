@@ -3,6 +3,7 @@ syntax = "proto3";
 package document.models.v1;
 
 option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Document.Models.V1";
 
 import "google/protobuf/struct.proto";
 

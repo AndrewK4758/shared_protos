@@ -371,7 +371,7 @@ const file_processor_proto_rawDesc = "" +
 	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson2\xf1\x01\n" +
 	"\x11DocumentProcessor\x12p\n" +
 	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12j\n" +
-	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB>Z$github.com/AndrewK4758/shared_protos\xaa\x02\x15Document.Processor.V1b\x06proto3"
 
 var (
 	file_processor_proto_rawDescOnce sync.Once

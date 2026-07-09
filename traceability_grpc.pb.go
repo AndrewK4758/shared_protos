@@ -21,6 +21,9 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	TraceabilityQuery_GetJobTrace_FullMethodName         = "/traceability.TraceabilityQuery/GetJobTrace"
 	TraceabilityQuery_GetCorrelationTrace_FullMethodName = "/traceability.TraceabilityQuery/GetCorrelationTrace"
+	TraceabilityQuery_SaveJobState_FullMethodName        = "/traceability.TraceabilityQuery/SaveJobState"
+	TraceabilityQuery_GetPendingJobs_FullMethodName      = "/traceability.TraceabilityQuery/GetPendingJobs"
+	TraceabilityQuery_GetJobState_FullMethodName         = "/traceability.TraceabilityQuery/GetJobState"
 )
 
 // TraceabilityQueryClient is the client API for TraceabilityQuery service.
@@ -33,6 +36,10 @@ type TraceabilityQueryClient interface {
 	GetJobTrace(ctx context.Context, in *GetJobTraceRequest, opts ...grpc.CallOption) (*GetJobTraceResponse, error)
 	// Query all events related to a specific correlation ID across all services
 	GetCorrelationTrace(ctx context.Context, in *GetCorrelationTraceRequest, opts ...grpc.CallOption) (*GetCorrelationTraceResponse, error)
+	// Orchestrator State Mirroring
+	SaveJobState(ctx context.Context, in *SaveJobStateRequest, opts ...grpc.CallOption) (*SaveJobStateResponse, error)
+	GetPendingJobs(ctx context.Context, in *GetPendingJobsRequest, opts ...grpc.CallOption) (*GetPendingJobsResponse, error)
+	GetJobState(ctx context.Context, in *GetJobStateRequest, opts ...grpc.CallOption) (*GetJobStateResponse, error)
 }
 
 type traceabilityQueryClient struct {
@@ -63,6 +70,36 @@ func (c *traceabilityQueryClient) GetCorrelationTrace(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *traceabilityQueryClient) SaveJobState(ctx context.Context, in *SaveJobStateRequest, opts ...grpc.CallOption) (*SaveJobStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveJobStateResponse)
+	err := c.cc.Invoke(ctx, TraceabilityQuery_SaveJobState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityQueryClient) GetPendingJobs(ctx context.Context, in *GetPendingJobsRequest, opts ...grpc.CallOption) (*GetPendingJobsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPendingJobsResponse)
+	err := c.cc.Invoke(ctx, TraceabilityQuery_GetPendingJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *traceabilityQueryClient) GetJobState(ctx context.Context, in *GetJobStateRequest, opts ...grpc.CallOption) (*GetJobStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetJobStateResponse)
+	err := c.cc.Invoke(ctx, TraceabilityQuery_GetJobState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TraceabilityQueryServer is the server API for TraceabilityQuery service.
 // All implementations must embed UnimplementedTraceabilityQueryServer
 // for forward compatibility.
@@ -73,6 +110,10 @@ type TraceabilityQueryServer interface {
 	GetJobTrace(context.Context, *GetJobTraceRequest) (*GetJobTraceResponse, error)
 	// Query all events related to a specific correlation ID across all services
 	GetCorrelationTrace(context.Context, *GetCorrelationTraceRequest) (*GetCorrelationTraceResponse, error)
+	// Orchestrator State Mirroring
+	SaveJobState(context.Context, *SaveJobStateRequest) (*SaveJobStateResponse, error)
+	GetPendingJobs(context.Context, *GetPendingJobsRequest) (*GetPendingJobsResponse, error)
+	GetJobState(context.Context, *GetJobStateRequest) (*GetJobStateResponse, error)
 	mustEmbedUnimplementedTraceabilityQueryServer()
 }
 
@@ -88,6 +129,15 @@ func (UnimplementedTraceabilityQueryServer) GetJobTrace(context.Context, *GetJob
 }
 func (UnimplementedTraceabilityQueryServer) GetCorrelationTrace(context.Context, *GetCorrelationTraceRequest) (*GetCorrelationTraceResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCorrelationTrace not implemented")
+}
+func (UnimplementedTraceabilityQueryServer) SaveJobState(context.Context, *SaveJobStateRequest) (*SaveJobStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SaveJobState not implemented")
+}
+func (UnimplementedTraceabilityQueryServer) GetPendingJobs(context.Context, *GetPendingJobsRequest) (*GetPendingJobsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetPendingJobs not implemented")
+}
+func (UnimplementedTraceabilityQueryServer) GetJobState(context.Context, *GetJobStateRequest) (*GetJobStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetJobState not implemented")
 }
 func (UnimplementedTraceabilityQueryServer) mustEmbedUnimplementedTraceabilityQueryServer() {}
 func (UnimplementedTraceabilityQueryServer) testEmbeddedByValue()                           {}
@@ -146,6 +196,60 @@ func _TraceabilityQuery_GetCorrelationTrace_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TraceabilityQuery_SaveJobState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveJobStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityQueryServer).SaveJobState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TraceabilityQuery_SaveJobState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityQueryServer).SaveJobState(ctx, req.(*SaveJobStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TraceabilityQuery_GetPendingJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPendingJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityQueryServer).GetPendingJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TraceabilityQuery_GetPendingJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityQueryServer).GetPendingJobs(ctx, req.(*GetPendingJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TraceabilityQuery_GetJobState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetJobStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TraceabilityQueryServer).GetJobState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TraceabilityQuery_GetJobState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TraceabilityQueryServer).GetJobState(ctx, req.(*GetJobStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TraceabilityQuery_ServiceDesc is the grpc.ServiceDesc for TraceabilityQuery service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -160,6 +264,18 @@ var TraceabilityQuery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCorrelationTrace",
 			Handler:    _TraceabilityQuery_GetCorrelationTrace_Handler,
+		},
+		{
+			MethodName: "SaveJobState",
+			Handler:    _TraceabilityQuery_SaveJobState_Handler,
+		},
+		{
+			MethodName: "GetPendingJobs",
+			Handler:    _TraceabilityQuery_GetPendingJobs_Handler,
+		},
+		{
+			MethodName: "GetJobState",
+			Handler:    _TraceabilityQuery_GetJobState_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

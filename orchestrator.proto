@@ -3,6 +3,7 @@ syntax = "proto3";
 package document.orchestrator.v1;
 
 option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Document.Orchestrator.V1";
 
 import "processor.proto";
 import "models.proto";
@@ -90,6 +91,9 @@ message ResumeJobResponse {
 service OrchestratorCallbackService {
   rpc OnStepComplete(StepCompleteRequest) returns (StepCompleteResponse);
   rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
+  
+  // Client State Fallback
+  rpc GetJobDetails(GetJobDetailsRequest) returns (GetJobDetailsResponse);
 }
 
 message StepCompleteRequest {
@@ -112,4 +116,13 @@ message JobFailedRequest {
 
 message JobFailedResponse {
   bool success = 1;
+}
+
+message GetJobDetailsRequest {
+  string job_id = 1;
+}
+
+message GetJobDetailsResponse {
+  bool found = 1;
+  SubmitJobRequest original_request = 2;
 }

@@ -285,6 +285,7 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 const (
 	OrchestratorCallbackService_OnStepComplete_FullMethodName = "/document.orchestrator.v1.OrchestratorCallbackService/OnStepComplete"
 	OrchestratorCallbackService_OnJobFailed_FullMethodName    = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobFailed"
+	OrchestratorCallbackService_GetJobDetails_FullMethodName  = "/document.orchestrator.v1.OrchestratorCallbackService/GetJobDetails"
 )
 
 // OrchestratorCallbackServiceClient is the client API for OrchestratorCallbackService service.
@@ -293,6 +294,8 @@ const (
 type OrchestratorCallbackServiceClient interface {
 	OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error)
 	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
+	// Client State Fallback
+	GetJobDetails(ctx context.Context, in *GetJobDetailsRequest, opts ...grpc.CallOption) (*GetJobDetailsResponse, error)
 }
 
 type orchestratorCallbackServiceClient struct {
@@ -323,12 +326,24 @@ func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *orchestratorCallbackServiceClient) GetJobDetails(ctx context.Context, in *GetJobDetailsRequest, opts ...grpc.CallOption) (*GetJobDetailsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetJobDetailsResponse)
+	err := c.cc.Invoke(ctx, OrchestratorCallbackService_GetJobDetails_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrchestratorCallbackServiceServer is the server API for OrchestratorCallbackService service.
 // All implementations must embed UnimplementedOrchestratorCallbackServiceServer
 // for forward compatibility.
 type OrchestratorCallbackServiceServer interface {
 	OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error)
 	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
+	// Client State Fallback
+	GetJobDetails(context.Context, *GetJobDetailsRequest) (*GetJobDetailsResponse, error)
 	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
 
@@ -344,6 +359,9 @@ func (UnimplementedOrchestratorCallbackServiceServer) OnStepComplete(context.Con
 }
 func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
+}
+func (UnimplementedOrchestratorCallbackServiceServer) GetJobDetails(context.Context, *GetJobDetailsRequest) (*GetJobDetailsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetJobDetails not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) mustEmbedUnimplementedOrchestratorCallbackServiceServer() {
 }
@@ -403,6 +421,24 @@ func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrchestratorCallbackService_GetJobDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetJobDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorCallbackServiceServer).GetJobDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrchestratorCallbackService_GetJobDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorCallbackServiceServer).GetJobDetails(ctx, req.(*GetJobDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrchestratorCallbackService_ServiceDesc is the grpc.ServiceDesc for OrchestratorCallbackService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -417,6 +453,10 @@ var OrchestratorCallbackService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OnJobFailed",
 			Handler:    _OrchestratorCallbackService_OnJobFailed_Handler,
+		},
+		{
+			MethodName: "GetJobDetails",
+			Handler:    _OrchestratorCallbackService_GetJobDetails_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

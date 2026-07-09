@@ -709,7 +709,7 @@ const file_models_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*C\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12MODEL_CHOICE_LOCAL\x10\x01B&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\x12MODEL_CHOICE_LOCAL\x10\x01B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once

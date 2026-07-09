@@ -362,11 +362,351 @@ func (x *TraceEvent) GetDocumentType() string {
 	return ""
 }
 
+type SaveJobStateRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	OriginalRequest *SubmitJobRequest      `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
+	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *SaveJobStateRequest) Reset() {
+	*x = SaveJobStateRequest{}
+	mi := &file_traceability_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SaveJobStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveJobStateRequest) ProtoMessage() {}
+
+func (x *SaveJobStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveJobStateRequest.ProtoReflect.Descriptor instead.
+func (*SaveJobStateRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SaveJobStateRequest) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+func (x *SaveJobStateRequest) GetOriginalRequest() *SubmitJobRequest {
+	if x != nil {
+		return x.OriginalRequest
+	}
+	return nil
+}
+
+func (x *SaveJobStateRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type SaveJobStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SaveJobStateResponse) Reset() {
+	*x = SaveJobStateResponse{}
+	mi := &file_traceability_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SaveJobStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveJobStateResponse) ProtoMessage() {}
+
+func (x *SaveJobStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveJobStateResponse.ProtoReflect.Descriptor instead.
+func (*SaveJobStateResponse) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SaveJobStateResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type GetPendingJobsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPendingJobsRequest) Reset() {
+	*x = GetPendingJobsRequest{}
+	mi := &file_traceability_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPendingJobsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPendingJobsRequest) ProtoMessage() {}
+
+func (x *GetPendingJobsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPendingJobsRequest.ProtoReflect.Descriptor instead.
+func (*GetPendingJobsRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{7}
+}
+
+type GetPendingJobsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jobs          []*JobStateRecord      `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPendingJobsResponse) Reset() {
+	*x = GetPendingJobsResponse{}
+	mi := &file_traceability_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPendingJobsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPendingJobsResponse) ProtoMessage() {}
+
+func (x *GetPendingJobsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPendingJobsResponse.ProtoReflect.Descriptor instead.
+func (*GetPendingJobsResponse) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetPendingJobsResponse) GetJobs() []*JobStateRecord {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+type JobStateRecord struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	OriginalRequest *SubmitJobRequest      `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *JobStateRecord) Reset() {
+	*x = JobStateRecord{}
+	mi := &file_traceability_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JobStateRecord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JobStateRecord) ProtoMessage() {}
+
+func (x *JobStateRecord) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JobStateRecord.ProtoReflect.Descriptor instead.
+func (*JobStateRecord) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *JobStateRecord) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+func (x *JobStateRecord) GetOriginalRequest() *SubmitJobRequest {
+	if x != nil {
+		return x.OriginalRequest
+	}
+	return nil
+}
+
+func (x *JobStateRecord) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type GetJobStateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobStateRequest) Reset() {
+	*x = GetJobStateRequest{}
+	mi := &file_traceability_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobStateRequest) ProtoMessage() {}
+
+func (x *GetJobStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobStateRequest.ProtoReflect.Descriptor instead.
+func (*GetJobStateRequest) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetJobStateRequest) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
+type GetJobStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Found         bool                   `protobuf:"varint,1,opt,name=found,proto3" json:"found,omitempty"`
+	Job           *JobStateRecord        `protobuf:"bytes,2,opt,name=job,proto3" json:"job,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetJobStateResponse) Reset() {
+	*x = GetJobStateResponse{}
+	mi := &file_traceability_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetJobStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetJobStateResponse) ProtoMessage() {}
+
+func (x *GetJobStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_traceability_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetJobStateResponse.ProtoReflect.Descriptor instead.
+func (*GetJobStateResponse) Descriptor() ([]byte, []int) {
+	return file_traceability_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetJobStateResponse) GetFound() bool {
+	if x != nil {
+		return x.Found
+	}
+	return false
+}
+
+func (x *GetJobStateResponse) GetJob() *JobStateRecord {
+	if x != nil {
+		return x.Job
+	}
+	return nil
+}
+
 var File_traceability_proto protoreflect.FileDescriptor
 
 const file_traceability_proto_rawDesc = "" +
 	"\n" +
-	"\x12traceability.proto\x12\ftraceability\"+\n" +
+	"\x12traceability.proto\x12\ftraceability\x1a\x12orchestrator.proto\"+\n" +
 	"\x12GetJobTraceRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"v\n" +
 	"\x13GetJobTraceResponse\x12\x15\n" +
@@ -393,10 +733,31 @@ const file_traceability_proto_rawDesc = "" +
 	" \x01(\tR\amessage\x12\x1a\n" +
 	"\bmetadata\x18\v \x01(\tR\bmetadata\x12\x1c\n" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
-	"\rdocument_type\x18\r \x01(\tR\fdocumentType2\xd3\x01\n" +
+	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\x9b\x01\n" +
+	"\x13SaveJobStateRequest\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12U\n" +
+	"\x10original_request\x18\x02 \x01(\v2*.document.orchestrator.v1.SubmitJobRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\"0\n" +
+	"\x14SaveJobStateResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x17\n" +
+	"\x15GetPendingJobsRequest\"J\n" +
+	"\x16GetPendingJobsResponse\x120\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\x96\x01\n" +
+	"\x0eJobStateRecord\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12U\n" +
+	"\x10original_request\x18\x02 \x01(\v2*.document.orchestrator.v1.SubmitJobRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\"+\n" +
+	"\x12GetJobStateRequest\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"[\n" +
+	"\x13GetJobStateResponse\x12\x14\n" +
+	"\x05found\x18\x01 \x01(\bR\x05found\x12.\n" +
+	"\x03job\x18\x02 \x01(\v2\x1c.traceability.JobStateRecordR\x03job2\xdb\x03\n" +
 	"\x11TraceabilityQuery\x12R\n" +
 	"\vGetJobTrace\x12 .traceability.GetJobTraceRequest\x1a!.traceability.GetJobTraceResponse\x12j\n" +
-	"\x13GetCorrelationTrace\x12(.traceability.GetCorrelationTraceRequest\x1a).traceability.GetCorrelationTraceResponseBHZ)doc_processor/shared_protos;shared_protos\xaa\x02\x1aTraceabilityService.Protosb\x06proto3"
+	"\x13GetCorrelationTrace\x12(.traceability.GetCorrelationTraceRequest\x1a).traceability.GetCorrelationTraceResponse\x12U\n" +
+	"\fSaveJobState\x12!.traceability.SaveJobStateRequest\x1a\".traceability.SaveJobStateResponse\x12[\n" +
+	"\x0eGetPendingJobs\x12#.traceability.GetPendingJobsRequest\x1a$.traceability.GetPendingJobsResponse\x12R\n" +
+	"\vGetJobState\x12 .traceability.GetJobStateRequest\x1a!.traceability.GetJobStateResponseBCZ$github.com/AndrewK4758/shared_protos\xaa\x02\x1aTraceabilityService.Protosb\x06proto3"
 
 var (
 	file_traceability_proto_rawDescOnce sync.Once
@@ -410,26 +771,44 @@ func file_traceability_proto_rawDescGZIP() []byte {
 	return file_traceability_proto_rawDescData
 }
 
-var file_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_traceability_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_traceability_proto_goTypes = []any{
 	(*GetJobTraceRequest)(nil),          // 0: traceability.GetJobTraceRequest
 	(*GetJobTraceResponse)(nil),         // 1: traceability.GetJobTraceResponse
 	(*GetCorrelationTraceRequest)(nil),  // 2: traceability.GetCorrelationTraceRequest
 	(*GetCorrelationTraceResponse)(nil), // 3: traceability.GetCorrelationTraceResponse
 	(*TraceEvent)(nil),                  // 4: traceability.TraceEvent
+	(*SaveJobStateRequest)(nil),         // 5: traceability.SaveJobStateRequest
+	(*SaveJobStateResponse)(nil),        // 6: traceability.SaveJobStateResponse
+	(*GetPendingJobsRequest)(nil),       // 7: traceability.GetPendingJobsRequest
+	(*GetPendingJobsResponse)(nil),      // 8: traceability.GetPendingJobsResponse
+	(*JobStateRecord)(nil),              // 9: traceability.JobStateRecord
+	(*GetJobStateRequest)(nil),          // 10: traceability.GetJobStateRequest
+	(*GetJobStateResponse)(nil),         // 11: traceability.GetJobStateResponse
+	(*SubmitJobRequest)(nil),            // 12: document.orchestrator.v1.SubmitJobRequest
 }
 var file_traceability_proto_depIdxs = []int32{
-	4, // 0: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
-	4, // 1: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
-	0, // 2: traceability.TraceabilityQuery.GetJobTrace:input_type -> traceability.GetJobTraceRequest
-	2, // 3: traceability.TraceabilityQuery.GetCorrelationTrace:input_type -> traceability.GetCorrelationTraceRequest
-	1, // 4: traceability.TraceabilityQuery.GetJobTrace:output_type -> traceability.GetJobTraceResponse
-	3, // 5: traceability.TraceabilityQuery.GetCorrelationTrace:output_type -> traceability.GetCorrelationTraceResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4,  // 0: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
+	4,  // 1: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
+	12, // 2: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
+	9,  // 3: traceability.GetPendingJobsResponse.jobs:type_name -> traceability.JobStateRecord
+	12, // 4: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
+	9,  // 5: traceability.GetJobStateResponse.job:type_name -> traceability.JobStateRecord
+	0,  // 6: traceability.TraceabilityQuery.GetJobTrace:input_type -> traceability.GetJobTraceRequest
+	2,  // 7: traceability.TraceabilityQuery.GetCorrelationTrace:input_type -> traceability.GetCorrelationTraceRequest
+	5,  // 8: traceability.TraceabilityQuery.SaveJobState:input_type -> traceability.SaveJobStateRequest
+	7,  // 9: traceability.TraceabilityQuery.GetPendingJobs:input_type -> traceability.GetPendingJobsRequest
+	10, // 10: traceability.TraceabilityQuery.GetJobState:input_type -> traceability.GetJobStateRequest
+	1,  // 11: traceability.TraceabilityQuery.GetJobTrace:output_type -> traceability.GetJobTraceResponse
+	3,  // 12: traceability.TraceabilityQuery.GetCorrelationTrace:output_type -> traceability.GetCorrelationTraceResponse
+	6,  // 13: traceability.TraceabilityQuery.SaveJobState:output_type -> traceability.SaveJobStateResponse
+	8,  // 14: traceability.TraceabilityQuery.GetPendingJobs:output_type -> traceability.GetPendingJobsResponse
+	11, // 15: traceability.TraceabilityQuery.GetJobState:output_type -> traceability.GetJobStateResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_traceability_proto_init() }
@@ -437,13 +816,14 @@ func file_traceability_proto_init() {
 	if File_traceability_proto != nil {
 		return
 	}
+	file_orchestrator_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_traceability_proto_rawDesc), len(file_traceability_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
