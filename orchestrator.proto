@@ -31,6 +31,7 @@ message SubmitJobRequest {
   document.models.v1.ModelChoice model_choice = 7;
   repeated string target_fields = 8;
   repeated document.models.v1.ActionDefinition action_definitions = 10;
+  string callback_address = 11;
 }
 
 message SubmitJobResponse {
@@ -40,9 +41,6 @@ message SubmitJobResponse {
 
 message StartJobRequest {
   string job_id = 1;
-  repeated document.models.v1.StepDefinition initial_steps = 2;
-  string callback_address = 3;
-  bool complete_job = 4;
 }
 
 message StartJobResponse {
@@ -52,9 +50,10 @@ message StartJobResponse {
 }
 
 message SubmitStepRequest {
-  document.models.v1.WorkflowContext context = 1;
-  repeated document.models.v1.StepDefinition steps = 2;
-  string callback_address = 3;
+  string job_id = 1;
+  string step_id = 2;
+  string custom_instructions = 3;
+  string expected_schema = 4;
   bool complete_job = 5;
 }
 
@@ -98,6 +97,7 @@ message StepCompleteRequest {
   string job_definition_id = 2; // Extracted from ActiveJobExecution / Context
   string completed_step_id = 3; 
   google.protobuf.Struct global_state = 4; // Contains extracted data to evaluate routing rules
+  google.protobuf.Struct step_output = 5; // The isolated output of the step that just completed
 }
 
 message StepCompleteResponse {
