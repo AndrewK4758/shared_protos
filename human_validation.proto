@@ -23,6 +23,10 @@ message CreateTaskRequest {
   string prompt_instructions = 5;
   string error_message = 6;
   repeated string target_fields = 7;
+  string global_state_json = 8;
+  string job_name = 9;
+  string step_id = 10;
+  string step_context_input = 11;
 }
 
 message CreateTaskResponse {
@@ -44,6 +48,10 @@ message PendingTask {
   string error_message = 7;
   repeated string target_fields = 8;
   string status = 9; // e.g., "PENDING", "RESOLVED"
+  string global_state_json = 10;
+  string job_name = 11;
+  string step_id = 12;
+  string step_context_input = 13;
 }
 
 message GetPendingTasksResponse {
