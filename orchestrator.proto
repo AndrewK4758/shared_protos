@@ -25,7 +25,7 @@ service OrchestratorService {
 message SubmitJobRequest {
   document.models.v1.WorkflowContext context = 1;
   repeated document.models.v1.StepDefinition steps = 3;
-  repeated document.models.v1.JobWorkflowEdge edges = 4;
+  repeated document.models.v1.JobWorkflowEdge job_graph = 4;
   
   document.models.v1.ModelChoice model_choice = 7;
   repeated string target_fields = 8;

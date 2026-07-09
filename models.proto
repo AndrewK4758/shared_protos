@@ -66,7 +66,7 @@ message WorkflowContext {
   map<string, string> metadata = 2;
   ActiveJobExecution active_execution = 3;
   JobDefinition job_definition = 4;
-  StepDefinition current_step = 5;
+  reserved 5; // formerly current_step
   google.protobuf.Struct global_state = 6;
   
   int32 current_step_index = 7;

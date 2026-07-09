@@ -25,7 +25,7 @@ type SubmitJobRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Context           *WorkflowContext       `protobuf:"bytes,1,opt,name=context,proto3" json:"context,omitempty"`
 	Steps             []*StepDefinition      `protobuf:"bytes,3,rep,name=steps,proto3" json:"steps,omitempty"`
-	Edges             []*JobWorkflowEdge     `protobuf:"bytes,4,rep,name=edges,proto3" json:"edges,omitempty"`
+	JobGraph          []*JobWorkflowEdge     `protobuf:"bytes,4,rep,name=job_graph,json=jobGraph,proto3" json:"job_graph,omitempty"`
 	ModelChoice       ModelChoice            `protobuf:"varint,7,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	TargetFields      []string               `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	ActionDefinitions []*ActionDefinition    `protobuf:"bytes,10,rep,name=action_definitions,json=actionDefinitions,proto3" json:"action_definitions,omitempty"`
@@ -77,9 +77,9 @@ func (x *SubmitJobRequest) GetSteps() []*StepDefinition {
 	return nil
 }
 
-func (x *SubmitJobRequest) GetEdges() []*JobWorkflowEdge {
+func (x *SubmitJobRequest) GetJobGraph() []*JobWorkflowEdge {
 	if x != nil {
-		return x.Edges
+		return x.JobGraph
 	}
 	return nil
 }
@@ -762,11 +762,11 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\x1a\fmodels.proto\"\x84\x03\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x0fprocessor.proto\x1a\fmodels.proto\"\x8b\x03\n" +
 	"\x10SubmitJobRequest\x12=\n" +
 	"\acontext\x18\x01 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x128\n" +
-	"\x05steps\x18\x03 \x03(\v2\".document.models.v1.StepDefinitionR\x05steps\x129\n" +
-	"\x05edges\x18\x04 \x03(\v2#.document.models.v1.JobWorkflowEdgeR\x05edges\x12B\n" +
+	"\x05steps\x18\x03 \x03(\v2\".document.models.v1.StepDefinitionR\x05steps\x12@\n" +
+	"\tjob_graph\x18\x04 \x03(\v2#.document.models.v1.JobWorkflowEdgeR\bjobGraph\x12B\n" +
 	"\fmodel_choice\x18\a \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12#\n" +
 	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12S\n" +
 	"\x12action_definitions\x18\n" +
@@ -860,7 +860,7 @@ var file_orchestrator_proto_goTypes = []any{
 var file_orchestrator_proto_depIdxs = []int32{
 	12, // 0: document.orchestrator.v1.SubmitJobRequest.context:type_name -> document.models.v1.WorkflowContext
 	13, // 1: document.orchestrator.v1.SubmitJobRequest.steps:type_name -> document.models.v1.StepDefinition
-	14, // 2: document.orchestrator.v1.SubmitJobRequest.edges:type_name -> document.models.v1.JobWorkflowEdge
+	14, // 2: document.orchestrator.v1.SubmitJobRequest.job_graph:type_name -> document.models.v1.JobWorkflowEdge
 	15, // 3: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	16, // 4: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.models.v1.ActionDefinition
 	13, // 5: document.orchestrator.v1.StartJobRequest.initial_steps:type_name -> document.models.v1.StepDefinition

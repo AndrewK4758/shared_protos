@@ -534,7 +534,6 @@ type WorkflowContext struct {
 	Metadata           map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	ActiveExecution    *ActiveJobExecution    `protobuf:"bytes,3,opt,name=active_execution,json=activeExecution,proto3" json:"active_execution,omitempty"`
 	JobDefinition      *JobDefinition         `protobuf:"bytes,4,opt,name=job_definition,json=jobDefinition,proto3" json:"job_definition,omitempty"`
-	CurrentStep        *StepDefinition        `protobuf:"bytes,5,opt,name=current_step,json=currentStep,proto3" json:"current_step,omitempty"`
 	GlobalState        *structpb.Struct       `protobuf:"bytes,6,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
 	CurrentStepIndex   int32                  `protobuf:"varint,7,opt,name=current_step_index,json=currentStepIndex,proto3" json:"current_step_index,omitempty"`
 	PendingActions     []*ActionDefinition    `protobuf:"bytes,8,rep,name=pending_actions,json=pendingActions,proto3" json:"pending_actions,omitempty"`
@@ -598,13 +597,6 @@ func (x *WorkflowContext) GetActiveExecution() *ActiveJobExecution {
 func (x *WorkflowContext) GetJobDefinition() *JobDefinition {
 	if x != nil {
 		return x.JobDefinition
-	}
-	return nil
-}
-
-func (x *WorkflowContext) GetCurrentStep() *StepDefinition {
-	if x != nil {
-		return x.CurrentStep
 	}
 	return nil
 }
@@ -691,13 +683,12 @@ const file_models_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\tR\tupdatedAt\"\xbf\x05\n" +
+	"updated_at\x18\x06 \x01(\tR\tupdatedAt\"\xfe\x04\n" +
 	"\x0fWorkflowContext\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12M\n" +
 	"\bmetadata\x18\x02 \x03(\v21.document.models.v1.WorkflowContext.MetadataEntryR\bmetadata\x12Q\n" +
 	"\x10active_execution\x18\x03 \x01(\v2&.document.models.v1.ActiveJobExecutionR\x0factiveExecution\x12H\n" +
-	"\x0ejob_definition\x18\x04 \x01(\v2!.document.models.v1.JobDefinitionR\rjobDefinition\x12E\n" +
-	"\fcurrent_step\x18\x05 \x01(\v2\".document.models.v1.StepDefinitionR\vcurrentStep\x12:\n" +
+	"\x0ejob_definition\x18\x04 \x01(\v2!.document.models.v1.JobDefinitionR\rjobDefinition\x12:\n" +
 	"\fglobal_state\x18\x06 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x12,\n" +
 	"\x12current_step_index\x18\a \x01(\x05R\x10currentStepIndex\x12M\n" +
 	"\x0fpending_actions\x18\b \x03(\v2$.document.models.v1.ActionDefinitionR\x0ependingActions\x120\n" +
@@ -706,7 +697,7 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*C\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*C\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12MODEL_CHOICE_LOCAL\x10\x01B&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
@@ -740,15 +731,14 @@ var file_models_proto_depIdxs = []int32{
 	7, // 0: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
 	5, // 1: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
 	2, // 2: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	3, // 3: document.models.v1.WorkflowContext.current_step:type_name -> document.models.v1.StepDefinition
-	8, // 4: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
-	1, // 5: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	8, // 6: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	8, // 3: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	1, // 4: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
+	8, // 5: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
