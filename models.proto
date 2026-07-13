@@ -43,6 +43,7 @@ message StepDefinition {
   string dynamic_rule_table_name = 9;
   string dynamic_rule_state_key = 10;
   string context_input = 11;
+  bool use_cache = 12;
 }
 
 message JobWorkflowEdge {

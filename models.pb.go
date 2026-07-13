@@ -257,6 +257,7 @@ type StepDefinition struct {
 	DynamicRuleTableName string                 `protobuf:"bytes,9,opt,name=dynamic_rule_table_name,json=dynamicRuleTableName,proto3" json:"dynamic_rule_table_name,omitempty"`
 	DynamicRuleStateKey  string                 `protobuf:"bytes,10,opt,name=dynamic_rule_state_key,json=dynamicRuleStateKey,proto3" json:"dynamic_rule_state_key,omitempty"`
 	ContextInput         string                 `protobuf:"bytes,11,opt,name=context_input,json=contextInput,proto3" json:"context_input,omitempty"`
+	UseCache             bool                   `protobuf:"varint,12,opt,name=use_cache,json=useCache,proto3" json:"use_cache,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -366,6 +367,13 @@ func (x *StepDefinition) GetContextInput() string {
 		return x.ContextInput
 	}
 	return ""
+}
+
+func (x *StepDefinition) GetUseCache() bool {
+	if x != nil {
+		return x.UseCache
+	}
+	return false
 }
 
 type JobWorkflowEdge struct {
@@ -663,7 +671,7 @@ const file_models_proto_rawDesc = "" +
 	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
 	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\x12%\n" +
-	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xee\x03\n" +
+	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\x8b\x04\n" +
 	"\x0eStepDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +
@@ -676,7 +684,8 @@ const file_models_proto_rawDesc = "" +
 	"\x17dynamic_rule_table_name\x18\t \x01(\tR\x14dynamicRuleTableName\x123\n" +
 	"\x16dynamic_rule_state_key\x18\n" +
 	" \x01(\tR\x13dynamicRuleStateKey\x12#\n" +
-	"\rcontext_input\x18\v \x01(\tR\fcontextInput\"\xfd\x01\n" +
+	"\rcontext_input\x18\v \x01(\tR\fcontextInput\x12\x1b\n" +
+	"\tuse_cache\x18\f \x01(\bR\buseCache\"\xfd\x01\n" +
 	"\x0fJobWorkflowEdge\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12*\n" +
 	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12$\n" +
