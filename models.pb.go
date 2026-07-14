@@ -28,6 +28,7 @@ const (
 	ModelChoice_MODEL_CHOICE_UNSPECIFIED    ModelChoice = 0
 	ModelChoice_MODEL_CHOICE_EXTRACTION     ModelChoice = 1
 	ModelChoice_MODEL_CHOICE_CLASSIFICATION ModelChoice = 2
+	ModelChoice_MODEL_CHOICE_PLANNING       ModelChoice = 3
 )
 
 // Enum value maps for ModelChoice.
@@ -36,11 +37,13 @@ var (
 		0: "MODEL_CHOICE_UNSPECIFIED",
 		1: "MODEL_CHOICE_EXTRACTION",
 		2: "MODEL_CHOICE_CLASSIFICATION",
+		3: "MODEL_CHOICE_PLANNING",
 	}
 	ModelChoice_value = map[string]int32{
 		"MODEL_CHOICE_UNSPECIFIED":    0,
 		"MODEL_CHOICE_EXTRACTION":     1,
 		"MODEL_CHOICE_CLASSIFICATION": 2,
+		"MODEL_CHOICE_PLANNING":       3,
 	}
 )
 
@@ -727,11 +730,12 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*i\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*\x84\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
-	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
+	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02\x12\x19\n" +
+	"\x15MODEL_CHOICE_PLANNING\x10\x03B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once
