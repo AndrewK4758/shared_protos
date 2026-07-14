@@ -245,6 +245,118 @@ func (x *StoreExtractionResponse) GetSuccess() bool {
 	return false
 }
 
+type SeedCacheRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	TemplateText     string                 `protobuf:"bytes,1,opt,name=template_text,json=templateText,proto3" json:"template_text,omitempty"`
+	Metadata         map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExtractedPayload string                 `protobuf:"bytes,3,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *SeedCacheRequest) Reset() {
+	*x = SeedCacheRequest{}
+	mi := &file_semantic_cache_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SeedCacheRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SeedCacheRequest) ProtoMessage() {}
+
+func (x *SeedCacheRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SeedCacheRequest.ProtoReflect.Descriptor instead.
+func (*SeedCacheRequest) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SeedCacheRequest) GetTemplateText() string {
+	if x != nil {
+		return x.TemplateText
+	}
+	return ""
+}
+
+func (x *SeedCacheRequest) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *SeedCacheRequest) GetExtractedPayload() string {
+	if x != nil {
+		return x.ExtractedPayload
+	}
+	return ""
+}
+
+type SeedCacheResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SeedCacheResponse) Reset() {
+	*x = SeedCacheResponse{}
+	mi := &file_semantic_cache_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SeedCacheResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SeedCacheResponse) ProtoMessage() {}
+
+func (x *SeedCacheResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SeedCacheResponse.ProtoReflect.Descriptor instead.
+func (*SeedCacheResponse) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SeedCacheResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *SeedCacheResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
@@ -271,11 +383,22 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"3\n" +
 	"\x17StoreExtractionResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xd7\x01\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xef\x01\n" +
+	"\x10SeedCacheRequest\x12#\n" +
+	"\rtemplate_text\x18\x01 \x01(\tR\ftemplateText\x12L\n" +
+	"\bmetadata\x18\x02 \x03(\v20.semanticcache.v1.SeedCacheRequest.MetadataEntryR\bmetadata\x12+\n" +
+	"\x11extracted_payload\x18\x03 \x01(\tR\x10extractedPayload\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"G\n" +
+	"\x11SeedCacheResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xad\x02\n" +
 	"\x14SemanticCacheService\x12W\n" +
 	"\n" +
 	"CheckCache\x12#.semanticcache.v1.CheckCacheRequest\x1a$.semanticcache.v1.CheckCacheResponse\x12f\n" +
-	"\x0fStoreExtraction\x12(.semanticcache.v1.StoreExtractionRequest\x1a).semanticcache.v1.StoreExtractionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\x0fStoreExtraction\x12(.semanticcache.v1.StoreExtractionRequest\x1a).semanticcache.v1.StoreExtractionResponse\x12T\n" +
+	"\tSeedCache\x12\".semanticcache.v1.SeedCacheRequest\x1a#.semanticcache.v1.SeedCacheResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_semantic_cache_proto_rawDescOnce sync.Once
@@ -289,27 +412,33 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_semantic_cache_proto_goTypes = []any{
 	(*CheckCacheRequest)(nil),       // 0: semanticcache.v1.CheckCacheRequest
 	(*CheckCacheResponse)(nil),      // 1: semanticcache.v1.CheckCacheResponse
 	(*StoreExtractionRequest)(nil),  // 2: semanticcache.v1.StoreExtractionRequest
 	(*StoreExtractionResponse)(nil), // 3: semanticcache.v1.StoreExtractionResponse
-	nil,                             // 4: semanticcache.v1.CheckCacheRequest.MetadataEntry
-	nil,                             // 5: semanticcache.v1.StoreExtractionRequest.MetadataEntry
+	(*SeedCacheRequest)(nil),        // 4: semanticcache.v1.SeedCacheRequest
+	(*SeedCacheResponse)(nil),       // 5: semanticcache.v1.SeedCacheResponse
+	nil,                             // 6: semanticcache.v1.CheckCacheRequest.MetadataEntry
+	nil,                             // 7: semanticcache.v1.StoreExtractionRequest.MetadataEntry
+	nil,                             // 8: semanticcache.v1.SeedCacheRequest.MetadataEntry
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	4, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> semanticcache.v1.CheckCacheRequest.MetadataEntry
-	5, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> semanticcache.v1.StoreExtractionRequest.MetadataEntry
-	0, // 2: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
-	2, // 3: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
-	1, // 4: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
-	3, // 5: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> semanticcache.v1.CheckCacheRequest.MetadataEntry
+	7, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> semanticcache.v1.StoreExtractionRequest.MetadataEntry
+	8, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> semanticcache.v1.SeedCacheRequest.MetadataEntry
+	0, // 3: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
+	2, // 4: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
+	4, // 5: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
+	1, // 6: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
+	3, // 7: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
+	5, // 8: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_semantic_cache_proto_init() }
@@ -323,7 +452,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

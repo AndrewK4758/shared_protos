@@ -5,6 +5,7 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 service SemanticCacheService {
   rpc CheckCache(CheckCacheRequest) returns (CheckCacheResponse);
   rpc StoreExtraction(StoreExtractionRequest) returns (StoreExtractionResponse);
+  rpc SeedCache(SeedCacheRequest) returns (SeedCacheResponse);
 }
 
 message CheckCacheRequest {
@@ -27,4 +28,15 @@ message StoreExtractionRequest {
 
 message StoreExtractionResponse {
   bool success = 1;
+}
+
+message SeedCacheRequest {
+  string template_text = 1;
+  map<string, string> metadata = 2;
+  string extracted_payload = 3;
+}
+
+message SeedCacheResponse {
+  bool success = 1;
+  string message = 2;
 }

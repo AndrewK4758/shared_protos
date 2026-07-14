@@ -25,19 +25,22 @@ const (
 type ModelChoice int32
 
 const (
-	ModelChoice_MODEL_CHOICE_UNSPECIFIED ModelChoice = 0
-	ModelChoice_MODEL_CHOICE_LOCAL       ModelChoice = 1
+	ModelChoice_MODEL_CHOICE_UNSPECIFIED    ModelChoice = 0
+	ModelChoice_MODEL_CHOICE_EXTRACTION     ModelChoice = 1
+	ModelChoice_MODEL_CHOICE_CLASSIFICATION ModelChoice = 2
 )
 
 // Enum value maps for ModelChoice.
 var (
 	ModelChoice_name = map[int32]string{
 		0: "MODEL_CHOICE_UNSPECIFIED",
-		1: "MODEL_CHOICE_LOCAL",
+		1: "MODEL_CHOICE_EXTRACTION",
+		2: "MODEL_CHOICE_CLASSIFICATION",
 	}
 	ModelChoice_value = map[string]int32{
-		"MODEL_CHOICE_UNSPECIFIED": 0,
-		"MODEL_CHOICE_LOCAL":       1,
+		"MODEL_CHOICE_UNSPECIFIED":    0,
+		"MODEL_CHOICE_EXTRACTION":     1,
+		"MODEL_CHOICE_CLASSIFICATION": 2,
 	}
 )
 
@@ -258,6 +261,7 @@ type StepDefinition struct {
 	DynamicRuleStateKey  string                 `protobuf:"bytes,10,opt,name=dynamic_rule_state_key,json=dynamicRuleStateKey,proto3" json:"dynamic_rule_state_key,omitempty"`
 	ContextInput         string                 `protobuf:"bytes,11,opt,name=context_input,json=contextInput,proto3" json:"context_input,omitempty"`
 	UseCache             bool                   `protobuf:"varint,12,opt,name=use_cache,json=useCache,proto3" json:"use_cache,omitempty"`
+	CacheKeyInput        string                 `protobuf:"bytes,13,opt,name=cache_key_input,json=cacheKeyInput,proto3" json:"cache_key_input,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -374,6 +378,13 @@ func (x *StepDefinition) GetUseCache() bool {
 		return x.UseCache
 	}
 	return false
+}
+
+func (x *StepDefinition) GetCacheKeyInput() string {
+	if x != nil {
+		return x.CacheKeyInput
+	}
+	return ""
 }
 
 type JobWorkflowEdge struct {
@@ -671,7 +682,7 @@ const file_models_proto_rawDesc = "" +
 	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
 	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\x12%\n" +
-	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\x8b\x04\n" +
+	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xb3\x04\n" +
 	"\x0eStepDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +
@@ -685,7 +696,8 @@ const file_models_proto_rawDesc = "" +
 	"\x16dynamic_rule_state_key\x18\n" +
 	" \x01(\tR\x13dynamicRuleStateKey\x12#\n" +
 	"\rcontext_input\x18\v \x01(\tR\fcontextInput\x12\x1b\n" +
-	"\tuse_cache\x18\f \x01(\bR\buseCache\"\xfd\x01\n" +
+	"\tuse_cache\x18\f \x01(\bR\buseCache\x12&\n" +
+	"\x0fcache_key_input\x18\r \x01(\tR\rcacheKeyInput\"\xfd\x01\n" +
 	"\x0fJobWorkflowEdge\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12*\n" +
 	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12$\n" +
@@ -715,10 +727,11 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*C\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*i\n" +
 	"\vModelChoice\x12\x1c\n" +
-	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12MODEL_CHOICE_LOCAL\x10\x01B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
+	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
+	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once

@@ -9,7 +9,8 @@ import "google/protobuf/struct.proto";
 
 enum ModelChoice {
   MODEL_CHOICE_UNSPECIFIED = 0;
-  MODEL_CHOICE_LOCAL = 1;
+  MODEL_CHOICE_EXTRACTION = 1;
+  MODEL_CHOICE_CLASSIFICATION = 2;
 }
 
 message ActionDefinition {
@@ -44,6 +45,7 @@ message StepDefinition {
   string dynamic_rule_state_key = 10;
   string context_input = 11;
   bool use_cache = 12;
+  string cache_key_input = 13;
 }
 
 message JobWorkflowEdge {

@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	SemanticCacheService_CheckCache_FullMethodName      = "/semanticcache.v1.SemanticCacheService/CheckCache"
 	SemanticCacheService_StoreExtraction_FullMethodName = "/semanticcache.v1.SemanticCacheService/StoreExtraction"
+	SemanticCacheService_SeedCache_FullMethodName       = "/semanticcache.v1.SemanticCacheService/SeedCache"
 )
 
 // SemanticCacheServiceClient is the client API for SemanticCacheService service.
@@ -29,6 +30,7 @@ const (
 type SemanticCacheServiceClient interface {
 	CheckCache(ctx context.Context, in *CheckCacheRequest, opts ...grpc.CallOption) (*CheckCacheResponse, error)
 	StoreExtraction(ctx context.Context, in *StoreExtractionRequest, opts ...grpc.CallOption) (*StoreExtractionResponse, error)
+	SeedCache(ctx context.Context, in *SeedCacheRequest, opts ...grpc.CallOption) (*SeedCacheResponse, error)
 }
 
 type semanticCacheServiceClient struct {
@@ -59,12 +61,23 @@ func (c *semanticCacheServiceClient) StoreExtraction(ctx context.Context, in *St
 	return out, nil
 }
 
+func (c *semanticCacheServiceClient) SeedCache(ctx context.Context, in *SeedCacheRequest, opts ...grpc.CallOption) (*SeedCacheResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SeedCacheResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_SeedCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SemanticCacheServiceServer is the server API for SemanticCacheService service.
 // All implementations must embed UnimplementedSemanticCacheServiceServer
 // for forward compatibility.
 type SemanticCacheServiceServer interface {
 	CheckCache(context.Context, *CheckCacheRequest) (*CheckCacheResponse, error)
 	StoreExtraction(context.Context, *StoreExtractionRequest) (*StoreExtractionResponse, error)
+	SeedCache(context.Context, *SeedCacheRequest) (*SeedCacheResponse, error)
 	mustEmbedUnimplementedSemanticCacheServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedSemanticCacheServiceServer) CheckCache(context.Context, *Chec
 }
 func (UnimplementedSemanticCacheServiceServer) StoreExtraction(context.Context, *StoreExtractionRequest) (*StoreExtractionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method StoreExtraction not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) SeedCache(context.Context, *SeedCacheRequest) (*SeedCacheResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SeedCache not implemented")
 }
 func (UnimplementedSemanticCacheServiceServer) mustEmbedUnimplementedSemanticCacheServiceServer() {}
 func (UnimplementedSemanticCacheServiceServer) testEmbeddedByValue()                              {}
@@ -138,6 +154,24 @@ func _SemanticCacheService_StoreExtraction_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SemanticCacheService_SeedCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SeedCacheRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).SeedCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_SeedCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).SeedCache(ctx, req.(*SeedCacheRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SemanticCacheService_ServiceDesc is the grpc.ServiceDesc for SemanticCacheService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var SemanticCacheService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StoreExtraction",
 			Handler:    _SemanticCacheService_StoreExtraction_Handler,
+		},
+		{
+			MethodName: "SeedCache",
+			Handler:    _SemanticCacheService_SeedCache_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
