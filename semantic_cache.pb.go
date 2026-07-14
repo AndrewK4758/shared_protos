@@ -9,6 +9,7 @@ package shared_protos
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,12 +23,13 @@ const (
 )
 
 type CheckCacheRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Threshold     float32                `protobuf:"fixed32,3,opt,name=threshold,proto3" json:"threshold,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CollectionName string                 `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	Text           string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Metadata       *structpb.Struct       `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Threshold      float32                `protobuf:"fixed32,4,opt,name=threshold,proto3" json:"threshold,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CheckCacheRequest) Reset() {
@@ -60,6 +62,13 @@ func (*CheckCacheRequest) Descriptor() ([]byte, []int) {
 	return file_semantic_cache_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *CheckCacheRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
 func (x *CheckCacheRequest) GetText() string {
 	if x != nil {
 		return x.Text
@@ -67,7 +76,7 @@ func (x *CheckCacheRequest) GetText() string {
 	return ""
 }
 
-func (x *CheckCacheRequest) GetMetadata() map[string]string {
+func (x *CheckCacheRequest) GetMetadata() *structpb.Struct {
 	if x != nil {
 		return x.Metadata
 	}
@@ -143,9 +152,10 @@ func (x *CheckCacheResponse) GetConfidence() float32 {
 
 type StoreExtractionRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Text             string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
-	Metadata         map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExtractedPayload string                 `protobuf:"bytes,3,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
+	CollectionName   string                 `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	Text             string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Metadata         *structpb.Struct       `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	ExtractedPayload string                 `protobuf:"bytes,4,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -180,6 +190,13 @@ func (*StoreExtractionRequest) Descriptor() ([]byte, []int) {
 	return file_semantic_cache_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *StoreExtractionRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
 func (x *StoreExtractionRequest) GetText() string {
 	if x != nil {
 		return x.Text
@@ -187,7 +204,7 @@ func (x *StoreExtractionRequest) GetText() string {
 	return ""
 }
 
-func (x *StoreExtractionRequest) GetMetadata() map[string]string {
+func (x *StoreExtractionRequest) GetMetadata() *structpb.Struct {
 	if x != nil {
 		return x.Metadata
 	}
@@ -247,9 +264,10 @@ func (x *StoreExtractionResponse) GetSuccess() bool {
 
 type SeedCacheRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	TemplateText     string                 `protobuf:"bytes,1,opt,name=template_text,json=templateText,proto3" json:"template_text,omitempty"`
-	Metadata         map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ExtractedPayload string                 `protobuf:"bytes,3,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
+	CollectionName   string                 `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	TemplateText     string                 `protobuf:"bytes,2,opt,name=template_text,json=templateText,proto3" json:"template_text,omitempty"`
+	Metadata         *structpb.Struct       `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	ExtractedPayload string                 `protobuf:"bytes,4,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -284,6 +302,13 @@ func (*SeedCacheRequest) Descriptor() ([]byte, []int) {
 	return file_semantic_cache_proto_rawDescGZIP(), []int{4}
 }
 
+func (x *SeedCacheRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
 func (x *SeedCacheRequest) GetTemplateText() string {
 	if x != nil {
 		return x.TemplateText
@@ -291,7 +316,7 @@ func (x *SeedCacheRequest) GetTemplateText() string {
 	return ""
 }
 
-func (x *SeedCacheRequest) GetMetadata() map[string]string {
+func (x *SeedCacheRequest) GetMetadata() *structpb.Struct {
 	if x != nil {
 		return x.Metadata
 	}
@@ -361,36 +386,30 @@ var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
 	"\n" +
-	"\x14semantic_cache.proto\x12\x10semanticcache.v1\"\xd1\x01\n" +
-	"\x11CheckCacheRequest\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text\x12M\n" +
-	"\bmetadata\x18\x02 \x03(\v21.semanticcache.v1.CheckCacheRequest.MetadataEntryR\bmetadata\x12\x1c\n" +
-	"\tthreshold\x18\x03 \x01(\x02R\tthreshold\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"s\n" +
+	"\x14semantic_cache.proto\x12\x10semanticcache.v1\x1a\x1cgoogle/protobuf/struct.proto\"\xa3\x01\n" +
+	"\x11CheckCacheRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\x123\n" +
+	"\bmetadata\x18\x03 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x12\x1c\n" +
+	"\tthreshold\x18\x04 \x01(\x02R\tthreshold\"s\n" +
 	"\x12CheckCacheResponse\x12\x10\n" +
 	"\x03hit\x18\x01 \x01(\bR\x03hit\x12+\n" +
 	"\x11extracted_payload\x18\x02 \x01(\tR\x10extractedPayload\x12\x1e\n" +
 	"\n" +
 	"confidence\x18\x03 \x01(\x02R\n" +
-	"confidence\"\xea\x01\n" +
-	"\x16StoreExtractionRequest\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text\x12R\n" +
-	"\bmetadata\x18\x02 \x03(\v26.semanticcache.v1.StoreExtractionRequest.MetadataEntryR\bmetadata\x12+\n" +
-	"\x11extracted_payload\x18\x03 \x01(\tR\x10extractedPayload\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"3\n" +
+	"confidence\"\xb7\x01\n" +
+	"\x16StoreExtractionRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\x123\n" +
+	"\bmetadata\x18\x03 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x12+\n" +
+	"\x11extracted_payload\x18\x04 \x01(\tR\x10extractedPayload\"3\n" +
 	"\x17StoreExtractionResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xef\x01\n" +
-	"\x10SeedCacheRequest\x12#\n" +
-	"\rtemplate_text\x18\x01 \x01(\tR\ftemplateText\x12L\n" +
-	"\bmetadata\x18\x02 \x03(\v20.semanticcache.v1.SeedCacheRequest.MetadataEntryR\bmetadata\x12+\n" +
-	"\x11extracted_payload\x18\x03 \x01(\tR\x10extractedPayload\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"G\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xc2\x01\n" +
+	"\x10SeedCacheRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12#\n" +
+	"\rtemplate_text\x18\x02 \x01(\tR\ftemplateText\x123\n" +
+	"\bmetadata\x18\x03 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x12+\n" +
+	"\x11extracted_payload\x18\x04 \x01(\tR\x10extractedPayload\"G\n" +
 	"\x11SeedCacheResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage2\xad\x02\n" +
@@ -412,7 +431,7 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_semantic_cache_proto_goTypes = []any{
 	(*CheckCacheRequest)(nil),       // 0: semanticcache.v1.CheckCacheRequest
 	(*CheckCacheResponse)(nil),      // 1: semanticcache.v1.CheckCacheResponse
@@ -420,14 +439,12 @@ var file_semantic_cache_proto_goTypes = []any{
 	(*StoreExtractionResponse)(nil), // 3: semanticcache.v1.StoreExtractionResponse
 	(*SeedCacheRequest)(nil),        // 4: semanticcache.v1.SeedCacheRequest
 	(*SeedCacheResponse)(nil),       // 5: semanticcache.v1.SeedCacheResponse
-	nil,                             // 6: semanticcache.v1.CheckCacheRequest.MetadataEntry
-	nil,                             // 7: semanticcache.v1.StoreExtractionRequest.MetadataEntry
-	nil,                             // 8: semanticcache.v1.SeedCacheRequest.MetadataEntry
+	(*structpb.Struct)(nil),         // 6: google.protobuf.Struct
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	6, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> semanticcache.v1.CheckCacheRequest.MetadataEntry
-	7, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> semanticcache.v1.StoreExtractionRequest.MetadataEntry
-	8, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> semanticcache.v1.SeedCacheRequest.MetadataEntry
+	6, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> google.protobuf.Struct
+	6, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
+	6, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
 	0, // 3: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
 	2, // 4: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
 	4, // 5: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
@@ -452,7 +469,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

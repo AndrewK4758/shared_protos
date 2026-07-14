@@ -56,6 +56,7 @@ message SubmitStepRequest {
   string custom_instructions = 3;
   string expected_schema = 4;
   bool complete_job = 5;
+  document.models.v1.CacheConfiguration cache_config = 6;
 }
 
 message SubmitStepResponse {

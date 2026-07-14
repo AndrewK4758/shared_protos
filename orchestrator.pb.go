@@ -277,6 +277,7 @@ type SubmitStepRequest struct {
 	CustomInstructions string                 `protobuf:"bytes,3,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
 	ExpectedSchema     string                 `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
 	CompleteJob        bool                   `protobuf:"varint,5,opt,name=complete_job,json=completeJob,proto3" json:"complete_job,omitempty"`
+	CacheConfig        *CacheConfiguration    `protobuf:"bytes,6,opt,name=cache_config,json=cacheConfig,proto3" json:"cache_config,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -344,6 +345,13 @@ func (x *SubmitStepRequest) GetCompleteJob() bool {
 		return x.CompleteJob
 	}
 	return false
+}
+
+func (x *SubmitStepRequest) GetCacheConfig() *CacheConfiguration {
+	if x != nil {
+		return x.CacheConfig
+	}
+	return nil
 }
 
 type SubmitStepResponse struct {
@@ -973,13 +981,14 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x10StartJobResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12$\n" +
-	"\x0eactive_step_id\x18\x03 \x01(\tR\factiveStepId\"\xc0\x01\n" +
+	"\x0eactive_step_id\x18\x03 \x01(\tR\factiveStepId\"\x8b\x02\n" +
 	"\x11SubmitStepRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12/\n" +
 	"\x13custom_instructions\x18\x03 \x01(\tR\x12customInstructions\x12'\n" +
 	"\x0fexpected_schema\x18\x04 \x01(\tR\x0eexpectedSchema\x12!\n" +
-	"\fcomplete_job\x18\x05 \x01(\bR\vcompleteJob\"a\n" +
+	"\fcomplete_job\x18\x05 \x01(\bR\vcompleteJob\x12I\n" +
+	"\fcache_config\x18\x06 \x01(\v2&.document.models.v1.CacheConfigurationR\vcacheConfig\"a\n" +
 	"\x12SubmitStepResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
@@ -1065,7 +1074,8 @@ var file_orchestrator_proto_goTypes = []any{
 	(*JobWorkflowEdge)(nil),       // 18: document.models.v1.JobWorkflowEdge
 	(ModelChoice)(0),              // 19: document.models.v1.ModelChoice
 	(*ActionDefinition)(nil),      // 20: document.models.v1.ActionDefinition
-	(*structpb.Struct)(nil),       // 21: google.protobuf.Struct
+	(*CacheConfiguration)(nil),    // 21: document.models.v1.CacheConfiguration
+	(*structpb.Struct)(nil),       // 22: google.protobuf.Struct
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	16, // 0: document.orchestrator.v1.SubmitJobRequest.context:type_name -> document.models.v1.WorkflowContext
@@ -1073,30 +1083,31 @@ var file_orchestrator_proto_depIdxs = []int32{
 	18, // 2: document.orchestrator.v1.SubmitJobRequest.job_graph:type_name -> document.models.v1.JobWorkflowEdge
 	19, // 3: document.orchestrator.v1.SubmitJobRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	20, // 4: document.orchestrator.v1.SubmitJobRequest.action_definitions:type_name -> document.models.v1.ActionDefinition
-	21, // 5: document.orchestrator.v1.StepCompleteRequest.global_state:type_name -> google.protobuf.Struct
-	21, // 6: document.orchestrator.v1.StepCompleteRequest.step_output:type_name -> google.protobuf.Struct
-	0,  // 7: document.orchestrator.v1.GetJobDetailsResponse.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
-	0,  // 8: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
-	2,  // 9: document.orchestrator.v1.OrchestratorService.StartJob:input_type -> document.orchestrator.v1.StartJobRequest
-	4,  // 10: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
-	6,  // 11: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	8,  // 12: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	10, // 13: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
-	12, // 14: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
-	14, // 15: document.orchestrator.v1.OrchestratorCallbackService.GetJobDetails:input_type -> document.orchestrator.v1.GetJobDetailsRequest
-	1,  // 16: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
-	3,  // 17: document.orchestrator.v1.OrchestratorService.StartJob:output_type -> document.orchestrator.v1.StartJobResponse
-	5,  // 18: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
-	7,  // 19: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	9,  // 20: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	11, // 21: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
-	13, // 22: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	15, // 23: document.orchestrator.v1.OrchestratorCallbackService.GetJobDetails:output_type -> document.orchestrator.v1.GetJobDetailsResponse
-	16, // [16:24] is the sub-list for method output_type
-	8,  // [8:16] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	21, // 5: document.orchestrator.v1.SubmitStepRequest.cache_config:type_name -> document.models.v1.CacheConfiguration
+	22, // 6: document.orchestrator.v1.StepCompleteRequest.global_state:type_name -> google.protobuf.Struct
+	22, // 7: document.orchestrator.v1.StepCompleteRequest.step_output:type_name -> google.protobuf.Struct
+	0,  // 8: document.orchestrator.v1.GetJobDetailsResponse.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
+	0,  // 9: document.orchestrator.v1.OrchestratorService.SubmitJob:input_type -> document.orchestrator.v1.SubmitJobRequest
+	2,  // 10: document.orchestrator.v1.OrchestratorService.StartJob:input_type -> document.orchestrator.v1.StartJobRequest
+	4,  // 11: document.orchestrator.v1.OrchestratorService.SubmitStep:input_type -> document.orchestrator.v1.SubmitStepRequest
+	6,  // 12: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	8,  // 13: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	10, // 14: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:input_type -> document.orchestrator.v1.StepCompleteRequest
+	12, // 15: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	14, // 16: document.orchestrator.v1.OrchestratorCallbackService.GetJobDetails:input_type -> document.orchestrator.v1.GetJobDetailsRequest
+	1,  // 17: document.orchestrator.v1.OrchestratorService.SubmitJob:output_type -> document.orchestrator.v1.SubmitJobResponse
+	3,  // 18: document.orchestrator.v1.OrchestratorService.StartJob:output_type -> document.orchestrator.v1.StartJobResponse
+	5,  // 19: document.orchestrator.v1.OrchestratorService.SubmitStep:output_type -> document.orchestrator.v1.SubmitStepResponse
+	7,  // 20: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	9,  // 21: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	11, // 22: document.orchestrator.v1.OrchestratorCallbackService.OnStepComplete:output_type -> document.orchestrator.v1.StepCompleteResponse
+	13, // 23: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	15, // 24: document.orchestrator.v1.OrchestratorCallbackService.GetJobDetails:output_type -> document.orchestrator.v1.GetJobDetailsResponse
+	17, // [17:25] is the sub-list for method output_type
+	9,  // [9:17] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }

@@ -49,6 +49,14 @@ message StepDefinition {
   string cache_key_input = 13;
 }
 
+message CacheConfiguration {
+  bool use_cache = 1;
+  string collection_name = 2;
+  string cache_input = 3;
+  google.protobuf.Struct metadata = 4;
+  float threshold = 5;
+}
+
 message JobWorkflowEdge {
   int32 id = 1;
   string job_definition_id = 2;
