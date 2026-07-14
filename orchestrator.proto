@@ -22,6 +22,9 @@ service OrchestratorService {
 
   // Resume a job after human validation has corrected the AI output
   rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
+
+  // Commands the Orchestrator to cancel jobs and optionally purge streams.
+  rpc PurgeSystemState(PurgeSystemStateRequest) returns (PurgeSystemStateResponse);
 }
 
 message SubmitJobRequest {
@@ -87,6 +90,17 @@ message ResumeJobRequest {
 message ResumeJobResponse {
   bool success = 1;
   string message = 2;
+}
+
+message PurgeSystemStateRequest {
+  string app_id = 1;         // Scopes the cancellation to a specific tenant/app
+  bool purge_queues = 2;     // Explicit command to purge NATS JetStream queues
+}
+
+message PurgeSystemStateResponse {
+  bool success = 1;
+  int32 jobs_cancelled = 2;
+  int32 queues_purged = 3;
 }
 
 service OrchestratorCallbackService {

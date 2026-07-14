@@ -24,6 +24,7 @@ const (
 	OrchestratorService_SubmitStep_FullMethodName        = "/document.orchestrator.v1.OrchestratorService/SubmitStep"
 	OrchestratorService_ListenForProgress_FullMethodName = "/document.orchestrator.v1.OrchestratorService/ListenForProgress"
 	OrchestratorService_ResumeJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/ResumeJob"
+	OrchestratorService_PurgeSystemState_FullMethodName  = "/document.orchestrator.v1.OrchestratorService/PurgeSystemState"
 )
 
 // OrchestratorServiceClient is the client API for OrchestratorService service.
@@ -38,6 +39,8 @@ type OrchestratorServiceClient interface {
 	ListenForProgress(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ProgressUpdate], error)
 	// Resume a job after human validation has corrected the AI output
 	ResumeJob(ctx context.Context, in *ResumeJobRequest, opts ...grpc.CallOption) (*ResumeJobResponse, error)
+	// Commands the Orchestrator to cancel jobs and optionally purge streams.
+	PurgeSystemState(ctx context.Context, in *PurgeSystemStateRequest, opts ...grpc.CallOption) (*PurgeSystemStateResponse, error)
 }
 
 type orchestratorServiceClient struct {
@@ -107,6 +110,16 @@ func (c *orchestratorServiceClient) ResumeJob(ctx context.Context, in *ResumeJob
 	return out, nil
 }
 
+func (c *orchestratorServiceClient) PurgeSystemState(ctx context.Context, in *PurgeSystemStateRequest, opts ...grpc.CallOption) (*PurgeSystemStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PurgeSystemStateResponse)
+	err := c.cc.Invoke(ctx, OrchestratorService_PurgeSystemState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrchestratorServiceServer is the server API for OrchestratorService service.
 // All implementations must embed UnimplementedOrchestratorServiceServer
 // for forward compatibility.
@@ -119,6 +132,8 @@ type OrchestratorServiceServer interface {
 	ListenForProgress(*ListenRequest, grpc.ServerStreamingServer[ProgressUpdate]) error
 	// Resume a job after human validation has corrected the AI output
 	ResumeJob(context.Context, *ResumeJobRequest) (*ResumeJobResponse, error)
+	// Commands the Orchestrator to cancel jobs and optionally purge streams.
+	PurgeSystemState(context.Context, *PurgeSystemStateRequest) (*PurgeSystemStateResponse, error)
 	mustEmbedUnimplementedOrchestratorServiceServer()
 }
 
@@ -143,6 +158,9 @@ func (UnimplementedOrchestratorServiceServer) ListenForProgress(*ListenRequest, 
 }
 func (UnimplementedOrchestratorServiceServer) ResumeJob(context.Context, *ResumeJobRequest) (*ResumeJobResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ResumeJob not implemented")
+}
+func (UnimplementedOrchestratorServiceServer) PurgeSystemState(context.Context, *PurgeSystemStateRequest) (*PurgeSystemStateResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PurgeSystemState not implemented")
 }
 func (UnimplementedOrchestratorServiceServer) mustEmbedUnimplementedOrchestratorServiceServer() {}
 func (UnimplementedOrchestratorServiceServer) testEmbeddedByValue()                             {}
@@ -248,6 +266,24 @@ func _OrchestratorService_ResumeJob_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrchestratorService_PurgeSystemState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PurgeSystemStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorServiceServer).PurgeSystemState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrchestratorService_PurgeSystemState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorServiceServer).PurgeSystemState(ctx, req.(*PurgeSystemStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrchestratorService_ServiceDesc is the grpc.ServiceDesc for OrchestratorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +306,10 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResumeJob",
 			Handler:    _OrchestratorService_ResumeJob_Handler,
+		},
+		{
+			MethodName: "PurgeSystemState",
+			Handler:    _OrchestratorService_PurgeSystemState_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

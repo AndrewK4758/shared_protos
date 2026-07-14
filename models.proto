@@ -14,6 +14,12 @@ enum ModelChoice {
   MODEL_CHOICE_PLANNING = 3;
 }
 
+enum OrchestratorPrimitive {
+  PRIMITIVE_UNSPECIFIED = 0;
+  PRIMITIVE_AI_STEP = 1;
+  PRIMITIVE_HUMAN_STEP = 2;
+}
+
 message ActionDefinition {
   string id = 1;
   string name = 2; 
@@ -21,6 +27,7 @@ message ActionDefinition {
   repeated string rules = 4;
   string expected_output_schema = 5;
   string orchestrator_primitive = 6;
+  OrchestratorPrimitive primitive_type = 7;
 }
 
 message JobDefinition {
@@ -48,6 +55,7 @@ message StepDefinition {
   bool use_cache = 12; // Deprecated: Use cache_config instead
   string cache_key_input = 13; // Deprecated: Use cache_config instead
   CacheConfiguration cache_config = 14;
+  OrchestratorPrimitive step_primitive = 15;
 }
 
 message CacheConfiguration {

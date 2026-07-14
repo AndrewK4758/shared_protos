@@ -74,6 +74,55 @@ func (ModelChoice) EnumDescriptor() ([]byte, []int) {
 	return file_models_proto_rawDescGZIP(), []int{0}
 }
 
+type OrchestratorPrimitive int32
+
+const (
+	OrchestratorPrimitive_PRIMITIVE_UNSPECIFIED OrchestratorPrimitive = 0
+	OrchestratorPrimitive_PRIMITIVE_AI_STEP     OrchestratorPrimitive = 1
+	OrchestratorPrimitive_PRIMITIVE_HUMAN_STEP  OrchestratorPrimitive = 2
+)
+
+// Enum value maps for OrchestratorPrimitive.
+var (
+	OrchestratorPrimitive_name = map[int32]string{
+		0: "PRIMITIVE_UNSPECIFIED",
+		1: "PRIMITIVE_AI_STEP",
+		2: "PRIMITIVE_HUMAN_STEP",
+	}
+	OrchestratorPrimitive_value = map[string]int32{
+		"PRIMITIVE_UNSPECIFIED": 0,
+		"PRIMITIVE_AI_STEP":     1,
+		"PRIMITIVE_HUMAN_STEP":  2,
+	}
+)
+
+func (x OrchestratorPrimitive) Enum() *OrchestratorPrimitive {
+	p := new(OrchestratorPrimitive)
+	*p = x
+	return p
+}
+
+func (x OrchestratorPrimitive) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OrchestratorPrimitive) Descriptor() protoreflect.EnumDescriptor {
+	return file_models_proto_enumTypes[1].Descriptor()
+}
+
+func (OrchestratorPrimitive) Type() protoreflect.EnumType {
+	return &file_models_proto_enumTypes[1]
+}
+
+func (x OrchestratorPrimitive) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OrchestratorPrimitive.Descriptor instead.
+func (OrchestratorPrimitive) EnumDescriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{1}
+}
+
 type ActionDefinition struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	Id                    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -82,6 +131,7 @@ type ActionDefinition struct {
 	Rules                 []string               `protobuf:"bytes,4,rep,name=rules,proto3" json:"rules,omitempty"`
 	ExpectedOutputSchema  string                 `protobuf:"bytes,5,opt,name=expected_output_schema,json=expectedOutputSchema,proto3" json:"expected_output_schema,omitempty"`
 	OrchestratorPrimitive string                 `protobuf:"bytes,6,opt,name=orchestrator_primitive,json=orchestratorPrimitive,proto3" json:"orchestrator_primitive,omitempty"`
+	PrimitiveType         OrchestratorPrimitive  `protobuf:"varint,7,opt,name=primitive_type,json=primitiveType,proto3,enum=document.models.v1.OrchestratorPrimitive" json:"primitive_type,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -156,6 +206,13 @@ func (x *ActionDefinition) GetOrchestratorPrimitive() string {
 		return x.OrchestratorPrimitive
 	}
 	return ""
+}
+
+func (x *ActionDefinition) GetPrimitiveType() OrchestratorPrimitive {
+	if x != nil {
+		return x.PrimitiveType
+	}
+	return OrchestratorPrimitive_PRIMITIVE_UNSPECIFIED
 }
 
 type JobDefinition struct {
@@ -266,6 +323,7 @@ type StepDefinition struct {
 	UseCache             bool                   `protobuf:"varint,12,opt,name=use_cache,json=useCache,proto3" json:"use_cache,omitempty"`                 // Deprecated: Use cache_config instead
 	CacheKeyInput        string                 `protobuf:"bytes,13,opt,name=cache_key_input,json=cacheKeyInput,proto3" json:"cache_key_input,omitempty"` // Deprecated: Use cache_config instead
 	CacheConfig          *CacheConfiguration    `protobuf:"bytes,14,opt,name=cache_config,json=cacheConfig,proto3" json:"cache_config,omitempty"`
+	StepPrimitive        OrchestratorPrimitive  `protobuf:"varint,15,opt,name=step_primitive,json=stepPrimitive,proto3,enum=document.models.v1.OrchestratorPrimitive" json:"step_primitive,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -396,6 +454,13 @@ func (x *StepDefinition) GetCacheConfig() *CacheConfiguration {
 		return x.CacheConfig
 	}
 	return nil
+}
+
+func (x *StepDefinition) GetStepPrimitive() OrchestratorPrimitive {
+	if x != nil {
+		return x.StepPrimitive
+	}
+	return OrchestratorPrimitive_PRIMITIVE_UNSPECIFIED
 }
 
 type CacheConfiguration struct {
@@ -754,14 +819,15 @@ var File_models_proto protoreflect.FileDescriptor
 
 const file_models_proto_rawDesc = "" +
 	"\n" +
-	"\fmodels.proto\x12\x12document.models.v1\x1a\x1cgoogle/protobuf/struct.proto\"\xd1\x01\n" +
+	"\fmodels.proto\x12\x12document.models.v1\x1a\x1cgoogle/protobuf/struct.proto\"\xa3\x02\n" +
 	"\x10ActionDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
 	"\x06prompt\x18\x03 \x01(\tR\x06prompt\x12\x14\n" +
 	"\x05rules\x18\x04 \x03(\tR\x05rules\x124\n" +
 	"\x16expected_output_schema\x18\x05 \x01(\tR\x14expectedOutputSchema\x125\n" +
-	"\x16orchestrator_primitive\x18\x06 \x01(\tR\x15orchestratorPrimitive\"\xf2\x01\n" +
+	"\x16orchestrator_primitive\x18\x06 \x01(\tR\x15orchestratorPrimitive\x12P\n" +
+	"\x0eprimitive_type\x18\a \x01(\x0e2).document.models.v1.OrchestratorPrimitiveR\rprimitiveType\"\xf2\x01\n" +
 	"\rJobDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\x05R\x04name\x12 \n" +
@@ -769,7 +835,7 @@ const file_models_proto_rawDesc = "" +
 	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
 	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\x12%\n" +
-	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xfe\x04\n" +
+	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xd0\x05\n" +
 	"\x0eStepDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +
@@ -785,7 +851,8 @@ const file_models_proto_rawDesc = "" +
 	"\rcontext_input\x18\v \x01(\tR\fcontextInput\x12\x1b\n" +
 	"\tuse_cache\x18\f \x01(\bR\buseCache\x12&\n" +
 	"\x0fcache_key_input\x18\r \x01(\tR\rcacheKeyInput\x12I\n" +
-	"\fcache_config\x18\x0e \x01(\v2&.document.models.v1.CacheConfigurationR\vcacheConfig\"\xce\x01\n" +
+	"\fcache_config\x18\x0e \x01(\v2&.document.models.v1.CacheConfigurationR\vcacheConfig\x12P\n" +
+	"\x0estep_primitive\x18\x0f \x01(\x0e2).document.models.v1.OrchestratorPrimitiveR\rstepPrimitive\"\xce\x01\n" +
 	"\x12CacheConfiguration\x12\x1b\n" +
 	"\tuse_cache\x18\x01 \x01(\bR\buseCache\x12'\n" +
 	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12\x1f\n" +
@@ -827,7 +894,11 @@ const file_models_proto_rawDesc = "" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
 	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02\x12\x19\n" +
-	"\x15MODEL_CHOICE_PLANNING\x10\x03B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
+	"\x15MODEL_CHOICE_PLANNING\x10\x03*c\n" +
+	"\x15OrchestratorPrimitive\x12\x19\n" +
+	"\x15PRIMITIVE_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11PRIMITIVE_AI_STEP\x10\x01\x12\x18\n" +
+	"\x14PRIMITIVE_HUMAN_STEP\x10\x02B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once
@@ -841,34 +912,37 @@ func file_models_proto_rawDescGZIP() []byte {
 	return file_models_proto_rawDescData
 }
 
-var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),           // 0: document.models.v1.ModelChoice
-	(*ActionDefinition)(nil),   // 1: document.models.v1.ActionDefinition
-	(*JobDefinition)(nil),      // 2: document.models.v1.JobDefinition
-	(*StepDefinition)(nil),     // 3: document.models.v1.StepDefinition
-	(*CacheConfiguration)(nil), // 4: document.models.v1.CacheConfiguration
-	(*JobWorkflowEdge)(nil),    // 5: document.models.v1.JobWorkflowEdge
-	(*ActiveJobExecution)(nil), // 6: document.models.v1.ActiveJobExecution
-	(*WorkflowContext)(nil),    // 7: document.models.v1.WorkflowContext
-	nil,                        // 8: document.models.v1.WorkflowContext.MetadataEntry
-	(*structpb.Struct)(nil),    // 9: google.protobuf.Struct
+	(OrchestratorPrimitive)(0), // 1: document.models.v1.OrchestratorPrimitive
+	(*ActionDefinition)(nil),   // 2: document.models.v1.ActionDefinition
+	(*JobDefinition)(nil),      // 3: document.models.v1.JobDefinition
+	(*StepDefinition)(nil),     // 4: document.models.v1.StepDefinition
+	(*CacheConfiguration)(nil), // 5: document.models.v1.CacheConfiguration
+	(*JobWorkflowEdge)(nil),    // 6: document.models.v1.JobWorkflowEdge
+	(*ActiveJobExecution)(nil), // 7: document.models.v1.ActiveJobExecution
+	(*WorkflowContext)(nil),    // 8: document.models.v1.WorkflowContext
+	nil,                        // 9: document.models.v1.WorkflowContext.MetadataEntry
+	(*structpb.Struct)(nil),    // 10: google.protobuf.Struct
 }
 var file_models_proto_depIdxs = []int32{
-	4, // 0: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
-	9, // 1: document.models.v1.CacheConfiguration.metadata:type_name -> google.protobuf.Struct
-	8, // 2: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
-	6, // 3: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
-	2, // 4: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	9, // 5: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
-	1, // 6: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	9, // 7: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	1,  // 0: document.models.v1.ActionDefinition.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
+	5,  // 1: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
+	1,  // 2: document.models.v1.StepDefinition.step_primitive:type_name -> document.models.v1.OrchestratorPrimitive
+	10, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> google.protobuf.Struct
+	9,  // 4: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
+	7,  // 5: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
+	3,  // 6: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
+	10, // 7: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	2,  // 8: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
+	10, // 9: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
@@ -881,7 +955,7 @@ func file_models_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
