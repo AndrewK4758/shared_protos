@@ -45,3 +45,9 @@ message SeedCacheResponse {
   bool success = 1;
   string message = 2;
 }
+
+// Queue Wrappers
+message CacheStoreMessage {
+  string correlation_id = 1;
+  StoreExtractionRequest request = 2;
+}

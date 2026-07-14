@@ -382,6 +382,59 @@ func (x *SeedCacheResponse) GetMessage() string {
 	return ""
 }
 
+// Queue Wrappers
+type CacheStoreMessage struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	CorrelationId string                  `protobuf:"bytes,1,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	Request       *StoreExtractionRequest `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CacheStoreMessage) Reset() {
+	*x = CacheStoreMessage{}
+	mi := &file_semantic_cache_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CacheStoreMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CacheStoreMessage) ProtoMessage() {}
+
+func (x *CacheStoreMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CacheStoreMessage.ProtoReflect.Descriptor instead.
+func (*CacheStoreMessage) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CacheStoreMessage) GetCorrelationId() string {
+	if x != nil {
+		return x.CorrelationId
+	}
+	return ""
+}
+
+func (x *CacheStoreMessage) GetRequest() *StoreExtractionRequest {
+	if x != nil {
+		return x.Request
+	}
+	return nil
+}
+
 var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
@@ -412,7 +465,10 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\x11extracted_payload\x18\x04 \x01(\tR\x10extractedPayload\"G\n" +
 	"\x11SeedCacheResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xad\x02\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"~\n" +
+	"\x11CacheStoreMessage\x12%\n" +
+	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12B\n" +
+	"\arequest\x18\x02 \x01(\v2(.semanticcache.v1.StoreExtractionRequestR\arequest2\xad\x02\n" +
 	"\x14SemanticCacheService\x12W\n" +
 	"\n" +
 	"CheckCache\x12#.semanticcache.v1.CheckCacheRequest\x1a$.semanticcache.v1.CheckCacheResponse\x12f\n" +
@@ -431,7 +487,7 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_semantic_cache_proto_goTypes = []any{
 	(*CheckCacheRequest)(nil),       // 0: semanticcache.v1.CheckCacheRequest
 	(*CheckCacheResponse)(nil),      // 1: semanticcache.v1.CheckCacheResponse
@@ -439,23 +495,25 @@ var file_semantic_cache_proto_goTypes = []any{
 	(*StoreExtractionResponse)(nil), // 3: semanticcache.v1.StoreExtractionResponse
 	(*SeedCacheRequest)(nil),        // 4: semanticcache.v1.SeedCacheRequest
 	(*SeedCacheResponse)(nil),       // 5: semanticcache.v1.SeedCacheResponse
-	(*structpb.Struct)(nil),         // 6: google.protobuf.Struct
+	(*CacheStoreMessage)(nil),       // 6: semanticcache.v1.CacheStoreMessage
+	(*structpb.Struct)(nil),         // 7: google.protobuf.Struct
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	6, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> google.protobuf.Struct
-	6, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
-	6, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
-	0, // 3: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
-	2, // 4: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
-	4, // 5: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
-	1, // 6: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
-	3, // 7: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
-	5, // 8: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> google.protobuf.Struct
+	7, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
+	7, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
+	2, // 3: semanticcache.v1.CacheStoreMessage.request:type_name -> semanticcache.v1.StoreExtractionRequest
+	0, // 4: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
+	2, // 5: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
+	4, // 6: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
+	1, // 7: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
+	3, // 8: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
+	5, // 9: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_semantic_cache_proto_init() }
@@ -469,7 +527,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

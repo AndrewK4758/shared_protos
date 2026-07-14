@@ -263,8 +263,9 @@ type StepDefinition struct {
 	DynamicRuleTableName string                 `protobuf:"bytes,9,opt,name=dynamic_rule_table_name,json=dynamicRuleTableName,proto3" json:"dynamic_rule_table_name,omitempty"`
 	DynamicRuleStateKey  string                 `protobuf:"bytes,10,opt,name=dynamic_rule_state_key,json=dynamicRuleStateKey,proto3" json:"dynamic_rule_state_key,omitempty"`
 	ContextInput         string                 `protobuf:"bytes,11,opt,name=context_input,json=contextInput,proto3" json:"context_input,omitempty"`
-	UseCache             bool                   `protobuf:"varint,12,opt,name=use_cache,json=useCache,proto3" json:"use_cache,omitempty"`
-	CacheKeyInput        string                 `protobuf:"bytes,13,opt,name=cache_key_input,json=cacheKeyInput,proto3" json:"cache_key_input,omitempty"`
+	UseCache             bool                   `protobuf:"varint,12,opt,name=use_cache,json=useCache,proto3" json:"use_cache,omitempty"`                 // Deprecated: Use cache_config instead
+	CacheKeyInput        string                 `protobuf:"bytes,13,opt,name=cache_key_input,json=cacheKeyInput,proto3" json:"cache_key_input,omitempty"` // Deprecated: Use cache_config instead
+	CacheConfig          *CacheConfiguration    `protobuf:"bytes,14,opt,name=cache_config,json=cacheConfig,proto3" json:"cache_config,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -388,6 +389,13 @@ func (x *StepDefinition) GetCacheKeyInput() string {
 		return x.CacheKeyInput
 	}
 	return ""
+}
+
+func (x *StepDefinition) GetCacheConfig() *CacheConfiguration {
+	if x != nil {
+		return x.CacheConfig
+	}
+	return nil
 }
 
 type CacheConfiguration struct {
@@ -761,7 +769,7 @@ const file_models_proto_rawDesc = "" +
 	"\x13global_instructions\x18\x04 \x01(\tR\x12globalInstructions\x12\x1b\n" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x12&\n" +
 	"\x0finitial_step_id\x18\x06 \x01(\tR\rinitialStepId\x12%\n" +
-	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xb3\x04\n" +
+	"\x0esystem_context\x18\a \x01(\tR\rsystemContext\"\xfe\x04\n" +
 	"\x0eStepDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12/\n" +
@@ -776,7 +784,8 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\tR\x13dynamicRuleStateKey\x12#\n" +
 	"\rcontext_input\x18\v \x01(\tR\fcontextInput\x12\x1b\n" +
 	"\tuse_cache\x18\f \x01(\bR\buseCache\x12&\n" +
-	"\x0fcache_key_input\x18\r \x01(\tR\rcacheKeyInput\"\xce\x01\n" +
+	"\x0fcache_key_input\x18\r \x01(\tR\rcacheKeyInput\x12I\n" +
+	"\fcache_config\x18\x0e \x01(\v2&.document.models.v1.CacheConfigurationR\vcacheConfig\"\xce\x01\n" +
 	"\x12CacheConfiguration\x12\x1b\n" +
 	"\tuse_cache\x18\x01 \x01(\bR\buseCache\x12'\n" +
 	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12\x1f\n" +
@@ -847,18 +856,19 @@ var file_models_proto_goTypes = []any{
 	(*structpb.Struct)(nil),    // 9: google.protobuf.Struct
 }
 var file_models_proto_depIdxs = []int32{
-	9, // 0: document.models.v1.CacheConfiguration.metadata:type_name -> google.protobuf.Struct
-	8, // 1: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
-	6, // 2: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
-	2, // 3: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	9, // 4: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
-	1, // 5: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	9, // 6: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	4, // 0: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
+	9, // 1: document.models.v1.CacheConfiguration.metadata:type_name -> google.protobuf.Struct
+	8, // 2: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
+	6, // 3: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
+	2, // 4: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
+	9, // 5: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	1, // 6: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
+	9, // 7: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }

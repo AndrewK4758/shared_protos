@@ -45,8 +45,9 @@ message StepDefinition {
   string dynamic_rule_table_name = 9;
   string dynamic_rule_state_key = 10;
   string context_input = 11;
-  bool use_cache = 12;
-  string cache_key_input = 13;
+  bool use_cache = 12; // Deprecated: Use cache_config instead
+  string cache_key_input = 13; // Deprecated: Use cache_config instead
+  CacheConfiguration cache_config = 14;
 }
 
 message CacheConfiguration {
