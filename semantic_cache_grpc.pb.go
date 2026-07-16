@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SemanticCacheService_CheckCache_FullMethodName      = "/semanticcache.v1.SemanticCacheService/CheckCache"
-	SemanticCacheService_StoreExtraction_FullMethodName = "/semanticcache.v1.SemanticCacheService/StoreExtraction"
-	SemanticCacheService_SeedCache_FullMethodName       = "/semanticcache.v1.SemanticCacheService/SeedCache"
+	SemanticCacheService_CheckCache_FullMethodName          = "/semanticcache.v1.SemanticCacheService/CheckCache"
+	SemanticCacheService_StoreExtraction_FullMethodName     = "/semanticcache.v1.SemanticCacheService/StoreExtraction"
+	SemanticCacheService_SeedCache_FullMethodName           = "/semanticcache.v1.SemanticCacheService/SeedCache"
+	SemanticCacheService_CheckMetadataExists_FullMethodName = "/semanticcache.v1.SemanticCacheService/CheckMetadataExists"
 )
 
 // SemanticCacheServiceClient is the client API for SemanticCacheService service.
@@ -31,6 +32,7 @@ type SemanticCacheServiceClient interface {
 	CheckCache(ctx context.Context, in *CheckCacheRequest, opts ...grpc.CallOption) (*CheckCacheResponse, error)
 	StoreExtraction(ctx context.Context, in *StoreExtractionRequest, opts ...grpc.CallOption) (*StoreExtractionResponse, error)
 	SeedCache(ctx context.Context, in *SeedCacheRequest, opts ...grpc.CallOption) (*SeedCacheResponse, error)
+	CheckMetadataExists(ctx context.Context, in *CheckMetadataRequest, opts ...grpc.CallOption) (*CheckMetadataResponse, error)
 }
 
 type semanticCacheServiceClient struct {
@@ -71,6 +73,16 @@ func (c *semanticCacheServiceClient) SeedCache(ctx context.Context, in *SeedCach
 	return out, nil
 }
 
+func (c *semanticCacheServiceClient) CheckMetadataExists(ctx context.Context, in *CheckMetadataRequest, opts ...grpc.CallOption) (*CheckMetadataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckMetadataResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_CheckMetadataExists_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SemanticCacheServiceServer is the server API for SemanticCacheService service.
 // All implementations must embed UnimplementedSemanticCacheServiceServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type SemanticCacheServiceServer interface {
 	CheckCache(context.Context, *CheckCacheRequest) (*CheckCacheResponse, error)
 	StoreExtraction(context.Context, *StoreExtractionRequest) (*StoreExtractionResponse, error)
 	SeedCache(context.Context, *SeedCacheRequest) (*SeedCacheResponse, error)
+	CheckMetadataExists(context.Context, *CheckMetadataRequest) (*CheckMetadataResponse, error)
 	mustEmbedUnimplementedSemanticCacheServiceServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedSemanticCacheServiceServer) StoreExtraction(context.Context, 
 }
 func (UnimplementedSemanticCacheServiceServer) SeedCache(context.Context, *SeedCacheRequest) (*SeedCacheResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SeedCache not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) CheckMetadataExists(context.Context, *CheckMetadataRequest) (*CheckMetadataResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CheckMetadataExists not implemented")
 }
 func (UnimplementedSemanticCacheServiceServer) mustEmbedUnimplementedSemanticCacheServiceServer() {}
 func (UnimplementedSemanticCacheServiceServer) testEmbeddedByValue()                              {}
@@ -172,6 +188,24 @@ func _SemanticCacheService_SeedCache_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SemanticCacheService_CheckMetadataExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckMetadataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).CheckMetadataExists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_CheckMetadataExists_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).CheckMetadataExists(ctx, req.(*CheckMetadataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SemanticCacheService_ServiceDesc is the grpc.ServiceDesc for SemanticCacheService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var SemanticCacheService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SeedCache",
 			Handler:    _SemanticCacheService_SeedCache_Handler,
+		},
+		{
+			MethodName: "CheckMetadataExists",
+			Handler:    _SemanticCacheService_CheckMetadataExists_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

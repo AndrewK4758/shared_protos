@@ -435,6 +435,102 @@ func (x *CacheStoreMessage) GetRequest() *StoreExtractionRequest {
 	return nil
 }
 
+type CheckMetadataRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CollectionName string                 `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	MetadataFilter *structpb.Struct       `protobuf:"bytes,2,opt,name=metadata_filter,json=metadataFilter,proto3" json:"metadata_filter,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CheckMetadataRequest) Reset() {
+	*x = CheckMetadataRequest{}
+	mi := &file_semantic_cache_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckMetadataRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckMetadataRequest) ProtoMessage() {}
+
+func (x *CheckMetadataRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckMetadataRequest.ProtoReflect.Descriptor instead.
+func (*CheckMetadataRequest) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CheckMetadataRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
+func (x *CheckMetadataRequest) GetMetadataFilter() *structpb.Struct {
+	if x != nil {
+		return x.MetadataFilter
+	}
+	return nil
+}
+
+type CheckMetadataResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exists        bool                   `protobuf:"varint,1,opt,name=exists,proto3" json:"exists,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckMetadataResponse) Reset() {
+	*x = CheckMetadataResponse{}
+	mi := &file_semantic_cache_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckMetadataResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckMetadataResponse) ProtoMessage() {}
+
+func (x *CheckMetadataResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckMetadataResponse.ProtoReflect.Descriptor instead.
+func (*CheckMetadataResponse) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CheckMetadataResponse) GetExists() bool {
+	if x != nil {
+		return x.Exists
+	}
+	return false
+}
+
 var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
@@ -468,12 +564,18 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"~\n" +
 	"\x11CacheStoreMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12B\n" +
-	"\arequest\x18\x02 \x01(\v2(.semanticcache.v1.StoreExtractionRequestR\arequest2\xad\x02\n" +
+	"\arequest\x18\x02 \x01(\v2(.semanticcache.v1.StoreExtractionRequestR\arequest\"\x81\x01\n" +
+	"\x14CheckMetadataRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12@\n" +
+	"\x0fmetadata_filter\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x0emetadataFilter\"/\n" +
+	"\x15CheckMetadataResponse\x12\x16\n" +
+	"\x06exists\x18\x01 \x01(\bR\x06exists2\x95\x03\n" +
 	"\x14SemanticCacheService\x12W\n" +
 	"\n" +
 	"CheckCache\x12#.semanticcache.v1.CheckCacheRequest\x1a$.semanticcache.v1.CheckCacheResponse\x12f\n" +
 	"\x0fStoreExtraction\x12(.semanticcache.v1.StoreExtractionRequest\x1a).semanticcache.v1.StoreExtractionResponse\x12T\n" +
-	"\tSeedCache\x12\".semanticcache.v1.SeedCacheRequest\x1a#.semanticcache.v1.SeedCacheResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\tSeedCache\x12\".semanticcache.v1.SeedCacheRequest\x1a#.semanticcache.v1.SeedCacheResponse\x12f\n" +
+	"\x13CheckMetadataExists\x12&.semanticcache.v1.CheckMetadataRequest\x1a'.semanticcache.v1.CheckMetadataResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_semantic_cache_proto_rawDescOnce sync.Once
@@ -487,7 +589,7 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_semantic_cache_proto_goTypes = []any{
 	(*CheckCacheRequest)(nil),       // 0: semanticcache.v1.CheckCacheRequest
 	(*CheckCacheResponse)(nil),      // 1: semanticcache.v1.CheckCacheResponse
@@ -496,24 +598,29 @@ var file_semantic_cache_proto_goTypes = []any{
 	(*SeedCacheRequest)(nil),        // 4: semanticcache.v1.SeedCacheRequest
 	(*SeedCacheResponse)(nil),       // 5: semanticcache.v1.SeedCacheResponse
 	(*CacheStoreMessage)(nil),       // 6: semanticcache.v1.CacheStoreMessage
-	(*structpb.Struct)(nil),         // 7: google.protobuf.Struct
+	(*CheckMetadataRequest)(nil),    // 7: semanticcache.v1.CheckMetadataRequest
+	(*CheckMetadataResponse)(nil),   // 8: semanticcache.v1.CheckMetadataResponse
+	(*structpb.Struct)(nil),         // 9: google.protobuf.Struct
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	7, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> google.protobuf.Struct
-	7, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
-	7, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
+	9, // 0: semanticcache.v1.CheckCacheRequest.metadata:type_name -> google.protobuf.Struct
+	9, // 1: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
+	9, // 2: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
 	2, // 3: semanticcache.v1.CacheStoreMessage.request:type_name -> semanticcache.v1.StoreExtractionRequest
-	0, // 4: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
-	2, // 5: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
-	4, // 6: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
-	1, // 7: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
-	3, // 8: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
-	5, // 9: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9, // 4: semanticcache.v1.CheckMetadataRequest.metadata_filter:type_name -> google.protobuf.Struct
+	0, // 5: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
+	2, // 6: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
+	4, // 7: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
+	7, // 8: semanticcache.v1.SemanticCacheService.CheckMetadataExists:input_type -> semanticcache.v1.CheckMetadataRequest
+	1, // 9: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
+	3, // 10: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
+	5, // 11: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
+	8, // 12: semanticcache.v1.SemanticCacheService.CheckMetadataExists:output_type -> semanticcache.v1.CheckMetadataResponse
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_semantic_cache_proto_init() }
@@ -527,7 +634,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -19,22 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OrchestratorService_SubmitJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/SubmitJob"
-	OrchestratorService_StartJob_FullMethodName          = "/document.orchestrator.v1.OrchestratorService/StartJob"
-	OrchestratorService_SubmitStep_FullMethodName        = "/document.orchestrator.v1.OrchestratorService/SubmitStep"
-	OrchestratorService_ListenForProgress_FullMethodName = "/document.orchestrator.v1.OrchestratorService/ListenForProgress"
-	OrchestratorService_ResumeJob_FullMethodName         = "/document.orchestrator.v1.OrchestratorService/ResumeJob"
-	OrchestratorService_PurgeSystemState_FullMethodName  = "/document.orchestrator.v1.OrchestratorService/PurgeSystemState"
+	OrchestratorService_ExecuteWorkflowNode_FullMethodName = "/document.orchestrator.v1.OrchestratorService/ExecuteWorkflowNode"
+	OrchestratorService_ListenForProgress_FullMethodName   = "/document.orchestrator.v1.OrchestratorService/ListenForProgress"
+	OrchestratorService_ResumeJob_FullMethodName           = "/document.orchestrator.v1.OrchestratorService/ResumeJob"
+	OrchestratorService_PurgeSystemState_FullMethodName    = "/document.orchestrator.v1.OrchestratorService/PurgeSystemState"
 )
 
 // OrchestratorServiceClient is the client API for OrchestratorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorServiceClient interface {
-	SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error)
-	StartJob(ctx context.Context, in *StartJobRequest, opts ...grpc.CallOption) (*StartJobResponse, error)
-	// Client submits a single, generic step to be executed for a specific JobID.
-	SubmitStep(ctx context.Context, in *SubmitStepRequest, opts ...grpc.CallOption) (*SubmitStepResponse, error)
+	// Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
+	ExecuteWorkflowNode(ctx context.Context, in *ExecuteWorkflowNodeRequest, opts ...grpc.CallOption) (*ExecuteWorkflowNodeResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
 	ListenForProgress(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ProgressUpdate], error)
 	// Resume a job after human validation has corrected the AI output
@@ -51,30 +47,10 @@ func NewOrchestratorServiceClient(cc grpc.ClientConnInterface) OrchestratorServi
 	return &orchestratorServiceClient{cc}
 }
 
-func (c *orchestratorServiceClient) SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error) {
+func (c *orchestratorServiceClient) ExecuteWorkflowNode(ctx context.Context, in *ExecuteWorkflowNodeRequest, opts ...grpc.CallOption) (*ExecuteWorkflowNodeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SubmitJobResponse)
-	err := c.cc.Invoke(ctx, OrchestratorService_SubmitJob_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *orchestratorServiceClient) StartJob(ctx context.Context, in *StartJobRequest, opts ...grpc.CallOption) (*StartJobResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StartJobResponse)
-	err := c.cc.Invoke(ctx, OrchestratorService_StartJob_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *orchestratorServiceClient) SubmitStep(ctx context.Context, in *SubmitStepRequest, opts ...grpc.CallOption) (*SubmitStepResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SubmitStepResponse)
-	err := c.cc.Invoke(ctx, OrchestratorService_SubmitStep_FullMethodName, in, out, cOpts...)
+	out := new(ExecuteWorkflowNodeResponse)
+	err := c.cc.Invoke(ctx, OrchestratorService_ExecuteWorkflowNode_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -124,10 +100,8 @@ func (c *orchestratorServiceClient) PurgeSystemState(ctx context.Context, in *Pu
 // All implementations must embed UnimplementedOrchestratorServiceServer
 // for forward compatibility.
 type OrchestratorServiceServer interface {
-	SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error)
-	StartJob(context.Context, *StartJobRequest) (*StartJobResponse, error)
-	// Client submits a single, generic step to be executed for a specific JobID.
-	SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error)
+	// Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
+	ExecuteWorkflowNode(context.Context, *ExecuteWorkflowNodeRequest) (*ExecuteWorkflowNodeResponse, error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
 	ListenForProgress(*ListenRequest, grpc.ServerStreamingServer[ProgressUpdate]) error
 	// Resume a job after human validation has corrected the AI output
@@ -144,14 +118,8 @@ type OrchestratorServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrchestratorServiceServer struct{}
 
-func (UnimplementedOrchestratorServiceServer) SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SubmitJob not implemented")
-}
-func (UnimplementedOrchestratorServiceServer) StartJob(context.Context, *StartJobRequest) (*StartJobResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method StartJob not implemented")
-}
-func (UnimplementedOrchestratorServiceServer) SubmitStep(context.Context, *SubmitStepRequest) (*SubmitStepResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SubmitStep not implemented")
+func (UnimplementedOrchestratorServiceServer) ExecuteWorkflowNode(context.Context, *ExecuteWorkflowNodeRequest) (*ExecuteWorkflowNodeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ExecuteWorkflowNode not implemented")
 }
 func (UnimplementedOrchestratorServiceServer) ListenForProgress(*ListenRequest, grpc.ServerStreamingServer[ProgressUpdate]) error {
 	return status.Error(codes.Unimplemented, "method ListenForProgress not implemented")
@@ -183,56 +151,20 @@ func RegisterOrchestratorServiceServer(s grpc.ServiceRegistrar, srv Orchestrator
 	s.RegisterService(&OrchestratorService_ServiceDesc, srv)
 }
 
-func _OrchestratorService_SubmitJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubmitJobRequest)
+func _OrchestratorService_ExecuteWorkflowNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExecuteWorkflowNodeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrchestratorServiceServer).SubmitJob(ctx, in)
+		return srv.(OrchestratorServiceServer).ExecuteWorkflowNode(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrchestratorService_SubmitJob_FullMethodName,
+		FullMethod: OrchestratorService_ExecuteWorkflowNode_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServiceServer).SubmitJob(ctx, req.(*SubmitJobRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrchestratorService_StartJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StartJobRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrchestratorServiceServer).StartJob(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrchestratorService_StartJob_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServiceServer).StartJob(ctx, req.(*StartJobRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrchestratorService_SubmitStep_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubmitStepRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrchestratorServiceServer).SubmitStep(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrchestratorService_SubmitStep_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServiceServer).SubmitStep(ctx, req.(*SubmitStepRequest))
+		return srv.(OrchestratorServiceServer).ExecuteWorkflowNode(ctx, req.(*ExecuteWorkflowNodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -292,16 +224,8 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrchestratorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SubmitJob",
-			Handler:    _OrchestratorService_SubmitJob_Handler,
-		},
-		{
-			MethodName: "StartJob",
-			Handler:    _OrchestratorService_StartJob_Handler,
-		},
-		{
-			MethodName: "SubmitStep",
-			Handler:    _OrchestratorService_SubmitStep_Handler,
+			MethodName: "ExecuteWorkflowNode",
+			Handler:    _OrchestratorService_ExecuteWorkflowNode_Handler,
 		},
 		{
 			MethodName: "ResumeJob",
@@ -323,19 +247,16 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	OrchestratorCallbackService_OnStepComplete_FullMethodName = "/document.orchestrator.v1.OrchestratorCallbackService/OnStepComplete"
-	OrchestratorCallbackService_OnJobFailed_FullMethodName    = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobFailed"
-	OrchestratorCallbackService_GetJobDetails_FullMethodName  = "/document.orchestrator.v1.OrchestratorCallbackService/GetJobDetails"
+	OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName = "/document.orchestrator.v1.OrchestratorCallbackService/OnNodeExecutionComplete"
+	OrchestratorCallbackService_OnJobFailed_FullMethodName             = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobFailed"
 )
 
 // OrchestratorCallbackServiceClient is the client API for OrchestratorCallbackService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorCallbackServiceClient interface {
-	OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error)
+	OnNodeExecutionComplete(ctx context.Context, in *NodeExecutionCompleteRequest, opts ...grpc.CallOption) (*NodeExecutionCompleteResponse, error)
 	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
-	// Client State Fallback
-	GetJobDetails(ctx context.Context, in *GetJobDetailsRequest, opts ...grpc.CallOption) (*GetJobDetailsResponse, error)
 }
 
 type orchestratorCallbackServiceClient struct {
@@ -346,10 +267,10 @@ func NewOrchestratorCallbackServiceClient(cc grpc.ClientConnInterface) Orchestra
 	return &orchestratorCallbackServiceClient{cc}
 }
 
-func (c *orchestratorCallbackServiceClient) OnStepComplete(ctx context.Context, in *StepCompleteRequest, opts ...grpc.CallOption) (*StepCompleteResponse, error) {
+func (c *orchestratorCallbackServiceClient) OnNodeExecutionComplete(ctx context.Context, in *NodeExecutionCompleteRequest, opts ...grpc.CallOption) (*NodeExecutionCompleteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StepCompleteResponse)
-	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnStepComplete_FullMethodName, in, out, cOpts...)
+	out := new(NodeExecutionCompleteResponse)
+	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -366,24 +287,12 @@ func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *orchestratorCallbackServiceClient) GetJobDetails(ctx context.Context, in *GetJobDetailsRequest, opts ...grpc.CallOption) (*GetJobDetailsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetJobDetailsResponse)
-	err := c.cc.Invoke(ctx, OrchestratorCallbackService_GetJobDetails_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // OrchestratorCallbackServiceServer is the server API for OrchestratorCallbackService service.
 // All implementations must embed UnimplementedOrchestratorCallbackServiceServer
 // for forward compatibility.
 type OrchestratorCallbackServiceServer interface {
-	OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error)
+	OnNodeExecutionComplete(context.Context, *NodeExecutionCompleteRequest) (*NodeExecutionCompleteResponse, error)
 	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
-	// Client State Fallback
-	GetJobDetails(context.Context, *GetJobDetailsRequest) (*GetJobDetailsResponse, error)
 	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
 
@@ -394,14 +303,11 @@ type OrchestratorCallbackServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrchestratorCallbackServiceServer struct{}
 
-func (UnimplementedOrchestratorCallbackServiceServer) OnStepComplete(context.Context, *StepCompleteRequest) (*StepCompleteResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method OnStepComplete not implemented")
+func (UnimplementedOrchestratorCallbackServiceServer) OnNodeExecutionComplete(context.Context, *NodeExecutionCompleteRequest) (*NodeExecutionCompleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method OnNodeExecutionComplete not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
-}
-func (UnimplementedOrchestratorCallbackServiceServer) GetJobDetails(context.Context, *GetJobDetailsRequest) (*GetJobDetailsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetJobDetails not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) mustEmbedUnimplementedOrchestratorCallbackServiceServer() {
 }
@@ -425,20 +331,20 @@ func RegisterOrchestratorCallbackServiceServer(s grpc.ServiceRegistrar, srv Orch
 	s.RegisterService(&OrchestratorCallbackService_ServiceDesc, srv)
 }
 
-func _OrchestratorCallbackService_OnStepComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StepCompleteRequest)
+func _OrchestratorCallbackService_OnNodeExecutionComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NodeExecutionCompleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrchestratorCallbackServiceServer).OnStepComplete(ctx, in)
+		return srv.(OrchestratorCallbackServiceServer).OnNodeExecutionComplete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrchestratorCallbackService_OnStepComplete_FullMethodName,
+		FullMethod: OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorCallbackServiceServer).OnStepComplete(ctx, req.(*StepCompleteRequest))
+		return srv.(OrchestratorCallbackServiceServer).OnNodeExecutionComplete(ctx, req.(*NodeExecutionCompleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -461,24 +367,6 @@ func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrchestratorCallbackService_GetJobDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetJobDetailsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrchestratorCallbackServiceServer).GetJobDetails(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrchestratorCallbackService_GetJobDetails_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorCallbackServiceServer).GetJobDetails(ctx, req.(*GetJobDetailsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // OrchestratorCallbackService_ServiceDesc is the grpc.ServiceDesc for OrchestratorCallbackService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -487,16 +375,12 @@ var OrchestratorCallbackService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrchestratorCallbackServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OnStepComplete",
-			Handler:    _OrchestratorCallbackService_OnStepComplete_Handler,
+			MethodName: "OnNodeExecutionComplete",
+			Handler:    _OrchestratorCallbackService_OnNodeExecutionComplete_Handler,
 		},
 		{
 			MethodName: "OnJobFailed",
 			Handler:    _OrchestratorCallbackService_OnJobFailed_Handler,
-		},
-		{
-			MethodName: "GetJobDetails",
-			Handler:    _OrchestratorCallbackService_GetJobDetails_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

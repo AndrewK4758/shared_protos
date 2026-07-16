@@ -363,10 +363,10 @@ func (x *TraceEvent) GetDocumentType() string {
 }
 
 type SaveJobStateRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	OriginalRequest *SubmitJobRequest      `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
-	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
+	state           protoimpl.MessageState      `protogen:"open.v1"`
+	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
+	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -408,7 +408,7 @@ func (x *SaveJobStateRequest) GetJobId() string {
 	return ""
 }
 
-func (x *SaveJobStateRequest) GetOriginalRequest() *SubmitJobRequest {
+func (x *SaveJobStateRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
 	if x != nil {
 		return x.OriginalRequest
 	}
@@ -547,10 +547,10 @@ func (x *GetPendingJobsResponse) GetJobs() []*JobStateRecord {
 }
 
 type JobStateRecord struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	OriginalRequest *SubmitJobRequest      `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
-	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	state           protoimpl.MessageState      `protogen:"open.v1"`
+	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -592,7 +592,7 @@ func (x *JobStateRecord) GetJobId() string {
 	return ""
 }
 
-func (x *JobStateRecord) GetOriginalRequest() *SubmitJobRequest {
+func (x *JobStateRecord) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
 	if x != nil {
 		return x.OriginalRequest
 	}
@@ -733,19 +733,19 @@ const file_traceability_proto_rawDesc = "" +
 	" \x01(\tR\amessage\x12\x1a\n" +
 	"\bmetadata\x18\v \x01(\tR\bmetadata\x12\x1c\n" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
-	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\x9b\x01\n" +
+	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\xa5\x01\n" +
 	"\x13SaveJobStateRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12U\n" +
-	"\x10original_request\x18\x02 \x01(\v2*.document.orchestrator.v1.SubmitJobRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12_\n" +
+	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\"0\n" +
 	"\x14SaveJobStateResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x17\n" +
 	"\x15GetPendingJobsRequest\"J\n" +
 	"\x16GetPendingJobsResponse\x120\n" +
-	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\x96\x01\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xa0\x01\n" +
 	"\x0eJobStateRecord\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12U\n" +
-	"\x10original_request\x18\x02 \x01(\v2*.document.orchestrator.v1.SubmitJobRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12_\n" +
+	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\"+\n" +
 	"\x12GetJobStateRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"[\n" +
@@ -785,14 +785,14 @@ var file_traceability_proto_goTypes = []any{
 	(*JobStateRecord)(nil),              // 9: traceability.JobStateRecord
 	(*GetJobStateRequest)(nil),          // 10: traceability.GetJobStateRequest
 	(*GetJobStateResponse)(nil),         // 11: traceability.GetJobStateResponse
-	(*SubmitJobRequest)(nil),            // 12: document.orchestrator.v1.SubmitJobRequest
+	(*ExecuteWorkflowNodeRequest)(nil),  // 12: document.orchestrator.v1.ExecuteWorkflowNodeRequest
 }
 var file_traceability_proto_depIdxs = []int32{
 	4,  // 0: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
 	4,  // 1: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
-	12, // 2: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
+	12, // 2: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
 	9,  // 3: traceability.GetPendingJobsResponse.jobs:type_name -> traceability.JobStateRecord
-	12, // 4: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.SubmitJobRequest
+	12, // 4: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
 	9,  // 5: traceability.GetJobStateResponse.job:type_name -> traceability.JobStateRecord
 	0,  // 6: traceability.TraceabilityQuery.GetJobTrace:input_type -> traceability.GetJobTraceRequest
 	2,  // 7: traceability.TraceabilityQuery.GetCorrelationTrace:input_type -> traceability.GetCorrelationTraceRequest

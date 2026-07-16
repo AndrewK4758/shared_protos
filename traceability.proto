@@ -59,7 +59,7 @@ message TraceEvent {
 
 message SaveJobStateRequest {
   string job_id = 1;
-  document.orchestrator.v1.SubmitJobRequest original_request = 2; // Full config
+  document.orchestrator.v1.ExecuteWorkflowNodeRequest original_request = 2; // Full config
   string status = 3; // "PENDING", "COMPLETED", "FAILED"
 }
 
@@ -75,7 +75,7 @@ message GetPendingJobsResponse {
 
 message JobStateRecord {
   string job_id = 1;
-  document.orchestrator.v1.SubmitJobRequest original_request = 2;
+  document.orchestrator.v1.ExecuteWorkflowNodeRequest original_request = 2;
   string status = 3;
 }
 

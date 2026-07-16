@@ -5,17 +5,12 @@ package document.orchestrator.v1;
 option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Orchestrator.V1";
 
-import "processor.proto";
 import "models.proto";
 import "google/protobuf/struct.proto";
 
 service OrchestratorService {
-  rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
-  
-  rpc StartJob(StartJobRequest) returns (StartJobResponse);
-
-  // Client submits a single, generic step to be executed for a specific JobID.
-  rpc SubmitStep(SubmitStepRequest) returns (SubmitStepResponse);
+  // Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
+  rpc ExecuteWorkflowNode(ExecuteWorkflowNodeRequest) returns (ExecuteWorkflowNodeResponse);
 
   // Client listens to this Server Stream to get real-time progress of their JobID
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
@@ -27,45 +22,21 @@ service OrchestratorService {
   rpc PurgeSystemState(PurgeSystemStateRequest) returns (PurgeSystemStateResponse);
 }
 
-message SubmitJobRequest {
-  document.models.v1.WorkflowContext context = 1;
-  repeated document.models.v1.StepDefinition steps = 3;
-  repeated document.models.v1.JobWorkflowEdge job_graph = 4;
-  
-  document.models.v1.ModelChoice model_choice = 7;
-  repeated string target_fields = 8;
-  repeated document.models.v1.ActionDefinition action_definitions = 10;
-  string callback_address = 11;
-}
-
-message SubmitJobResponse {
+message ExecuteWorkflowNodeRequest {
   string job_id = 1;
-  string status = 2; // e.g., "CACHED"
+  string step_id = 2; // The current node being executed
+  string callback_address = 3; // Where to webhook the mutated state
+
+  google.protobuf.Struct global_state = 4; // The single source of truth payload
+  map<string, string> metadata = 5; // e.g. tenant_id, app_id, correlation_id
+
+  document.models.v1.NodeConfiguration node_config = 6;
 }
 
-message StartJobRequest {
-  string job_id = 1;
-}
-
-message StartJobResponse {
+message ExecuteWorkflowNodeResponse {
   bool success = 1;
   string message = 2;
-  string active_step_id = 3;
-}
-
-message SubmitStepRequest {
-  string job_id = 1;
-  string step_id = 2;
-  string custom_instructions = 3;
-  string expected_schema = 4;
-  bool complete_job = 5;
-  document.models.v1.CacheConfiguration cache_config = 6;
-}
-
-message SubmitStepResponse {
-  bool success = 1;
-  string message = 2;
-  string step_id = 3; // Unique ID for tracking this specific step execution
+  string step_id = 3;
 }
 
 message ListenRequest {
@@ -104,22 +75,22 @@ message PurgeSystemStateResponse {
 }
 
 service OrchestratorCallbackService {
-  rpc OnStepComplete(StepCompleteRequest) returns (StepCompleteResponse);
+  rpc OnNodeExecutionComplete(NodeExecutionCompleteRequest) returns (NodeExecutionCompleteResponse);
   rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
-  
-  // Client State Fallback
-  rpc GetJobDetails(GetJobDetailsRequest) returns (GetJobDetailsResponse);
 }
 
-message StepCompleteRequest {
+message NodeExecutionCompleteRequest {
   string job_id = 1;
-  string job_definition_id = 2; // Extracted from ActiveJobExecution / Context
-  string completed_step_id = 3; 
-  google.protobuf.Struct global_state = 4; // Contains extracted data to evaluate routing rules
-  google.protobuf.Struct step_output = 5; // The isolated output of the step that just completed
+  string completed_step_id = 2;
+  
+  google.protobuf.Struct global_state = 3; // The mutated state 
+  google.protobuf.Struct node_output = 4;  // The isolated output for dynamic rule evaluation
+  
+  bool success = 5;
+  string error_message = 6;
 }
 
-message StepCompleteResponse {
+message NodeExecutionCompleteResponse {
   bool success = 1; 
 }
 
@@ -131,13 +102,4 @@ message JobFailedRequest {
 
 message JobFailedResponse {
   bool success = 1;
-}
-
-message GetJobDetailsRequest {
-  string job_id = 1;
-}
-
-message GetJobDetailsResponse {
-  bool found = 1;
-  SubmitJobRequest original_request = 2;
 }
