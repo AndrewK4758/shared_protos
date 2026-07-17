@@ -216,6 +216,7 @@ type CacheConfiguration struct {
 	CollectionName      string                 `protobuf:"bytes,2,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
 	LookupInput         string                 `protobuf:"bytes,3,opt,name=lookup_input,json=lookupInput,proto3" json:"lookup_input,omitempty"`
 	ConfidenceThreshold float32                `protobuf:"fixed32,4,opt,name=confidence_threshold,json=confidenceThreshold,proto3" json:"confidence_threshold,omitempty"`
+	Metadata            map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -276,6 +277,13 @@ func (x *CacheConfiguration) GetConfidenceThreshold() float32 {
 		return x.ConfidenceThreshold
 	}
 	return 0
+}
+
+func (x *CacheConfiguration) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
 }
 
 type HumanValidationConfiguration struct {
@@ -961,12 +969,16 @@ const file_models_proto_rawDesc = "" +
 	"\x0fexpected_schema\x18\x03 \x01(\tR\x0eexpectedSchema\x12P\n" +
 	"\x0eprimitive_type\x18\x04 \x01(\x0e2).document.models.v1.OrchestratorPrimitiveR\rprimitiveType\x12<\n" +
 	"\x05cache\x18\x05 \x01(\v2&.document.models.v1.CacheConfigurationR\x05cache\x12[\n" +
-	"\x10human_validation\x18\x06 \x01(\v20.document.models.v1.HumanValidationConfigurationR\x0fhumanValidation\"\xad\x01\n" +
+	"\x10human_validation\x18\x06 \x01(\v20.document.models.v1.HumanValidationConfigurationR\x0fhumanValidation\"\xbc\x02\n" +
 	"\x12CacheConfiguration\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12'\n" +
 	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12!\n" +
 	"\flookup_input\x18\x03 \x01(\tR\vlookupInput\x121\n" +
-	"\x14confidence_threshold\x18\x04 \x01(\x02R\x13confidenceThreshold\"c\n" +
+	"\x14confidence_threshold\x18\x04 \x01(\x02R\x13confidenceThreshold\x12P\n" +
+	"\bmetadata\x18\x05 \x03(\v24.document.models.v1.CacheConfiguration.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"c\n" +
 	"\x1cHumanValidationConfiguration\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired\x12'\n" +
 	"\x0fbypass_fallback\x18\x02 \x01(\bR\x0ebypassFallback\"\xf2\x01\n" +
@@ -1057,7 +1069,7 @@ func file_models_proto_rawDescGZIP() []byte {
 }
 
 var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),                     // 0: document.models.v1.ModelChoice
 	(OrchestratorPrimitive)(0),           // 1: document.models.v1.OrchestratorPrimitive
@@ -1070,27 +1082,29 @@ var file_models_proto_goTypes = []any{
 	(*ActionDefinition)(nil),             // 8: document.models.v1.ActionDefinition
 	(*ActiveJobExecution)(nil),           // 9: document.models.v1.ActiveJobExecution
 	(*WorkflowContext)(nil),              // 10: document.models.v1.WorkflowContext
-	nil,                                  // 11: document.models.v1.WorkflowContext.MetadataEntry
-	(*structpb.Struct)(nil),              // 12: google.protobuf.Struct
+	nil,                                  // 11: document.models.v1.CacheConfiguration.MetadataEntry
+	nil,                                  // 12: document.models.v1.WorkflowContext.MetadataEntry
+	(*structpb.Struct)(nil),              // 13: google.protobuf.Struct
 }
 var file_models_proto_depIdxs = []int32{
 	1,  // 0: document.models.v1.NodeConfiguration.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
 	3,  // 1: document.models.v1.NodeConfiguration.cache:type_name -> document.models.v1.CacheConfiguration
 	4,  // 2: document.models.v1.NodeConfiguration.human_validation:type_name -> document.models.v1.HumanValidationConfiguration
-	3,  // 3: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
-	1,  // 4: document.models.v1.StepDefinition.step_primitive:type_name -> document.models.v1.OrchestratorPrimitive
-	1,  // 5: document.models.v1.ActionDefinition.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
-	11, // 6: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
-	9,  // 7: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
-	5,  // 8: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	12, // 9: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
-	8,  // 10: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	12, // 11: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	11, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> document.models.v1.CacheConfiguration.MetadataEntry
+	3,  // 4: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
+	1,  // 5: document.models.v1.StepDefinition.step_primitive:type_name -> document.models.v1.OrchestratorPrimitive
+	1,  // 6: document.models.v1.ActionDefinition.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
+	12, // 7: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
+	9,  // 8: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
+	5,  // 9: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
+	13, // 10: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	8,  // 11: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
+	13, // 12: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
@@ -1104,7 +1118,7 @@ func file_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

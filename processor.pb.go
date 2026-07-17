@@ -200,10 +200,10 @@ func (x *ProcessDocumentResponse) GetStatus() string {
 type PerformActionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Optional raw binary input (e.g. image, pdf chunk, file content)
-	InputBytes    []byte            `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
-	Context       *WorkflowContext  `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
-	CurrentAction *ActionDefinition `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
-	ModelChoice   ModelChoice       `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
+	InputBytes    []byte                      `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
+	Context       *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
+	CurrentAction *ActionDefinition           `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
+	ModelChoice   ModelChoice                 `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	// Optional text input (e.g. plain text, markdown, existing state)
 	InputText     string `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -247,7 +247,7 @@ func (x *PerformActionRequest) GetInputBytes() []byte {
 	return nil
 }
 
-func (x *PerformActionRequest) GetContext() *WorkflowContext {
+func (x *PerformActionRequest) GetContext() *ExecuteWorkflowNodeRequest {
 	if x != nil {
 		return x.Context
 	}
@@ -340,7 +340,7 @@ var File_processor_proto protoreflect.FileDescriptor
 
 const file_processor_proto_rawDesc = "" +
 	"\n" +
-	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\"\xf6\x02\n" +
+	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\x1a\x12orchestrator.proto\"\xf6\x02\n" +
 	"\x16ProcessDocumentRequest\x12!\n" +
 	"\ffile_content\x18\x01 \x01(\fR\vfileContent\x12\x1b\n" +
 	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12B\n" +
@@ -356,11 +356,11 @@ const file_processor_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x03 \x01(\tR\rcorrelationId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"\xa6\x02\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\xb7\x02\n" +
 	"\x14PerformActionRequest\x12\x1f\n" +
 	"\vinput_bytes\x18\x01 \x01(\fR\n" +
-	"inputBytes\x12=\n" +
-	"\acontext\x18\x02 \x01(\v2#.document.models.v1.WorkflowContextR\acontext\x12K\n" +
+	"inputBytes\x12N\n" +
+	"\acontext\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\acontext\x12K\n" +
 	"\x0ecurrent_action\x18\x03 \x01(\v2$.document.models.v1.ActionDefinitionR\rcurrentAction\x12B\n" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
@@ -387,17 +387,17 @@ func file_processor_proto_rawDescGZIP() []byte {
 
 var file_processor_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_processor_proto_goTypes = []any{
-	(*ProcessDocumentRequest)(nil),  // 0: document.processor.v1.ProcessDocumentRequest
-	(*ProcessDocumentResponse)(nil), // 1: document.processor.v1.ProcessDocumentResponse
-	(*PerformActionRequest)(nil),    // 2: document.processor.v1.PerformActionRequest
-	(*PerformActionResponse)(nil),   // 3: document.processor.v1.PerformActionResponse
-	(ModelChoice)(0),                // 4: document.models.v1.ModelChoice
-	(*WorkflowContext)(nil),         // 5: document.models.v1.WorkflowContext
-	(*ActionDefinition)(nil),        // 6: document.models.v1.ActionDefinition
+	(*ProcessDocumentRequest)(nil),     // 0: document.processor.v1.ProcessDocumentRequest
+	(*ProcessDocumentResponse)(nil),    // 1: document.processor.v1.ProcessDocumentResponse
+	(*PerformActionRequest)(nil),       // 2: document.processor.v1.PerformActionRequest
+	(*PerformActionResponse)(nil),      // 3: document.processor.v1.PerformActionResponse
+	(ModelChoice)(0),                   // 4: document.models.v1.ModelChoice
+	(*ExecuteWorkflowNodeRequest)(nil), // 5: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ActionDefinition)(nil),           // 6: document.models.v1.ActionDefinition
 }
 var file_processor_proto_depIdxs = []int32{
 	4, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
-	5, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.models.v1.WorkflowContext
+	5, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
 	6, // 2: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
 	4, // 3: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	0, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
@@ -417,6 +417,7 @@ func file_processor_proto_init() {
 		return
 	}
 	file_models_proto_init()
+	file_orchestrator_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

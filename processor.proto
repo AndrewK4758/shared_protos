@@ -6,6 +6,7 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Processor.V1";
 
 import "models.proto";
+import "orchestrator.proto";
 
 service DocumentProcessor {
   // Existing Async method (keeps current NATS architecture intact for legacy)
@@ -40,7 +41,7 @@ message PerformActionRequest {
   // Optional raw binary input (e.g. image, pdf chunk, file content)
   bytes input_bytes = 1;
   
-  document.models.v1.WorkflowContext context = 2;
+  document.orchestrator.v1.ExecuteWorkflowNodeRequest context = 2;
   document.models.v1.ActionDefinition current_action = 3;
   
   document.models.v1.ModelChoice model_choice = 4;

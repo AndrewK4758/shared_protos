@@ -36,6 +36,7 @@ message CacheConfiguration {
   string collection_name = 2;
   string lookup_input = 3;
   float confidence_threshold = 4;
+  map<string, string> metadata = 5;
 }
 
 message HumanValidationConfiguration {
