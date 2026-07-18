@@ -29,6 +29,7 @@ const (
 	ModelChoice_MODEL_CHOICE_EXTRACTION     ModelChoice = 1
 	ModelChoice_MODEL_CHOICE_CLASSIFICATION ModelChoice = 2
 	ModelChoice_MODEL_CHOICE_PLANNING       ModelChoice = 3
+	ModelChoice_MODEL_CHOICE_OCR            ModelChoice = 4
 )
 
 // Enum value maps for ModelChoice.
@@ -38,12 +39,14 @@ var (
 		1: "MODEL_CHOICE_EXTRACTION",
 		2: "MODEL_CHOICE_CLASSIFICATION",
 		3: "MODEL_CHOICE_PLANNING",
+		4: "MODEL_CHOICE_OCR",
 	}
 	ModelChoice_value = map[string]int32{
 		"MODEL_CHOICE_UNSPECIFIED":    0,
 		"MODEL_CHOICE_EXTRACTION":     1,
 		"MODEL_CHOICE_CLASSIFICATION": 2,
 		"MODEL_CHOICE_PLANNING":       3,
+		"MODEL_CHOICE_OCR":            4,
 	}
 )
 
@@ -1047,12 +1050,13 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x84\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x9a\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
 	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02\x12\x19\n" +
-	"\x15MODEL_CHOICE_PLANNING\x10\x03*\xac\x01\n" +
+	"\x15MODEL_CHOICE_PLANNING\x10\x03\x12\x14\n" +
+	"\x10MODEL_CHOICE_OCR\x10\x04*\xac\x01\n" +
 	"\x15OrchestratorPrimitive\x12\x19\n" +
 	"\x15PRIMITIVE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11PRIMITIVE_AI_STEP\x10\x01\x12\x18\n" +

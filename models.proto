@@ -12,6 +12,7 @@ enum ModelChoice {
   MODEL_CHOICE_EXTRACTION = 1;
   MODEL_CHOICE_CLASSIFICATION = 2;
   MODEL_CHOICE_PLANNING = 3;
+  MODEL_CHOICE_OCR = 4;
 }
 
 enum OrchestratorPrimitive {
