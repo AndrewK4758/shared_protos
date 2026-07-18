@@ -81,6 +81,7 @@ const (
 	OrchestratorPrimitive_PRIMITIVE_AI_STEP                  OrchestratorPrimitive = 1
 	OrchestratorPrimitive_PRIMITIVE_HUMAN_STEP               OrchestratorPrimitive = 2
 	OrchestratorPrimitive_PRIMITIVE_ZERO_SHOT_CLASSIFICATION OrchestratorPrimitive = 3
+	OrchestratorPrimitive_PRIMITIVE_DOCUMENT_CHUNKING        OrchestratorPrimitive = 4
 )
 
 // Enum value maps for OrchestratorPrimitive.
@@ -90,12 +91,14 @@ var (
 		1: "PRIMITIVE_AI_STEP",
 		2: "PRIMITIVE_HUMAN_STEP",
 		3: "PRIMITIVE_ZERO_SHOT_CLASSIFICATION",
+		4: "PRIMITIVE_DOCUMENT_CHUNKING",
 	}
 	OrchestratorPrimitive_value = map[string]int32{
 		"PRIMITIVE_UNSPECIFIED":              0,
 		"PRIMITIVE_AI_STEP":                  1,
 		"PRIMITIVE_HUMAN_STEP":               2,
 		"PRIMITIVE_ZERO_SHOT_CLASSIFICATION": 3,
+		"PRIMITIVE_DOCUMENT_CHUNKING":        4,
 	}
 )
 
@@ -1049,12 +1052,13 @@ const file_models_proto_rawDesc = "" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
 	"\x1bMODEL_CHOICE_CLASSIFICATION\x10\x02\x12\x19\n" +
-	"\x15MODEL_CHOICE_PLANNING\x10\x03*\x8b\x01\n" +
+	"\x15MODEL_CHOICE_PLANNING\x10\x03*\xac\x01\n" +
 	"\x15OrchestratorPrimitive\x12\x19\n" +
 	"\x15PRIMITIVE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11PRIMITIVE_AI_STEP\x10\x01\x12\x18\n" +
 	"\x14PRIMITIVE_HUMAN_STEP\x10\x02\x12&\n" +
-	"\"PRIMITIVE_ZERO_SHOT_CLASSIFICATION\x10\x03B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
+	"\"PRIMITIVE_ZERO_SHOT_CLASSIFICATION\x10\x03\x12\x1f\n" +
+	"\x1bPRIMITIVE_DOCUMENT_CHUNKING\x10\x04B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package document.processing.v1;
+
+option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Document.Processing.V1";
+
+service DocumentProcessingService {
+  rpc ChunkDocument(ChunkDocumentRequest) returns (ChunkDocumentResponse);
+}
+
+message ChunkDocumentRequest {
+  string job_id = 1;
+  string step_id = 2;
+  string zip_file_path = 3;
+}
+
+message ProcessedDocument {
+  string document_type = 1;
+  string file_path = 2;
+  int32 page_count = 3;
+}
+
+message ChunkDocumentResponse {
+  bool success = 1;
+  string error_message = 2;
+  repeated ProcessedDocument processed_documents = 3;
+}

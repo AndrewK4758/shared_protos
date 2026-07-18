@@ -19,6 +19,7 @@ enum OrchestratorPrimitive {
   PRIMITIVE_AI_STEP = 1;
   PRIMITIVE_HUMAN_STEP = 2;
   PRIMITIVE_ZERO_SHOT_CLASSIFICATION = 3;
+  PRIMITIVE_DOCUMENT_CHUNKING = 4;
 }
 
 message NodeConfiguration {
