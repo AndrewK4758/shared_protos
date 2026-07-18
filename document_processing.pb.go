@@ -22,13 +22,14 @@ const (
 )
 
 type ChunkDocumentRequest struct {
-	state           protoimpl.MessageState      `protogen:"open.v1"`
-	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepId          string                      `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	ZipFilePath     string                      `protobuf:"bytes,3,opt,name=zip_file_path,json=zipFilePath,proto3" json:"zip_file_path,omitempty"`
-	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state            protoimpl.MessageState      `protogen:"open.v1"`
+	JobId            string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	StepId           string                      `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	RelativeFilePath string                      `protobuf:"bytes,3,opt,name=relative_file_path,json=relativeFilePath,proto3" json:"relative_file_path,omitempty"`
+	OriginalRequest  *ExecuteWorkflowNodeRequest `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	RawFileBytes     []byte                      `protobuf:"bytes,5,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ChunkDocumentRequest) Reset() {
@@ -75,9 +76,9 @@ func (x *ChunkDocumentRequest) GetStepId() string {
 	return ""
 }
 
-func (x *ChunkDocumentRequest) GetZipFilePath() string {
+func (x *ChunkDocumentRequest) GetRelativeFilePath() string {
 	if x != nil {
-		return x.ZipFilePath
+		return x.RelativeFilePath
 	}
 	return ""
 }
@@ -89,13 +90,21 @@ func (x *ChunkDocumentRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest 
 	return nil
 }
 
+func (x *ChunkDocumentRequest) GetRawFileBytes() []byte {
+	if x != nil {
+		return x.RawFileBytes
+	}
+	return nil
+}
+
 type ProcessedDocument struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DocumentType  string                 `protobuf:"bytes,1,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
-	FilePath      string                 `protobuf:"bytes,2,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
-	PageCount     int32                  `protobuf:"varint,3,opt,name=page_count,json=pageCount,proto3" json:"page_count,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	DocumentType     string                 `protobuf:"bytes,1,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	RelativeFilePath string                 `protobuf:"bytes,2,opt,name=relative_file_path,json=relativeFilePath,proto3" json:"relative_file_path,omitempty"`
+	PageCount        int32                  `protobuf:"varint,3,opt,name=page_count,json=pageCount,proto3" json:"page_count,omitempty"`
+	RawFileBytes     []byte                 `protobuf:"bytes,4,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ProcessedDocument) Reset() {
@@ -135,9 +144,9 @@ func (x *ProcessedDocument) GetDocumentType() string {
 	return ""
 }
 
-func (x *ProcessedDocument) GetFilePath() string {
+func (x *ProcessedDocument) GetRelativeFilePath() string {
 	if x != nil {
-		return x.FilePath
+		return x.RelativeFilePath
 	}
 	return ""
 }
@@ -147,6 +156,13 @@ func (x *ProcessedDocument) GetPageCount() int32 {
 		return x.PageCount
 	}
 	return 0
+}
+
+func (x *ProcessedDocument) GetRawFileBytes() []byte {
+	if x != nil {
+		return x.RawFileBytes
+	}
+	return nil
 }
 
 type ChunkingTraceEvent struct {
@@ -281,17 +297,19 @@ var File_document_processing_proto protoreflect.FileDescriptor
 
 const file_document_processing_proto_rawDesc = "" +
 	"\n" +
-	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\"\xcb\x01\n" +
+	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\"\xfb\x01\n" +
 	"\x14ChunkDocumentRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
-	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\"\n" +
-	"\rzip_file_path\x18\x03 \x01(\tR\vzipFilePath\x12_\n" +
-	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\"t\n" +
+	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12,\n" +
+	"\x12relative_file_path\x18\x03 \x01(\tR\x10relativeFilePath\x12_\n" +
+	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12$\n" +
+	"\x0eraw_file_bytes\x18\x05 \x01(\fR\frawFileBytes\"\xab\x01\n" +
 	"\x11ProcessedDocument\x12#\n" +
-	"\rdocument_type\x18\x01 \x01(\tR\fdocumentType\x12\x1b\n" +
-	"\tfile_path\x18\x02 \x01(\tR\bfilePath\x12\x1d\n" +
+	"\rdocument_type\x18\x01 \x01(\tR\fdocumentType\x12,\n" +
+	"\x12relative_file_path\x18\x02 \x01(\tR\x10relativeFilePath\x12\x1d\n" +
 	"\n" +
-	"page_count\x18\x03 \x01(\x05R\tpageCount\"k\n" +
+	"page_count\x18\x03 \x01(\x05R\tpageCount\x12$\n" +
+	"\x0eraw_file_bytes\x18\x04 \x01(\fR\frawFileBytes\"k\n" +
 	"\x12ChunkingTraceEvent\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\tR\ttimestamp\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +

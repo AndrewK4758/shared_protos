@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DocumentProcessor_ProcessDocument_FullMethodName = "/document.processor.v1.DocumentProcessor/ProcessDocument"
-	DocumentProcessor_PerformAction_FullMethodName   = "/document.processor.v1.DocumentProcessor/PerformAction"
+	DocumentProcessor_ProcessDocument_FullMethodName    = "/document.processor.v1.DocumentProcessor/ProcessDocument"
+	DocumentProcessor_PerformAction_FullMethodName      = "/document.processor.v1.DocumentProcessor/PerformAction"
+	DocumentProcessor_GetAvailableModels_FullMethodName = "/document.processor.v1.DocumentProcessor/GetAvailableModels"
 )
 
 // DocumentProcessorClient is the client API for DocumentProcessor service.
@@ -31,6 +32,8 @@ type DocumentProcessorClient interface {
 	ProcessDocument(ctx context.Context, in *ProcessDocumentRequest, opts ...grpc.CallOption) (*ProcessDocumentResponse, error)
 	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
 	PerformAction(ctx context.Context, in *PerformActionRequest, opts ...grpc.CallOption) (*PerformActionResponse, error)
+	// NEW: Query AI Service for available models
+	GetAvailableModels(ctx context.Context, in *GetAvailableModelsRequest, opts ...grpc.CallOption) (*GetAvailableModelsResponse, error)
 }
 
 type documentProcessorClient struct {
@@ -61,6 +64,16 @@ func (c *documentProcessorClient) PerformAction(ctx context.Context, in *Perform
 	return out, nil
 }
 
+func (c *documentProcessorClient) GetAvailableModels(ctx context.Context, in *GetAvailableModelsRequest, opts ...grpc.CallOption) (*GetAvailableModelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAvailableModelsResponse)
+	err := c.cc.Invoke(ctx, DocumentProcessor_GetAvailableModels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DocumentProcessorServer is the server API for DocumentProcessor service.
 // All implementations must embed UnimplementedDocumentProcessorServer
 // for forward compatibility.
@@ -69,6 +82,8 @@ type DocumentProcessorServer interface {
 	ProcessDocument(context.Context, *ProcessDocumentRequest) (*ProcessDocumentResponse, error)
 	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
 	PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error)
+	// NEW: Query AI Service for available models
+	GetAvailableModels(context.Context, *GetAvailableModelsRequest) (*GetAvailableModelsResponse, error)
 	mustEmbedUnimplementedDocumentProcessorServer()
 }
 
@@ -84,6 +99,9 @@ func (UnimplementedDocumentProcessorServer) ProcessDocument(context.Context, *Pr
 }
 func (UnimplementedDocumentProcessorServer) PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method PerformAction not implemented")
+}
+func (UnimplementedDocumentProcessorServer) GetAvailableModels(context.Context, *GetAvailableModelsRequest) (*GetAvailableModelsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAvailableModels not implemented")
 }
 func (UnimplementedDocumentProcessorServer) mustEmbedUnimplementedDocumentProcessorServer() {}
 func (UnimplementedDocumentProcessorServer) testEmbeddedByValue()                           {}
@@ -142,6 +160,24 @@ func _DocumentProcessor_PerformAction_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DocumentProcessor_GetAvailableModels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAvailableModelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DocumentProcessorServer).GetAvailableModels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DocumentProcessor_GetAvailableModels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DocumentProcessorServer).GetAvailableModels(ctx, req.(*GetAvailableModelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DocumentProcessor_ServiceDesc is the grpc.ServiceDesc for DocumentProcessor service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -156,6 +192,10 @@ var DocumentProcessor_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PerformAction",
 			Handler:    _DocumentProcessor_PerformAction_Handler,
+		},
+		{
+			MethodName: "GetAvailableModels",
+			Handler:    _DocumentProcessor_GetAvailableModels_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

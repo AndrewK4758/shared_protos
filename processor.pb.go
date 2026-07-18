@@ -336,6 +336,94 @@ func (x *PerformActionResponse) GetActionResultJson() string {
 	return ""
 }
 
+type GetAvailableModelsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAvailableModelsRequest) Reset() {
+	*x = GetAvailableModelsRequest{}
+	mi := &file_processor_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAvailableModelsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAvailableModelsRequest) ProtoMessage() {}
+
+func (x *GetAvailableModelsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_processor_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAvailableModelsRequest.ProtoReflect.Descriptor instead.
+func (*GetAvailableModelsRequest) Descriptor() ([]byte, []int) {
+	return file_processor_proto_rawDescGZIP(), []int{4}
+}
+
+type GetAvailableModelsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TextModels    []string               `protobuf:"bytes,1,rep,name=text_models,json=textModels,proto3" json:"text_models,omitempty"`
+	OcrModels     []string               `protobuf:"bytes,2,rep,name=ocr_models,json=ocrModels,proto3" json:"ocr_models,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAvailableModelsResponse) Reset() {
+	*x = GetAvailableModelsResponse{}
+	mi := &file_processor_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAvailableModelsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAvailableModelsResponse) ProtoMessage() {}
+
+func (x *GetAvailableModelsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_processor_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAvailableModelsResponse.ProtoReflect.Descriptor instead.
+func (*GetAvailableModelsResponse) Descriptor() ([]byte, []int) {
+	return file_processor_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetAvailableModelsResponse) GetTextModels() []string {
+	if x != nil {
+		return x.TextModels
+	}
+	return nil
+}
+
+func (x *GetAvailableModelsResponse) GetOcrModels() []string {
+	if x != nil {
+		return x.OcrModels
+	}
+	return nil
+}
+
 var File_processor_proto protoreflect.FileDescriptor
 
 const file_processor_proto_rawDesc = "" +
@@ -368,10 +456,17 @@ const file_processor_proto_rawDesc = "" +
 	"\x15PerformActionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
-	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson2\xf1\x01\n" +
+	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\"\x1b\n" +
+	"\x19GetAvailableModelsRequest\"\\\n" +
+	"\x1aGetAvailableModelsResponse\x12\x1f\n" +
+	"\vtext_models\x18\x01 \x03(\tR\n" +
+	"textModels\x12\x1d\n" +
+	"\n" +
+	"ocr_models\x18\x02 \x03(\tR\tocrModels2\xec\x02\n" +
 	"\x11DocumentProcessor\x12p\n" +
 	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12j\n" +
-	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponseB>Z$github.com/AndrewK4758/shared_protos\xaa\x02\x15Document.Processor.V1b\x06proto3"
+	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponse\x12y\n" +
+	"\x12GetAvailableModels\x120.document.processor.v1.GetAvailableModelsRequest\x1a1.document.processor.v1.GetAvailableModelsResponseB>Z$github.com/AndrewK4758/shared_protos\xaa\x02\x15Document.Processor.V1b\x06proto3"
 
 var (
 	file_processor_proto_rawDescOnce sync.Once
@@ -385,27 +480,31 @@ func file_processor_proto_rawDescGZIP() []byte {
 	return file_processor_proto_rawDescData
 }
 
-var file_processor_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_processor_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_processor_proto_goTypes = []any{
 	(*ProcessDocumentRequest)(nil),     // 0: document.processor.v1.ProcessDocumentRequest
 	(*ProcessDocumentResponse)(nil),    // 1: document.processor.v1.ProcessDocumentResponse
 	(*PerformActionRequest)(nil),       // 2: document.processor.v1.PerformActionRequest
 	(*PerformActionResponse)(nil),      // 3: document.processor.v1.PerformActionResponse
-	(ModelChoice)(0),                   // 4: document.models.v1.ModelChoice
-	(*ExecuteWorkflowNodeRequest)(nil), // 5: document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	(*ActionDefinition)(nil),           // 6: document.models.v1.ActionDefinition
+	(*GetAvailableModelsRequest)(nil),  // 4: document.processor.v1.GetAvailableModelsRequest
+	(*GetAvailableModelsResponse)(nil), // 5: document.processor.v1.GetAvailableModelsResponse
+	(ModelChoice)(0),                   // 6: document.models.v1.ModelChoice
+	(*ExecuteWorkflowNodeRequest)(nil), // 7: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ActionDefinition)(nil),           // 8: document.models.v1.ActionDefinition
 }
 var file_processor_proto_depIdxs = []int32{
-	4, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
-	5, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	6, // 2: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
-	4, // 3: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	6, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	7, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	8, // 2: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
+	6, // 3: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	0, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
 	2, // 5: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
-	1, // 6: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
-	3, // 7: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
+	4, // 6: document.processor.v1.DocumentProcessor.GetAvailableModels:input_type -> document.processor.v1.GetAvailableModelsRequest
+	1, // 7: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
+	3, // 8: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
+	5, // 9: document.processor.v1.DocumentProcessor.GetAvailableModels:output_type -> document.processor.v1.GetAvailableModelsResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
 	4, // [4:4] is the sub-list for extension extendee
 	0, // [0:4] is the sub-list for field type_name
@@ -424,7 +523,7 @@ func file_processor_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_processor_proto_rawDesc), len(file_processor_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

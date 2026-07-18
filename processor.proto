@@ -14,6 +14,9 @@ service DocumentProcessor {
   
   // NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
   rpc PerformAction(PerformActionRequest) returns (PerformActionResponse);
+  
+  // NEW: Query AI Service for available models
+  rpc GetAvailableModels(GetAvailableModelsRequest) returns (GetAvailableModelsResponse);
 }
 
 message ProcessDocumentRequest {
@@ -56,4 +59,11 @@ message PerformActionResponse {
   
   // The raw JSON string returned by the LLM conforming to json_schema
   string action_result_json = 3;
+}
+
+message GetAvailableModelsRequest {}
+
+message GetAvailableModelsResponse {
+  repeated string text_models = 1;
+  repeated string ocr_models = 2;
 }

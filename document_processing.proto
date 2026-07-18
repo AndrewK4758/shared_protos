@@ -14,14 +14,16 @@ service DocumentProcessingService {
 message ChunkDocumentRequest {
   string job_id = 1;
   string step_id = 2;
-  string zip_file_path = 3;
+  string relative_file_path = 3;
   document.orchestrator.v1.ExecuteWorkflowNodeRequest original_request = 4;
+  bytes raw_file_bytes = 5;
 }
 
 message ProcessedDocument {
   string document_type = 1;
-  string file_path = 2;
+  string relative_file_path = 2;
   int32 page_count = 3;
+  bytes raw_file_bytes = 4;
 }
 
 message ChunkingTraceEvent {
