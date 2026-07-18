@@ -22,12 +22,13 @@ const (
 )
 
 type ChunkDocumentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepId        string                 `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	ZipFilePath   string                 `protobuf:"bytes,3,opt,name=zip_file_path,json=zipFilePath,proto3" json:"zip_file_path,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState      `protogen:"open.v1"`
+	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	StepId          string                      `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	ZipFilePath     string                      `protobuf:"bytes,3,opt,name=zip_file_path,json=zipFilePath,proto3" json:"zip_file_path,omitempty"`
+	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ChunkDocumentRequest) Reset() {
@@ -79,6 +80,13 @@ func (x *ChunkDocumentRequest) GetZipFilePath() string {
 		return x.ZipFilePath
 	}
 	return ""
+}
+
+func (x *ChunkDocumentRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
+	if x != nil {
+		return x.OriginalRequest
+	}
+	return nil
 }
 
 type ProcessedDocument struct {
@@ -141,18 +149,79 @@ func (x *ProcessedDocument) GetPageCount() int32 {
 	return 0
 }
 
+type ChunkingTraceEvent struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Timestamp     string                 `protobuf:"bytes,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	EventType     string                 `protobuf:"bytes,3,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"` // e.g. "INFO", "WARN", "ERROR"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChunkingTraceEvent) Reset() {
+	*x = ChunkingTraceEvent{}
+	mi := &file_document_processing_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChunkingTraceEvent) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChunkingTraceEvent) ProtoMessage() {}
+
+func (x *ChunkingTraceEvent) ProtoReflect() protoreflect.Message {
+	mi := &file_document_processing_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChunkingTraceEvent.ProtoReflect.Descriptor instead.
+func (*ChunkingTraceEvent) Descriptor() ([]byte, []int) {
+	return file_document_processing_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ChunkingTraceEvent) GetTimestamp() string {
+	if x != nil {
+		return x.Timestamp
+	}
+	return ""
+}
+
+func (x *ChunkingTraceEvent) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *ChunkingTraceEvent) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
 type ChunkDocumentResponse struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Success            bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	ErrorMessage       string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	ProcessedDocuments []*ProcessedDocument   `protobuf:"bytes,3,rep,name=processed_documents,json=processedDocuments,proto3" json:"processed_documents,omitempty"`
+	TraceEvents        []*ChunkingTraceEvent  `protobuf:"bytes,4,rep,name=trace_events,json=traceEvents,proto3" json:"trace_events,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ChunkDocumentResponse) Reset() {
 	*x = ChunkDocumentResponse{}
-	mi := &file_document_processing_proto_msgTypes[2]
+	mi := &file_document_processing_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -164,7 +233,7 @@ func (x *ChunkDocumentResponse) String() string {
 func (*ChunkDocumentResponse) ProtoMessage() {}
 
 func (x *ChunkDocumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_document_processing_proto_msgTypes[2]
+	mi := &file_document_processing_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +246,7 @@ func (x *ChunkDocumentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChunkDocumentResponse.ProtoReflect.Descriptor instead.
 func (*ChunkDocumentResponse) Descriptor() ([]byte, []int) {
-	return file_document_processing_proto_rawDescGZIP(), []int{2}
+	return file_document_processing_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ChunkDocumentResponse) GetSuccess() bool {
@@ -201,24 +270,38 @@ func (x *ChunkDocumentResponse) GetProcessedDocuments() []*ProcessedDocument {
 	return nil
 }
 
+func (x *ChunkDocumentResponse) GetTraceEvents() []*ChunkingTraceEvent {
+	if x != nil {
+		return x.TraceEvents
+	}
+	return nil
+}
+
 var File_document_processing_proto protoreflect.FileDescriptor
 
 const file_document_processing_proto_rawDesc = "" +
 	"\n" +
-	"\x19document_processing.proto\x12\x16document.processing.v1\"j\n" +
+	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\"\xcb\x01\n" +
 	"\x14ChunkDocumentRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\"\n" +
-	"\rzip_file_path\x18\x03 \x01(\tR\vzipFilePath\"t\n" +
+	"\rzip_file_path\x18\x03 \x01(\tR\vzipFilePath\x12_\n" +
+	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\"t\n" +
 	"\x11ProcessedDocument\x12#\n" +
 	"\rdocument_type\x18\x01 \x01(\tR\fdocumentType\x12\x1b\n" +
 	"\tfile_path\x18\x02 \x01(\tR\bfilePath\x12\x1d\n" +
 	"\n" +
-	"page_count\x18\x03 \x01(\x05R\tpageCount\"\xb2\x01\n" +
+	"page_count\x18\x03 \x01(\x05R\tpageCount\"k\n" +
+	"\x12ChunkingTraceEvent\x12\x1c\n" +
+	"\ttimestamp\x18\x01 \x01(\tR\ttimestamp\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x03 \x01(\tR\teventType\"\x81\x02\n" +
 	"\x15ChunkDocumentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12Z\n" +
-	"\x13processed_documents\x18\x03 \x03(\v2).document.processing.v1.ProcessedDocumentR\x12processedDocuments2\x89\x01\n" +
+	"\x13processed_documents\x18\x03 \x03(\v2).document.processing.v1.ProcessedDocumentR\x12processedDocuments\x12M\n" +
+	"\ftrace_events\x18\x04 \x03(\v2*.document.processing.v1.ChunkingTraceEventR\vtraceEvents2\x89\x01\n" +
 	"\x19DocumentProcessingService\x12l\n" +
 	"\rChunkDocument\x12,.document.processing.v1.ChunkDocumentRequest\x1a-.document.processing.v1.ChunkDocumentResponseB?Z$github.com/AndrewK4758/shared_protos\xaa\x02\x16Document.Processing.V1b\x06proto3"
 
@@ -234,21 +317,25 @@ func file_document_processing_proto_rawDescGZIP() []byte {
 	return file_document_processing_proto_rawDescData
 }
 
-var file_document_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_document_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_document_processing_proto_goTypes = []any{
-	(*ChunkDocumentRequest)(nil),  // 0: document.processing.v1.ChunkDocumentRequest
-	(*ProcessedDocument)(nil),     // 1: document.processing.v1.ProcessedDocument
-	(*ChunkDocumentResponse)(nil), // 2: document.processing.v1.ChunkDocumentResponse
+	(*ChunkDocumentRequest)(nil),       // 0: document.processing.v1.ChunkDocumentRequest
+	(*ProcessedDocument)(nil),          // 1: document.processing.v1.ProcessedDocument
+	(*ChunkingTraceEvent)(nil),         // 2: document.processing.v1.ChunkingTraceEvent
+	(*ChunkDocumentResponse)(nil),      // 3: document.processing.v1.ChunkDocumentResponse
+	(*ExecuteWorkflowNodeRequest)(nil), // 4: document.orchestrator.v1.ExecuteWorkflowNodeRequest
 }
 var file_document_processing_proto_depIdxs = []int32{
-	1, // 0: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
-	0, // 1: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
-	2, // 2: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 0: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	1, // 1: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
+	2, // 2: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
+	0, // 3: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
+	3, // 4: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
+	4, // [4:5] is the sub-list for method output_type
+	3, // [3:4] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_document_processing_proto_init() }
@@ -256,13 +343,14 @@ func file_document_processing_proto_init() {
 	if File_document_processing_proto != nil {
 		return
 	}
+	file_orchestrator_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_document_processing_proto_rawDesc), len(file_document_processing_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

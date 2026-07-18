@@ -5,6 +5,8 @@ package document.processing.v1;
 option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Processing.V1";
 
+import "orchestrator.proto";
+
 service DocumentProcessingService {
   rpc ChunkDocument(ChunkDocumentRequest) returns (ChunkDocumentResponse);
 }
@@ -13,6 +15,7 @@ message ChunkDocumentRequest {
   string job_id = 1;
   string step_id = 2;
   string zip_file_path = 3;
+  document.orchestrator.v1.ExecuteWorkflowNodeRequest original_request = 4;
 }
 
 message ProcessedDocument {
@@ -21,8 +24,15 @@ message ProcessedDocument {
   int32 page_count = 3;
 }
 
+message ChunkingTraceEvent {
+  string timestamp = 1;
+  string message = 2;
+  string event_type = 3; // e.g. "INFO", "WARN", "ERROR"
+}
+
 message ChunkDocumentResponse {
   bool success = 1;
   string error_message = 2;
   repeated ProcessedDocument processed_documents = 3;
+  repeated ChunkingTraceEvent trace_events = 4;
 }
