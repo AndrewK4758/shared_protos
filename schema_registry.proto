@@ -4,12 +4,15 @@ package document.registry.v1;
 
 option go_package = "github.com/AndrewK4758/shared_protos";
 
+import "models.proto";
+
 service SchemaRegistryService {
   rpc GetRulesForClassification(GetRulesRequest) returns (GetRulesResponse);
 }
 
 message GetRulesRequest {
   string classification_name = 1;
+  document.models.v1.InfrastructureIdentity identity = 2;
 }
 
 message GetRulesResponse {

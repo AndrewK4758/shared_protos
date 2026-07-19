@@ -6,13 +6,14 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Processing.V1";
 
 import "orchestrator.proto";
+import "models.proto";
 
 service DocumentProcessingService {
   rpc ChunkDocument(ChunkDocumentRequest) returns (ChunkDocumentResponse);
 }
 
 message ChunkDocumentRequest {
-  string job_id = 1;
+  document.models.v1.InfrastructureIdentity identity = 1;
   string step_id = 2;
   string relative_file_path = 3;
   document.orchestrator.v1.ExecuteWorkflowNodeRequest original_request = 4;

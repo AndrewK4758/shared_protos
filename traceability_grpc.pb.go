@@ -32,13 +32,15 @@ const (
 //
 // The gRPC service for querying compliance and traceability events
 type TraceabilityQueryClient interface {
-	// Query the overall status and events for a specific job
+	// Returns all trace events associated with a specific JobID
 	GetJobTrace(ctx context.Context, in *GetJobTraceRequest, opts ...grpc.CallOption) (*GetJobTraceResponse, error)
-	// Query all events related to a specific correlation ID across all services
+	// Returns all trace events associated with a cross-job correlation ID
 	GetCorrelationTrace(ctx context.Context, in *GetCorrelationTraceRequest, opts ...grpc.CallOption) (*GetCorrelationTraceResponse, error)
-	// Orchestrator State Mirroring
+	// Persists the active state of a job (e.g. pending orchestrator execution)
 	SaveJobState(ctx context.Context, in *SaveJobStateRequest, opts ...grpc.CallOption) (*SaveJobStateResponse, error)
+	// Retrieves all jobs currently in a "PENDING" or "IN_PROGRESS" state
 	GetPendingJobs(ctx context.Context, in *GetPendingJobsRequest, opts ...grpc.CallOption) (*GetPendingJobsResponse, error)
+	// Retrieves the exact state of a specific job by ID
 	GetJobState(ctx context.Context, in *GetJobStateRequest, opts ...grpc.CallOption) (*GetJobStateResponse, error)
 }
 
@@ -106,13 +108,15 @@ func (c *traceabilityQueryClient) GetJobState(ctx context.Context, in *GetJobSta
 //
 // The gRPC service for querying compliance and traceability events
 type TraceabilityQueryServer interface {
-	// Query the overall status and events for a specific job
+	// Returns all trace events associated with a specific JobID
 	GetJobTrace(context.Context, *GetJobTraceRequest) (*GetJobTraceResponse, error)
-	// Query all events related to a specific correlation ID across all services
+	// Returns all trace events associated with a cross-job correlation ID
 	GetCorrelationTrace(context.Context, *GetCorrelationTraceRequest) (*GetCorrelationTraceResponse, error)
-	// Orchestrator State Mirroring
+	// Persists the active state of a job (e.g. pending orchestrator execution)
 	SaveJobState(context.Context, *SaveJobStateRequest) (*SaveJobStateResponse, error)
+	// Retrieves all jobs currently in a "PENDING" or "IN_PROGRESS" state
 	GetPendingJobs(context.Context, *GetPendingJobsRequest) (*GetPendingJobsResponse, error)
+	// Retrieves the exact state of a specific job by ID
 	GetJobState(context.Context, *GetJobStateRequest) (*GetJobStateResponse, error)
 	mustEmbedUnimplementedTraceabilityQueryServer()
 }

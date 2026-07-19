@@ -132,6 +132,66 @@ func (OrchestratorPrimitive) EnumDescriptor() ([]byte, []int) {
 	return file_models_proto_rawDescGZIP(), []int{1}
 }
 
+type InfrastructureIdentity struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AppId         string                 `protobuf:"bytes,2,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	JobId         string                 `protobuf:"bytes,3,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InfrastructureIdentity) Reset() {
+	*x = InfrastructureIdentity{}
+	mi := &file_models_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InfrastructureIdentity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InfrastructureIdentity) ProtoMessage() {}
+
+func (x *InfrastructureIdentity) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InfrastructureIdentity.ProtoReflect.Descriptor instead.
+func (*InfrastructureIdentity) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *InfrastructureIdentity) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *InfrastructureIdentity) GetAppId() string {
+	if x != nil {
+		return x.AppId
+	}
+	return ""
+}
+
+func (x *InfrastructureIdentity) GetJobId() string {
+	if x != nil {
+		return x.JobId
+	}
+	return ""
+}
+
 type NodeConfiguration struct {
 	state              protoimpl.MessageState        `protogen:"open.v1"`
 	NodeName           string                        `protobuf:"bytes,1,opt,name=node_name,json=nodeName,proto3" json:"node_name,omitempty"`
@@ -146,7 +206,7 @@ type NodeConfiguration struct {
 
 func (x *NodeConfiguration) Reset() {
 	*x = NodeConfiguration{}
-	mi := &file_models_proto_msgTypes[0]
+	mi := &file_models_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +218,7 @@ func (x *NodeConfiguration) String() string {
 func (*NodeConfiguration) ProtoMessage() {}
 
 func (x *NodeConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[0]
+	mi := &file_models_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +231,7 @@ func (x *NodeConfiguration) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NodeConfiguration.ProtoReflect.Descriptor instead.
 func (*NodeConfiguration) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{0}
+	return file_models_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *NodeConfiguration) GetNodeName() string {
@@ -229,7 +289,7 @@ type CacheConfiguration struct {
 
 func (x *CacheConfiguration) Reset() {
 	*x = CacheConfiguration{}
-	mi := &file_models_proto_msgTypes[1]
+	mi := &file_models_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -241,7 +301,7 @@ func (x *CacheConfiguration) String() string {
 func (*CacheConfiguration) ProtoMessage() {}
 
 func (x *CacheConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[1]
+	mi := &file_models_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -254,7 +314,7 @@ func (x *CacheConfiguration) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CacheConfiguration.ProtoReflect.Descriptor instead.
 func (*CacheConfiguration) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{1}
+	return file_models_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CacheConfiguration) GetEnabled() bool {
@@ -302,7 +362,7 @@ type HumanValidationConfiguration struct {
 
 func (x *HumanValidationConfiguration) Reset() {
 	*x = HumanValidationConfiguration{}
-	mi := &file_models_proto_msgTypes[2]
+	mi := &file_models_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -314,7 +374,7 @@ func (x *HumanValidationConfiguration) String() string {
 func (*HumanValidationConfiguration) ProtoMessage() {}
 
 func (x *HumanValidationConfiguration) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[2]
+	mi := &file_models_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -327,7 +387,7 @@ func (x *HumanValidationConfiguration) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HumanValidationConfiguration.ProtoReflect.Descriptor instead.
 func (*HumanValidationConfiguration) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{2}
+	return file_models_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *HumanValidationConfiguration) GetRequired() bool {
@@ -360,7 +420,7 @@ type JobDefinition struct {
 
 func (x *JobDefinition) Reset() {
 	*x = JobDefinition{}
-	mi := &file_models_proto_msgTypes[3]
+	mi := &file_models_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -372,7 +432,7 @@ func (x *JobDefinition) String() string {
 func (*JobDefinition) ProtoMessage() {}
 
 func (x *JobDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[3]
+	mi := &file_models_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -385,7 +445,7 @@ func (x *JobDefinition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JobDefinition.ProtoReflect.Descriptor instead.
 func (*JobDefinition) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{3}
+	return file_models_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *JobDefinition) GetId() string {
@@ -461,7 +521,7 @@ type StepDefinition struct {
 
 func (x *StepDefinition) Reset() {
 	*x = StepDefinition{}
-	mi := &file_models_proto_msgTypes[4]
+	mi := &file_models_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -473,7 +533,7 @@ func (x *StepDefinition) String() string {
 func (*StepDefinition) ProtoMessage() {}
 
 func (x *StepDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[4]
+	mi := &file_models_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -486,7 +546,7 @@ func (x *StepDefinition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StepDefinition.ProtoReflect.Descriptor instead.
 func (*StepDefinition) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{4}
+	return file_models_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *StepDefinition) GetId() string {
@@ -609,7 +669,7 @@ type JobWorkflowEdge struct {
 
 func (x *JobWorkflowEdge) Reset() {
 	*x = JobWorkflowEdge{}
-	mi := &file_models_proto_msgTypes[5]
+	mi := &file_models_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -621,7 +681,7 @@ func (x *JobWorkflowEdge) String() string {
 func (*JobWorkflowEdge) ProtoMessage() {}
 
 func (x *JobWorkflowEdge) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[5]
+	mi := &file_models_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -634,7 +694,7 @@ func (x *JobWorkflowEdge) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JobWorkflowEdge.ProtoReflect.Descriptor instead.
 func (*JobWorkflowEdge) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{5}
+	return file_models_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *JobWorkflowEdge) GetId() int32 {
@@ -694,7 +754,7 @@ type ActionDefinition struct {
 
 func (x *ActionDefinition) Reset() {
 	*x = ActionDefinition{}
-	mi := &file_models_proto_msgTypes[6]
+	mi := &file_models_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -706,7 +766,7 @@ func (x *ActionDefinition) String() string {
 func (*ActionDefinition) ProtoMessage() {}
 
 func (x *ActionDefinition) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[6]
+	mi := &file_models_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -719,7 +779,7 @@ func (x *ActionDefinition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActionDefinition.ProtoReflect.Descriptor instead.
 func (*ActionDefinition) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{6}
+	return file_models_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ActionDefinition) GetId() string {
@@ -785,7 +845,7 @@ type ActiveJobExecution struct {
 
 func (x *ActiveJobExecution) Reset() {
 	*x = ActiveJobExecution{}
-	mi := &file_models_proto_msgTypes[7]
+	mi := &file_models_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +857,7 @@ func (x *ActiveJobExecution) String() string {
 func (*ActiveJobExecution) ProtoMessage() {}
 
 func (x *ActiveJobExecution) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[7]
+	mi := &file_models_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -810,7 +870,7 @@ func (x *ActiveJobExecution) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActiveJobExecution.ProtoReflect.Descriptor instead.
 func (*ActiveJobExecution) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{7}
+	return file_models_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ActiveJobExecution) GetJobId() string {
@@ -873,7 +933,7 @@ type WorkflowContext struct {
 
 func (x *WorkflowContext) Reset() {
 	*x = WorkflowContext{}
-	mi := &file_models_proto_msgTypes[8]
+	mi := &file_models_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -885,7 +945,7 @@ func (x *WorkflowContext) String() string {
 func (*WorkflowContext) ProtoMessage() {}
 
 func (x *WorkflowContext) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[8]
+	mi := &file_models_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -898,7 +958,7 @@ func (x *WorkflowContext) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkflowContext.ProtoReflect.Descriptor instead.
 func (*WorkflowContext) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{8}
+	return file_models_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *WorkflowContext) GetJobId() string {
@@ -968,7 +1028,11 @@ var File_models_proto protoreflect.FileDescriptor
 
 const file_models_proto_rawDesc = "" +
 	"\n" +
-	"\fmodels.proto\x12\x12document.models.v1\x1a\x1cgoogle/protobuf/struct.proto\"\xf7\x02\n" +
+	"\fmodels.proto\x12\x12document.models.v1\x1a\x1cgoogle/protobuf/struct.proto\"c\n" +
+	"\x16InfrastructureIdentity\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x15\n" +
+	"\x06app_id\x18\x02 \x01(\tR\x05appId\x12\x15\n" +
+	"\x06job_id\x18\x03 \x01(\tR\x05jobId\"\xf7\x02\n" +
 	"\x11NodeConfiguration\x12\x1b\n" +
 	"\tnode_name\x18\x01 \x01(\tR\bnodeName\x12/\n" +
 	"\x13system_instructions\x18\x02 \x01(\tR\x12systemInstructions\x12'\n" +
@@ -1077,37 +1141,38 @@ func file_models_proto_rawDescGZIP() []byte {
 }
 
 var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),                     // 0: document.models.v1.ModelChoice
 	(OrchestratorPrimitive)(0),           // 1: document.models.v1.OrchestratorPrimitive
-	(*NodeConfiguration)(nil),            // 2: document.models.v1.NodeConfiguration
-	(*CacheConfiguration)(nil),           // 3: document.models.v1.CacheConfiguration
-	(*HumanValidationConfiguration)(nil), // 4: document.models.v1.HumanValidationConfiguration
-	(*JobDefinition)(nil),                // 5: document.models.v1.JobDefinition
-	(*StepDefinition)(nil),               // 6: document.models.v1.StepDefinition
-	(*JobWorkflowEdge)(nil),              // 7: document.models.v1.JobWorkflowEdge
-	(*ActionDefinition)(nil),             // 8: document.models.v1.ActionDefinition
-	(*ActiveJobExecution)(nil),           // 9: document.models.v1.ActiveJobExecution
-	(*WorkflowContext)(nil),              // 10: document.models.v1.WorkflowContext
-	nil,                                  // 11: document.models.v1.CacheConfiguration.MetadataEntry
-	nil,                                  // 12: document.models.v1.WorkflowContext.MetadataEntry
-	(*structpb.Struct)(nil),              // 13: google.protobuf.Struct
+	(*InfrastructureIdentity)(nil),       // 2: document.models.v1.InfrastructureIdentity
+	(*NodeConfiguration)(nil),            // 3: document.models.v1.NodeConfiguration
+	(*CacheConfiguration)(nil),           // 4: document.models.v1.CacheConfiguration
+	(*HumanValidationConfiguration)(nil), // 5: document.models.v1.HumanValidationConfiguration
+	(*JobDefinition)(nil),                // 6: document.models.v1.JobDefinition
+	(*StepDefinition)(nil),               // 7: document.models.v1.StepDefinition
+	(*JobWorkflowEdge)(nil),              // 8: document.models.v1.JobWorkflowEdge
+	(*ActionDefinition)(nil),             // 9: document.models.v1.ActionDefinition
+	(*ActiveJobExecution)(nil),           // 10: document.models.v1.ActiveJobExecution
+	(*WorkflowContext)(nil),              // 11: document.models.v1.WorkflowContext
+	nil,                                  // 12: document.models.v1.CacheConfiguration.MetadataEntry
+	nil,                                  // 13: document.models.v1.WorkflowContext.MetadataEntry
+	(*structpb.Struct)(nil),              // 14: google.protobuf.Struct
 }
 var file_models_proto_depIdxs = []int32{
 	1,  // 0: document.models.v1.NodeConfiguration.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
-	3,  // 1: document.models.v1.NodeConfiguration.cache:type_name -> document.models.v1.CacheConfiguration
-	4,  // 2: document.models.v1.NodeConfiguration.human_validation:type_name -> document.models.v1.HumanValidationConfiguration
-	11, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> document.models.v1.CacheConfiguration.MetadataEntry
-	3,  // 4: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
+	4,  // 1: document.models.v1.NodeConfiguration.cache:type_name -> document.models.v1.CacheConfiguration
+	5,  // 2: document.models.v1.NodeConfiguration.human_validation:type_name -> document.models.v1.HumanValidationConfiguration
+	12, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> document.models.v1.CacheConfiguration.MetadataEntry
+	4,  // 4: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
 	1,  // 5: document.models.v1.StepDefinition.step_primitive:type_name -> document.models.v1.OrchestratorPrimitive
 	1,  // 6: document.models.v1.ActionDefinition.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
-	12, // 7: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
-	9,  // 8: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
-	5,  // 9: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	13, // 10: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
-	8,  // 11: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	13, // 12: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	13, // 7: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
+	10, // 8: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
+	6,  // 9: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
+	14, // 10: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	9,  // 11: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
+	14, // 12: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
 	13, // [13:13] is the sub-list for method output_type
 	13, // [13:13] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
@@ -1126,7 +1191,7 @@ func file_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

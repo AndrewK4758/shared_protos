@@ -7,6 +7,12 @@ option csharp_namespace = "Document.Models.V1";
 
 import "google/protobuf/struct.proto";
 
+message InfrastructureIdentity {
+  string tenant_id = 1;
+  string app_id = 2;
+  string job_id = 3;
+}
+
 enum ModelChoice {
   MODEL_CHOICE_UNSPECIFIED = 0;
   MODEL_CHOICE_EXTRACTION = 1;

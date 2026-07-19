@@ -22,8 +22,9 @@ const (
 )
 
 type GetJobTraceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,11 +66,16 @@ func (x *GetJobTraceRequest) GetJobId() string {
 	return ""
 }
 
+func (x *GetJobTraceRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type GetJobTraceResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // e.g., "COMPLETED", "IN_PROGRESS", "FAILED"
-	Events        []*TraceEvent          `protobuf:"bytes,3,rep,name=events,proto3" json:"events,omitempty"`
+	Events        []*TraceEvent          `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -104,20 +110,6 @@ func (*GetJobTraceResponse) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetJobTraceResponse) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
-}
-
-func (x *GetJobTraceResponse) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
 func (x *GetJobTraceResponse) GetEvents() []*TraceEvent {
 	if x != nil {
 		return x.Events
@@ -126,8 +118,9 @@ func (x *GetJobTraceResponse) GetEvents() []*TraceEvent {
 }
 
 type GetCorrelationTraceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	CorrelationId string                 `protobuf:"bytes,1,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	CorrelationId string                  `protobuf:"bytes,1,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -169,10 +162,16 @@ func (x *GetCorrelationTraceRequest) GetCorrelationId() string {
 	return ""
 }
 
+func (x *GetCorrelationTraceRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type GetCorrelationTraceResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CorrelationId string                 `protobuf:"bytes,1,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
-	Events        []*TraceEvent          `protobuf:"bytes,2,rep,name=events,proto3" json:"events,omitempty"`
+	Events        []*TraceEvent          `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -207,13 +206,6 @@ func (*GetCorrelationTraceResponse) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetCorrelationTraceResponse) GetCorrelationId() string {
-	if x != nil {
-		return x.CorrelationId
-	}
-	return ""
-}
-
 func (x *GetCorrelationTraceResponse) GetEvents() []*TraceEvent {
 	if x != nil {
 		return x.Events
@@ -221,21 +213,17 @@ func (x *GetCorrelationTraceResponse) GetEvents() []*TraceEvent {
 	return nil
 }
 
-// Mirrors the TraceabilityEvent we emit to NATS
 type TraceEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EventId       string                 `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
-	JobId         string                 `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	ChunkId       string                 `protobuf:"bytes,3,opt,name=chunk_id,json=chunkId,proto3" json:"chunk_id,omitempty"`
-	CorrelationId string                 `protobuf:"bytes,4,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
-	TenantId      string                 `protobuf:"bytes,5,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	AppId         string                 `protobuf:"bytes,7,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
-	Action        string                 `protobuf:"bytes,8,opt,name=action,proto3" json:"action,omitempty"`
-	Status        string                 `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"`
-	Message       string                 `protobuf:"bytes,10,opt,name=message,proto3" json:"message,omitempty"`
-	Metadata      string                 `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty"`   // JSON string
-	Timestamp     string                 `protobuf:"bytes,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // ISO 8601
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	CorrelationId string                 `protobuf:"bytes,2,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	JobId         string                 `protobuf:"bytes,3,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	StepId        string                 `protobuf:"bytes,4,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	EventType     string                 `protobuf:"bytes,5,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	ResourceId    string                 `protobuf:"bytes,6,opt,name=resource_id,json=resourceId,proto3" json:"resource_id,omitempty"`
+	Message       string                 `protobuf:"bytes,7,opt,name=message,proto3" json:"message,omitempty"`
+	Metadata      string                 `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Timestamp     string                 `protobuf:"bytes,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	DocumentType  string                 `protobuf:"bytes,13,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -271,23 +259,9 @@ func (*TraceEvent) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *TraceEvent) GetEventId() string {
+func (x *TraceEvent) GetId() string {
 	if x != nil {
-		return x.EventId
-	}
-	return ""
-}
-
-func (x *TraceEvent) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
-}
-
-func (x *TraceEvent) GetChunkId() string {
-	if x != nil {
-		return x.ChunkId
+		return x.Id
 	}
 	return ""
 }
@@ -299,37 +273,30 @@ func (x *TraceEvent) GetCorrelationId() string {
 	return ""
 }
 
-func (x *TraceEvent) GetTenantId() string {
+func (x *TraceEvent) GetJobId() string {
 	if x != nil {
-		return x.TenantId
+		return x.JobId
 	}
 	return ""
 }
 
-func (x *TraceEvent) GetUserId() string {
+func (x *TraceEvent) GetStepId() string {
 	if x != nil {
-		return x.UserId
+		return x.StepId
 	}
 	return ""
 }
 
-func (x *TraceEvent) GetAppId() string {
+func (x *TraceEvent) GetEventType() string {
 	if x != nil {
-		return x.AppId
+		return x.EventType
 	}
 	return ""
 }
 
-func (x *TraceEvent) GetAction() string {
+func (x *TraceEvent) GetResourceId() string {
 	if x != nil {
-		return x.Action
-	}
-	return ""
-}
-
-func (x *TraceEvent) GetStatus() string {
-	if x != nil {
-		return x.Status
+		return x.ResourceId
 	}
 	return ""
 }
@@ -363,10 +330,12 @@ func (x *TraceEvent) GetDocumentType() string {
 }
 
 type SaveJobStateRequest struct {
-	state           protoimpl.MessageState      `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in traceability.proto.
 	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
 	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
+	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -401,6 +370,7 @@ func (*SaveJobStateRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{5}
 }
 
+// Deprecated: Marked as deprecated in traceability.proto.
 func (x *SaveJobStateRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -420,6 +390,13 @@ func (x *SaveJobStateRequest) GetStatus() string {
 		return x.Status
 	}
 	return ""
+}
+
+func (x *SaveJobStateRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type SaveJobStateResponse struct {
@@ -467,7 +444,8 @@ func (x *SaveJobStateResponse) GetSuccess() bool {
 }
 
 type GetPendingJobsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -500,6 +478,13 @@ func (x *GetPendingJobsRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetPendingJobsRequest.ProtoReflect.Descriptor instead.
 func (*GetPendingJobsRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetPendingJobsRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type GetPendingJobsResponse struct {
@@ -551,6 +536,7 @@ type JobStateRecord struct {
 	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
 	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -606,9 +592,18 @@ func (x *JobStateRecord) GetStatus() string {
 	return ""
 }
 
+func (x *JobStateRecord) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type GetJobStateRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in traceability.proto.
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -643,11 +638,19 @@ func (*GetJobStateRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{10}
 }
 
+// Deprecated: Marked as deprecated in traceability.proto.
 func (x *GetJobStateRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
 	}
 	return ""
+}
+
+func (x *GetJobStateRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type GetJobStateResponse struct {
@@ -706,49 +709,50 @@ var File_traceability_proto protoreflect.FileDescriptor
 
 const file_traceability_proto_rawDesc = "" +
 	"\n" +
-	"\x12traceability.proto\x12\ftraceability\x1a\x12orchestrator.proto\"+\n" +
+	"\x12traceability.proto\x12\ftraceability\x1a\x12orchestrator.proto\x1a\fmodels.proto\"s\n" +
 	"\x12GetJobTraceRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"v\n" +
-	"\x13GetJobTraceResponse\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\x120\n" +
-	"\x06events\x18\x03 \x03(\v2\x18.traceability.TraceEventR\x06events\"C\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"G\n" +
+	"\x13GetJobTraceResponse\x120\n" +
+	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\x8b\x01\n" +
 	"\x1aGetCorrelationTraceRequest\x12%\n" +
-	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\"v\n" +
-	"\x1bGetCorrelationTraceResponse\x12%\n" +
-	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x120\n" +
-	"\x06events\x18\x02 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xf6\x02\n" +
+	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"O\n" +
+	"\x1bGetCorrelationTraceResponse\x120\n" +
+	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xac\x02\n" +
 	"\n" +
-	"TraceEvent\x12\x19\n" +
-	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12\x15\n" +
-	"\x06job_id\x18\x02 \x01(\tR\x05jobId\x12\x19\n" +
-	"\bchunk_id\x18\x03 \x01(\tR\achunkId\x12%\n" +
-	"\x0ecorrelation_id\x18\x04 \x01(\tR\rcorrelationId\x12\x1b\n" +
-	"\ttenant_id\x18\x05 \x01(\tR\btenantId\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\tR\x06userId\x12\x15\n" +
-	"\x06app_id\x18\a \x01(\tR\x05appId\x12\x16\n" +
-	"\x06action\x18\b \x01(\tR\x06action\x12\x16\n" +
-	"\x06status\x18\t \x01(\tR\x06status\x12\x18\n" +
-	"\amessage\x18\n" +
-	" \x01(\tR\amessage\x12\x1a\n" +
+	"TraceEvent\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12%\n" +
+	"\x0ecorrelation_id\x18\x02 \x01(\tR\rcorrelationId\x12\x15\n" +
+	"\x06job_id\x18\x03 \x01(\tR\x05jobId\x12\x17\n" +
+	"\astep_id\x18\x04 \x01(\tR\x06stepId\x12\x1d\n" +
+	"\n" +
+	"event_type\x18\x05 \x01(\tR\teventType\x12\x1f\n" +
+	"\vresource_id\x18\x06 \x01(\tR\n" +
+	"resourceId\x12\x18\n" +
+	"\amessage\x18\a \x01(\tR\amessage\x12\x1a\n" +
 	"\bmetadata\x18\v \x01(\tR\bmetadata\x12\x1c\n" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
-	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\xa5\x01\n" +
-	"\x13SaveJobStateRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12_\n" +
+	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\xf1\x01\n" +
+	"\x13SaveJobStateRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12_\n" +
 	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\"0\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"0\n" +
 	"\x14SaveJobStateResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x17\n" +
-	"\x15GetPendingJobsRequest\"J\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"_\n" +
+	"\x15GetPendingJobsRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"J\n" +
 	"\x16GetPendingJobsResponse\x120\n" +
-	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xa0\x01\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xe8\x01\n" +
 	"\x0eJobStateRecord\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12_\n" +
 	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
-	"\x06status\x18\x03 \x01(\tR\x06status\"+\n" +
-	"\x12GetJobStateRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"[\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"w\n" +
+	"\x12GetJobStateRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"[\n" +
 	"\x13GetJobStateResponse\x12\x14\n" +
 	"\x05found\x18\x01 \x01(\bR\x05found\x12.\n" +
 	"\x03job\x18\x02 \x01(\v2\x1c.traceability.JobStateRecordR\x03job2\xdb\x03\n" +
@@ -785,30 +789,37 @@ var file_traceability_proto_goTypes = []any{
 	(*JobStateRecord)(nil),              // 9: traceability.JobStateRecord
 	(*GetJobStateRequest)(nil),          // 10: traceability.GetJobStateRequest
 	(*GetJobStateResponse)(nil),         // 11: traceability.GetJobStateResponse
-	(*ExecuteWorkflowNodeRequest)(nil),  // 12: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*InfrastructureIdentity)(nil),      // 12: document.models.v1.InfrastructureIdentity
+	(*ExecuteWorkflowNodeRequest)(nil),  // 13: document.orchestrator.v1.ExecuteWorkflowNodeRequest
 }
 var file_traceability_proto_depIdxs = []int32{
-	4,  // 0: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
-	4,  // 1: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
-	12, // 2: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	9,  // 3: traceability.GetPendingJobsResponse.jobs:type_name -> traceability.JobStateRecord
-	12, // 4: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	9,  // 5: traceability.GetJobStateResponse.job:type_name -> traceability.JobStateRecord
-	0,  // 6: traceability.TraceabilityQuery.GetJobTrace:input_type -> traceability.GetJobTraceRequest
-	2,  // 7: traceability.TraceabilityQuery.GetCorrelationTrace:input_type -> traceability.GetCorrelationTraceRequest
-	5,  // 8: traceability.TraceabilityQuery.SaveJobState:input_type -> traceability.SaveJobStateRequest
-	7,  // 9: traceability.TraceabilityQuery.GetPendingJobs:input_type -> traceability.GetPendingJobsRequest
-	10, // 10: traceability.TraceabilityQuery.GetJobState:input_type -> traceability.GetJobStateRequest
-	1,  // 11: traceability.TraceabilityQuery.GetJobTrace:output_type -> traceability.GetJobTraceResponse
-	3,  // 12: traceability.TraceabilityQuery.GetCorrelationTrace:output_type -> traceability.GetCorrelationTraceResponse
-	6,  // 13: traceability.TraceabilityQuery.SaveJobState:output_type -> traceability.SaveJobStateResponse
-	8,  // 14: traceability.TraceabilityQuery.GetPendingJobs:output_type -> traceability.GetPendingJobsResponse
-	11, // 15: traceability.TraceabilityQuery.GetJobState:output_type -> traceability.GetJobStateResponse
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	12, // 0: traceability.GetJobTraceRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	4,  // 1: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
+	12, // 2: traceability.GetCorrelationTraceRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	4,  // 3: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
+	13, // 4: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	12, // 5: traceability.SaveJobStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 6: traceability.GetPendingJobsRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 7: traceability.GetPendingJobsResponse.jobs:type_name -> traceability.JobStateRecord
+	13, // 8: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	12, // 9: traceability.JobStateRecord.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 10: traceability.GetJobStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 11: traceability.GetJobStateResponse.job:type_name -> traceability.JobStateRecord
+	0,  // 12: traceability.TraceabilityQuery.GetJobTrace:input_type -> traceability.GetJobTraceRequest
+	2,  // 13: traceability.TraceabilityQuery.GetCorrelationTrace:input_type -> traceability.GetCorrelationTraceRequest
+	5,  // 14: traceability.TraceabilityQuery.SaveJobState:input_type -> traceability.SaveJobStateRequest
+	7,  // 15: traceability.TraceabilityQuery.GetPendingJobs:input_type -> traceability.GetPendingJobsRequest
+	10, // 16: traceability.TraceabilityQuery.GetJobState:input_type -> traceability.GetJobStateRequest
+	1,  // 17: traceability.TraceabilityQuery.GetJobTrace:output_type -> traceability.GetJobTraceResponse
+	3,  // 18: traceability.TraceabilityQuery.GetCorrelationTrace:output_type -> traceability.GetCorrelationTraceResponse
+	6,  // 19: traceability.TraceabilityQuery.SaveJobState:output_type -> traceability.SaveJobStateResponse
+	8,  // 20: traceability.TraceabilityQuery.GetPendingJobs:output_type -> traceability.GetPendingJobsResponse
+	11, // 21: traceability.TraceabilityQuery.GetJobState:output_type -> traceability.GetJobStateResponse
+	17, // [17:22] is the sub-list for method output_type
+	12, // [12:17] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_traceability_proto_init() }
@@ -817,6 +828,7 @@ func file_traceability_proto_init() {
 		return
 	}
 	file_orchestrator_proto_init()
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

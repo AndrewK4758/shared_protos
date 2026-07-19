@@ -22,8 +22,9 @@ const (
 )
 
 type GetRulesRequest struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	ClassificationName string                 `protobuf:"bytes,1,opt,name=classification_name,json=classificationName,proto3" json:"classification_name,omitempty"`
+	state              protoimpl.MessageState  `protogen:"open.v1"`
+	ClassificationName string                  `protobuf:"bytes,1,opt,name=classification_name,json=classificationName,proto3" json:"classification_name,omitempty"`
+	Identity           *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -63,6 +64,13 @@ func (x *GetRulesRequest) GetClassificationName() string {
 		return x.ClassificationName
 	}
 	return ""
+}
+
+func (x *GetRulesRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type GetRulesResponse struct {
@@ -137,9 +145,10 @@ var File_schema_registry_proto protoreflect.FileDescriptor
 
 const file_schema_registry_proto_rawDesc = "" +
 	"\n" +
-	"\x15schema_registry.proto\x12\x14document.registry.v1\"B\n" +
+	"\x15schema_registry.proto\x12\x14document.registry.v1\x1a\fmodels.proto\"\x8a\x01\n" +
 	"\x0fGetRulesRequest\x12/\n" +
-	"\x13classification_name\x18\x01 \x01(\tR\x12classificationName\"\x91\x01\n" +
+	"\x13classification_name\x18\x01 \x01(\tR\x12classificationName\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x91\x01\n" +
 	"\x10GetRulesResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12\x1d\n" +
@@ -164,17 +173,19 @@ func file_schema_registry_proto_rawDescGZIP() []byte {
 
 var file_schema_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_schema_registry_proto_goTypes = []any{
-	(*GetRulesRequest)(nil),  // 0: document.registry.v1.GetRulesRequest
-	(*GetRulesResponse)(nil), // 1: document.registry.v1.GetRulesResponse
+	(*GetRulesRequest)(nil),        // 0: document.registry.v1.GetRulesRequest
+	(*GetRulesResponse)(nil),       // 1: document.registry.v1.GetRulesResponse
+	(*InfrastructureIdentity)(nil), // 2: document.models.v1.InfrastructureIdentity
 }
 var file_schema_registry_proto_depIdxs = []int32{
-	0, // 0: document.registry.v1.SchemaRegistryService.GetRulesForClassification:input_type -> document.registry.v1.GetRulesRequest
-	1, // 1: document.registry.v1.SchemaRegistryService.GetRulesForClassification:output_type -> document.registry.v1.GetRulesResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: document.registry.v1.GetRulesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0, // 1: document.registry.v1.SchemaRegistryService.GetRulesForClassification:input_type -> document.registry.v1.GetRulesRequest
+	1, // 2: document.registry.v1.SchemaRegistryService.GetRulesForClassification:output_type -> document.registry.v1.GetRulesResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_schema_registry_proto_init() }
@@ -182,6 +193,7 @@ func file_schema_registry_proto_init() {
 	if File_schema_registry_proto != nil {
 		return
 	}
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

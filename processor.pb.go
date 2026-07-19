@@ -22,16 +22,17 @@ const (
 )
 
 type ProcessDocumentRequest struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	FileContent        []byte                 `protobuf:"bytes,1,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"`
-	FileName           string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
-	ModelChoice        ModelChoice            `protobuf:"varint,3,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
-	DocumentType       string                 `protobuf:"bytes,4,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
-	TargetFields       []string               `protobuf:"bytes,5,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
-	JsonSchema         string                 `protobuf:"bytes,6,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
-	CustomInstructions string                 `protobuf:"bytes,7,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
-	AppId              string                 `protobuf:"bytes,8,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
-	CorrelationId      string                 `protobuf:"bytes,9,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	state              protoimpl.MessageState  `protogen:"open.v1"`
+	FileContent        []byte                  `protobuf:"bytes,1,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"`
+	FileName           string                  `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	ModelChoice        ModelChoice             `protobuf:"varint,3,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
+	DocumentType       string                  `protobuf:"bytes,4,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	TargetFields       []string                `protobuf:"bytes,5,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
+	JsonSchema         string                  `protobuf:"bytes,6,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
+	CustomInstructions string                  `protobuf:"bytes,7,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
+	AppId              string                  `protobuf:"bytes,8,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
+	CorrelationId      string                  `protobuf:"bytes,9,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
+	Identity           *InfrastructureIdentity `protobuf:"bytes,10,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -129,6 +130,13 @@ func (x *ProcessDocumentRequest) GetCorrelationId() string {
 	return ""
 }
 
+func (x *ProcessDocumentRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type ProcessDocumentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
@@ -205,7 +213,8 @@ type PerformActionRequest struct {
 	CurrentAction *ActionDefinition           `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
 	ModelChoice   ModelChoice                 `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	// Optional text input (e.g. plain text, markdown, existing state)
-	InputText     string `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
+	InputText     string                  `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -275,6 +284,13 @@ func (x *PerformActionRequest) GetInputText() string {
 	return ""
 }
 
+func (x *PerformActionRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type PerformActionResponse struct {
 	state        protoimpl.MessageState `protogen:"open.v1"`
 	Success      bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
@@ -337,7 +353,8 @@ func (x *PerformActionResponse) GetActionResultJson() string {
 }
 
 type GetAvailableModelsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -370,6 +387,13 @@ func (x *GetAvailableModelsRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetAvailableModelsRequest.ProtoReflect.Descriptor instead.
 func (*GetAvailableModelsRequest) Descriptor() ([]byte, []int) {
 	return file_processor_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetAvailableModelsRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type GetAvailableModelsResponse struct {
@@ -428,7 +452,7 @@ var File_processor_proto protoreflect.FileDescriptor
 
 const file_processor_proto_rawDesc = "" +
 	"\n" +
-	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\x1a\x12orchestrator.proto\"\xf6\x02\n" +
+	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\x1a\x12orchestrator.proto\"\xbe\x03\n" +
 	"\x16ProcessDocumentRequest\x12!\n" +
 	"\ffile_content\x18\x01 \x01(\fR\vfileContent\x12\x1b\n" +
 	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12B\n" +
@@ -439,12 +463,14 @@ const file_processor_proto_rawDesc = "" +
 	"jsonSchema\x12/\n" +
 	"\x13custom_instructions\x18\a \x01(\tR\x12customInstructions\x12\x15\n" +
 	"\x06app_id\x18\b \x01(\tR\x05appId\x12%\n" +
-	"\x0ecorrelation_id\x18\t \x01(\tR\rcorrelationId\"\x97\x01\n" +
+	"\x0ecorrelation_id\x18\t \x01(\tR\rcorrelationId\x12F\n" +
+	"\bidentity\x18\n" +
+	" \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x97\x01\n" +
 	"\x17ProcessDocumentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x03 \x01(\tR\rcorrelationId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"\xb7\x02\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\xff\x02\n" +
 	"\x14PerformActionRequest\x12\x1f\n" +
 	"\vinput_bytes\x18\x01 \x01(\fR\n" +
 	"inputBytes\x12N\n" +
@@ -452,12 +478,14 @@ const file_processor_proto_rawDesc = "" +
 	"\x0ecurrent_action\x18\x03 \x01(\v2$.document.models.v1.ActionDefinitionR\rcurrentAction\x12B\n" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
-	"input_text\x18\x05 \x01(\tR\tinputText\"\x84\x01\n" +
+	"input_text\x18\x05 \x01(\tR\tinputText\x12F\n" +
+	"\bidentity\x18\x06 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x84\x01\n" +
 	"\x15PerformActionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
-	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\"\x1b\n" +
-	"\x19GetAvailableModelsRequest\"\\\n" +
+	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\"c\n" +
+	"\x19GetAvailableModelsRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\\\n" +
 	"\x1aGetAvailableModelsResponse\x12\x1f\n" +
 	"\vtext_models\x18\x01 \x03(\tR\n" +
 	"textModels\x12\x1d\n" +
@@ -489,25 +517,29 @@ var file_processor_proto_goTypes = []any{
 	(*GetAvailableModelsRequest)(nil),  // 4: document.processor.v1.GetAvailableModelsRequest
 	(*GetAvailableModelsResponse)(nil), // 5: document.processor.v1.GetAvailableModelsResponse
 	(ModelChoice)(0),                   // 6: document.models.v1.ModelChoice
-	(*ExecuteWorkflowNodeRequest)(nil), // 7: document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	(*ActionDefinition)(nil),           // 8: document.models.v1.ActionDefinition
+	(*InfrastructureIdentity)(nil),     // 7: document.models.v1.InfrastructureIdentity
+	(*ExecuteWorkflowNodeRequest)(nil), // 8: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ActionDefinition)(nil),           // 9: document.models.v1.ActionDefinition
 }
 var file_processor_proto_depIdxs = []int32{
-	6, // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
-	7, // 1: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	8, // 2: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
-	6, // 3: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
-	0, // 4: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
-	2, // 5: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
-	4, // 6: document.processor.v1.DocumentProcessor.GetAvailableModels:input_type -> document.processor.v1.GetAvailableModelsRequest
-	1, // 7: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
-	3, // 8: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
-	5, // 9: document.processor.v1.DocumentProcessor.GetAvailableModels:output_type -> document.processor.v1.GetAvailableModelsResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6,  // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	7,  // 1: document.processor.v1.ProcessDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	8,  // 2: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	9,  // 3: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
+	6,  // 4: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
+	7,  // 5: document.processor.v1.PerformActionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7,  // 6: document.processor.v1.GetAvailableModelsRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 7: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
+	2,  // 8: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
+	4,  // 9: document.processor.v1.DocumentProcessor.GetAvailableModels:input_type -> document.processor.v1.GetAvailableModelsRequest
+	1,  // 10: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
+	3,  // 11: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
+	5,  // 12: document.processor.v1.DocumentProcessor.GetAvailableModels:output_type -> document.processor.v1.GetAvailableModelsResponse
+	10, // [10:13] is the sub-list for method output_type
+	7,  // [7:10] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_processor_proto_init() }

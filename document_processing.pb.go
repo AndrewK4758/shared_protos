@@ -23,7 +23,7 @@ const (
 
 type ChunkDocumentRequest struct {
 	state            protoimpl.MessageState      `protogen:"open.v1"`
-	JobId            string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Identity         *InfrastructureIdentity     `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	StepId           string                      `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	RelativeFilePath string                      `protobuf:"bytes,3,opt,name=relative_file_path,json=relativeFilePath,proto3" json:"relative_file_path,omitempty"`
 	OriginalRequest  *ExecuteWorkflowNodeRequest `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
@@ -62,11 +62,11 @@ func (*ChunkDocumentRequest) Descriptor() ([]byte, []int) {
 	return file_document_processing_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ChunkDocumentRequest) GetJobId() string {
+func (x *ChunkDocumentRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
-		return x.JobId
+		return x.Identity
 	}
-	return ""
+	return nil
 }
 
 func (x *ChunkDocumentRequest) GetStepId() string {
@@ -297,9 +297,9 @@ var File_document_processing_proto protoreflect.FileDescriptor
 
 const file_document_processing_proto_rawDesc = "" +
 	"\n" +
-	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\"\xfb\x01\n" +
-	"\x14ChunkDocumentRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
+	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\x1a\fmodels.proto\"\xac\x02\n" +
+	"\x14ChunkDocumentRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12,\n" +
 	"\x12relative_file_path\x18\x03 \x01(\tR\x10relativeFilePath\x12_\n" +
 	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12$\n" +
@@ -341,19 +341,21 @@ var file_document_processing_proto_goTypes = []any{
 	(*ProcessedDocument)(nil),          // 1: document.processing.v1.ProcessedDocument
 	(*ChunkingTraceEvent)(nil),         // 2: document.processing.v1.ChunkingTraceEvent
 	(*ChunkDocumentResponse)(nil),      // 3: document.processing.v1.ChunkDocumentResponse
-	(*ExecuteWorkflowNodeRequest)(nil), // 4: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*InfrastructureIdentity)(nil),     // 4: document.models.v1.InfrastructureIdentity
+	(*ExecuteWorkflowNodeRequest)(nil), // 5: document.orchestrator.v1.ExecuteWorkflowNodeRequest
 }
 var file_document_processing_proto_depIdxs = []int32{
-	4, // 0: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	1, // 1: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
-	2, // 2: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
-	0, // 3: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
-	3, // 4: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 0: document.processing.v1.ChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	5, // 1: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	1, // 2: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
+	2, // 3: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
+	0, // 4: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
+	3, // 5: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_document_processing_proto_init() }
@@ -362,6 +364,7 @@ func file_document_processing_proto_init() {
 		return
 	}
 	file_orchestrator_proto_init()
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -23,14 +23,16 @@ service OrchestratorService {
 }
 
 message ExecuteWorkflowNodeRequest {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
   string step_id = 2; // The current node being executed
   string callback_address = 3; // Where to webhook the mutated state
 
   google.protobuf.Struct global_state = 4; // The single source of truth payload
-  map<string, string> metadata = 5; // e.g. tenant_id, app_id, correlation_id
+  map<string, string> metadata = 5; // e.g. correlation_id
 
   document.models.v1.NodeConfiguration node_config = 6;
+  
+  document.models.v1.InfrastructureIdentity identity = 7;
 }
 
 message ExecuteWorkflowNodeResponse {
@@ -40,22 +42,26 @@ message ExecuteWorkflowNodeResponse {
 }
 
 message ListenRequest {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
+  document.models.v1.InfrastructureIdentity identity = 2;
 }
 
 message ProgressUpdate {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
   string status = 2; // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
   string message = 3; // Detailed message, e.g., "Processing chunk 2 of 5"
   
   // Only populated when status == "COMPLETE"
   string final_results_json = 4;
+  
+  document.models.v1.InfrastructureIdentity identity = 5;
 }
 
 message ResumeJobRequest {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
   string corrected_json = 2;
   string step_id = 3;
+  document.models.v1.InfrastructureIdentity identity = 4;
 }
 
 message ResumeJobResponse {
@@ -64,8 +70,9 @@ message ResumeJobResponse {
 }
 
 message PurgeSystemStateRequest {
-  string app_id = 1;         // Scopes the cancellation to a specific tenant/app
+  string job_id = 1 [deprecated = true];         // Scopes the cancellation to a specific tenant/app
   bool purge_queues = 2;     // Explicit command to purge NATS JetStream queues
+  document.models.v1.InfrastructureIdentity identity = 3;
 }
 
 message PurgeSystemStateResponse {
@@ -80,7 +87,7 @@ service OrchestratorCallbackService {
 }
 
 message NodeExecutionCompleteRequest {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
   string completed_step_id = 2;
   
   google.protobuf.Struct global_state = 3; // The mutated state 
@@ -88,6 +95,8 @@ message NodeExecutionCompleteRequest {
   
   bool success = 5;
   string error_message = 6;
+  
+  document.models.v1.InfrastructureIdentity identity = 7;
 }
 
 message NodeExecutionCompleteResponse {
@@ -95,9 +104,11 @@ message NodeExecutionCompleteResponse {
 }
 
 message JobFailedRequest {
-  string job_id = 1;
+  string job_id = 1 [deprecated = true];
   string failed_step_id = 2;
   string error_message = 3;
+  
+  document.models.v1.InfrastructureIdentity identity = 4;
 }
 
 message JobFailedResponse {

@@ -23,13 +23,15 @@ const (
 )
 
 type ExecuteWorkflowNodeRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepId          string                 `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`                                                                 // The current node being executed
-	CallbackAddress string                 `protobuf:"bytes,3,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`                                      // Where to webhook the mutated state
-	GlobalState     *structpb.Struct       `protobuf:"bytes,4,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`                                                  // The single source of truth payload
-	Metadata        map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // e.g. tenant_id, app_id, correlation_id
-	NodeConfig      *NodeConfiguration     `protobuf:"bytes,6,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId           string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	StepId          string                  `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`                                                                 // The current node being executed
+	CallbackAddress string                  `protobuf:"bytes,3,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`                                      // Where to webhook the mutated state
+	GlobalState     *structpb.Struct        `protobuf:"bytes,4,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`                                                  // The single source of truth payload
+	Metadata        map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // e.g. correlation_id
+	NodeConfig      *NodeConfiguration      `protobuf:"bytes,6,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
+	Identity        *InfrastructureIdentity `protobuf:"bytes,7,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -64,6 +66,7 @@ func (*ExecuteWorkflowNodeRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{0}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *ExecuteWorkflowNodeRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -102,6 +105,13 @@ func (x *ExecuteWorkflowNodeRequest) GetMetadata() map[string]string {
 func (x *ExecuteWorkflowNodeRequest) GetNodeConfig() *NodeConfiguration {
 	if x != nil {
 		return x.NodeConfig
+	}
+	return nil
+}
+
+func (x *ExecuteWorkflowNodeRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
 	}
 	return nil
 }
@@ -167,8 +177,10 @@ func (x *ExecuteWorkflowNodeResponse) GetStepId() string {
 }
 
 type ListenRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -203,6 +215,7 @@ func (*ListenRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{2}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *ListenRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -210,13 +223,22 @@ func (x *ListenRequest) GetJobId() string {
 	return ""
 }
 
+func (x *ListenRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type ProgressUpdate struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	JobId   string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	Status  string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`   // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
-	Message string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"` // Detailed message, e.g., "Processing chunk 2 of 5"
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId   string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	Status  string `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`   // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
+	Message string `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"` // Detailed message, e.g., "Processing chunk 2 of 5"
 	// Only populated when status == "COMPLETE"
-	FinalResultsJson string `protobuf:"bytes,4,opt,name=final_results_json,json=finalResultsJson,proto3" json:"final_results_json,omitempty"`
+	FinalResultsJson string                  `protobuf:"bytes,4,opt,name=final_results_json,json=finalResultsJson,proto3" json:"final_results_json,omitempty"`
+	Identity         *InfrastructureIdentity `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -251,6 +273,7 @@ func (*ProgressUpdate) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{3}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *ProgressUpdate) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -279,11 +302,20 @@ func (x *ProgressUpdate) GetFinalResultsJson() string {
 	return ""
 }
 
+func (x *ProgressUpdate) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type ResumeJobRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	CorrectedJson string                 `protobuf:"bytes,2,opt,name=corrected_json,json=correctedJson,proto3" json:"corrected_json,omitempty"`
-	StepId        string                 `protobuf:"bytes,3,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	CorrectedJson string                  `protobuf:"bytes,2,opt,name=corrected_json,json=correctedJson,proto3" json:"corrected_json,omitempty"`
+	StepId        string                  `protobuf:"bytes,3,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -318,6 +350,7 @@ func (*ResumeJobRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{4}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *ResumeJobRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -337,6 +370,13 @@ func (x *ResumeJobRequest) GetStepId() string {
 		return x.StepId
 	}
 	return ""
+}
+
+func (x *ResumeJobRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type ResumeJobResponse struct {
@@ -392,9 +432,11 @@ func (x *ResumeJobResponse) GetMessage() string {
 }
 
 type PurgeSystemStateRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AppId         string                 `protobuf:"bytes,1,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`                    // Scopes the cancellation to a specific tenant/app
-	PurgeQueues   bool                   `protobuf:"varint,2,opt,name=purge_queues,json=purgeQueues,proto3" json:"purge_queues,omitempty"` // Explicit command to purge NATS JetStream queues
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`                    // Scopes the cancellation to a specific tenant/app
+	PurgeQueues   bool                    `protobuf:"varint,2,opt,name=purge_queues,json=purgeQueues,proto3" json:"purge_queues,omitempty"` // Explicit command to purge NATS JetStream queues
+	Identity      *InfrastructureIdentity `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -429,9 +471,10 @@ func (*PurgeSystemStateRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *PurgeSystemStateRequest) GetAppId() string {
+// Deprecated: Marked as deprecated in orchestrator.proto.
+func (x *PurgeSystemStateRequest) GetJobId() string {
 	if x != nil {
-		return x.AppId
+		return x.JobId
 	}
 	return ""
 }
@@ -441,6 +484,13 @@ func (x *PurgeSystemStateRequest) GetPurgeQueues() bool {
 		return x.PurgeQueues
 	}
 	return false
+}
+
+func (x *PurgeSystemStateRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type PurgeSystemStateResponse struct {
@@ -504,13 +554,15 @@ func (x *PurgeSystemStateResponse) GetQueuesPurged() int32 {
 }
 
 type NodeExecutionCompleteRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	JobId           string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	CompletedStepId string                 `protobuf:"bytes,2,opt,name=completed_step_id,json=completedStepId,proto3" json:"completed_step_id,omitempty"`
-	GlobalState     *structpb.Struct       `protobuf:"bytes,3,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"` // The mutated state
-	NodeOutput      *structpb.Struct       `protobuf:"bytes,4,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`    // The isolated output for dynamic rule evaluation
-	Success         bool                   `protobuf:"varint,5,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorMessage    string                 `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId           string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	CompletedStepId string                  `protobuf:"bytes,2,opt,name=completed_step_id,json=completedStepId,proto3" json:"completed_step_id,omitempty"`
+	GlobalState     *structpb.Struct        `protobuf:"bytes,3,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"` // The mutated state
+	NodeOutput      *structpb.Struct        `protobuf:"bytes,4,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`    // The isolated output for dynamic rule evaluation
+	Success         bool                    `protobuf:"varint,5,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMessage    string                  `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	Identity        *InfrastructureIdentity `protobuf:"bytes,7,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -545,6 +597,7 @@ func (*NodeExecutionCompleteRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{8}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *NodeExecutionCompleteRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -585,6 +638,13 @@ func (x *NodeExecutionCompleteRequest) GetErrorMessage() string {
 		return x.ErrorMessage
 	}
 	return ""
+}
+
+func (x *NodeExecutionCompleteRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type NodeExecutionCompleteResponse struct {
@@ -632,10 +692,12 @@ func (x *NodeExecutionCompleteResponse) GetSuccess() bool {
 }
 
 type JobFailedRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	FailedStepId  string                 `protobuf:"bytes,2,opt,name=failed_step_id,json=failedStepId,proto3" json:"failed_step_id,omitempty"`
-	ErrorMessage  string                 `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Deprecated: Marked as deprecated in orchestrator.proto.
+	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	FailedStepId  string                  `protobuf:"bytes,2,opt,name=failed_step_id,json=failedStepId,proto3" json:"failed_step_id,omitempty"`
+	ErrorMessage  string                  `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -670,6 +732,7 @@ func (*JobFailedRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{10}
 }
 
+// Deprecated: Marked as deprecated in orchestrator.proto.
 func (x *JobFailedRequest) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -689,6 +752,13 @@ func (x *JobFailedRequest) GetErrorMessage() string {
 		return x.ErrorMessage
 	}
 	return ""
+}
+
+func (x *JobFailedRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type JobFailedResponse struct {
@@ -739,57 +809,64 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x98\x03\n" +
-	"\x1aExecuteWorkflowNodeRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x17\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xe4\x03\n" +
+	"\x1aExecuteWorkflowNodeRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12)\n" +
 	"\x10callback_address\x18\x03 \x01(\tR\x0fcallbackAddress\x12:\n" +
 	"\fglobal_state\x18\x04 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x12^\n" +
 	"\bmetadata\x18\x05 \x03(\v2B.document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntryR\bmetadata\x12F\n" +
 	"\vnode_config\x18\x06 \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
-	"nodeConfig\x1a;\n" +
+	"nodeConfig\x12F\n" +
+	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"j\n" +
 	"\x1bExecuteWorkflowNodeResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
-	"\astep_id\x18\x03 \x01(\tR\x06stepId\"&\n" +
-	"\rListenRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"\x87\x01\n" +
-	"\x0eProgressUpdate\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x16\n" +
+	"\astep_id\x18\x03 \x01(\tR\x06stepId\"r\n" +
+	"\rListenRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xd3\x01\n" +
+	"\x0eProgressUpdate\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\x12\x18\n" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12,\n" +
-	"\x12final_results_json\x18\x04 \x01(\tR\x10finalResultsJson\"i\n" +
-	"\x10ResumeJobRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12%\n" +
+	"\x12final_results_json\x18\x04 \x01(\tR\x10finalResultsJson\x12F\n" +
+	"\bidentity\x18\x05 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xb5\x01\n" +
+	"\x10ResumeJobRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12%\n" +
 	"\x0ecorrected_json\x18\x02 \x01(\tR\rcorrectedJson\x12\x17\n" +
-	"\astep_id\x18\x03 \x01(\tR\x06stepId\"G\n" +
+	"\astep_id\x18\x03 \x01(\tR\x06stepId\x12F\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"G\n" +
 	"\x11ResumeJobResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"S\n" +
-	"\x17PurgeSystemStateRequest\x12\x15\n" +
-	"\x06app_id\x18\x01 \x01(\tR\x05appId\x12!\n" +
-	"\fpurge_queues\x18\x02 \x01(\bR\vpurgeQueues\"\x80\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\x9f\x01\n" +
+	"\x17PurgeSystemStateRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12!\n" +
+	"\fpurge_queues\x18\x02 \x01(\bR\vpurgeQueues\x12F\n" +
+	"\bidentity\x18\x03 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x80\x01\n" +
 	"\x18PurgeSystemStateResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12%\n" +
 	"\x0ejobs_cancelled\x18\x02 \x01(\x05R\rjobsCancelled\x12#\n" +
-	"\rqueues_purged\x18\x03 \x01(\x05R\fqueuesPurged\"\x96\x02\n" +
-	"\x1cNodeExecutionCompleteRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12*\n" +
+	"\rqueues_purged\x18\x03 \x01(\x05R\fqueuesPurged\"\xe2\x02\n" +
+	"\x1cNodeExecutionCompleteRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12*\n" +
 	"\x11completed_step_id\x18\x02 \x01(\tR\x0fcompletedStepId\x12:\n" +
 	"\fglobal_state\x18\x03 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x128\n" +
 	"\vnode_output\x18\x04 \x01(\v2\x17.google.protobuf.StructR\n" +
 	"nodeOutput\x12\x18\n" +
 	"\asuccess\x18\x05 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\"9\n" +
+	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\x12F\n" +
+	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"9\n" +
 	"\x1dNodeExecutionCompleteResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"t\n" +
-	"\x10JobFailedRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12$\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xc0\x01\n" +
+	"\x10JobFailedRequest\x12\x19\n" +
+	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12$\n" +
 	"\x0efailed_step_id\x18\x02 \x01(\tR\ffailedStepId\x12#\n" +
-	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\"-\n" +
+	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\x12F\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"-\n" +
 	"\x11JobFailedResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x03\n" +
 	"\x13OrchestratorService\x12\x82\x01\n" +
@@ -830,30 +907,38 @@ var file_orchestrator_proto_goTypes = []any{
 	nil,                                   // 12: document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntry
 	(*structpb.Struct)(nil),               // 13: google.protobuf.Struct
 	(*NodeConfiguration)(nil),             // 14: document.models.v1.NodeConfiguration
+	(*InfrastructureIdentity)(nil),        // 15: document.models.v1.InfrastructureIdentity
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	13, // 0: document.orchestrator.v1.ExecuteWorkflowNodeRequest.global_state:type_name -> google.protobuf.Struct
 	12, // 1: document.orchestrator.v1.ExecuteWorkflowNodeRequest.metadata:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntry
 	14, // 2: document.orchestrator.v1.ExecuteWorkflowNodeRequest.node_config:type_name -> document.models.v1.NodeConfiguration
-	13, // 3: document.orchestrator.v1.NodeExecutionCompleteRequest.global_state:type_name -> google.protobuf.Struct
-	13, // 4: document.orchestrator.v1.NodeExecutionCompleteRequest.node_output:type_name -> google.protobuf.Struct
-	0,  // 5: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	2,  // 6: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	4,  // 7: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	6,  // 8: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
-	8,  // 9: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
-	10, // 10: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
-	1,  // 11: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
-	3,  // 12: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	5,  // 13: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	7,  // 14: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
-	9,  // 15: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
-	11, // 16: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	15, // 3: document.orchestrator.v1.ExecuteWorkflowNodeRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 4: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 5: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 6: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 7: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	13, // 8: document.orchestrator.v1.NodeExecutionCompleteRequest.global_state:type_name -> google.protobuf.Struct
+	13, // 9: document.orchestrator.v1.NodeExecutionCompleteRequest.node_output:type_name -> google.protobuf.Struct
+	15, // 10: document.orchestrator.v1.NodeExecutionCompleteRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 11: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 12: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	2,  // 13: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	4,  // 14: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	6,  // 15: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
+	8,  // 16: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
+	10, // 17: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	1,  // 18: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
+	3,  // 19: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	5,  // 20: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	7,  // 21: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
+	9,  // 22: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
+	11, // 23: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	18, // [18:24] is the sub-list for method output_type
+	12, // [12:18] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }

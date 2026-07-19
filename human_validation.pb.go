@@ -22,18 +22,18 @@ const (
 )
 
 type CreateTaskRequest struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	JobId              string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepName           string                 `protobuf:"bytes,2,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
-	FailedAiOutput     string                 `protobuf:"bytes,3,opt,name=failed_ai_output,json=failedAiOutput,proto3" json:"failed_ai_output,omitempty"`
-	ExpectedSchema     string                 `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
-	PromptInstructions string                 `protobuf:"bytes,5,opt,name=prompt_instructions,json=promptInstructions,proto3" json:"prompt_instructions,omitempty"`
-	ErrorMessage       string                 `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	TargetFields       []string               `protobuf:"bytes,7,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
-	GlobalStateJson    string                 `protobuf:"bytes,8,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
-	JobName            string                 `protobuf:"bytes,9,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
-	StepId             string                 `protobuf:"bytes,10,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	StepContextInput   string                 `protobuf:"bytes,11,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
+	state              protoimpl.MessageState  `protogen:"open.v1"`
+	Identity           *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	StepName           string                  `protobuf:"bytes,2,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
+	FailedAiOutput     string                  `protobuf:"bytes,3,opt,name=failed_ai_output,json=failedAiOutput,proto3" json:"failed_ai_output,omitempty"`
+	ExpectedSchema     string                  `protobuf:"bytes,4,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
+	PromptInstructions string                  `protobuf:"bytes,5,opt,name=prompt_instructions,json=promptInstructions,proto3" json:"prompt_instructions,omitempty"`
+	ErrorMessage       string                  `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	TargetFields       []string                `protobuf:"bytes,7,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
+	GlobalStateJson    string                  `protobuf:"bytes,8,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
+	JobName            string                  `protobuf:"bytes,9,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
+	StepId             string                  `protobuf:"bytes,10,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	StepContextInput   string                  `protobuf:"bytes,11,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -68,11 +68,11 @@ func (*CreateTaskRequest) Descriptor() ([]byte, []int) {
 	return file_human_validation_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateTaskRequest) GetJobId() string {
+func (x *CreateTaskRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
-		return x.JobId
+		return x.Identity
 	}
-	return ""
+	return nil
 }
 
 func (x *CreateTaskRequest) GetStepName() string {
@@ -198,8 +198,9 @@ func (x *CreateTaskResponse) GetStatus() string {
 }
 
 type GetPendingTasksRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FilterStatus  string                 `protobuf:"bytes,1,opt,name=filter_status,json=filterStatus,proto3" json:"filter_status,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	FilterStatus  string                  `protobuf:"bytes,1,opt,name=filter_status,json=filterStatus,proto3" json:"filter_status,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -241,21 +242,28 @@ func (x *GetPendingTasksRequest) GetFilterStatus() string {
 	return ""
 }
 
+func (x *GetPendingTasksRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
 type PendingTask struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	TaskId             string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	JobId              string                 `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	StepName           string                 `protobuf:"bytes,3,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
-	FailedAiOutput     string                 `protobuf:"bytes,4,opt,name=failed_ai_output,json=failedAiOutput,proto3" json:"failed_ai_output,omitempty"`
-	ExpectedSchema     string                 `protobuf:"bytes,5,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
-	PromptInstructions string                 `protobuf:"bytes,6,opt,name=prompt_instructions,json=promptInstructions,proto3" json:"prompt_instructions,omitempty"`
-	ErrorMessage       string                 `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	TargetFields       []string               `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
-	Status             string                 `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"` // e.g., "PENDING", "RESOLVED"
-	GlobalStateJson    string                 `protobuf:"bytes,10,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
-	JobName            string                 `protobuf:"bytes,11,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
-	StepId             string                 `protobuf:"bytes,12,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	StepContextInput   string                 `protobuf:"bytes,13,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
+	state              protoimpl.MessageState  `protogen:"open.v1"`
+	TaskId             string                  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	Identity           *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	StepName           string                  `protobuf:"bytes,3,opt,name=step_name,json=stepName,proto3" json:"step_name,omitempty"`
+	FailedAiOutput     string                  `protobuf:"bytes,4,opt,name=failed_ai_output,json=failedAiOutput,proto3" json:"failed_ai_output,omitempty"`
+	ExpectedSchema     string                  `protobuf:"bytes,5,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
+	PromptInstructions string                  `protobuf:"bytes,6,opt,name=prompt_instructions,json=promptInstructions,proto3" json:"prompt_instructions,omitempty"`
+	ErrorMessage       string                  `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	TargetFields       []string                `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
+	Status             string                  `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"` // e.g., "PENDING", "RESOLVED"
+	GlobalStateJson    string                  `protobuf:"bytes,10,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
+	JobName            string                  `protobuf:"bytes,11,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
+	StepId             string                  `protobuf:"bytes,12,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	StepContextInput   string                  `protobuf:"bytes,13,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -297,11 +305,11 @@ func (x *PendingTask) GetTaskId() string {
 	return ""
 }
 
-func (x *PendingTask) GetJobId() string {
+func (x *PendingTask) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
-		return x.JobId
+		return x.Identity
 	}
-	return ""
+	return nil
 }
 
 func (x *PendingTask) GetStepName() string {
@@ -426,9 +434,10 @@ func (x *GetPendingTasksResponse) GetTasks() []*PendingTask {
 }
 
 type SubmitCorrectionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	CorrectedJson string                 `protobuf:"bytes,2,opt,name=corrected_json,json=correctedJson,proto3" json:"corrected_json,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	TaskId        string                  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	CorrectedJson string                  `protobuf:"bytes,2,opt,name=corrected_json,json=correctedJson,proto3" json:"corrected_json,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -475,6 +484,13 @@ func (x *SubmitCorrectionRequest) GetCorrectedJson() string {
 		return x.CorrectedJson
 	}
 	return ""
+}
+
+func (x *SubmitCorrectionRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type SubmitCorrectionResponse struct {
@@ -533,9 +549,9 @@ var File_human_validation_proto protoreflect.FileDescriptor
 
 const file_human_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x16human_validation.proto\x12\x16document.validation.v1\"\xa3\x03\n" +
-	"\x11CreateTaskRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\x1b\n" +
+	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\"\xd4\x03\n" +
+	"\x11CreateTaskRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12(\n" +
 	"\x10failed_ai_output\x18\x03 \x01(\tR\x0efailedAiOutput\x12'\n" +
 	"\x0fexpected_schema\x18\x04 \x01(\tR\x0eexpectedSchema\x12/\n" +
@@ -549,12 +565,13 @@ const file_human_validation_proto_rawDesc = "" +
 	"\x12step_context_input\x18\v \x01(\tR\x10stepContextInput\"E\n" +
 	"\x12CreateTaskResponse\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"=\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\x85\x01\n" +
 	"\x16GetPendingTasksRequest\x12#\n" +
-	"\rfilter_status\x18\x01 \x01(\tR\ffilterStatus\"\xce\x03\n" +
+	"\rfilter_status\x18\x01 \x01(\tR\ffilterStatus\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xff\x03\n" +
 	"\vPendingTask\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x15\n" +
-	"\x06job_id\x18\x02 \x01(\tR\x05jobId\x12\x1b\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x03 \x01(\tR\bstepName\x12(\n" +
 	"\x10failed_ai_output\x18\x04 \x01(\tR\x0efailedAiOutput\x12'\n" +
 	"\x0fexpected_schema\x18\x05 \x01(\tR\x0eexpectedSchema\x12/\n" +
@@ -568,10 +585,11 @@ const file_human_validation_proto_rawDesc = "" +
 	"\astep_id\x18\f \x01(\tR\x06stepId\x12,\n" +
 	"\x12step_context_input\x18\r \x01(\tR\x10stepContextInput\"T\n" +
 	"\x17GetPendingTasksResponse\x129\n" +
-	"\x05tasks\x18\x01 \x03(\v2#.document.validation.v1.PendingTaskR\x05tasks\"Y\n" +
+	"\x05tasks\x18\x01 \x03(\v2#.document.validation.v1.PendingTaskR\x05tasks\"\xa1\x01\n" +
 	"\x17SubmitCorrectionRequest\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12%\n" +
-	"\x0ecorrected_json\x18\x02 \x01(\tR\rcorrectedJson\"N\n" +
+	"\x0ecorrected_json\x18\x02 \x01(\tR\rcorrectedJson\x12F\n" +
+	"\bidentity\x18\x03 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"N\n" +
 	"\x18SubmitCorrectionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage2\xf2\x02\n" +
@@ -601,20 +619,25 @@ var file_human_validation_proto_goTypes = []any{
 	(*GetPendingTasksResponse)(nil),  // 4: document.validation.v1.GetPendingTasksResponse
 	(*SubmitCorrectionRequest)(nil),  // 5: document.validation.v1.SubmitCorrectionRequest
 	(*SubmitCorrectionResponse)(nil), // 6: document.validation.v1.SubmitCorrectionResponse
+	(*InfrastructureIdentity)(nil),   // 7: document.models.v1.InfrastructureIdentity
 }
 var file_human_validation_proto_depIdxs = []int32{
-	3, // 0: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
-	0, // 1: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
-	2, // 2: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
-	5, // 3: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
-	1, // 4: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
-	4, // 5: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.GetPendingTasksResponse
-	6, // 6: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	7, // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7, // 1: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7, // 2: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
+	3, // 3: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
+	7, // 4: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0, // 5: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
+	2, // 6: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
+	5, // 7: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
+	1, // 8: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
+	4, // 9: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.GetPendingTasksResponse
+	6, // 10: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_human_validation_proto_init() }
@@ -622,6 +645,7 @@ func file_human_validation_proto_init() {
 	if File_human_validation_proto != nil {
 		return
 	}
+	file_models_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

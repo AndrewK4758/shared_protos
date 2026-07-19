@@ -29,6 +29,7 @@ message ProcessDocumentRequest {
   string custom_instructions = 7;
   string app_id = 8;
   string correlation_id = 9;
+  document.models.v1.InfrastructureIdentity identity = 10;
 }
 
 message ProcessDocumentResponse {
@@ -51,6 +52,7 @@ message PerformActionRequest {
 
   // Optional text input (e.g. plain text, markdown, existing state)
   string input_text = 5;
+  document.models.v1.InfrastructureIdentity identity = 6;
 }
 
 message PerformActionResponse {
@@ -61,7 +63,9 @@ message PerformActionResponse {
   string action_result_json = 3;
 }
 
-message GetAvailableModelsRequest {}
+message GetAvailableModelsRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+}
 
 message GetAvailableModelsResponse {
   repeated string text_models = 1;

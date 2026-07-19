@@ -106,9 +106,8 @@ func (*UploadRequest_Metadata) isUploadRequest_UploadElement() {}
 func (*UploadRequest_ChunkData) isUploadRequest_UploadElement() {}
 
 type UploadMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The exact Job ID mapped to [AppId]_[UnixNano]
-	JobId string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state    protoimpl.MessageState  `protogen:"open.v1"`
+	Identity *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The original filename (e.g., "invoice.pdf")
 	OriginalFilename string `protobuf:"bytes,2,opt,name=original_filename,json=originalFilename,proto3" json:"original_filename,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -145,11 +144,11 @@ func (*UploadMetadata) Descriptor() ([]byte, []int) {
 	return file_storage_gateway_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *UploadMetadata) GetJobId() string {
+func (x *UploadMetadata) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
-		return x.JobId
+		return x.Identity
 	}
-	return ""
+	return nil
 }
 
 func (x *UploadMetadata) GetOriginalFilename() string {
@@ -223,7 +222,8 @@ func (x *UploadResponse) GetStorageUri() string {
 type DownloadRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The exact internal reference string to download
-	StorageUri    string `protobuf:"bytes,1,opt,name=storage_uri,json=storageUri,proto3" json:"storage_uri,omitempty"`
+	StorageUri    string                  `protobuf:"bytes,1,opt,name=storage_uri,json=storageUri,proto3" json:"storage_uri,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -263,6 +263,13 @@ func (x *DownloadRequest) GetStorageUri() string {
 		return x.StorageUri
 	}
 	return ""
+}
+
+func (x *DownloadRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type DownloadResponse struct {
@@ -310,8 +317,8 @@ func (x *DownloadResponse) GetChunkData() []byte {
 }
 
 type ClearJobDataRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -346,11 +353,11 @@ func (*ClearJobDataRequest) Descriptor() ([]byte, []int) {
 	return file_storage_gateway_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ClearJobDataRequest) GetJobId() string {
+func (x *ClearJobDataRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
-		return x.JobId
+		return x.Identity
 	}
-	return ""
+	return nil
 }
 
 type ClearJobDataResponse struct {
@@ -417,28 +424,29 @@ var File_storage_gateway_proto protoreflect.FileDescriptor
 
 const file_storage_gateway_proto_rawDesc = "" +
 	"\n" +
-	"\x15storage_gateway.proto\x12\rshared_protos\"\x7f\n" +
+	"\x15storage_gateway.proto\x12\rshared_protos\x1a\fmodels.proto\"\x7f\n" +
 	"\rUploadRequest\x12;\n" +
 	"\bmetadata\x18\x01 \x01(\v2\x1d.shared_protos.UploadMetadataH\x00R\bmetadata\x12\x1f\n" +
 	"\n" +
 	"chunk_data\x18\x02 \x01(\fH\x00R\tchunkDataB\x10\n" +
-	"\x0eupload_element\"T\n" +
-	"\x0eUploadMetadata\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12+\n" +
+	"\x0eupload_element\"\x85\x01\n" +
+	"\x0eUploadMetadata\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12+\n" +
 	"\x11original_filename\x18\x02 \x01(\tR\x10originalFilename\"p\n" +
 	"\x0eUploadResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12\x1f\n" +
 	"\vstorage_uri\x18\x03 \x01(\tR\n" +
-	"storageUri\"2\n" +
+	"storageUri\"z\n" +
 	"\x0fDownloadRequest\x12\x1f\n" +
 	"\vstorage_uri\x18\x01 \x01(\tR\n" +
-	"storageUri\"1\n" +
+	"storageUri\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"1\n" +
 	"\x10DownloadResponse\x12\x1d\n" +
 	"\n" +
-	"chunk_data\x18\x01 \x01(\fR\tchunkData\",\n" +
-	"\x13ClearJobDataRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\"z\n" +
+	"chunk_data\x18\x01 \x01(\fR\tchunkData\"]\n" +
+	"\x13ClearJobDataRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"z\n" +
 	"\x14ClearJobDataResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12#\n" +
@@ -462,27 +470,31 @@ func file_storage_gateway_proto_rawDescGZIP() []byte {
 
 var file_storage_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_storage_gateway_proto_goTypes = []any{
-	(*UploadRequest)(nil),        // 0: shared_protos.UploadRequest
-	(*UploadMetadata)(nil),       // 1: shared_protos.UploadMetadata
-	(*UploadResponse)(nil),       // 2: shared_protos.UploadResponse
-	(*DownloadRequest)(nil),      // 3: shared_protos.DownloadRequest
-	(*DownloadResponse)(nil),     // 4: shared_protos.DownloadResponse
-	(*ClearJobDataRequest)(nil),  // 5: shared_protos.ClearJobDataRequest
-	(*ClearJobDataResponse)(nil), // 6: shared_protos.ClearJobDataResponse
+	(*UploadRequest)(nil),          // 0: shared_protos.UploadRequest
+	(*UploadMetadata)(nil),         // 1: shared_protos.UploadMetadata
+	(*UploadResponse)(nil),         // 2: shared_protos.UploadResponse
+	(*DownloadRequest)(nil),        // 3: shared_protos.DownloadRequest
+	(*DownloadResponse)(nil),       // 4: shared_protos.DownloadResponse
+	(*ClearJobDataRequest)(nil),    // 5: shared_protos.ClearJobDataRequest
+	(*ClearJobDataResponse)(nil),   // 6: shared_protos.ClearJobDataResponse
+	(*InfrastructureIdentity)(nil), // 7: document.models.v1.InfrastructureIdentity
 }
 var file_storage_gateway_proto_depIdxs = []int32{
 	1, // 0: shared_protos.UploadRequest.metadata:type_name -> shared_protos.UploadMetadata
-	0, // 1: shared_protos.StorageGatewayService.UploadDocument:input_type -> shared_protos.UploadRequest
-	3, // 2: shared_protos.StorageGatewayService.DownloadDocument:input_type -> shared_protos.DownloadRequest
-	5, // 3: shared_protos.StorageGatewayService.ClearJobData:input_type -> shared_protos.ClearJobDataRequest
-	2, // 4: shared_protos.StorageGatewayService.UploadDocument:output_type -> shared_protos.UploadResponse
-	4, // 5: shared_protos.StorageGatewayService.DownloadDocument:output_type -> shared_protos.DownloadResponse
-	6, // 6: shared_protos.StorageGatewayService.ClearJobData:output_type -> shared_protos.ClearJobDataResponse
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	7, // 1: shared_protos.UploadMetadata.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7, // 2: shared_protos.DownloadRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7, // 3: shared_protos.ClearJobDataRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0, // 4: shared_protos.StorageGatewayService.UploadDocument:input_type -> shared_protos.UploadRequest
+	3, // 5: shared_protos.StorageGatewayService.DownloadDocument:input_type -> shared_protos.DownloadRequest
+	5, // 6: shared_protos.StorageGatewayService.ClearJobData:input_type -> shared_protos.ClearJobDataRequest
+	2, // 7: shared_protos.StorageGatewayService.UploadDocument:output_type -> shared_protos.UploadResponse
+	4, // 8: shared_protos.StorageGatewayService.DownloadDocument:output_type -> shared_protos.DownloadResponse
+	6, // 9: shared_protos.StorageGatewayService.ClearJobData:output_type -> shared_protos.ClearJobDataResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_storage_gateway_proto_init() }
@@ -490,6 +502,7 @@ func file_storage_gateway_proto_init() {
 	if File_storage_gateway_proto != nil {
 		return
 	}
+	file_models_proto_init()
 	file_storage_gateway_proto_msgTypes[0].OneofWrappers = []any{
 		(*UploadRequest_Metadata)(nil),
 		(*UploadRequest_ChunkData)(nil),
