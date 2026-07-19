@@ -868,14 +868,14 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\x12F\n" +
 	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"-\n" +
 	"\x11JobFailedResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x03\n" +
-	"\x13OrchestratorService\x12\x82\x01\n" +
-	"\x13ExecuteWorkflowNode\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a5.document.orchestrator.v1.ExecuteWorkflowNodeResponse\x12h\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe9\x03\n" +
+	"\x13OrchestratorService\x12\x86\x01\n" +
+	"\x13ExecuteWorkflowNode\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a5.document.orchestrator.v1.ExecuteWorkflowNodeResponse(\x010\x01\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
 	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse\x12y\n" +
-	"\x10PurgeSystemState\x121.document.orchestrator.v1.PurgeSystemStateRequest\x1a2.document.orchestrator.v1.PurgeSystemStateResponse2\x92\x02\n" +
-	"\x1bOrchestratorCallbackService\x12\x8a\x01\n" +
-	"\x17OnNodeExecutionComplete\x126.document.orchestrator.v1.NodeExecutionCompleteRequest\x1a7.document.orchestrator.v1.NodeExecutionCompleteResponse\x12f\n" +
+	"\x10PurgeSystemState\x121.document.orchestrator.v1.PurgeSystemStateRequest\x1a2.document.orchestrator.v1.PurgeSystemStateResponse2\x96\x02\n" +
+	"\x1bOrchestratorCallbackService\x12\x8e\x01\n" +
+	"\x17OnNodeExecutionComplete\x126.document.orchestrator.v1.NodeExecutionCompleteRequest\x1a7.document.orchestrator.v1.NodeExecutionCompleteResponse(\x010\x01\x12f\n" +
 	"\vOnJobFailed\x12*.document.orchestrator.v1.JobFailedRequest\x1a+.document.orchestrator.v1.JobFailedResponseBAZ$github.com/AndrewK4758/shared_protos\xaa\x02\x18Document.Orchestrator.V1b\x06proto3"
 
 var (

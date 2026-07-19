@@ -319,9 +319,9 @@ const file_document_processing_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12Z\n" +
 	"\x13processed_documents\x18\x03 \x03(\v2).document.processing.v1.ProcessedDocumentR\x12processedDocuments\x12M\n" +
-	"\ftrace_events\x18\x04 \x03(\v2*.document.processing.v1.ChunkingTraceEventR\vtraceEvents2\x89\x01\n" +
-	"\x19DocumentProcessingService\x12l\n" +
-	"\rChunkDocument\x12,.document.processing.v1.ChunkDocumentRequest\x1a-.document.processing.v1.ChunkDocumentResponseB?Z$github.com/AndrewK4758/shared_protos\xaa\x02\x16Document.Processing.V1b\x06proto3"
+	"\ftrace_events\x18\x04 \x03(\v2*.document.processing.v1.ChunkingTraceEventR\vtraceEvents2\x8d\x01\n" +
+	"\x19DocumentProcessingService\x12p\n" +
+	"\rChunkDocument\x12,.document.processing.v1.ChunkDocumentRequest\x1a-.document.processing.v1.ChunkDocumentResponse(\x010\x01B?Z$github.com/AndrewK4758/shared_protos\xaa\x02\x16Document.Processing.V1b\x06proto3"
 
 var (
 	file_document_processing_proto_rawDescOnce sync.Once

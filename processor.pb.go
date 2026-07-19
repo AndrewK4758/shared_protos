@@ -490,10 +490,10 @@ const file_processor_proto_rawDesc = "" +
 	"\vtext_models\x18\x01 \x03(\tR\n" +
 	"textModels\x12\x1d\n" +
 	"\n" +
-	"ocr_models\x18\x02 \x03(\tR\tocrModels2\xec\x02\n" +
-	"\x11DocumentProcessor\x12p\n" +
-	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse\x12j\n" +
-	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponse\x12y\n" +
+	"ocr_models\x18\x02 \x03(\tR\tocrModels2\xf4\x02\n" +
+	"\x11DocumentProcessor\x12t\n" +
+	"\x0fProcessDocument\x12-.document.processor.v1.ProcessDocumentRequest\x1a..document.processor.v1.ProcessDocumentResponse(\x010\x01\x12n\n" +
+	"\rPerformAction\x12+.document.processor.v1.PerformActionRequest\x1a,.document.processor.v1.PerformActionResponse(\x010\x01\x12y\n" +
 	"\x12GetAvailableModels\x120.document.processor.v1.GetAvailableModelsRequest\x1a1.document.processor.v1.GetAvailableModelsResponseB>Z$github.com/AndrewK4758/shared_protos\xaa\x02\x15Document.Processor.V1b\x06proto3"
 
 var (

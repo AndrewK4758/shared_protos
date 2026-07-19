@@ -31,7 +31,7 @@ type HumanValidationServiceClient interface {
 	// Orchestrator or Client registers a task needing human validation
 	CreateValidationTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*CreateTaskResponse, error)
 	// Retrieve pending tasks for review
-	GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (*GetPendingTasksResponse, error)
+	GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PendingTask], error)
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(ctx context.Context, in *SubmitCorrectionRequest, opts ...grpc.CallOption) (*SubmitCorrectionResponse, error)
 }
@@ -54,15 +54,24 @@ func (c *humanValidationServiceClient) CreateValidationTask(ctx context.Context,
 	return out, nil
 }
 
-func (c *humanValidationServiceClient) GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (*GetPendingTasksResponse, error) {
+func (c *humanValidationServiceClient) GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PendingTask], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPendingTasksResponse)
-	err := c.cc.Invoke(ctx, HumanValidationService_GetPendingTasks_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &HumanValidationService_ServiceDesc.Streams[0], HumanValidationService_GetPendingTasks_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[GetPendingTasksRequest, PendingTask]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type HumanValidationService_GetPendingTasksClient = grpc.ServerStreamingClient[PendingTask]
 
 func (c *humanValidationServiceClient) SubmitCorrection(ctx context.Context, in *SubmitCorrectionRequest, opts ...grpc.CallOption) (*SubmitCorrectionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -81,7 +90,7 @@ type HumanValidationServiceServer interface {
 	// Orchestrator or Client registers a task needing human validation
 	CreateValidationTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error)
 	// Retrieve pending tasks for review
-	GetPendingTasks(context.Context, *GetPendingTasksRequest) (*GetPendingTasksResponse, error)
+	GetPendingTasks(*GetPendingTasksRequest, grpc.ServerStreamingServer[PendingTask]) error
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error)
 	mustEmbedUnimplementedHumanValidationServiceServer()
@@ -97,8 +106,8 @@ type UnimplementedHumanValidationServiceServer struct{}
 func (UnimplementedHumanValidationServiceServer) CreateValidationTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateValidationTask not implemented")
 }
-func (UnimplementedHumanValidationServiceServer) GetPendingTasks(context.Context, *GetPendingTasksRequest) (*GetPendingTasksResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetPendingTasks not implemented")
+func (UnimplementedHumanValidationServiceServer) GetPendingTasks(*GetPendingTasksRequest, grpc.ServerStreamingServer[PendingTask]) error {
+	return status.Error(codes.Unimplemented, "method GetPendingTasks not implemented")
 }
 func (UnimplementedHumanValidationServiceServer) SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitCorrection not implemented")
@@ -143,23 +152,16 @@ func _HumanValidationService_CreateValidationTask_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HumanValidationService_GetPendingTasks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPendingTasksRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _HumanValidationService_GetPendingTasks_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetPendingTasksRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(HumanValidationServiceServer).GetPendingTasks(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: HumanValidationService_GetPendingTasks_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HumanValidationServiceServer).GetPendingTasks(ctx, req.(*GetPendingTasksRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(HumanValidationServiceServer).GetPendingTasks(m, &grpc.GenericServerStream[GetPendingTasksRequest, PendingTask]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type HumanValidationService_GetPendingTasksServer = grpc.ServerStreamingServer[PendingTask]
 
 func _HumanValidationService_SubmitCorrection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SubmitCorrectionRequest)
@@ -191,14 +193,16 @@ var HumanValidationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HumanValidationService_CreateValidationTask_Handler,
 		},
 		{
-			MethodName: "GetPendingTasks",
-			Handler:    _HumanValidationService_GetPendingTasks_Handler,
-		},
-		{
 			MethodName: "SubmitCorrection",
 			Handler:    _HumanValidationService_SubmitCorrection_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetPendingTasks",
+			Handler:       _HumanValidationService_GetPendingTasks_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "human_validation.proto",
 }

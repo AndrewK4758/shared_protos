@@ -592,10 +592,10 @@ const file_human_validation_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"N\n" +
 	"\x18SubmitCorrectionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xf2\x02\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xe8\x02\n" +
 	"\x16HumanValidationService\x12m\n" +
-	"\x14CreateValidationTask\x12).document.validation.v1.CreateTaskRequest\x1a*.document.validation.v1.CreateTaskResponse\x12r\n" +
-	"\x0fGetPendingTasks\x12..document.validation.v1.GetPendingTasksRequest\x1a/.document.validation.v1.GetPendingTasksResponse\x12u\n" +
+	"\x14CreateValidationTask\x12).document.validation.v1.CreateTaskRequest\x1a*.document.validation.v1.CreateTaskResponse\x12h\n" +
+	"\x0fGetPendingTasks\x12..document.validation.v1.GetPendingTasksRequest\x1a#.document.validation.v1.PendingTask0\x01\x12u\n" +
 	"\x10SubmitCorrection\x12/.document.validation.v1.SubmitCorrectionRequest\x1a0.document.validation.v1.SubmitCorrectionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
@@ -631,7 +631,7 @@ var file_human_validation_proto_depIdxs = []int32{
 	2, // 6: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
 	5, // 7: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
 	1, // 8: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
-	4, // 9: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.GetPendingTasksResponse
+	3, // 9: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
 	6, // 10: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
 	8, // [8:11] is the sub-list for method output_type
 	5, // [5:8] is the sub-list for method input_type

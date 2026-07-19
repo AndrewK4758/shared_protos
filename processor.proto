@@ -10,10 +10,10 @@ import "orchestrator.proto";
 
 service DocumentProcessor {
   // Existing Async method (keeps current NATS architecture intact for legacy)
-  rpc ProcessDocument(ProcessDocumentRequest) returns (ProcessDocumentResponse);
+  rpc ProcessDocument(stream ProcessDocumentRequest) returns (stream ProcessDocumentResponse);
   
   // NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
-  rpc PerformAction(PerformActionRequest) returns (PerformActionResponse);
+  rpc PerformAction(stream PerformActionRequest) returns (stream PerformActionResponse);
   
   // NEW: Query AI Service for available models
   rpc GetAvailableModels(GetAvailableModelsRequest) returns (GetAvailableModelsResponse);

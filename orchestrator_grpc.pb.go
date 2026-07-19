@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorServiceClient interface {
 	// Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
-	ExecuteWorkflowNode(ctx context.Context, in *ExecuteWorkflowNodeRequest, opts ...grpc.CallOption) (*ExecuteWorkflowNodeResponse, error)
+	ExecuteWorkflowNode(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse], error)
 	// Client listens to this Server Stream to get real-time progress of their JobID
 	ListenForProgress(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ProgressUpdate], error)
 	// Resume a job after human validation has corrected the AI output
@@ -47,19 +47,22 @@ func NewOrchestratorServiceClient(cc grpc.ClientConnInterface) OrchestratorServi
 	return &orchestratorServiceClient{cc}
 }
 
-func (c *orchestratorServiceClient) ExecuteWorkflowNode(ctx context.Context, in *ExecuteWorkflowNodeRequest, opts ...grpc.CallOption) (*ExecuteWorkflowNodeResponse, error) {
+func (c *orchestratorServiceClient) ExecuteWorkflowNode(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExecuteWorkflowNodeResponse)
-	err := c.cc.Invoke(ctx, OrchestratorService_ExecuteWorkflowNode_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &OrchestratorService_ServiceDesc.Streams[0], OrchestratorService_ExecuteWorkflowNode_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]{ClientStream: stream}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type OrchestratorService_ExecuteWorkflowNodeClient = grpc.BidiStreamingClient[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]
 
 func (c *orchestratorServiceClient) ListenForProgress(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ProgressUpdate], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &OrchestratorService_ServiceDesc.Streams[0], OrchestratorService_ListenForProgress_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &OrchestratorService_ServiceDesc.Streams[1], OrchestratorService_ListenForProgress_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +104,7 @@ func (c *orchestratorServiceClient) PurgeSystemState(ctx context.Context, in *Pu
 // for forward compatibility.
 type OrchestratorServiceServer interface {
 	// Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
-	ExecuteWorkflowNode(context.Context, *ExecuteWorkflowNodeRequest) (*ExecuteWorkflowNodeResponse, error)
+	ExecuteWorkflowNode(grpc.BidiStreamingServer[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]) error
 	// Client listens to this Server Stream to get real-time progress of their JobID
 	ListenForProgress(*ListenRequest, grpc.ServerStreamingServer[ProgressUpdate]) error
 	// Resume a job after human validation has corrected the AI output
@@ -118,8 +121,8 @@ type OrchestratorServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrchestratorServiceServer struct{}
 
-func (UnimplementedOrchestratorServiceServer) ExecuteWorkflowNode(context.Context, *ExecuteWorkflowNodeRequest) (*ExecuteWorkflowNodeResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ExecuteWorkflowNode not implemented")
+func (UnimplementedOrchestratorServiceServer) ExecuteWorkflowNode(grpc.BidiStreamingServer[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]) error {
+	return status.Error(codes.Unimplemented, "method ExecuteWorkflowNode not implemented")
 }
 func (UnimplementedOrchestratorServiceServer) ListenForProgress(*ListenRequest, grpc.ServerStreamingServer[ProgressUpdate]) error {
 	return status.Error(codes.Unimplemented, "method ListenForProgress not implemented")
@@ -151,23 +154,12 @@ func RegisterOrchestratorServiceServer(s grpc.ServiceRegistrar, srv Orchestrator
 	s.RegisterService(&OrchestratorService_ServiceDesc, srv)
 }
 
-func _OrchestratorService_ExecuteWorkflowNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteWorkflowNodeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrchestratorServiceServer).ExecuteWorkflowNode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrchestratorService_ExecuteWorkflowNode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorServiceServer).ExecuteWorkflowNode(ctx, req.(*ExecuteWorkflowNodeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _OrchestratorService_ExecuteWorkflowNode_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(OrchestratorServiceServer).ExecuteWorkflowNode(&grpc.GenericServerStream[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type OrchestratorService_ExecuteWorkflowNodeServer = grpc.BidiStreamingServer[ExecuteWorkflowNodeRequest, ExecuteWorkflowNodeResponse]
 
 func _OrchestratorService_ListenForProgress_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(ListenRequest)
@@ -224,10 +216,6 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrchestratorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ExecuteWorkflowNode",
-			Handler:    _OrchestratorService_ExecuteWorkflowNode_Handler,
-		},
-		{
 			MethodName: "ResumeJob",
 			Handler:    _OrchestratorService_ResumeJob_Handler,
 		},
@@ -237,6 +225,12 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ExecuteWorkflowNode",
+			Handler:       _OrchestratorService_ExecuteWorkflowNode_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
 		{
 			StreamName:    "ListenForProgress",
 			Handler:       _OrchestratorService_ListenForProgress_Handler,
@@ -255,7 +249,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorCallbackServiceClient interface {
-	OnNodeExecutionComplete(ctx context.Context, in *NodeExecutionCompleteRequest, opts ...grpc.CallOption) (*NodeExecutionCompleteResponse, error)
+	OnNodeExecutionComplete(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse], error)
 	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
 }
 
@@ -267,15 +261,18 @@ func NewOrchestratorCallbackServiceClient(cc grpc.ClientConnInterface) Orchestra
 	return &orchestratorCallbackServiceClient{cc}
 }
 
-func (c *orchestratorCallbackServiceClient) OnNodeExecutionComplete(ctx context.Context, in *NodeExecutionCompleteRequest, opts ...grpc.CallOption) (*NodeExecutionCompleteResponse, error) {
+func (c *orchestratorCallbackServiceClient) OnNodeExecutionComplete(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(NodeExecutionCompleteResponse)
-	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &OrchestratorCallbackService_ServiceDesc.Streams[0], OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]{ClientStream: stream}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type OrchestratorCallbackService_OnNodeExecutionCompleteClient = grpc.BidiStreamingClient[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]
 
 func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -291,7 +288,7 @@ func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in 
 // All implementations must embed UnimplementedOrchestratorCallbackServiceServer
 // for forward compatibility.
 type OrchestratorCallbackServiceServer interface {
-	OnNodeExecutionComplete(context.Context, *NodeExecutionCompleteRequest) (*NodeExecutionCompleteResponse, error)
+	OnNodeExecutionComplete(grpc.BidiStreamingServer[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]) error
 	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
 	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
@@ -303,8 +300,8 @@ type OrchestratorCallbackServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrchestratorCallbackServiceServer struct{}
 
-func (UnimplementedOrchestratorCallbackServiceServer) OnNodeExecutionComplete(context.Context, *NodeExecutionCompleteRequest) (*NodeExecutionCompleteResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method OnNodeExecutionComplete not implemented")
+func (UnimplementedOrchestratorCallbackServiceServer) OnNodeExecutionComplete(grpc.BidiStreamingServer[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]) error {
+	return status.Error(codes.Unimplemented, "method OnNodeExecutionComplete not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
@@ -331,23 +328,12 @@ func RegisterOrchestratorCallbackServiceServer(s grpc.ServiceRegistrar, srv Orch
 	s.RegisterService(&OrchestratorCallbackService_ServiceDesc, srv)
 }
 
-func _OrchestratorCallbackService_OnNodeExecutionComplete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NodeExecutionCompleteRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrchestratorCallbackServiceServer).OnNodeExecutionComplete(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorCallbackServiceServer).OnNodeExecutionComplete(ctx, req.(*NodeExecutionCompleteRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _OrchestratorCallbackService_OnNodeExecutionComplete_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(OrchestratorCallbackServiceServer).OnNodeExecutionComplete(&grpc.GenericServerStream[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type OrchestratorCallbackService_OnNodeExecutionCompleteServer = grpc.BidiStreamingServer[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]
 
 func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JobFailedRequest)
@@ -375,14 +361,17 @@ var OrchestratorCallbackService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrchestratorCallbackServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OnNodeExecutionComplete",
-			Handler:    _OrchestratorCallbackService_OnNodeExecutionComplete_Handler,
-		},
-		{
 			MethodName: "OnJobFailed",
 			Handler:    _OrchestratorCallbackService_OnJobFailed_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "OnNodeExecutionComplete",
+			Handler:       _OrchestratorCallbackService_OnNodeExecutionComplete_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "orchestrator.proto",
 }

@@ -9,7 +9,7 @@ import "orchestrator.proto";
 import "models.proto";
 
 service DocumentProcessingService {
-  rpc ChunkDocument(ChunkDocumentRequest) returns (ChunkDocumentResponse);
+  rpc ChunkDocument(stream ChunkDocumentRequest) returns (stream ChunkDocumentResponse);
 }
 
 message ChunkDocumentRequest {

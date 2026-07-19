@@ -29,9 +29,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DocumentProcessorClient interface {
 	// Existing Async method (keeps current NATS architecture intact for legacy)
-	ProcessDocument(ctx context.Context, in *ProcessDocumentRequest, opts ...grpc.CallOption) (*ProcessDocumentResponse, error)
+	ProcessDocument(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ProcessDocumentRequest, ProcessDocumentResponse], error)
 	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
-	PerformAction(ctx context.Context, in *PerformActionRequest, opts ...grpc.CallOption) (*PerformActionResponse, error)
+	PerformAction(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PerformActionRequest, PerformActionResponse], error)
 	// NEW: Query AI Service for available models
 	GetAvailableModels(ctx context.Context, in *GetAvailableModelsRequest, opts ...grpc.CallOption) (*GetAvailableModelsResponse, error)
 }
@@ -44,25 +44,31 @@ func NewDocumentProcessorClient(cc grpc.ClientConnInterface) DocumentProcessorCl
 	return &documentProcessorClient{cc}
 }
 
-func (c *documentProcessorClient) ProcessDocument(ctx context.Context, in *ProcessDocumentRequest, opts ...grpc.CallOption) (*ProcessDocumentResponse, error) {
+func (c *documentProcessorClient) ProcessDocument(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ProcessDocumentRequest, ProcessDocumentResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ProcessDocumentResponse)
-	err := c.cc.Invoke(ctx, DocumentProcessor_ProcessDocument_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &DocumentProcessor_ServiceDesc.Streams[0], DocumentProcessor_ProcessDocument_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[ProcessDocumentRequest, ProcessDocumentResponse]{ClientStream: stream}
+	return x, nil
 }
 
-func (c *documentProcessorClient) PerformAction(ctx context.Context, in *PerformActionRequest, opts ...grpc.CallOption) (*PerformActionResponse, error) {
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessor_ProcessDocumentClient = grpc.BidiStreamingClient[ProcessDocumentRequest, ProcessDocumentResponse]
+
+func (c *documentProcessorClient) PerformAction(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PerformActionRequest, PerformActionResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PerformActionResponse)
-	err := c.cc.Invoke(ctx, DocumentProcessor_PerformAction_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &DocumentProcessor_ServiceDesc.Streams[1], DocumentProcessor_PerformAction_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[PerformActionRequest, PerformActionResponse]{ClientStream: stream}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessor_PerformActionClient = grpc.BidiStreamingClient[PerformActionRequest, PerformActionResponse]
 
 func (c *documentProcessorClient) GetAvailableModels(ctx context.Context, in *GetAvailableModelsRequest, opts ...grpc.CallOption) (*GetAvailableModelsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -79,9 +85,9 @@ func (c *documentProcessorClient) GetAvailableModels(ctx context.Context, in *Ge
 // for forward compatibility.
 type DocumentProcessorServer interface {
 	// Existing Async method (keeps current NATS architecture intact for legacy)
-	ProcessDocument(context.Context, *ProcessDocumentRequest) (*ProcessDocumentResponse, error)
+	ProcessDocument(grpc.BidiStreamingServer[ProcessDocumentRequest, ProcessDocumentResponse]) error
 	// NEW: Synchronous method for the Orchestrator to use for fast, blocking execution of a generic action
-	PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error)
+	PerformAction(grpc.BidiStreamingServer[PerformActionRequest, PerformActionResponse]) error
 	// NEW: Query AI Service for available models
 	GetAvailableModels(context.Context, *GetAvailableModelsRequest) (*GetAvailableModelsResponse, error)
 	mustEmbedUnimplementedDocumentProcessorServer()
@@ -94,11 +100,11 @@ type DocumentProcessorServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDocumentProcessorServer struct{}
 
-func (UnimplementedDocumentProcessorServer) ProcessDocument(context.Context, *ProcessDocumentRequest) (*ProcessDocumentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ProcessDocument not implemented")
+func (UnimplementedDocumentProcessorServer) ProcessDocument(grpc.BidiStreamingServer[ProcessDocumentRequest, ProcessDocumentResponse]) error {
+	return status.Error(codes.Unimplemented, "method ProcessDocument not implemented")
 }
-func (UnimplementedDocumentProcessorServer) PerformAction(context.Context, *PerformActionRequest) (*PerformActionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PerformAction not implemented")
+func (UnimplementedDocumentProcessorServer) PerformAction(grpc.BidiStreamingServer[PerformActionRequest, PerformActionResponse]) error {
+	return status.Error(codes.Unimplemented, "method PerformAction not implemented")
 }
 func (UnimplementedDocumentProcessorServer) GetAvailableModels(context.Context, *GetAvailableModelsRequest) (*GetAvailableModelsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetAvailableModels not implemented")
@@ -124,41 +130,19 @@ func RegisterDocumentProcessorServer(s grpc.ServiceRegistrar, srv DocumentProces
 	s.RegisterService(&DocumentProcessor_ServiceDesc, srv)
 }
 
-func _DocumentProcessor_ProcessDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ProcessDocumentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DocumentProcessorServer).ProcessDocument(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DocumentProcessor_ProcessDocument_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DocumentProcessorServer).ProcessDocument(ctx, req.(*ProcessDocumentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _DocumentProcessor_ProcessDocument_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(DocumentProcessorServer).ProcessDocument(&grpc.GenericServerStream[ProcessDocumentRequest, ProcessDocumentResponse]{ServerStream: stream})
 }
 
-func _DocumentProcessor_PerformAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PerformActionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DocumentProcessorServer).PerformAction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DocumentProcessor_PerformAction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DocumentProcessorServer).PerformAction(ctx, req.(*PerformActionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessor_ProcessDocumentServer = grpc.BidiStreamingServer[ProcessDocumentRequest, ProcessDocumentResponse]
+
+func _DocumentProcessor_PerformAction_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(DocumentProcessorServer).PerformAction(&grpc.GenericServerStream[PerformActionRequest, PerformActionResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessor_PerformActionServer = grpc.BidiStreamingServer[PerformActionRequest, PerformActionResponse]
 
 func _DocumentProcessor_GetAvailableModels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAvailableModelsRequest)
@@ -186,18 +170,23 @@ var DocumentProcessor_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DocumentProcessorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ProcessDocument",
-			Handler:    _DocumentProcessor_ProcessDocument_Handler,
-		},
-		{
-			MethodName: "PerformAction",
-			Handler:    _DocumentProcessor_PerformAction_Handler,
-		},
-		{
 			MethodName: "GetAvailableModels",
 			Handler:    _DocumentProcessor_GetAvailableModels_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ProcessDocument",
+			Handler:       _DocumentProcessor_ProcessDocument_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "PerformAction",
+			Handler:       _DocumentProcessor_PerformAction_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "processor.proto",
 }

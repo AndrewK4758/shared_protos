@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DocumentProcessingServiceClient interface {
-	ChunkDocument(ctx context.Context, in *ChunkDocumentRequest, opts ...grpc.CallOption) (*ChunkDocumentResponse, error)
+	ChunkDocument(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ChunkDocumentRequest, ChunkDocumentResponse], error)
 }
 
 type documentProcessingServiceClient struct {
@@ -37,21 +37,24 @@ func NewDocumentProcessingServiceClient(cc grpc.ClientConnInterface) DocumentPro
 	return &documentProcessingServiceClient{cc}
 }
 
-func (c *documentProcessingServiceClient) ChunkDocument(ctx context.Context, in *ChunkDocumentRequest, opts ...grpc.CallOption) (*ChunkDocumentResponse, error) {
+func (c *documentProcessingServiceClient) ChunkDocument(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ChunkDocumentRequest, ChunkDocumentResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ChunkDocumentResponse)
-	err := c.cc.Invoke(ctx, DocumentProcessingService_ChunkDocument_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &DocumentProcessingService_ServiceDesc.Streams[0], DocumentProcessingService_ChunkDocument_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[ChunkDocumentRequest, ChunkDocumentResponse]{ClientStream: stream}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessingService_ChunkDocumentClient = grpc.BidiStreamingClient[ChunkDocumentRequest, ChunkDocumentResponse]
 
 // DocumentProcessingServiceServer is the server API for DocumentProcessingService service.
 // All implementations must embed UnimplementedDocumentProcessingServiceServer
 // for forward compatibility.
 type DocumentProcessingServiceServer interface {
-	ChunkDocument(context.Context, *ChunkDocumentRequest) (*ChunkDocumentResponse, error)
+	ChunkDocument(grpc.BidiStreamingServer[ChunkDocumentRequest, ChunkDocumentResponse]) error
 	mustEmbedUnimplementedDocumentProcessingServiceServer()
 }
 
@@ -62,8 +65,8 @@ type DocumentProcessingServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDocumentProcessingServiceServer struct{}
 
-func (UnimplementedDocumentProcessingServiceServer) ChunkDocument(context.Context, *ChunkDocumentRequest) (*ChunkDocumentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ChunkDocument not implemented")
+func (UnimplementedDocumentProcessingServiceServer) ChunkDocument(grpc.BidiStreamingServer[ChunkDocumentRequest, ChunkDocumentResponse]) error {
+	return status.Error(codes.Unimplemented, "method ChunkDocument not implemented")
 }
 func (UnimplementedDocumentProcessingServiceServer) mustEmbedUnimplementedDocumentProcessingServiceServer() {
 }
@@ -87,23 +90,12 @@ func RegisterDocumentProcessingServiceServer(s grpc.ServiceRegistrar, srv Docume
 	s.RegisterService(&DocumentProcessingService_ServiceDesc, srv)
 }
 
-func _DocumentProcessingService_ChunkDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChunkDocumentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DocumentProcessingServiceServer).ChunkDocument(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DocumentProcessingService_ChunkDocument_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DocumentProcessingServiceServer).ChunkDocument(ctx, req.(*ChunkDocumentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _DocumentProcessingService_ChunkDocument_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(DocumentProcessingServiceServer).ChunkDocument(&grpc.GenericServerStream[ChunkDocumentRequest, ChunkDocumentResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type DocumentProcessingService_ChunkDocumentServer = grpc.BidiStreamingServer[ChunkDocumentRequest, ChunkDocumentResponse]
 
 // DocumentProcessingService_ServiceDesc is the grpc.ServiceDesc for DocumentProcessingService service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -111,12 +103,14 @@ func _DocumentProcessingService_ChunkDocument_Handler(srv interface{}, ctx conte
 var DocumentProcessingService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "document.processing.v1.DocumentProcessingService",
 	HandlerType: (*DocumentProcessingServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "ChunkDocument",
-			Handler:    _DocumentProcessingService_ChunkDocument_Handler,
+			StreamName:    "ChunkDocument",
+			Handler:       _DocumentProcessingService_ChunkDocument_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "document_processing.proto",
 }
