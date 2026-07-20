@@ -719,7 +719,7 @@ const file_traceability_proto_rawDesc = "" +
 	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"O\n" +
 	"\x1bGetCorrelationTraceResponse\x120\n" +
-	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xac\x02\n" +
+	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xbe\x02\n" +
 	"\n" +
 	"TraceEvent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12%\n" +
@@ -733,7 +733,9 @@ const file_traceability_proto_rawDesc = "" +
 	"\amessage\x18\a \x01(\tR\amessage\x12\x1a\n" +
 	"\bmetadata\x18\v \x01(\tR\bmetadata\x12\x1c\n" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
-	"\rdocument_type\x18\r \x01(\tR\fdocumentType\"\xf1\x01\n" +
+	"\rdocument_type\x18\r \x01(\tR\fdocumentTypeJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"J\x04\b\n" +
+	"\x10\v\"\xf1\x01\n" +
 	"\x13SaveJobStateRequest\x12\x19\n" +
 	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12_\n" +
 	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +

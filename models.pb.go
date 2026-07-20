@@ -1100,7 +1100,7 @@ const file_models_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\tR\tupdatedAt\"\xf8\x04\n" +
+	"updated_at\x18\x06 \x01(\tR\tupdatedAt\"\xfe\x04\n" +
 	"\x0fWorkflowContext\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12M\n" +
 	"\bmetadata\x18\x02 \x03(\v21.document.models.v1.WorkflowContext.MetadataEntryR\bmetadata\x12Q\n" +
@@ -1114,7 +1114,7 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*\x9a\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*\x9a\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
