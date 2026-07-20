@@ -34,6 +34,7 @@ type CreateTaskRequest struct {
 	JobName            string                  `protobuf:"bytes,9,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
 	StepId             string                  `protobuf:"bytes,10,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,11,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
+	Metadata           map[string]string       `protobuf:"bytes,12,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -143,6 +144,13 @@ func (x *CreateTaskRequest) GetStepContextInput() string {
 		return x.StepContextInput
 	}
 	return ""
+}
+
+func (x *CreateTaskRequest) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
 }
 
 type CreateTaskResponse struct {
@@ -264,6 +272,7 @@ type PendingTask struct {
 	JobName            string                  `protobuf:"bytes,11,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
 	StepId             string                  `protobuf:"bytes,12,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,13,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
+	Metadata           map[string]string       `protobuf:"bytes,14,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -387,6 +396,13 @@ func (x *PendingTask) GetStepContextInput() string {
 		return x.StepContextInput
 	}
 	return ""
+}
+
+func (x *PendingTask) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
 }
 
 type GetPendingTasksResponse struct {
@@ -549,7 +565,7 @@ var File_human_validation_proto protoreflect.FileDescriptor
 
 const file_human_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\"\xd4\x03\n" +
+	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\"\xe6\x04\n" +
 	"\x11CreateTaskRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12(\n" +
@@ -562,13 +578,17 @@ const file_human_validation_proto_rawDesc = "" +
 	"\bjob_name\x18\t \x01(\tR\ajobName\x12\x17\n" +
 	"\astep_id\x18\n" +
 	" \x01(\tR\x06stepId\x12,\n" +
-	"\x12step_context_input\x18\v \x01(\tR\x10stepContextInput\"E\n" +
+	"\x12step_context_input\x18\v \x01(\tR\x10stepContextInput\x12S\n" +
+	"\bmetadata\x18\f \x03(\v27.document.validation.v1.CreateTaskRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"E\n" +
 	"\x12CreateTaskResponse\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"\x85\x01\n" +
 	"\x16GetPendingTasksRequest\x12#\n" +
 	"\rfilter_status\x18\x01 \x01(\tR\ffilterStatus\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xff\x03\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x8b\x05\n" +
 	"\vPendingTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
@@ -583,7 +603,11 @@ const file_human_validation_proto_rawDesc = "" +
 	" \x01(\tR\x0fglobalStateJson\x12\x19\n" +
 	"\bjob_name\x18\v \x01(\tR\ajobName\x12\x17\n" +
 	"\astep_id\x18\f \x01(\tR\x06stepId\x12,\n" +
-	"\x12step_context_input\x18\r \x01(\tR\x10stepContextInput\"T\n" +
+	"\x12step_context_input\x18\r \x01(\tR\x10stepContextInput\x12M\n" +
+	"\bmetadata\x18\x0e \x03(\v21.document.validation.v1.PendingTask.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"T\n" +
 	"\x17GetPendingTasksResponse\x129\n" +
 	"\x05tasks\x18\x01 \x03(\v2#.document.validation.v1.PendingTaskR\x05tasks\"\xa1\x01\n" +
 	"\x17SubmitCorrectionRequest\x12\x17\n" +
@@ -610,7 +634,7 @@ func file_human_validation_proto_rawDescGZIP() []byte {
 	return file_human_validation_proto_rawDescData
 }
 
-var file_human_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_human_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_human_validation_proto_goTypes = []any{
 	(*CreateTaskRequest)(nil),        // 0: document.validation.v1.CreateTaskRequest
 	(*CreateTaskResponse)(nil),       // 1: document.validation.v1.CreateTaskResponse
@@ -619,25 +643,29 @@ var file_human_validation_proto_goTypes = []any{
 	(*GetPendingTasksResponse)(nil),  // 4: document.validation.v1.GetPendingTasksResponse
 	(*SubmitCorrectionRequest)(nil),  // 5: document.validation.v1.SubmitCorrectionRequest
 	(*SubmitCorrectionResponse)(nil), // 6: document.validation.v1.SubmitCorrectionResponse
-	(*InfrastructureIdentity)(nil),   // 7: document.models.v1.InfrastructureIdentity
+	nil,                              // 7: document.validation.v1.CreateTaskRequest.MetadataEntry
+	nil,                              // 8: document.validation.v1.PendingTask.MetadataEntry
+	(*InfrastructureIdentity)(nil),   // 9: document.models.v1.InfrastructureIdentity
 }
 var file_human_validation_proto_depIdxs = []int32{
-	7, // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	7, // 1: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	7, // 2: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
-	3, // 3: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
-	7, // 4: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0, // 5: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
-	2, // 6: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
-	5, // 7: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
-	1, // 8: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
-	3, // 9: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
-	6, // 10: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	9,  // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7,  // 1: document.validation.v1.CreateTaskRequest.metadata:type_name -> document.validation.v1.CreateTaskRequest.MetadataEntry
+	9,  // 2: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 3: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
+	8,  // 4: document.validation.v1.PendingTask.metadata:type_name -> document.validation.v1.PendingTask.MetadataEntry
+	3,  // 5: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
+	9,  // 6: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 7: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
+	2,  // 8: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
+	5,  // 9: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
+	1,  // 10: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
+	3,  // 11: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
+	6,  // 12: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
+	10, // [10:13] is the sub-list for method output_type
+	7,  // [7:10] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_human_validation_proto_init() }
@@ -652,7 +680,7 @@ func file_human_validation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_human_validation_proto_rawDesc), len(file_human_validation_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
