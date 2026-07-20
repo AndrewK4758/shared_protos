@@ -23,7 +23,6 @@ const (
 
 type GetJobTraceRequest struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
-	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -57,13 +56,6 @@ func (x *GetJobTraceRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetJobTraceRequest.ProtoReflect.Descriptor instead.
 func (*GetJobTraceRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *GetJobTraceRequest) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
 }
 
 func (x *GetJobTraceRequest) GetIdentity() *InfrastructureIdentity {
@@ -330,9 +322,7 @@ func (x *TraceEvent) GetDocumentType() string {
 }
 
 type SaveJobStateRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Deprecated: Marked as deprecated in traceability.proto.
-	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state           protoimpl.MessageState      `protogen:"open.v1"`
 	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
 	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
 	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -368,14 +358,6 @@ func (x *SaveJobStateRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use SaveJobStateRequest.ProtoReflect.Descriptor instead.
 func (*SaveJobStateRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{5}
-}
-
-// Deprecated: Marked as deprecated in traceability.proto.
-func (x *SaveJobStateRequest) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
 }
 
 func (x *SaveJobStateRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
@@ -533,7 +515,6 @@ func (x *GetPendingJobsResponse) GetJobs() []*JobStateRecord {
 
 type JobStateRecord struct {
 	state           protoimpl.MessageState      `protogen:"open.v1"`
-	JobId           string                      `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
 	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -571,13 +552,6 @@ func (*JobStateRecord) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *JobStateRecord) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
-}
-
 func (x *JobStateRecord) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
 	if x != nil {
 		return x.OriginalRequest
@@ -600,9 +574,7 @@ func (x *JobStateRecord) GetIdentity() *InfrastructureIdentity {
 }
 
 type GetJobStateRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Deprecated: Marked as deprecated in traceability.proto.
-	JobId         string                  `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -636,14 +608,6 @@ func (x *GetJobStateRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetJobStateRequest.ProtoReflect.Descriptor instead.
 func (*GetJobStateRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{10}
-}
-
-// Deprecated: Marked as deprecated in traceability.proto.
-func (x *GetJobStateRequest) GetJobId() string {
-	if x != nil {
-		return x.JobId
-	}
-	return ""
 }
 
 func (x *GetJobStateRequest) GetIdentity() *InfrastructureIdentity {
@@ -709,10 +673,9 @@ var File_traceability_proto protoreflect.FileDescriptor
 
 const file_traceability_proto_rawDesc = "" +
 	"\n" +
-	"\x12traceability.proto\x12\ftraceability\x1a\x12orchestrator.proto\x1a\fmodels.proto\"s\n" +
-	"\x12GetJobTraceRequest\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"G\n" +
+	"\x12traceability.proto\x12\ftraceability\x1a\x12orchestrator.proto\x1a\fmodels.proto\"j\n" +
+	"\x12GetJobTraceRequest\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"G\n" +
 	"\x13GetJobTraceResponse\x120\n" +
 	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\x8b\x01\n" +
 	"\x1aGetCorrelationTraceRequest\x12%\n" +
@@ -735,26 +698,23 @@ const file_traceability_proto_rawDesc = "" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
 	"\rdocument_type\x18\r \x01(\tR\fdocumentTypeJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
-	"\x10\v\"\xf1\x01\n" +
-	"\x13SaveJobStateRequest\x12\x19\n" +
-	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12_\n" +
+	"\x10\v\"\xe4\x01\n" +
+	"\x13SaveJobStateRequest\x12_\n" +
 	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
-	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"0\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"0\n" +
 	"\x14SaveJobStateResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"_\n" +
 	"\x15GetPendingJobsRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"J\n" +
 	"\x16GetPendingJobsResponse\x120\n" +
-	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xe8\x01\n" +
-	"\x0eJobStateRecord\x12\x15\n" +
-	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12_\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xdf\x01\n" +
+	"\x0eJobStateRecord\x12_\n" +
 	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
-	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"w\n" +
-	"\x12GetJobStateRequest\x12\x19\n" +
-	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"[\n" +
+	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"j\n" +
+	"\x12GetJobStateRequest\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"[\n" +
 	"\x13GetJobStateResponse\x12\x14\n" +
 	"\x05found\x18\x01 \x01(\bR\x05found\x12.\n" +
 	"\x03job\x18\x02 \x01(\v2\x1c.traceability.JobStateRecordR\x03job2\xdb\x03\n" +

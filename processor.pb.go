@@ -30,7 +30,6 @@ type ProcessDocumentRequest struct {
 	TargetFields       []string                `protobuf:"bytes,5,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	JsonSchema         string                  `protobuf:"bytes,6,opt,name=json_schema,json=jsonSchema,proto3" json:"json_schema,omitempty"`
 	CustomInstructions string                  `protobuf:"bytes,7,opt,name=custom_instructions,json=customInstructions,proto3" json:"custom_instructions,omitempty"`
-	AppId              string                  `protobuf:"bytes,8,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
 	CorrelationId      string                  `protobuf:"bytes,9,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
 	Identity           *InfrastructureIdentity `protobuf:"bytes,10,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields      protoimpl.UnknownFields
@@ -112,13 +111,6 @@ func (x *ProcessDocumentRequest) GetJsonSchema() string {
 func (x *ProcessDocumentRequest) GetCustomInstructions() string {
 	if x != nil {
 		return x.CustomInstructions
-	}
-	return ""
-}
-
-func (x *ProcessDocumentRequest) GetAppId() string {
-	if x != nil {
-		return x.AppId
 	}
 	return ""
 }
@@ -452,7 +444,7 @@ var File_processor_proto protoreflect.FileDescriptor
 
 const file_processor_proto_rawDesc = "" +
 	"\n" +
-	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\x1a\x12orchestrator.proto\"\xbe\x03\n" +
+	"\x0fprocessor.proto\x12\x15document.processor.v1\x1a\fmodels.proto\x1a\x12orchestrator.proto\"\xb5\x03\n" +
 	"\x16ProcessDocumentRequest\x12!\n" +
 	"\ffile_content\x18\x01 \x01(\fR\vfileContent\x12\x1b\n" +
 	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12B\n" +
@@ -461,11 +453,10 @@ const file_processor_proto_rawDesc = "" +
 	"\rtarget_fields\x18\x05 \x03(\tR\ftargetFields\x12\x1f\n" +
 	"\vjson_schema\x18\x06 \x01(\tR\n" +
 	"jsonSchema\x12/\n" +
-	"\x13custom_instructions\x18\a \x01(\tR\x12customInstructions\x12\x15\n" +
-	"\x06app_id\x18\b \x01(\tR\x05appId\x12%\n" +
+	"\x13custom_instructions\x18\a \x01(\tR\x12customInstructions\x12%\n" +
 	"\x0ecorrelation_id\x18\t \x01(\tR\rcorrelationId\x12F\n" +
 	"\bidentity\x18\n" +
-	" \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x97\x01\n" +
+	" \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\b\x10\tR\x06app_id\"\x97\x01\n" +
 	"\x17ProcessDocumentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
