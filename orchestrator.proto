@@ -112,6 +112,9 @@ message JobFailedRequest {
   
   document.models.v1.InfrastructureIdentity identity = 4;
   map<string, string> metadata = 5;
+
+  google.protobuf.Struct global_state = 6;
+  google.protobuf.Struct node_output = 7;
 }
 
 message JobFailedResponse {
@@ -124,6 +127,9 @@ message JobSuspendedRequest {
   string reason = 3;
   document.models.v1.InfrastructureIdentity identity = 4;
   map<string, string> metadata = 5;
+
+  google.protobuf.Struct global_state = 6;
+  google.protobuf.Struct node_output = 7;
 }
 
 message JobSuspendedResponse {

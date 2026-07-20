@@ -22,6 +22,7 @@ service HumanValidationService {
 
 message DeleteTaskRequest {
   string task_id = 1;
+  document.models.v1.InfrastructureIdentity identity = 2;
 }
 
 message DeleteTaskResponse {

@@ -22,8 +22,9 @@ const (
 )
 
 type DeleteTaskRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	TaskId        string                  `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -63,6 +64,13 @@ func (x *DeleteTaskRequest) GetTaskId() string {
 		return x.TaskId
 	}
 	return ""
+}
+
+func (x *DeleteTaskRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
 }
 
 type DeleteTaskResponse struct {
@@ -653,9 +661,10 @@ var File_human_validation_proto protoreflect.FileDescriptor
 
 const file_human_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\",\n" +
+	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\"t\n" +
 	"\x11DeleteTaskRequest\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId\".\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\".\n" +
 	"\x12DeleteTaskResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xe6\x04\n" +
 	"\x11CreateTaskRequest\x12F\n" +
@@ -744,26 +753,27 @@ var file_human_validation_proto_goTypes = []any{
 	(*InfrastructureIdentity)(nil),   // 11: document.models.v1.InfrastructureIdentity
 }
 var file_human_validation_proto_depIdxs = []int32{
-	11, // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	9,  // 1: document.validation.v1.CreateTaskRequest.metadata:type_name -> document.validation.v1.CreateTaskRequest.MetadataEntry
-	11, // 2: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	11, // 3: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
-	10, // 4: document.validation.v1.PendingTask.metadata:type_name -> document.validation.v1.PendingTask.MetadataEntry
-	5,  // 5: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
-	11, // 6: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	2,  // 7: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
-	4,  // 8: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
-	7,  // 9: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
-	0,  // 10: document.validation.v1.HumanValidationService.DeleteTask:input_type -> document.validation.v1.DeleteTaskRequest
-	3,  // 11: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
-	5,  // 12: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
-	8,  // 13: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
-	1,  // 14: document.validation.v1.HumanValidationService.DeleteTask:output_type -> document.validation.v1.DeleteTaskResponse
-	11, // [11:15] is the sub-list for method output_type
-	7,  // [7:11] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	11, // 0: document.validation.v1.DeleteTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	11, // 1: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 2: document.validation.v1.CreateTaskRequest.metadata:type_name -> document.validation.v1.CreateTaskRequest.MetadataEntry
+	11, // 3: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	11, // 4: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
+	10, // 5: document.validation.v1.PendingTask.metadata:type_name -> document.validation.v1.PendingTask.MetadataEntry
+	5,  // 6: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
+	11, // 7: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	2,  // 8: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
+	4,  // 9: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
+	7,  // 10: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
+	0,  // 11: document.validation.v1.HumanValidationService.DeleteTask:input_type -> document.validation.v1.DeleteTaskRequest
+	3,  // 12: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
+	5,  // 13: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
+	8,  // 14: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
+	1,  // 15: document.validation.v1.HumanValidationService.DeleteTask:output_type -> document.validation.v1.DeleteTaskResponse
+	12, // [12:16] is the sub-list for method output_type
+	8,  // [8:12] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_human_validation_proto_init() }
