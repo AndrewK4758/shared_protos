@@ -21,6 +21,94 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type DeleteTaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTaskRequest) Reset() {
+	*x = DeleteTaskRequest{}
+	mi := &file_human_validation_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTaskRequest) ProtoMessage() {}
+
+func (x *DeleteTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_human_validation_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTaskRequest.ProtoReflect.Descriptor instead.
+func (*DeleteTaskRequest) Descriptor() ([]byte, []int) {
+	return file_human_validation_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DeleteTaskRequest) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
+type DeleteTaskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteTaskResponse) Reset() {
+	*x = DeleteTaskResponse{}
+	mi := &file_human_validation_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteTaskResponse) ProtoMessage() {}
+
+func (x *DeleteTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_human_validation_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteTaskResponse.ProtoReflect.Descriptor instead.
+func (*DeleteTaskResponse) Descriptor() ([]byte, []int) {
+	return file_human_validation_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DeleteTaskResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 type CreateTaskRequest struct {
 	state              protoimpl.MessageState  `protogen:"open.v1"`
 	Identity           *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -41,7 +129,7 @@ type CreateTaskRequest struct {
 
 func (x *CreateTaskRequest) Reset() {
 	*x = CreateTaskRequest{}
-	mi := &file_human_validation_proto_msgTypes[0]
+	mi := &file_human_validation_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -53,7 +141,7 @@ func (x *CreateTaskRequest) String() string {
 func (*CreateTaskRequest) ProtoMessage() {}
 
 func (x *CreateTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[0]
+	mi := &file_human_validation_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -66,7 +154,7 @@ func (x *CreateTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTaskRequest.ProtoReflect.Descriptor instead.
 func (*CreateTaskRequest) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{0}
+	return file_human_validation_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateTaskRequest) GetIdentity() *InfrastructureIdentity {
@@ -163,7 +251,7 @@ type CreateTaskResponse struct {
 
 func (x *CreateTaskResponse) Reset() {
 	*x = CreateTaskResponse{}
-	mi := &file_human_validation_proto_msgTypes[1]
+	mi := &file_human_validation_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -175,7 +263,7 @@ func (x *CreateTaskResponse) String() string {
 func (*CreateTaskResponse) ProtoMessage() {}
 
 func (x *CreateTaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[1]
+	mi := &file_human_validation_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -188,7 +276,7 @@ func (x *CreateTaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTaskResponse.ProtoReflect.Descriptor instead.
 func (*CreateTaskResponse) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{1}
+	return file_human_validation_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateTaskResponse) GetTaskId() string {
@@ -215,7 +303,7 @@ type GetPendingTasksRequest struct {
 
 func (x *GetPendingTasksRequest) Reset() {
 	*x = GetPendingTasksRequest{}
-	mi := &file_human_validation_proto_msgTypes[2]
+	mi := &file_human_validation_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +315,7 @@ func (x *GetPendingTasksRequest) String() string {
 func (*GetPendingTasksRequest) ProtoMessage() {}
 
 func (x *GetPendingTasksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[2]
+	mi := &file_human_validation_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +328,7 @@ func (x *GetPendingTasksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPendingTasksRequest.ProtoReflect.Descriptor instead.
 func (*GetPendingTasksRequest) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{2}
+	return file_human_validation_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetPendingTasksRequest) GetFilterStatus() string {
@@ -279,7 +367,7 @@ type PendingTask struct {
 
 func (x *PendingTask) Reset() {
 	*x = PendingTask{}
-	mi := &file_human_validation_proto_msgTypes[3]
+	mi := &file_human_validation_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -291,7 +379,7 @@ func (x *PendingTask) String() string {
 func (*PendingTask) ProtoMessage() {}
 
 func (x *PendingTask) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[3]
+	mi := &file_human_validation_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +392,7 @@ func (x *PendingTask) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PendingTask.ProtoReflect.Descriptor instead.
 func (*PendingTask) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{3}
+	return file_human_validation_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *PendingTask) GetTaskId() string {
@@ -414,7 +502,7 @@ type GetPendingTasksResponse struct {
 
 func (x *GetPendingTasksResponse) Reset() {
 	*x = GetPendingTasksResponse{}
-	mi := &file_human_validation_proto_msgTypes[4]
+	mi := &file_human_validation_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -426,7 +514,7 @@ func (x *GetPendingTasksResponse) String() string {
 func (*GetPendingTasksResponse) ProtoMessage() {}
 
 func (x *GetPendingTasksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[4]
+	mi := &file_human_validation_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -439,7 +527,7 @@ func (x *GetPendingTasksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPendingTasksResponse.ProtoReflect.Descriptor instead.
 func (*GetPendingTasksResponse) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{4}
+	return file_human_validation_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetPendingTasksResponse) GetTasks() []*PendingTask {
@@ -460,7 +548,7 @@ type SubmitCorrectionRequest struct {
 
 func (x *SubmitCorrectionRequest) Reset() {
 	*x = SubmitCorrectionRequest{}
-	mi := &file_human_validation_proto_msgTypes[5]
+	mi := &file_human_validation_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -472,7 +560,7 @@ func (x *SubmitCorrectionRequest) String() string {
 func (*SubmitCorrectionRequest) ProtoMessage() {}
 
 func (x *SubmitCorrectionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[5]
+	mi := &file_human_validation_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -485,7 +573,7 @@ func (x *SubmitCorrectionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitCorrectionRequest.ProtoReflect.Descriptor instead.
 func (*SubmitCorrectionRequest) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{5}
+	return file_human_validation_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SubmitCorrectionRequest) GetTaskId() string {
@@ -519,7 +607,7 @@ type SubmitCorrectionResponse struct {
 
 func (x *SubmitCorrectionResponse) Reset() {
 	*x = SubmitCorrectionResponse{}
-	mi := &file_human_validation_proto_msgTypes[6]
+	mi := &file_human_validation_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -531,7 +619,7 @@ func (x *SubmitCorrectionResponse) String() string {
 func (*SubmitCorrectionResponse) ProtoMessage() {}
 
 func (x *SubmitCorrectionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_human_validation_proto_msgTypes[6]
+	mi := &file_human_validation_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -544,7 +632,7 @@ func (x *SubmitCorrectionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitCorrectionResponse.ProtoReflect.Descriptor instead.
 func (*SubmitCorrectionResponse) Descriptor() ([]byte, []int) {
-	return file_human_validation_proto_rawDescGZIP(), []int{6}
+	return file_human_validation_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SubmitCorrectionResponse) GetSuccess() bool {
@@ -565,7 +653,11 @@ var File_human_validation_proto protoreflect.FileDescriptor
 
 const file_human_validation_proto_rawDesc = "" +
 	"\n" +
-	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\"\xe6\x04\n" +
+	"\x16human_validation.proto\x12\x16document.validation.v1\x1a\fmodels.proto\",\n" +
+	"\x11DeleteTaskRequest\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\".\n" +
+	"\x12DeleteTaskResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xe6\x04\n" +
 	"\x11CreateTaskRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12(\n" +
@@ -616,11 +708,13 @@ const file_human_validation_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"N\n" +
 	"\x18SubmitCorrectionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xe8\x02\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xcd\x03\n" +
 	"\x16HumanValidationService\x12m\n" +
 	"\x14CreateValidationTask\x12).document.validation.v1.CreateTaskRequest\x1a*.document.validation.v1.CreateTaskResponse\x12h\n" +
 	"\x0fGetPendingTasks\x12..document.validation.v1.GetPendingTasksRequest\x1a#.document.validation.v1.PendingTask0\x01\x12u\n" +
-	"\x10SubmitCorrection\x12/.document.validation.v1.SubmitCorrectionRequest\x1a0.document.validation.v1.SubmitCorrectionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\x10SubmitCorrection\x12/.document.validation.v1.SubmitCorrectionRequest\x1a0.document.validation.v1.SubmitCorrectionResponse\x12c\n" +
+	"\n" +
+	"DeleteTask\x12).document.validation.v1.DeleteTaskRequest\x1a*.document.validation.v1.DeleteTaskResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_human_validation_proto_rawDescOnce sync.Once
@@ -634,35 +728,39 @@ func file_human_validation_proto_rawDescGZIP() []byte {
 	return file_human_validation_proto_rawDescData
 }
 
-var file_human_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_human_validation_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_human_validation_proto_goTypes = []any{
-	(*CreateTaskRequest)(nil),        // 0: document.validation.v1.CreateTaskRequest
-	(*CreateTaskResponse)(nil),       // 1: document.validation.v1.CreateTaskResponse
-	(*GetPendingTasksRequest)(nil),   // 2: document.validation.v1.GetPendingTasksRequest
-	(*PendingTask)(nil),              // 3: document.validation.v1.PendingTask
-	(*GetPendingTasksResponse)(nil),  // 4: document.validation.v1.GetPendingTasksResponse
-	(*SubmitCorrectionRequest)(nil),  // 5: document.validation.v1.SubmitCorrectionRequest
-	(*SubmitCorrectionResponse)(nil), // 6: document.validation.v1.SubmitCorrectionResponse
-	nil,                              // 7: document.validation.v1.CreateTaskRequest.MetadataEntry
-	nil,                              // 8: document.validation.v1.PendingTask.MetadataEntry
-	(*InfrastructureIdentity)(nil),   // 9: document.models.v1.InfrastructureIdentity
+	(*DeleteTaskRequest)(nil),        // 0: document.validation.v1.DeleteTaskRequest
+	(*DeleteTaskResponse)(nil),       // 1: document.validation.v1.DeleteTaskResponse
+	(*CreateTaskRequest)(nil),        // 2: document.validation.v1.CreateTaskRequest
+	(*CreateTaskResponse)(nil),       // 3: document.validation.v1.CreateTaskResponse
+	(*GetPendingTasksRequest)(nil),   // 4: document.validation.v1.GetPendingTasksRequest
+	(*PendingTask)(nil),              // 5: document.validation.v1.PendingTask
+	(*GetPendingTasksResponse)(nil),  // 6: document.validation.v1.GetPendingTasksResponse
+	(*SubmitCorrectionRequest)(nil),  // 7: document.validation.v1.SubmitCorrectionRequest
+	(*SubmitCorrectionResponse)(nil), // 8: document.validation.v1.SubmitCorrectionResponse
+	nil,                              // 9: document.validation.v1.CreateTaskRequest.MetadataEntry
+	nil,                              // 10: document.validation.v1.PendingTask.MetadataEntry
+	(*InfrastructureIdentity)(nil),   // 11: document.models.v1.InfrastructureIdentity
 }
 var file_human_validation_proto_depIdxs = []int32{
-	9,  // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	7,  // 1: document.validation.v1.CreateTaskRequest.metadata:type_name -> document.validation.v1.CreateTaskRequest.MetadataEntry
-	9,  // 2: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	9,  // 3: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
-	8,  // 4: document.validation.v1.PendingTask.metadata:type_name -> document.validation.v1.PendingTask.MetadataEntry
-	3,  // 5: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
-	9,  // 6: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0,  // 7: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
-	2,  // 8: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
-	5,  // 9: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
-	1,  // 10: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
-	3,  // 11: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
-	6,  // 12: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
+	11, // 0: document.validation.v1.CreateTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 1: document.validation.v1.CreateTaskRequest.metadata:type_name -> document.validation.v1.CreateTaskRequest.MetadataEntry
+	11, // 2: document.validation.v1.GetPendingTasksRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	11, // 3: document.validation.v1.PendingTask.identity:type_name -> document.models.v1.InfrastructureIdentity
+	10, // 4: document.validation.v1.PendingTask.metadata:type_name -> document.validation.v1.PendingTask.MetadataEntry
+	5,  // 5: document.validation.v1.GetPendingTasksResponse.tasks:type_name -> document.validation.v1.PendingTask
+	11, // 6: document.validation.v1.SubmitCorrectionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	2,  // 7: document.validation.v1.HumanValidationService.CreateValidationTask:input_type -> document.validation.v1.CreateTaskRequest
+	4,  // 8: document.validation.v1.HumanValidationService.GetPendingTasks:input_type -> document.validation.v1.GetPendingTasksRequest
+	7,  // 9: document.validation.v1.HumanValidationService.SubmitCorrection:input_type -> document.validation.v1.SubmitCorrectionRequest
+	0,  // 10: document.validation.v1.HumanValidationService.DeleteTask:input_type -> document.validation.v1.DeleteTaskRequest
+	3,  // 11: document.validation.v1.HumanValidationService.CreateValidationTask:output_type -> document.validation.v1.CreateTaskResponse
+	5,  // 12: document.validation.v1.HumanValidationService.GetPendingTasks:output_type -> document.validation.v1.PendingTask
+	8,  // 13: document.validation.v1.HumanValidationService.SubmitCorrection:output_type -> document.validation.v1.SubmitCorrectionResponse
+	1,  // 14: document.validation.v1.HumanValidationService.DeleteTask:output_type -> document.validation.v1.DeleteTaskResponse
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -680,7 +778,7 @@ func file_human_validation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_human_validation_proto_rawDesc), len(file_human_validation_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -15,6 +15,17 @@ service HumanValidationService {
 
   // Submit corrected JSON from human UI or script
   rpc SubmitCorrection(SubmitCorrectionRequest) returns (SubmitCorrectionResponse);
+
+  // Force delete a corrupt or legacy task from the in-memory queue without resuming the job
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+message DeleteTaskRequest {
+  string task_id = 1;
+}
+
+message DeleteTaskResponse {
+  bool success = 1;
 }
 
 message CreateTaskRequest {

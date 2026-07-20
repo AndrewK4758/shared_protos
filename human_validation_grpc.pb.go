@@ -22,6 +22,7 @@ const (
 	HumanValidationService_CreateValidationTask_FullMethodName = "/document.validation.v1.HumanValidationService/CreateValidationTask"
 	HumanValidationService_GetPendingTasks_FullMethodName      = "/document.validation.v1.HumanValidationService/GetPendingTasks"
 	HumanValidationService_SubmitCorrection_FullMethodName     = "/document.validation.v1.HumanValidationService/SubmitCorrection"
+	HumanValidationService_DeleteTask_FullMethodName           = "/document.validation.v1.HumanValidationService/DeleteTask"
 )
 
 // HumanValidationServiceClient is the client API for HumanValidationService service.
@@ -34,6 +35,8 @@ type HumanValidationServiceClient interface {
 	GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PendingTask], error)
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(ctx context.Context, in *SubmitCorrectionRequest, opts ...grpc.CallOption) (*SubmitCorrectionResponse, error)
+	// Force delete a corrupt or legacy task from the in-memory queue without resuming the job
+	DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*DeleteTaskResponse, error)
 }
 
 type humanValidationServiceClient struct {
@@ -83,6 +86,16 @@ func (c *humanValidationServiceClient) SubmitCorrection(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *humanValidationServiceClient) DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*DeleteTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTaskResponse)
+	err := c.cc.Invoke(ctx, HumanValidationService_DeleteTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HumanValidationServiceServer is the server API for HumanValidationService service.
 // All implementations must embed UnimplementedHumanValidationServiceServer
 // for forward compatibility.
@@ -93,6 +106,8 @@ type HumanValidationServiceServer interface {
 	GetPendingTasks(*GetPendingTasksRequest, grpc.ServerStreamingServer[PendingTask]) error
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error)
+	// Force delete a corrupt or legacy task from the in-memory queue without resuming the job
+	DeleteTask(context.Context, *DeleteTaskRequest) (*DeleteTaskResponse, error)
 	mustEmbedUnimplementedHumanValidationServiceServer()
 }
 
@@ -111,6 +126,9 @@ func (UnimplementedHumanValidationServiceServer) GetPendingTasks(*GetPendingTask
 }
 func (UnimplementedHumanValidationServiceServer) SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitCorrection not implemented")
+}
+func (UnimplementedHumanValidationServiceServer) DeleteTask(context.Context, *DeleteTaskRequest) (*DeleteTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteTask not implemented")
 }
 func (UnimplementedHumanValidationServiceServer) mustEmbedUnimplementedHumanValidationServiceServer() {
 }
@@ -181,6 +199,24 @@ func _HumanValidationService_SubmitCorrection_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HumanValidationService_DeleteTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HumanValidationServiceServer).DeleteTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HumanValidationService_DeleteTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HumanValidationServiceServer).DeleteTask(ctx, req.(*DeleteTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HumanValidationService_ServiceDesc is the grpc.ServiceDesc for HumanValidationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -195,6 +231,10 @@ var HumanValidationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitCorrection",
 			Handler:    _HumanValidationService_SubmitCorrection_Handler,
+		},
+		{
+			MethodName: "DeleteTask",
+			Handler:    _HumanValidationService_DeleteTask_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
