@@ -84,6 +84,7 @@ message PurgeSystemStateResponse {
 service OrchestratorCallbackService {
   rpc OnNodeExecutionComplete(stream NodeExecutionCompleteRequest) returns (stream NodeExecutionCompleteResponse);
   rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
+  rpc OnJobSuspended(JobSuspendedRequest) returns (JobSuspendedResponse);
 }
 
 message NodeExecutionCompleteRequest {
@@ -114,5 +115,17 @@ message JobFailedRequest {
 }
 
 message JobFailedResponse {
+  bool success = 1;
+}
+
+message JobSuspendedRequest {
+  string job_id = 1 [deprecated = true];
+  string suspended_step_id = 2;
+  string reason = 3;
+  document.models.v1.InfrastructureIdentity identity = 4;
+  map<string, string> metadata = 5;
+}
+
+message JobSuspendedResponse {
   bool success = 1;
 }

@@ -249,6 +249,7 @@ var OrchestratorService_ServiceDesc = grpc.ServiceDesc{
 const (
 	OrchestratorCallbackService_OnNodeExecutionComplete_FullMethodName = "/document.orchestrator.v1.OrchestratorCallbackService/OnNodeExecutionComplete"
 	OrchestratorCallbackService_OnJobFailed_FullMethodName             = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobFailed"
+	OrchestratorCallbackService_OnJobSuspended_FullMethodName          = "/document.orchestrator.v1.OrchestratorCallbackService/OnJobSuspended"
 )
 
 // OrchestratorCallbackServiceClient is the client API for OrchestratorCallbackService service.
@@ -257,6 +258,7 @@ const (
 type OrchestratorCallbackServiceClient interface {
 	OnNodeExecutionComplete(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse], error)
 	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
+	OnJobSuspended(ctx context.Context, in *JobSuspendedRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error)
 }
 
 type orchestratorCallbackServiceClient struct {
@@ -290,12 +292,23 @@ func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *orchestratorCallbackServiceClient) OnJobSuspended(ctx context.Context, in *JobSuspendedRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(JobSuspendedResponse)
+	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnJobSuspended_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrchestratorCallbackServiceServer is the server API for OrchestratorCallbackService service.
 // All implementations must embed UnimplementedOrchestratorCallbackServiceServer
 // for forward compatibility.
 type OrchestratorCallbackServiceServer interface {
 	OnNodeExecutionComplete(grpc.BidiStreamingServer[NodeExecutionCompleteRequest, NodeExecutionCompleteResponse]) error
 	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
+	OnJobSuspended(context.Context, *JobSuspendedRequest) (*JobSuspendedResponse, error)
 	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
 
@@ -311,6 +324,9 @@ func (UnimplementedOrchestratorCallbackServiceServer) OnNodeExecutionComplete(gr
 }
 func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
+}
+func (UnimplementedOrchestratorCallbackServiceServer) OnJobSuspended(context.Context, *JobSuspendedRequest) (*JobSuspendedResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method OnJobSuspended not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) mustEmbedUnimplementedOrchestratorCallbackServiceServer() {
 }
@@ -359,6 +375,24 @@ func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrchestratorCallbackService_OnJobSuspended_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JobSuspendedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorCallbackServiceServer).OnJobSuspended(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrchestratorCallbackService_OnJobSuspended_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorCallbackServiceServer).OnJobSuspended(ctx, req.(*JobSuspendedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrchestratorCallbackService_ServiceDesc is the grpc.ServiceDesc for OrchestratorCallbackService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -369,6 +403,10 @@ var OrchestratorCallbackService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OnJobFailed",
 			Handler:    _OrchestratorCallbackService_OnJobFailed_Handler,
+		},
+		{
+			MethodName: "OnJobSuspended",
+			Handler:    _OrchestratorCallbackService_OnJobSuspended_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

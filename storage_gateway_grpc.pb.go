@@ -29,10 +29,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StorageGatewayServiceClient interface {
 	// Uploads a document via streaming bytes to the internal MinIO cluster.
-	// The C# Client must pass `tenant_id` and `app_id` in the gRPC headers (metadata).
+	// The C# Client passes `tenant_id` and `app_id` in the InfrastructureIdentity payload.
 	UploadDocument(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadRequest, UploadResponse], error)
 	// Downloads a document via streaming bytes.
-	// The gateway verifies the requested URI against the `tenant_id` in the headers.
+	// The gateway verifies the requested URI against the InfrastructureIdentity payload.
 	DownloadDocument(ctx context.Context, in *DownloadRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[DownloadResponse], error)
 	// Clears all temporary job data from MinIO for a specific job.
 	ClearJobData(ctx context.Context, in *ClearJobDataRequest, opts ...grpc.CallOption) (*ClearJobDataResponse, error)
@@ -93,10 +93,10 @@ func (c *storageGatewayServiceClient) ClearJobData(ctx context.Context, in *Clea
 // for forward compatibility.
 type StorageGatewayServiceServer interface {
 	// Uploads a document via streaming bytes to the internal MinIO cluster.
-	// The C# Client must pass `tenant_id` and `app_id` in the gRPC headers (metadata).
+	// The C# Client passes `tenant_id` and `app_id` in the InfrastructureIdentity payload.
 	UploadDocument(grpc.ClientStreamingServer[UploadRequest, UploadResponse]) error
 	// Downloads a document via streaming bytes.
-	// The gateway verifies the requested URI against the `tenant_id` in the headers.
+	// The gateway verifies the requested URI against the InfrastructureIdentity payload.
 	DownloadDocument(*DownloadRequest, grpc.ServerStreamingServer[DownloadResponse]) error
 	// Clears all temporary job data from MinIO for a specific job.
 	ClearJobData(context.Context, *ClearJobDataRequest) (*ClearJobDataResponse, error)
