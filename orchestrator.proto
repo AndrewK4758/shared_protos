@@ -10,7 +10,7 @@ import "google/protobuf/struct.proto";
 
 service OrchestratorService {
   // Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
-  rpc ExecuteWorkflowNode(stream ExecuteWorkflowNodeRequest) returns (stream ExecuteWorkflowNodeResponse);
+  rpc ExecuteWorkflowNode(ExecuteWorkflowNodeRequest) returns (ExecuteWorkflowNodeResponse);
 
   // Client listens to this Server Stream to get real-time progress of their JobID
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);

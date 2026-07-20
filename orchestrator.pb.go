@@ -892,9 +892,9 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"-\n" +
 	"\x11JobFailedResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe9\x03\n" +
-	"\x13OrchestratorService\x12\x86\x01\n" +
-	"\x13ExecuteWorkflowNode\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a5.document.orchestrator.v1.ExecuteWorkflowNodeResponse(\x010\x01\x12h\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x03\n" +
+	"\x13OrchestratorService\x12\x82\x01\n" +
+	"\x13ExecuteWorkflowNode\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a5.document.orchestrator.v1.ExecuteWorkflowNodeResponse\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
 	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse\x12y\n" +
 	"\x10PurgeSystemState\x121.document.orchestrator.v1.PurgeSystemStateRequest\x1a2.document.orchestrator.v1.PurgeSystemStateResponse2\x96\x02\n" +
