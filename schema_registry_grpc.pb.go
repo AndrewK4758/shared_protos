@@ -20,6 +20,8 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	SchemaRegistryService_GetRulesForClassification_FullMethodName = "/document.registry.v1.SchemaRegistryService/GetRulesForClassification"
+	SchemaRegistryService_GetAllRules_FullMethodName               = "/document.registry.v1.SchemaRegistryService/GetAllRules"
+	SchemaRegistryService_UpdateRule_FullMethodName                = "/document.registry.v1.SchemaRegistryService/UpdateRule"
 )
 
 // SchemaRegistryServiceClient is the client API for SchemaRegistryService service.
@@ -27,6 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SchemaRegistryServiceClient interface {
 	GetRulesForClassification(ctx context.Context, in *GetRulesRequest, opts ...grpc.CallOption) (*GetRulesResponse, error)
+	GetAllRules(ctx context.Context, in *GetAllRulesRequest, opts ...grpc.CallOption) (*GetAllRulesResponse, error)
+	UpdateRule(ctx context.Context, in *UpdateRuleRequest, opts ...grpc.CallOption) (*UpdateRuleResponse, error)
 }
 
 type schemaRegistryServiceClient struct {
@@ -47,11 +51,33 @@ func (c *schemaRegistryServiceClient) GetRulesForClassification(ctx context.Cont
 	return out, nil
 }
 
+func (c *schemaRegistryServiceClient) GetAllRules(ctx context.Context, in *GetAllRulesRequest, opts ...grpc.CallOption) (*GetAllRulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllRulesResponse)
+	err := c.cc.Invoke(ctx, SchemaRegistryService_GetAllRules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schemaRegistryServiceClient) UpdateRule(ctx context.Context, in *UpdateRuleRequest, opts ...grpc.CallOption) (*UpdateRuleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateRuleResponse)
+	err := c.cc.Invoke(ctx, SchemaRegistryService_UpdateRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SchemaRegistryServiceServer is the server API for SchemaRegistryService service.
 // All implementations must embed UnimplementedSchemaRegistryServiceServer
 // for forward compatibility.
 type SchemaRegistryServiceServer interface {
 	GetRulesForClassification(context.Context, *GetRulesRequest) (*GetRulesResponse, error)
+	GetAllRules(context.Context, *GetAllRulesRequest) (*GetAllRulesResponse, error)
+	UpdateRule(context.Context, *UpdateRuleRequest) (*UpdateRuleResponse, error)
 	mustEmbedUnimplementedSchemaRegistryServiceServer()
 }
 
@@ -64,6 +90,12 @@ type UnimplementedSchemaRegistryServiceServer struct{}
 
 func (UnimplementedSchemaRegistryServiceServer) GetRulesForClassification(context.Context, *GetRulesRequest) (*GetRulesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRulesForClassification not implemented")
+}
+func (UnimplementedSchemaRegistryServiceServer) GetAllRules(context.Context, *GetAllRulesRequest) (*GetAllRulesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllRules not implemented")
+}
+func (UnimplementedSchemaRegistryServiceServer) UpdateRule(context.Context, *UpdateRuleRequest) (*UpdateRuleResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateRule not implemented")
 }
 func (UnimplementedSchemaRegistryServiceServer) mustEmbedUnimplementedSchemaRegistryServiceServer() {}
 func (UnimplementedSchemaRegistryServiceServer) testEmbeddedByValue()                               {}
@@ -104,6 +136,42 @@ func _SchemaRegistryService_GetRulesForClassification_Handler(srv interface{}, c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SchemaRegistryService_GetAllRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaRegistryServiceServer).GetAllRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaRegistryService_GetAllRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaRegistryServiceServer).GetAllRules(ctx, req.(*GetAllRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SchemaRegistryService_UpdateRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchemaRegistryServiceServer).UpdateRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SchemaRegistryService_UpdateRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchemaRegistryServiceServer).UpdateRule(ctx, req.(*UpdateRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SchemaRegistryService_ServiceDesc is the grpc.ServiceDesc for SchemaRegistryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +182,14 @@ var SchemaRegistryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRulesForClassification",
 			Handler:    _SchemaRegistryService_GetRulesForClassification_Handler,
+		},
+		{
+			MethodName: "GetAllRules",
+			Handler:    _SchemaRegistryService_GetAllRules_Handler,
+		},
+		{
+			MethodName: "UpdateRule",
+			Handler:    _SchemaRegistryService_UpdateRule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

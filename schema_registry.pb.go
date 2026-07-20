@@ -141,6 +141,282 @@ func (x *GetRulesResponse) GetJsonSchema() string {
 	return ""
 }
 
+type AiRule struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	RuleName         string                 `protobuf:"bytes,2,opt,name=rule_name,json=ruleName,proto3" json:"rule_name,omitempty"`
+	TargetEntityType string                 `protobuf:"bytes,3,opt,name=target_entity_type,json=targetEntityType,proto3" json:"target_entity_type,omitempty"`
+	Instructions     string                 `protobuf:"bytes,4,opt,name=instructions,proto3" json:"instructions,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *AiRule) Reset() {
+	*x = AiRule{}
+	mi := &file_schema_registry_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AiRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AiRule) ProtoMessage() {}
+
+func (x *AiRule) ProtoReflect() protoreflect.Message {
+	mi := &file_schema_registry_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AiRule.ProtoReflect.Descriptor instead.
+func (*AiRule) Descriptor() ([]byte, []int) {
+	return file_schema_registry_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *AiRule) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AiRule) GetRuleName() string {
+	if x != nil {
+		return x.RuleName
+	}
+	return ""
+}
+
+func (x *AiRule) GetTargetEntityType() string {
+	if x != nil {
+		return x.TargetEntityType
+	}
+	return ""
+}
+
+func (x *AiRule) GetInstructions() string {
+	if x != nil {
+		return x.Instructions
+	}
+	return ""
+}
+
+type GetAllRulesRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllRulesRequest) Reset() {
+	*x = GetAllRulesRequest{}
+	mi := &file_schema_registry_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllRulesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllRulesRequest) ProtoMessage() {}
+
+func (x *GetAllRulesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_schema_registry_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllRulesRequest.ProtoReflect.Descriptor instead.
+func (*GetAllRulesRequest) Descriptor() ([]byte, []int) {
+	return file_schema_registry_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetAllRulesRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+type GetAllRulesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	Rules         []*AiRule              `protobuf:"bytes,3,rep,name=rules,proto3" json:"rules,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllRulesResponse) Reset() {
+	*x = GetAllRulesResponse{}
+	mi := &file_schema_registry_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllRulesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllRulesResponse) ProtoMessage() {}
+
+func (x *GetAllRulesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_schema_registry_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllRulesResponse.ProtoReflect.Descriptor instead.
+func (*GetAllRulesResponse) Descriptor() ([]byte, []int) {
+	return file_schema_registry_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetAllRulesResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *GetAllRulesResponse) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *GetAllRulesResponse) GetRules() []*AiRule {
+	if x != nil {
+		return x.Rules
+	}
+	return nil
+}
+
+type UpdateRuleRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	Rule          *AiRule                 `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateRuleRequest) Reset() {
+	*x = UpdateRuleRequest{}
+	mi := &file_schema_registry_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRuleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRuleRequest) ProtoMessage() {}
+
+func (x *UpdateRuleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_schema_registry_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRuleRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRuleRequest) Descriptor() ([]byte, []int) {
+	return file_schema_registry_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateRuleRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *UpdateRuleRequest) GetRule() *AiRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+type UpdateRuleResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateRuleResponse) Reset() {
+	*x = UpdateRuleResponse{}
+	mi := &file_schema_registry_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRuleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRuleResponse) ProtoMessage() {}
+
+func (x *UpdateRuleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_schema_registry_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRuleResponse.ProtoReflect.Descriptor instead.
+func (*UpdateRuleResponse) Descriptor() ([]byte, []int) {
+	return file_schema_registry_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateRuleResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *UpdateRuleResponse) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
 var File_schema_registry_proto protoreflect.FileDescriptor
 
 const file_schema_registry_proto_rawDesc = "" +
@@ -155,9 +431,29 @@ const file_schema_registry_proto_rawDesc = "" +
 	"\n" +
 	"rules_text\x18\x03 \x01(\tR\trulesText\x12\x1f\n" +
 	"\vjson_schema\x18\x04 \x01(\tR\n" +
-	"jsonSchema2\x83\x01\n" +
+	"jsonSchema\"\x87\x01\n" +
+	"\x06AiRule\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1b\n" +
+	"\trule_name\x18\x02 \x01(\tR\bruleName\x12,\n" +
+	"\x12target_entity_type\x18\x03 \x01(\tR\x10targetEntityType\x12\"\n" +
+	"\finstructions\x18\x04 \x01(\tR\finstructions\"\\\n" +
+	"\x12GetAllRulesRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x88\x01\n" +
+	"\x13GetAllRulesResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x122\n" +
+	"\x05rules\x18\x03 \x03(\v2\x1c.document.registry.v1.AiRuleR\x05rules\"\x8d\x01\n" +
+	"\x11UpdateRuleRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x120\n" +
+	"\x04rule\x18\x02 \x01(\v2\x1c.document.registry.v1.AiRuleR\x04rule\"S\n" +
+	"\x12UpdateRuleResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage2\xc8\x02\n" +
 	"\x15SchemaRegistryService\x12j\n" +
-	"\x19GetRulesForClassification\x12%.document.registry.v1.GetRulesRequest\x1a&.document.registry.v1.GetRulesResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\x19GetRulesForClassification\x12%.document.registry.v1.GetRulesRequest\x1a&.document.registry.v1.GetRulesResponse\x12b\n" +
+	"\vGetAllRules\x12(.document.registry.v1.GetAllRulesRequest\x1a).document.registry.v1.GetAllRulesResponse\x12_\n" +
+	"\n" +
+	"UpdateRule\x12'.document.registry.v1.UpdateRuleRequest\x1a(.document.registry.v1.UpdateRuleResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_schema_registry_proto_rawDescOnce sync.Once
@@ -171,21 +467,34 @@ func file_schema_registry_proto_rawDescGZIP() []byte {
 	return file_schema_registry_proto_rawDescData
 }
 
-var file_schema_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_schema_registry_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_schema_registry_proto_goTypes = []any{
 	(*GetRulesRequest)(nil),        // 0: document.registry.v1.GetRulesRequest
 	(*GetRulesResponse)(nil),       // 1: document.registry.v1.GetRulesResponse
-	(*InfrastructureIdentity)(nil), // 2: document.models.v1.InfrastructureIdentity
+	(*AiRule)(nil),                 // 2: document.registry.v1.AiRule
+	(*GetAllRulesRequest)(nil),     // 3: document.registry.v1.GetAllRulesRequest
+	(*GetAllRulesResponse)(nil),    // 4: document.registry.v1.GetAllRulesResponse
+	(*UpdateRuleRequest)(nil),      // 5: document.registry.v1.UpdateRuleRequest
+	(*UpdateRuleResponse)(nil),     // 6: document.registry.v1.UpdateRuleResponse
+	(*InfrastructureIdentity)(nil), // 7: document.models.v1.InfrastructureIdentity
 }
 var file_schema_registry_proto_depIdxs = []int32{
-	2, // 0: document.registry.v1.GetRulesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0, // 1: document.registry.v1.SchemaRegistryService.GetRulesForClassification:input_type -> document.registry.v1.GetRulesRequest
-	1, // 2: document.registry.v1.SchemaRegistryService.GetRulesForClassification:output_type -> document.registry.v1.GetRulesResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	7, // 0: document.registry.v1.GetRulesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	7, // 1: document.registry.v1.GetAllRulesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	2, // 2: document.registry.v1.GetAllRulesResponse.rules:type_name -> document.registry.v1.AiRule
+	7, // 3: document.registry.v1.UpdateRuleRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	2, // 4: document.registry.v1.UpdateRuleRequest.rule:type_name -> document.registry.v1.AiRule
+	0, // 5: document.registry.v1.SchemaRegistryService.GetRulesForClassification:input_type -> document.registry.v1.GetRulesRequest
+	3, // 6: document.registry.v1.SchemaRegistryService.GetAllRules:input_type -> document.registry.v1.GetAllRulesRequest
+	5, // 7: document.registry.v1.SchemaRegistryService.UpdateRule:input_type -> document.registry.v1.UpdateRuleRequest
+	1, // 8: document.registry.v1.SchemaRegistryService.GetRulesForClassification:output_type -> document.registry.v1.GetRulesResponse
+	4, // 9: document.registry.v1.SchemaRegistryService.GetAllRules:output_type -> document.registry.v1.GetAllRulesResponse
+	6, // 10: document.registry.v1.SchemaRegistryService.UpdateRule:output_type -> document.registry.v1.UpdateRuleResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_schema_registry_proto_init() }
@@ -200,7 +509,7 @@ func file_schema_registry_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_schema_registry_proto_rawDesc), len(file_schema_registry_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
