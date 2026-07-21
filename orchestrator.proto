@@ -33,6 +33,12 @@ message ExecuteWorkflowNodeRequest {
   document.models.v1.NodeConfiguration node_config = 6;
   
   document.models.v1.InfrastructureIdentity identity = 7;
+
+  // New explicit service contracts
+  document.models.v1.DocumentChunkingContract document_chunking = 8;
+  document.models.v1.AiExtractionContract ai_extraction = 9;
+  document.models.v1.SemanticCacheContract semantic_cache = 10;
+  document.models.v1.HumanValidationContract human_validation = 11;
 }
 
 message ExecuteWorkflowNodeResponse {

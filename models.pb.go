@@ -1024,6 +1024,238 @@ func (x *WorkflowContext) GetActionState() *structpb.Struct {
 	return nil
 }
 
+type DocumentChunkingContract struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	DocumentStorageUri string                 `protobuf:"bytes,1,opt,name=document_storage_uri,json=documentStorageUri,proto3" json:"document_storage_uri,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *DocumentChunkingContract) Reset() {
+	*x = DocumentChunkingContract{}
+	mi := &file_models_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentChunkingContract) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentChunkingContract) ProtoMessage() {}
+
+func (x *DocumentChunkingContract) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentChunkingContract.ProtoReflect.Descriptor instead.
+func (*DocumentChunkingContract) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DocumentChunkingContract) GetDocumentStorageUri() string {
+	if x != nil {
+		return x.DocumentStorageUri
+	}
+	return ""
+}
+
+type AiExtractionContract struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	SystemInstructions string                 `protobuf:"bytes,1,opt,name=system_instructions,json=systemInstructions,proto3" json:"system_instructions,omitempty"`
+	ExpectedSchema     string                 `protobuf:"bytes,2,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
+	ModelChoice        ModelChoice            `protobuf:"varint,3,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *AiExtractionContract) Reset() {
+	*x = AiExtractionContract{}
+	mi := &file_models_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AiExtractionContract) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AiExtractionContract) ProtoMessage() {}
+
+func (x *AiExtractionContract) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AiExtractionContract.ProtoReflect.Descriptor instead.
+func (*AiExtractionContract) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *AiExtractionContract) GetSystemInstructions() string {
+	if x != nil {
+		return x.SystemInstructions
+	}
+	return ""
+}
+
+func (x *AiExtractionContract) GetExpectedSchema() string {
+	if x != nil {
+		return x.ExpectedSchema
+	}
+	return ""
+}
+
+func (x *AiExtractionContract) GetModelChoice() ModelChoice {
+	if x != nil {
+		return x.ModelChoice
+	}
+	return ModelChoice_MODEL_CHOICE_UNSPECIFIED
+}
+
+type SemanticCacheContract struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Enabled             bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	CollectionName      string                 `protobuf:"bytes,2,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	LookupInput         string                 `protobuf:"bytes,3,opt,name=lookup_input,json=lookupInput,proto3" json:"lookup_input,omitempty"`
+	ConfidenceThreshold float32                `protobuf:"fixed32,4,opt,name=confidence_threshold,json=confidenceThreshold,proto3" json:"confidence_threshold,omitempty"`
+	Metadata            map[string]string      `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *SemanticCacheContract) Reset() {
+	*x = SemanticCacheContract{}
+	mi := &file_models_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SemanticCacheContract) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SemanticCacheContract) ProtoMessage() {}
+
+func (x *SemanticCacheContract) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SemanticCacheContract.ProtoReflect.Descriptor instead.
+func (*SemanticCacheContract) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *SemanticCacheContract) GetEnabled() bool {
+	if x != nil {
+		return x.Enabled
+	}
+	return false
+}
+
+func (x *SemanticCacheContract) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
+func (x *SemanticCacheContract) GetLookupInput() string {
+	if x != nil {
+		return x.LookupInput
+	}
+	return ""
+}
+
+func (x *SemanticCacheContract) GetConfidenceThreshold() float32 {
+	if x != nil {
+		return x.ConfidenceThreshold
+	}
+	return 0
+}
+
+func (x *SemanticCacheContract) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type HumanValidationContract struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Required       bool                   `protobuf:"varint,1,opt,name=required,proto3" json:"required,omitempty"`
+	BypassFallback bool                   `protobuf:"varint,2,opt,name=bypass_fallback,json=bypassFallback,proto3" json:"bypass_fallback,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *HumanValidationContract) Reset() {
+	*x = HumanValidationContract{}
+	mi := &file_models_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HumanValidationContract) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HumanValidationContract) ProtoMessage() {}
+
+func (x *HumanValidationContract) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HumanValidationContract.ProtoReflect.Descriptor instead.
+func (*HumanValidationContract) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *HumanValidationContract) GetRequired() bool {
+	if x != nil {
+		return x.Required
+	}
+	return false
+}
+
+func (x *HumanValidationContract) GetBypassFallback() bool {
+	if x != nil {
+		return x.BypassFallback
+	}
+	return false
+}
+
 var File_models_proto protoreflect.FileDescriptor
 
 const file_models_proto_rawDesc = "" +
@@ -1114,7 +1346,25 @@ const file_models_proto_rawDesc = "" +
 	" \x01(\v2\x17.google.protobuf.StructR\vactionState\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06*\x9a\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06\"L\n" +
+	"\x18DocumentChunkingContract\x120\n" +
+	"\x14document_storage_uri\x18\x01 \x01(\tR\x12documentStorageUri\"\xb4\x01\n" +
+	"\x14AiExtractionContract\x12/\n" +
+	"\x13system_instructions\x18\x01 \x01(\tR\x12systemInstructions\x12'\n" +
+	"\x0fexpected_schema\x18\x02 \x01(\tR\x0eexpectedSchema\x12B\n" +
+	"\fmodel_choice\x18\x03 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\"\xc2\x02\n" +
+	"\x15SemanticCacheContract\x12\x18\n" +
+	"\aenabled\x18\x01 \x01(\bR\aenabled\x12'\n" +
+	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12!\n" +
+	"\flookup_input\x18\x03 \x01(\tR\vlookupInput\x121\n" +
+	"\x14confidence_threshold\x18\x04 \x01(\x02R\x13confidenceThreshold\x12S\n" +
+	"\bmetadata\x18\x05 \x03(\v27.document.models.v1.SemanticCacheContract.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"^\n" +
+	"\x17HumanValidationContract\x12\x1a\n" +
+	"\brequired\x18\x01 \x01(\bR\brequired\x12'\n" +
+	"\x0fbypass_fallback\x18\x02 \x01(\bR\x0ebypassFallback*\x9a\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
@@ -1141,7 +1391,7 @@ func file_models_proto_rawDescGZIP() []byte {
 }
 
 var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),                     // 0: document.models.v1.ModelChoice
 	(OrchestratorPrimitive)(0),           // 1: document.models.v1.OrchestratorPrimitive
@@ -1155,29 +1405,36 @@ var file_models_proto_goTypes = []any{
 	(*ActionDefinition)(nil),             // 9: document.models.v1.ActionDefinition
 	(*ActiveJobExecution)(nil),           // 10: document.models.v1.ActiveJobExecution
 	(*WorkflowContext)(nil),              // 11: document.models.v1.WorkflowContext
-	nil,                                  // 12: document.models.v1.CacheConfiguration.MetadataEntry
-	nil,                                  // 13: document.models.v1.WorkflowContext.MetadataEntry
-	(*structpb.Struct)(nil),              // 14: google.protobuf.Struct
+	(*DocumentChunkingContract)(nil),     // 12: document.models.v1.DocumentChunkingContract
+	(*AiExtractionContract)(nil),         // 13: document.models.v1.AiExtractionContract
+	(*SemanticCacheContract)(nil),        // 14: document.models.v1.SemanticCacheContract
+	(*HumanValidationContract)(nil),      // 15: document.models.v1.HumanValidationContract
+	nil,                                  // 16: document.models.v1.CacheConfiguration.MetadataEntry
+	nil,                                  // 17: document.models.v1.WorkflowContext.MetadataEntry
+	nil,                                  // 18: document.models.v1.SemanticCacheContract.MetadataEntry
+	(*structpb.Struct)(nil),              // 19: google.protobuf.Struct
 }
 var file_models_proto_depIdxs = []int32{
 	1,  // 0: document.models.v1.NodeConfiguration.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
 	4,  // 1: document.models.v1.NodeConfiguration.cache:type_name -> document.models.v1.CacheConfiguration
 	5,  // 2: document.models.v1.NodeConfiguration.human_validation:type_name -> document.models.v1.HumanValidationConfiguration
-	12, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> document.models.v1.CacheConfiguration.MetadataEntry
+	16, // 3: document.models.v1.CacheConfiguration.metadata:type_name -> document.models.v1.CacheConfiguration.MetadataEntry
 	4,  // 4: document.models.v1.StepDefinition.cache_config:type_name -> document.models.v1.CacheConfiguration
 	1,  // 5: document.models.v1.StepDefinition.step_primitive:type_name -> document.models.v1.OrchestratorPrimitive
 	1,  // 6: document.models.v1.ActionDefinition.primitive_type:type_name -> document.models.v1.OrchestratorPrimitive
-	13, // 7: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
+	17, // 7: document.models.v1.WorkflowContext.metadata:type_name -> document.models.v1.WorkflowContext.MetadataEntry
 	10, // 8: document.models.v1.WorkflowContext.active_execution:type_name -> document.models.v1.ActiveJobExecution
 	6,  // 9: document.models.v1.WorkflowContext.job_definition:type_name -> document.models.v1.JobDefinition
-	14, // 10: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
+	19, // 10: document.models.v1.WorkflowContext.global_state:type_name -> google.protobuf.Struct
 	9,  // 11: document.models.v1.WorkflowContext.pending_actions:type_name -> document.models.v1.ActionDefinition
-	14, // 12: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	19, // 12: document.models.v1.WorkflowContext.action_state:type_name -> google.protobuf.Struct
+	0,  // 13: document.models.v1.AiExtractionContract.model_choice:type_name -> document.models.v1.ModelChoice
+	18, // 14: document.models.v1.SemanticCacheContract.metadata:type_name -> document.models.v1.SemanticCacheContract.MetadataEntry
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
@@ -1191,7 +1448,7 @@ func file_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   12,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

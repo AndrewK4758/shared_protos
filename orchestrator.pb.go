@@ -32,8 +32,13 @@ type ExecuteWorkflowNodeRequest struct {
 	Metadata        map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // e.g. correlation_id
 	NodeConfig      *NodeConfiguration      `protobuf:"bytes,6,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
 	Identity        *InfrastructureIdentity `protobuf:"bytes,7,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// New explicit service contracts
+	DocumentChunking *DocumentChunkingContract `protobuf:"bytes,8,opt,name=document_chunking,json=documentChunking,proto3" json:"document_chunking,omitempty"`
+	AiExtraction     *AiExtractionContract     `protobuf:"bytes,9,opt,name=ai_extraction,json=aiExtraction,proto3" json:"ai_extraction,omitempty"`
+	SemanticCache    *SemanticCacheContract    `protobuf:"bytes,10,opt,name=semantic_cache,json=semanticCache,proto3" json:"semantic_cache,omitempty"`
+	HumanValidation  *HumanValidationContract  `protobuf:"bytes,11,opt,name=human_validation,json=humanValidation,proto3" json:"human_validation,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ExecuteWorkflowNodeRequest) Reset() {
@@ -112,6 +117,34 @@ func (x *ExecuteWorkflowNodeRequest) GetNodeConfig() *NodeConfiguration {
 func (x *ExecuteWorkflowNodeRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
+	}
+	return nil
+}
+
+func (x *ExecuteWorkflowNodeRequest) GetDocumentChunking() *DocumentChunkingContract {
+	if x != nil {
+		return x.DocumentChunking
+	}
+	return nil
+}
+
+func (x *ExecuteWorkflowNodeRequest) GetAiExtraction() *AiExtractionContract {
+	if x != nil {
+		return x.AiExtraction
+	}
+	return nil
+}
+
+func (x *ExecuteWorkflowNodeRequest) GetSemanticCache() *SemanticCacheContract {
+	if x != nil {
+		return x.SemanticCache
+	}
+	return nil
+}
+
+func (x *ExecuteWorkflowNodeRequest) GetHumanValidation() *HumanValidationContract {
+	if x != nil {
+		return x.HumanValidation
 	}
 	return nil
 }
@@ -979,7 +1012,7 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xe4\x03\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xb8\x06\n" +
 	"\x1aExecuteWorkflowNodeRequest\x12\x19\n" +
 	"\x06job_id\x18\x01 \x01(\tB\x02\x18\x01R\x05jobId\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12)\n" +
@@ -988,7 +1021,12 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\bmetadata\x18\x05 \x03(\v2B.document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntryR\bmetadata\x12F\n" +
 	"\vnode_config\x18\x06 \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
 	"nodeConfig\x12F\n" +
-	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x1a;\n" +
+	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12Y\n" +
+	"\x11document_chunking\x18\b \x01(\v2,.document.models.v1.DocumentChunkingContractR\x10documentChunking\x12M\n" +
+	"\rai_extraction\x18\t \x01(\v2(.document.models.v1.AiExtractionContractR\faiExtraction\x12P\n" +
+	"\x0esemantic_cache\x18\n" +
+	" \x01(\v2).document.models.v1.SemanticCacheContractR\rsemanticCache\x12V\n" +
+	"\x10human_validation\x18\v \x01(\v2+.document.models.v1.HumanValidationContractR\x0fhumanValidation\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"j\n" +
@@ -1109,47 +1147,55 @@ var file_orchestrator_proto_goTypes = []any{
 	(*structpb.Struct)(nil),               // 18: google.protobuf.Struct
 	(*NodeConfiguration)(nil),             // 19: document.models.v1.NodeConfiguration
 	(*InfrastructureIdentity)(nil),        // 20: document.models.v1.InfrastructureIdentity
+	(*DocumentChunkingContract)(nil),      // 21: document.models.v1.DocumentChunkingContract
+	(*AiExtractionContract)(nil),          // 22: document.models.v1.AiExtractionContract
+	(*SemanticCacheContract)(nil),         // 23: document.models.v1.SemanticCacheContract
+	(*HumanValidationContract)(nil),       // 24: document.models.v1.HumanValidationContract
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	18, // 0: document.orchestrator.v1.ExecuteWorkflowNodeRequest.global_state:type_name -> google.protobuf.Struct
 	14, // 1: document.orchestrator.v1.ExecuteWorkflowNodeRequest.metadata:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntry
 	19, // 2: document.orchestrator.v1.ExecuteWorkflowNodeRequest.node_config:type_name -> document.models.v1.NodeConfiguration
 	20, // 3: document.orchestrator.v1.ExecuteWorkflowNodeRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	20, // 4: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	20, // 5: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
-	20, // 6: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	20, // 7: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	18, // 8: document.orchestrator.v1.NodeExecutionCompleteRequest.global_state:type_name -> google.protobuf.Struct
-	18, // 9: document.orchestrator.v1.NodeExecutionCompleteRequest.node_output:type_name -> google.protobuf.Struct
-	20, // 10: document.orchestrator.v1.NodeExecutionCompleteRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	15, // 11: document.orchestrator.v1.NodeExecutionCompleteRequest.metadata:type_name -> document.orchestrator.v1.NodeExecutionCompleteRequest.MetadataEntry
-	20, // 12: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	16, // 13: document.orchestrator.v1.JobFailedRequest.metadata:type_name -> document.orchestrator.v1.JobFailedRequest.MetadataEntry
-	18, // 14: document.orchestrator.v1.JobFailedRequest.global_state:type_name -> google.protobuf.Struct
-	18, // 15: document.orchestrator.v1.JobFailedRequest.node_output:type_name -> google.protobuf.Struct
-	20, // 16: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	17, // 17: document.orchestrator.v1.JobSuspendedRequest.metadata:type_name -> document.orchestrator.v1.JobSuspendedRequest.MetadataEntry
-	18, // 18: document.orchestrator.v1.JobSuspendedRequest.global_state:type_name -> google.protobuf.Struct
-	18, // 19: document.orchestrator.v1.JobSuspendedRequest.node_output:type_name -> google.protobuf.Struct
-	0,  // 20: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	2,  // 21: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	4,  // 22: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	6,  // 23: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
-	8,  // 24: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
-	10, // 25: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
-	12, // 26: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
-	1,  // 27: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
-	3,  // 28: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	5,  // 29: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	7,  // 30: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
-	9,  // 31: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
-	11, // 32: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	13, // 33: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
-	27, // [27:34] is the sub-list for method output_type
-	20, // [20:27] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	21, // 4: document.orchestrator.v1.ExecuteWorkflowNodeRequest.document_chunking:type_name -> document.models.v1.DocumentChunkingContract
+	22, // 5: document.orchestrator.v1.ExecuteWorkflowNodeRequest.ai_extraction:type_name -> document.models.v1.AiExtractionContract
+	23, // 6: document.orchestrator.v1.ExecuteWorkflowNodeRequest.semantic_cache:type_name -> document.models.v1.SemanticCacheContract
+	24, // 7: document.orchestrator.v1.ExecuteWorkflowNodeRequest.human_validation:type_name -> document.models.v1.HumanValidationContract
+	20, // 8: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	20, // 9: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
+	20, // 10: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	20, // 11: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	18, // 12: document.orchestrator.v1.NodeExecutionCompleteRequest.global_state:type_name -> google.protobuf.Struct
+	18, // 13: document.orchestrator.v1.NodeExecutionCompleteRequest.node_output:type_name -> google.protobuf.Struct
+	20, // 14: document.orchestrator.v1.NodeExecutionCompleteRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 15: document.orchestrator.v1.NodeExecutionCompleteRequest.metadata:type_name -> document.orchestrator.v1.NodeExecutionCompleteRequest.MetadataEntry
+	20, // 16: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	16, // 17: document.orchestrator.v1.JobFailedRequest.metadata:type_name -> document.orchestrator.v1.JobFailedRequest.MetadataEntry
+	18, // 18: document.orchestrator.v1.JobFailedRequest.global_state:type_name -> google.protobuf.Struct
+	18, // 19: document.orchestrator.v1.JobFailedRequest.node_output:type_name -> google.protobuf.Struct
+	20, // 20: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	17, // 21: document.orchestrator.v1.JobSuspendedRequest.metadata:type_name -> document.orchestrator.v1.JobSuspendedRequest.MetadataEntry
+	18, // 22: document.orchestrator.v1.JobSuspendedRequest.global_state:type_name -> google.protobuf.Struct
+	18, // 23: document.orchestrator.v1.JobSuspendedRequest.node_output:type_name -> google.protobuf.Struct
+	0,  // 24: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	2,  // 25: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	4,  // 26: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	6,  // 27: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
+	8,  // 28: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
+	10, // 29: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	12, // 30: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
+	1,  // 31: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
+	3,  // 32: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	5,  // 33: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	7,  // 34: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
+	9,  // 35: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
+	11, // 36: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	13, // 37: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
+	31, // [31:38] is the sub-list for method output_type
+	24, // [24:31] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }

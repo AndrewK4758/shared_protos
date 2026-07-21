@@ -124,3 +124,26 @@ message WorkflowContext {
   int32 current_action_index = 9;
   google.protobuf.Struct action_state = 10;
 }
+
+message DocumentChunkingContract {
+  string document_storage_uri = 1;
+}
+
+message AiExtractionContract {
+  string system_instructions = 1;
+  string expected_schema = 2;
+  ModelChoice model_choice = 3;
+}
+
+message SemanticCacheContract {
+  bool enabled = 1;
+  string collection_name = 2;
+  string lookup_input = 3;
+  float confidence_threshold = 4;
+  map<string, string> metadata = 5;
+}
+
+message HumanValidationContract {
+  bool required = 1; 
+  bool bypass_fallback = 2;
+}
