@@ -127,7 +127,6 @@ type CreateTaskRequest struct {
 	ErrorMessage       string                  `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	TargetFields       []string                `protobuf:"bytes,7,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	GlobalStateJson    string                  `protobuf:"bytes,8,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
-	JobName            string                  `protobuf:"bytes,9,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
 	StepId             string                  `protobuf:"bytes,10,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,11,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	Metadata           map[string]string       `protobuf:"bytes,12,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -217,13 +216,6 @@ func (x *CreateTaskRequest) GetTargetFields() []string {
 func (x *CreateTaskRequest) GetGlobalStateJson() string {
 	if x != nil {
 		return x.GlobalStateJson
-	}
-	return ""
-}
-
-func (x *CreateTaskRequest) GetJobName() string {
-	if x != nil {
-		return x.JobName
 	}
 	return ""
 }
@@ -365,7 +357,6 @@ type PendingTask struct {
 	TargetFields       []string                `protobuf:"bytes,8,rep,name=target_fields,json=targetFields,proto3" json:"target_fields,omitempty"`
 	Status             string                  `protobuf:"bytes,9,opt,name=status,proto3" json:"status,omitempty"` // e.g., "PENDING", "RESOLVED"
 	GlobalStateJson    string                  `protobuf:"bytes,10,opt,name=global_state_json,json=globalStateJson,proto3" json:"global_state_json,omitempty"`
-	JobName            string                  `protobuf:"bytes,11,opt,name=job_name,json=jobName,proto3" json:"job_name,omitempty"`
 	StepId             string                  `protobuf:"bytes,12,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,13,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	Metadata           map[string]string       `protobuf:"bytes,14,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -469,13 +460,6 @@ func (x *PendingTask) GetStatus() string {
 func (x *PendingTask) GetGlobalStateJson() string {
 	if x != nil {
 		return x.GlobalStateJson
-	}
-	return ""
-}
-
-func (x *PendingTask) GetJobName() string {
-	if x != nil {
-		return x.JobName
 	}
 	return ""
 }
@@ -666,7 +650,7 @@ const file_human_validation_proto_rawDesc = "" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\".\n" +
 	"\x12DeleteTaskResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xe6\x04\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xdb\x04\n" +
 	"\x11CreateTaskRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12(\n" +
@@ -675,21 +659,21 @@ const file_human_validation_proto_rawDesc = "" +
 	"\x13prompt_instructions\x18\x05 \x01(\tR\x12promptInstructions\x12#\n" +
 	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\x12#\n" +
 	"\rtarget_fields\x18\a \x03(\tR\ftargetFields\x12*\n" +
-	"\x11global_state_json\x18\b \x01(\tR\x0fglobalStateJson\x12\x19\n" +
-	"\bjob_name\x18\t \x01(\tR\ajobName\x12\x17\n" +
+	"\x11global_state_json\x18\b \x01(\tR\x0fglobalStateJson\x12\x17\n" +
 	"\astep_id\x18\n" +
 	" \x01(\tR\x06stepId\x12,\n" +
 	"\x12step_context_input\x18\v \x01(\tR\x10stepContextInput\x12S\n" +
 	"\bmetadata\x18\f \x03(\v27.document.validation.v1.CreateTaskRequest.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"E\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\t\x10\n" +
+	"R\bjob_name\"E\n" +
 	"\x12CreateTaskResponse\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"\x85\x01\n" +
 	"\x16GetPendingTasksRequest\x12#\n" +
 	"\rfilter_status\x18\x01 \x01(\tR\ffilterStatus\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x8b\x05\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x80\x05\n" +
 	"\vPendingTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
@@ -701,14 +685,13 @@ const file_human_validation_proto_rawDesc = "" +
 	"\rtarget_fields\x18\b \x03(\tR\ftargetFields\x12\x16\n" +
 	"\x06status\x18\t \x01(\tR\x06status\x12*\n" +
 	"\x11global_state_json\x18\n" +
-	" \x01(\tR\x0fglobalStateJson\x12\x19\n" +
-	"\bjob_name\x18\v \x01(\tR\ajobName\x12\x17\n" +
+	" \x01(\tR\x0fglobalStateJson\x12\x17\n" +
 	"\astep_id\x18\f \x01(\tR\x06stepId\x12,\n" +
 	"\x12step_context_input\x18\r \x01(\tR\x10stepContextInput\x12M\n" +
 	"\bmetadata\x18\x0e \x03(\v21.document.validation.v1.PendingTask.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"T\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\v\x10\fR\bjob_name\"T\n" +
 	"\x17GetPendingTasksResponse\x129\n" +
 	"\x05tasks\x18\x01 \x03(\v2#.document.validation.v1.PendingTaskR\x05tasks\"\xa1\x01\n" +
 	"\x17SubmitCorrectionRequest\x12\x17\n" +

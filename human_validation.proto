@@ -38,7 +38,7 @@ message CreateTaskRequest {
   string error_message = 6;
   repeated string target_fields = 7;
   string global_state_json = 8;
-  string job_name = 9;
+  reserved 9; reserved "job_name";
   string step_id = 10;
   string step_context_input = 11;
   map<string, string> metadata = 12;
@@ -65,7 +65,7 @@ message PendingTask {
   repeated string target_fields = 8;
   string status = 9; // e.g., "PENDING", "RESOLVED"
   string global_state_json = 10;
-  string job_name = 11;
+  reserved 11; reserved "job_name";
   string step_id = 12;
   string step_context_input = 13;
   map<string, string> metadata = 14;

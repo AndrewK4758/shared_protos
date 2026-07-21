@@ -60,6 +60,7 @@ message CacheStoreMessage {
 message CheckMetadataRequest {
   string collection_name = 1;
   document.models.v1.InfrastructureIdentity identity = 2;
+  map<string, string> metadata = 3;
 }
 
 message CheckMetadataResponse {

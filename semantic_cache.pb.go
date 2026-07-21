@@ -463,6 +463,7 @@ type CheckMetadataRequest struct {
 	state          protoimpl.MessageState  `protogen:"open.v1"`
 	CollectionName string                  `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
 	Identity       *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	Metadata       map[string]string       `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -507,6 +508,13 @@ func (x *CheckMetadataRequest) GetCollectionName() string {
 func (x *CheckMetadataRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
+	}
+	return nil
+}
+
+func (x *CheckMetadataRequest) GetMetadata() map[string]string {
+	if x != nil {
+		return x.Metadata
 	}
 	return nil
 }
@@ -600,10 +608,14 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"~\n" +
 	"\x11CacheStoreMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12B\n" +
-	"\arequest\x18\x02 \x01(\v2(.semanticcache.v1.StoreExtractionRequestR\arequest\"\x87\x01\n" +
+	"\arequest\x18\x02 \x01(\v2(.semanticcache.v1.StoreExtractionRequestR\arequest\"\x96\x02\n" +
 	"\x14CheckMetadataRequest\x12'\n" +
 	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"/\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12P\n" +
+	"\bmetadata\x18\x03 \x03(\v24.semanticcache.v1.CheckMetadataRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"/\n" +
 	"\x15CheckMetadataResponse\x12\x16\n" +
 	"\x06exists\x18\x01 \x01(\bR\x06exists2\x95\x03\n" +
 	"\x14SemanticCacheService\x12W\n" +
@@ -625,7 +637,7 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_semantic_cache_proto_goTypes = []any{
 	(*CheckCacheRequest)(nil),       // 0: semanticcache.v1.CheckCacheRequest
 	(*CheckCacheResponse)(nil),      // 1: semanticcache.v1.CheckCacheResponse
@@ -639,30 +651,32 @@ var file_semantic_cache_proto_goTypes = []any{
 	nil,                             // 9: semanticcache.v1.CheckCacheRequest.MetadataEntry
 	nil,                             // 10: semanticcache.v1.StoreExtractionRequest.MetadataEntry
 	nil,                             // 11: semanticcache.v1.SeedCacheRequest.MetadataEntry
-	(*InfrastructureIdentity)(nil),  // 12: document.models.v1.InfrastructureIdentity
+	nil,                             // 12: semanticcache.v1.CheckMetadataRequest.MetadataEntry
+	(*InfrastructureIdentity)(nil),  // 13: document.models.v1.InfrastructureIdentity
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	12, // 0: semanticcache.v1.CheckCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	13, // 0: semanticcache.v1.CheckCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	9,  // 1: semanticcache.v1.CheckCacheRequest.metadata:type_name -> semanticcache.v1.CheckCacheRequest.MetadataEntry
-	12, // 2: semanticcache.v1.StoreExtractionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	13, // 2: semanticcache.v1.StoreExtractionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	10, // 3: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> semanticcache.v1.StoreExtractionRequest.MetadataEntry
-	12, // 4: semanticcache.v1.SeedCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	13, // 4: semanticcache.v1.SeedCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	11, // 5: semanticcache.v1.SeedCacheRequest.metadata:type_name -> semanticcache.v1.SeedCacheRequest.MetadataEntry
 	2,  // 6: semanticcache.v1.CacheStoreMessage.request:type_name -> semanticcache.v1.StoreExtractionRequest
-	12, // 7: semanticcache.v1.CheckMetadataRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0,  // 8: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
-	2,  // 9: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
-	4,  // 10: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
-	7,  // 11: semanticcache.v1.SemanticCacheService.CheckMetadataExists:input_type -> semanticcache.v1.CheckMetadataRequest
-	1,  // 12: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
-	3,  // 13: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
-	5,  // 14: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
-	8,  // 15: semanticcache.v1.SemanticCacheService.CheckMetadataExists:output_type -> semanticcache.v1.CheckMetadataResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	13, // 7: semanticcache.v1.CheckMetadataRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 8: semanticcache.v1.CheckMetadataRequest.metadata:type_name -> semanticcache.v1.CheckMetadataRequest.MetadataEntry
+	0,  // 9: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
+	2,  // 10: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
+	4,  // 11: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
+	7,  // 12: semanticcache.v1.SemanticCacheService.CheckMetadataExists:input_type -> semanticcache.v1.CheckMetadataRequest
+	1,  // 13: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
+	3,  // 14: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
+	5,  // 15: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
+	8,  // 16: semanticcache.v1.SemanticCacheService.CheckMetadataExists:output_type -> semanticcache.v1.CheckMetadataResponse
+	13, // [13:17] is the sub-list for method output_type
+	9,  // [9:13] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_semantic_cache_proto_init() }
@@ -677,7 +691,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
