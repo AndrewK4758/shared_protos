@@ -61,6 +61,9 @@ message PerformActionResponse {
   
   // The raw JSON string returned by the LLM conforming to expected_schema in NodeConfiguration
   string action_result_json = 3;
+  
+  // Flag indicating if a failure is transient (should be retried) or permanent (fatal)
+  bool is_transient_error = 4;
 }
 
 message GetAvailableModelsRequest {

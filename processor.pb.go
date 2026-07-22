@@ -281,6 +281,8 @@ type PerformActionResponse struct {
 	ErrorMessage string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	// The raw JSON string returned by the LLM conforming to expected_schema in NodeConfiguration
 	ActionResultJson string `protobuf:"bytes,3,opt,name=action_result_json,json=actionResultJson,proto3" json:"action_result_json,omitempty"`
+	// Flag indicating if a failure is transient (should be retried) or permanent (fatal)
+	IsTransientError bool `protobuf:"varint,4,opt,name=is_transient_error,json=isTransientError,proto3" json:"is_transient_error,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -334,6 +336,13 @@ func (x *PerformActionResponse) GetActionResultJson() string {
 		return x.ActionResultJson
 	}
 	return ""
+}
+
+func (x *PerformActionResponse) GetIsTransientError() bool {
+	if x != nil {
+		return x.IsTransientError
+	}
+	return false
 }
 
 type GetAvailableModelsRequest struct {
@@ -460,11 +469,12 @@ const file_processor_proto_rawDesc = "" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
 	"input_text\x18\x05 \x01(\tR\tinputText\x12F\n" +
-	"\bidentity\x18\x06 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x84\x01\n" +
+	"\bidentity\x18\x06 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xb2\x01\n" +
 	"\x15PerformActionResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
-	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\"c\n" +
+	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\x12,\n" +
+	"\x12is_transient_error\x18\x04 \x01(\bR\x10isTransientError\"c\n" +
 	"\x19GetAvailableModelsRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\\\n" +
 	"\x1aGetAvailableModelsResponse\x12\x1f\n" +
