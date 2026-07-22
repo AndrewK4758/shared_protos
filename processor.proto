@@ -25,7 +25,7 @@ message ProcessDocumentRequest {
   document.models.v1.ModelChoice model_choice = 3;
   string document_type = 4;
   repeated string target_fields = 5;
-  string json_schema = 6;
+  reserved 6; reserved "json_schema";
   string custom_instructions = 7;
   reserved 8; reserved "app_id";
   string correlation_id = 9;
@@ -59,7 +59,7 @@ message PerformActionResponse {
   bool success = 1;
   string error_message = 2;
   
-  // The raw JSON string returned by the LLM conforming to json_schema
+  // The raw JSON string returned by the LLM conforming to expected_schema in NodeConfiguration
   string action_result_json = 3;
 }
 
