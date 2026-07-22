@@ -7,7 +7,6 @@
 package shared_protos
 
 import (
-	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
@@ -511,9 +510,9 @@ type NodeExecutionCompleteRequest struct {
 	GlobalState     *structpb.Struct        `protobuf:"bytes,3,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"` // The mutated state
 	NodeOutput      *structpb.Struct        `protobuf:"bytes,4,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`    // The isolated output for dynamic rule evaluation
 	Success         bool                    `protobuf:"varint,5,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorMessage    string                  `protobuf:"bytes,6,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	Identity        *InfrastructureIdentity `protobuf:"bytes,7,opt,name=identity,proto3" json:"identity,omitempty"`
 	Metadata        map[string]string       `protobuf:"bytes,8,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ErrorContract   *ErrorContract          `protobuf:"bytes,9,opt,name=error_contract,json=errorContract,proto3" json:"error_contract,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -576,13 +575,6 @@ func (x *NodeExecutionCompleteRequest) GetSuccess() bool {
 	return false
 }
 
-func (x *NodeExecutionCompleteRequest) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
-	}
-	return ""
-}
-
 func (x *NodeExecutionCompleteRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
@@ -593,6 +585,13 @@ func (x *NodeExecutionCompleteRequest) GetIdentity() *InfrastructureIdentity {
 func (x *NodeExecutionCompleteRequest) GetMetadata() map[string]string {
 	if x != nil {
 		return x.Metadata
+	}
+	return nil
+}
+
+func (x *NodeExecutionCompleteRequest) GetErrorContract() *ErrorContract {
+	if x != nil {
+		return x.ErrorContract
 	}
 	return nil
 }
@@ -644,11 +643,11 @@ func (x *NodeExecutionCompleteResponse) GetSuccess() bool {
 type JobFailedRequest struct {
 	state         protoimpl.MessageState  `protogen:"open.v1"`
 	FailedStepId  string                  `protobuf:"bytes,2,opt,name=failed_step_id,json=failedStepId,proto3" json:"failed_step_id,omitempty"`
-	ErrorMessage  string                  `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	Metadata      map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	GlobalState   *structpb.Struct        `protobuf:"bytes,6,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
 	NodeOutput    *structpb.Struct        `protobuf:"bytes,7,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`
+	ErrorContract *ErrorContract          `protobuf:"bytes,8,opt,name=error_contract,json=errorContract,proto3" json:"error_contract,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -690,13 +689,6 @@ func (x *JobFailedRequest) GetFailedStepId() string {
 	return ""
 }
 
-func (x *JobFailedRequest) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
-	}
-	return ""
-}
-
 func (x *JobFailedRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
@@ -721,6 +713,13 @@ func (x *JobFailedRequest) GetGlobalState() *structpb.Struct {
 func (x *JobFailedRequest) GetNodeOutput() *structpb.Struct {
 	if x != nil {
 		return x.NodeOutput
+	}
+	return nil
+}
+
+func (x *JobFailedRequest) GetErrorContract() *ErrorContract {
+	if x != nil {
+		return x.ErrorContract
 	}
 	return nil
 }
@@ -772,11 +771,11 @@ func (x *JobFailedResponse) GetSuccess() bool {
 type JobSuspendedRequest struct {
 	state           protoimpl.MessageState  `protogen:"open.v1"`
 	SuspendedStepId string                  `protobuf:"bytes,2,opt,name=suspended_step_id,json=suspendedStepId,proto3" json:"suspended_step_id,omitempty"`
-	Reason          string                  `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	Identity        *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	Metadata        map[string]string       `protobuf:"bytes,5,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	GlobalState     *structpb.Struct        `protobuf:"bytes,6,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
 	NodeOutput      *structpb.Struct        `protobuf:"bytes,7,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`
+	ErrorContract   *ErrorContract          `protobuf:"bytes,8,opt,name=error_contract,json=errorContract,proto3" json:"error_contract,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -818,13 +817,6 @@ func (x *JobSuspendedRequest) GetSuspendedStepId() string {
 	return ""
 }
 
-func (x *JobSuspendedRequest) GetReason() string {
-	if x != nil {
-		return x.Reason
-	}
-	return ""
-}
-
 func (x *JobSuspendedRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
@@ -849,6 +841,13 @@ func (x *JobSuspendedRequest) GetGlobalState() *structpb.Struct {
 func (x *JobSuspendedRequest) GetNodeOutput() *structpb.Struct {
 	if x != nil {
 		return x.NodeOutput
+	}
+	return nil
+}
+
+func (x *JobSuspendedRequest) GetErrorContract() *ErrorContract {
+	if x != nil {
+		return x.ErrorContract
 	}
 	return nil
 }
@@ -901,15 +900,15 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1bbuf/validate/validate.proto\"\xf1\x03\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\fmodels.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xe1\x03\n" +
 	"\x1aExecuteWorkflowNodeRequest\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12)\n" +
 	"\x10callback_address\x18\x03 \x01(\tR\x0fcallbackAddress\x12:\n" +
 	"\fglobal_state\x18\x04 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x12^\n" +
-	"\bmetadata\x18\x05 \x03(\v2B.document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntryR\bmetadata\x12N\n" +
-	"\vnode_config\x18\x06 \x01(\v2%.document.models.v1.NodeConfigurationB\x06\xbaH\x03\xc8\x01\x01R\n" +
-	"nodeConfig\x12N\n" +
-	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityB\x06\xbaH\x03\xc8\x01\x01R\bidentity\x1a;\n" +
+	"\bmetadata\x18\x05 \x03(\v2B.document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntryR\bmetadata\x12F\n" +
+	"\vnode_config\x18\x06 \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
+	"nodeConfig\x12F\n" +
+	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\b\x10\tJ\x04\b\t\x10\n" +
@@ -939,45 +938,45 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x18PurgeSystemStateResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12%\n" +
 	"\x0ejobs_cancelled\x18\x02 \x01(\x05R\rjobsCancelled\x12#\n" +
-	"\rqueues_purged\x18\x03 \x01(\x05R\fqueuesPurged\"\xe6\x03\n" +
+	"\rqueues_purged\x18\x03 \x01(\x05R\fqueuesPurged\"\xa0\x04\n" +
 	"\x1cNodeExecutionCompleteRequest\x12*\n" +
 	"\x11completed_step_id\x18\x02 \x01(\tR\x0fcompletedStepId\x12:\n" +
 	"\fglobal_state\x18\x03 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x128\n" +
 	"\vnode_output\x18\x04 \x01(\v2\x17.google.protobuf.StructR\n" +
 	"nodeOutput\x12\x18\n" +
-	"\asuccess\x18\x05 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x06 \x01(\tR\ferrorMessage\x12F\n" +
+	"\asuccess\x18\x05 \x01(\bR\asuccess\x12F\n" +
 	"\bidentity\x18\a \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12`\n" +
-	"\bmetadata\x18\b \x03(\v2D.document.orchestrator.v1.NodeExecutionCompleteRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\b \x03(\v2D.document.orchestrator.v1.NodeExecutionCompleteRequest.MetadataEntryR\bmetadata\x12H\n" +
+	"\x0eerror_contract\x18\t \x01(\v2!.document.models.v1.ErrorContractR\rerrorContract\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"9\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x06\x10\aR\rerror_message\"9\n" +
 	"\x1dNodeExecutionCompleteResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xae\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xe8\x03\n" +
 	"\x10JobFailedRequest\x12$\n" +
-	"\x0efailed_step_id\x18\x02 \x01(\tR\ffailedStepId\x12#\n" +
-	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\x12F\n" +
+	"\x0efailed_step_id\x18\x02 \x01(\tR\ffailedStepId\x12F\n" +
 	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12T\n" +
 	"\bmetadata\x18\x05 \x03(\v28.document.orchestrator.v1.JobFailedRequest.MetadataEntryR\bmetadata\x12:\n" +
 	"\fglobal_state\x18\x06 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x128\n" +
 	"\vnode_output\x18\a \x01(\v2\x17.google.protobuf.StructR\n" +
-	"nodeOutput\x1a;\n" +
+	"nodeOutput\x12H\n" +
+	"\x0eerror_contract\x18\b \x01(\v2!.document.models.v1.ErrorContractR\rerrorContract\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"-\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x03\x10\x04R\rerror_message\"-\n" +
 	"\x11JobFailedResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xad\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xed\x03\n" +
 	"\x13JobSuspendedRequest\x12*\n" +
-	"\x11suspended_step_id\x18\x02 \x01(\tR\x0fsuspendedStepId\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason\x12F\n" +
+	"\x11suspended_step_id\x18\x02 \x01(\tR\x0fsuspendedStepId\x12F\n" +
 	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12W\n" +
 	"\bmetadata\x18\x05 \x03(\v2;.document.orchestrator.v1.JobSuspendedRequest.MetadataEntryR\bmetadata\x12:\n" +
 	"\fglobal_state\x18\x06 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x128\n" +
 	"\vnode_output\x18\a \x01(\v2\x17.google.protobuf.StructR\n" +
-	"nodeOutput\x1a;\n" +
+	"nodeOutput\x12H\n" +
+	"\x0eerror_contract\x18\b \x01(\v2!.document.models.v1.ErrorContractR\rerrorContract\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"0\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x03\x10\x04R\x06reason\"0\n" +
 	"\x14JobSuspendedResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x03\n" +
 	"\x13OrchestratorService\x12\x82\x01\n" +
@@ -1025,6 +1024,7 @@ var file_orchestrator_proto_goTypes = []any{
 	(*structpb.Struct)(nil),               // 18: google.protobuf.Struct
 	(*NodeConfiguration)(nil),             // 19: document.models.v1.NodeConfiguration
 	(*InfrastructureIdentity)(nil),        // 20: document.models.v1.InfrastructureIdentity
+	(*ErrorContract)(nil),                 // 21: document.models.v1.ErrorContract
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	18, // 0: document.orchestrator.v1.ExecuteWorkflowNodeRequest.global_state:type_name -> google.protobuf.Struct
@@ -1039,33 +1039,36 @@ var file_orchestrator_proto_depIdxs = []int32{
 	18, // 9: document.orchestrator.v1.NodeExecutionCompleteRequest.node_output:type_name -> google.protobuf.Struct
 	20, // 10: document.orchestrator.v1.NodeExecutionCompleteRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	15, // 11: document.orchestrator.v1.NodeExecutionCompleteRequest.metadata:type_name -> document.orchestrator.v1.NodeExecutionCompleteRequest.MetadataEntry
-	20, // 12: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	16, // 13: document.orchestrator.v1.JobFailedRequest.metadata:type_name -> document.orchestrator.v1.JobFailedRequest.MetadataEntry
-	18, // 14: document.orchestrator.v1.JobFailedRequest.global_state:type_name -> google.protobuf.Struct
-	18, // 15: document.orchestrator.v1.JobFailedRequest.node_output:type_name -> google.protobuf.Struct
-	20, // 16: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	17, // 17: document.orchestrator.v1.JobSuspendedRequest.metadata:type_name -> document.orchestrator.v1.JobSuspendedRequest.MetadataEntry
-	18, // 18: document.orchestrator.v1.JobSuspendedRequest.global_state:type_name -> google.protobuf.Struct
-	18, // 19: document.orchestrator.v1.JobSuspendedRequest.node_output:type_name -> google.protobuf.Struct
-	0,  // 20: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	2,  // 21: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	4,  // 22: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	6,  // 23: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
-	8,  // 24: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
-	10, // 25: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
-	12, // 26: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
-	1,  // 27: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
-	3,  // 28: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	5,  // 29: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	7,  // 30: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
-	9,  // 31: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
-	11, // 32: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	13, // 33: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
-	27, // [27:34] is the sub-list for method output_type
-	20, // [20:27] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	21, // 12: document.orchestrator.v1.NodeExecutionCompleteRequest.error_contract:type_name -> document.models.v1.ErrorContract
+	20, // 13: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	16, // 14: document.orchestrator.v1.JobFailedRequest.metadata:type_name -> document.orchestrator.v1.JobFailedRequest.MetadataEntry
+	18, // 15: document.orchestrator.v1.JobFailedRequest.global_state:type_name -> google.protobuf.Struct
+	18, // 16: document.orchestrator.v1.JobFailedRequest.node_output:type_name -> google.protobuf.Struct
+	21, // 17: document.orchestrator.v1.JobFailedRequest.error_contract:type_name -> document.models.v1.ErrorContract
+	20, // 18: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	17, // 19: document.orchestrator.v1.JobSuspendedRequest.metadata:type_name -> document.orchestrator.v1.JobSuspendedRequest.MetadataEntry
+	18, // 20: document.orchestrator.v1.JobSuspendedRequest.global_state:type_name -> google.protobuf.Struct
+	18, // 21: document.orchestrator.v1.JobSuspendedRequest.node_output:type_name -> google.protobuf.Struct
+	21, // 22: document.orchestrator.v1.JobSuspendedRequest.error_contract:type_name -> document.models.v1.ErrorContract
+	0,  // 23: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	2,  // 24: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	4,  // 25: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	6,  // 26: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
+	8,  // 27: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.NodeExecutionCompleteRequest
+	10, // 28: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	12, // 29: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
+	1,  // 30: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
+	3,  // 31: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	5,  // 32: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	7,  // 33: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
+	9,  // 34: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
+	11, // 35: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	13, // 36: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
+	30, // [30:37] is the sub-list for method output_type
+	23, // [23:30] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }

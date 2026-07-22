@@ -276,13 +276,13 @@ func (x *PerformActionRequest) GetIdentity() *InfrastructureIdentity {
 }
 
 type PerformActionResponse struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Success      bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorMessage string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Success bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	// The raw JSON string returned by the LLM conforming to expected_schema in NodeConfiguration
 	ActionResultJson string `protobuf:"bytes,3,opt,name=action_result_json,json=actionResultJson,proto3" json:"action_result_json,omitempty"`
 	// Flag indicating if a failure is transient (should be retried) or permanent (fatal)
-	IsTransientError bool `protobuf:"varint,4,opt,name=is_transient_error,json=isTransientError,proto3" json:"is_transient_error,omitempty"`
+	IsTransientError bool           `protobuf:"varint,4,opt,name=is_transient_error,json=isTransientError,proto3" json:"is_transient_error,omitempty"`
+	ErrorContract    *ErrorContract `protobuf:"bytes,5,opt,name=error_contract,json=errorContract,proto3" json:"error_contract,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -324,13 +324,6 @@ func (x *PerformActionResponse) GetSuccess() bool {
 	return false
 }
 
-func (x *PerformActionResponse) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
-	}
-	return ""
-}
-
 func (x *PerformActionResponse) GetActionResultJson() string {
 	if x != nil {
 		return x.ActionResultJson
@@ -343,6 +336,13 @@ func (x *PerformActionResponse) GetIsTransientError() bool {
 		return x.IsTransientError
 	}
 	return false
+}
+
+func (x *PerformActionResponse) GetErrorContract() *ErrorContract {
+	if x != nil {
+		return x.ErrorContract
+	}
+	return nil
 }
 
 type GetAvailableModelsRequest struct {
@@ -469,12 +469,12 @@ const file_processor_proto_rawDesc = "" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
 	"input_text\x18\x05 \x01(\tR\tinputText\x12F\n" +
-	"\bidentity\x18\x06 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xb2\x01\n" +
+	"\bidentity\x18\x06 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xec\x01\n" +
 	"\x15PerformActionResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12,\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12,\n" +
 	"\x12action_result_json\x18\x03 \x01(\tR\x10actionResultJson\x12,\n" +
-	"\x12is_transient_error\x18\x04 \x01(\bR\x10isTransientError\"c\n" +
+	"\x12is_transient_error\x18\x04 \x01(\bR\x10isTransientError\x12H\n" +
+	"\x0eerror_contract\x18\x05 \x01(\v2!.document.models.v1.ErrorContractR\rerrorContractJ\x04\b\x02\x10\x03R\rerror_message\"c\n" +
 	"\x19GetAvailableModelsRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\\\n" +
 	"\x1aGetAvailableModelsResponse\x12\x1f\n" +
@@ -511,6 +511,7 @@ var file_processor_proto_goTypes = []any{
 	(*InfrastructureIdentity)(nil),     // 7: document.models.v1.InfrastructureIdentity
 	(*ExecuteWorkflowNodeRequest)(nil), // 8: document.orchestrator.v1.ExecuteWorkflowNodeRequest
 	(*ActionDefinition)(nil),           // 9: document.models.v1.ActionDefinition
+	(*ErrorContract)(nil),              // 10: document.models.v1.ErrorContract
 }
 var file_processor_proto_depIdxs = []int32{
 	6,  // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
@@ -519,18 +520,19 @@ var file_processor_proto_depIdxs = []int32{
 	9,  // 3: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
 	6,  // 4: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	7,  // 5: document.processor.v1.PerformActionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	7,  // 6: document.processor.v1.GetAvailableModelsRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0,  // 7: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
-	2,  // 8: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
-	4,  // 9: document.processor.v1.DocumentProcessor.GetAvailableModels:input_type -> document.processor.v1.GetAvailableModelsRequest
-	1,  // 10: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
-	3,  // 11: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
-	5,  // 12: document.processor.v1.DocumentProcessor.GetAvailableModels:output_type -> document.processor.v1.GetAvailableModelsResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	10, // 6: document.processor.v1.PerformActionResponse.error_contract:type_name -> document.models.v1.ErrorContract
+	7,  // 7: document.processor.v1.GetAvailableModelsRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 8: document.processor.v1.DocumentProcessor.ProcessDocument:input_type -> document.processor.v1.ProcessDocumentRequest
+	2,  // 9: document.processor.v1.DocumentProcessor.PerformAction:input_type -> document.processor.v1.PerformActionRequest
+	4,  // 10: document.processor.v1.DocumentProcessor.GetAvailableModels:input_type -> document.processor.v1.GetAvailableModelsRequest
+	1,  // 11: document.processor.v1.DocumentProcessor.ProcessDocument:output_type -> document.processor.v1.ProcessDocumentResponse
+	3,  // 12: document.processor.v1.DocumentProcessor.PerformAction:output_type -> document.processor.v1.PerformActionResponse
+	5,  // 13: document.processor.v1.DocumentProcessor.GetAvailableModels:output_type -> document.processor.v1.GetAvailableModelsResponse
+	11, // [11:14] is the sub-list for method output_type
+	8,  // [8:11] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_processor_proto_init() }

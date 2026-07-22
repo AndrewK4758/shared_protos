@@ -6,12 +6,20 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Models.V1";
 
 import "google/protobuf/struct.proto";
-import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+message ErrorContract {
+    string code = 1;
+    string source = 2;
+    string message = 3;
+    google.protobuf.Timestamp timestamp = 4;
+    google.protobuf.Struct client_payload = 6;
+}
 
 message InfrastructureIdentity {
-  string tenant_id = 1 [(buf.validate.field).string.min_len = 1];
-  string app_id = 2 [(buf.validate.field).string.min_len = 1];
-  string job_id = 3 [(buf.validate.field).string.min_len = 1];
+  string tenant_id = 1;
+  string app_id = 2;
+  string job_id = 3;
 }
 
 enum ModelChoice {
@@ -27,12 +35,12 @@ enum ModelChoice {
 message NodeConfiguration {
   string node_name = 1;
   string system_instructions = 2;
-  string expected_schema = 3 [(buf.validate.field).string.min_len = 1];
+  string expected_schema = 3;
   reserved 4;
 
   CacheConfiguration cache = 5;
   HumanValidationConfiguration human_validation = 6;
-  string target_worker_subject = 7 [(buf.validate.field).string.min_len = 1];
+  string target_worker_subject = 7;
 }
 
 message CacheConfiguration {
@@ -95,7 +103,7 @@ message ActionDefinition {
   repeated string rules = 4;
   reserved 5;
   reserved 6; // Deprecated orchestrator_primitive
-  string target_worker_subject = 7 [(buf.validate.field).string.min_len = 1];
+  string target_worker_subject = 7;
 }
 
 message ActiveJobExecution {
@@ -123,6 +131,16 @@ message WorkflowContext {
 
 message DocumentChunkingContract {
   string document_storage_uri = 1;
+
+  // Explicit workflow routing fields
+  string action_name_classify = 2;
+  string action_name_boundary = 3;
+
+  // Additional explicitly extracted metadata
+  string doc_type_corrupted = 4;
+  string doc_type_classified = 5;
+  string doc_type_chunked = 6;
+  string boundary_detection_prompt = 7;
 }
 
 message AiExtractionContract {
