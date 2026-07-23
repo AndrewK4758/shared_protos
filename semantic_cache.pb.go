@@ -9,7 +9,6 @@ package shared_protos
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -567,7 +566,7 @@ var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
 	"\n" +
-	"\x14semantic_cache.proto\x12\x10semanticcache.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\xc2\x02\n" +
+	"\x14semantic_cache.proto\x12\x10semanticcache.v1\x1a\fmodels.proto\"\xc2\x02\n" +
 	"\x11CheckCacheRequest\x12'\n" +
 	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12\x12\n" +
 	"\x04text\x18\x02 \x01(\tR\x04text\x12F\n" +

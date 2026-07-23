@@ -129,6 +129,7 @@ type CreateTaskRequest struct {
 	StepId             string                  `protobuf:"bytes,10,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,11,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	Metadata           map[string]string       `protobuf:"bytes,12,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExpectedJsonSchema string                  `protobuf:"bytes,13,opt,name=expected_json_schema,json=expectedJsonSchema,proto3" json:"expected_json_schema,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -231,6 +232,13 @@ func (x *CreateTaskRequest) GetMetadata() map[string]string {
 		return x.Metadata
 	}
 	return nil
+}
+
+func (x *CreateTaskRequest) GetExpectedJsonSchema() string {
+	if x != nil {
+		return x.ExpectedJsonSchema
+	}
+	return ""
 }
 
 type CreateTaskResponse struct {
@@ -351,6 +359,7 @@ type PendingTask struct {
 	StepId             string                  `protobuf:"bytes,12,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	StepContextInput   string                  `protobuf:"bytes,13,opt,name=step_context_input,json=stepContextInput,proto3" json:"step_context_input,omitempty"`
 	Metadata           map[string]string       `protobuf:"bytes,14,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ExpectedJsonSchema string                  `protobuf:"bytes,15,opt,name=expected_json_schema,json=expectedJsonSchema,proto3" json:"expected_json_schema,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -467,6 +476,13 @@ func (x *PendingTask) GetMetadata() map[string]string {
 		return x.Metadata
 	}
 	return nil
+}
+
+func (x *PendingTask) GetExpectedJsonSchema() string {
+	if x != nil {
+		return x.ExpectedJsonSchema
+	}
+	return ""
 }
 
 type GetPendingTasksResponse struct {
@@ -634,7 +650,7 @@ const file_human_validation_proto_rawDesc = "" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\".\n" +
 	"\x12DeleteTaskResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xc9\x04\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xfb\x04\n" +
 	"\x11CreateTaskRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
 	"\tstep_name\x18\x02 \x01(\tR\bstepName\x12(\n" +
@@ -646,7 +662,8 @@ const file_human_validation_proto_rawDesc = "" +
 	"\astep_id\x18\n" +
 	" \x01(\tR\x06stepId\x12,\n" +
 	"\x12step_context_input\x18\v \x01(\tR\x10stepContextInput\x12S\n" +
-	"\bmetadata\x18\f \x03(\v27.document.validation.v1.CreateTaskRequest.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\f \x03(\v27.document.validation.v1.CreateTaskRequest.MetadataEntryR\bmetadata\x120\n" +
+	"\x14expected_json_schema\x18\r \x01(\tR\x12expectedJsonSchema\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x04\x10\x05J\x04\b\t\x10\n" +
@@ -656,7 +673,7 @@ const file_human_validation_proto_rawDesc = "" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"\x85\x01\n" +
 	"\x16GetPendingTasksRequest\x12#\n" +
 	"\rfilter_status\x18\x01 \x01(\tR\ffilterStatus\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xee\x04\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xa0\x05\n" +
 	"\vPendingTask\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
@@ -670,7 +687,8 @@ const file_human_validation_proto_rawDesc = "" +
 	" \x01(\tR\x0fglobalStateJson\x12\x17\n" +
 	"\astep_id\x18\f \x01(\tR\x06stepId\x12,\n" +
 	"\x12step_context_input\x18\r \x01(\tR\x10stepContextInput\x12M\n" +
-	"\bmetadata\x18\x0e \x03(\v21.document.validation.v1.PendingTask.MetadataEntryR\bmetadata\x1a;\n" +
+	"\bmetadata\x18\x0e \x03(\v21.document.validation.v1.PendingTask.MetadataEntryR\bmetadata\x120\n" +
+	"\x14expected_json_schema\x18\x0f \x01(\tR\x12expectedJsonSchema\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01J\x04\b\x05\x10\x06J\x04\b\v\x10\fR\x0fexpected_schemaR\bjob_name\"T\n" +

@@ -2,7 +2,6 @@ syntax = "proto3";
 package semanticcache.v1;
 option go_package = "github.com/AndrewK4758/shared_protos";
 
-import "google/protobuf/struct.proto";
 import "models.proto";
 
 service SemanticCacheService {
