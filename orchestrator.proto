@@ -36,6 +36,9 @@ message ExecuteWorkflowNodeRequest {
 
   // Explicit service contracts removed in favor of subject-based routing
   reserved 8, 9, 10, 11;
+
+  // Tracks the number of times this node has been retried (e.g., due to JSON schema validation failures)
+  int32 inference_retry_count = 12;
 }
 
 message ExecuteWorkflowNodeResponse {

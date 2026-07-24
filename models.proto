@@ -161,3 +161,20 @@ message HumanValidationContract {
   bool required = 1; 
   bool bypass_fallback = 2;
 }
+
+enum WorkflowState {
+  WORKFLOW_STATE_UNSPECIFIED = 0;
+  WORKFLOW_STATE_PENDING = 1;
+  WORKFLOW_STATE_PROCESSING = 2;
+  WORKFLOW_STATE_SUSPENDED = 3; 
+  WORKFLOW_STATE_COMPLETED = 4;
+  WORKFLOW_STATE_FAILED = 5;
+  WORKFLOW_STATE_CANCELED = 6;
+}
+
+message GenericWorkflowState {
+  WorkflowState current_state = 1;
+  string state_reason = 2;
+  google.protobuf.Struct state_payload = 3; 
+  google.protobuf.Timestamp last_updated = 4;
+}
