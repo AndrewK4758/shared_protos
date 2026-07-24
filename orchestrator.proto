@@ -39,6 +39,12 @@ message ExecuteWorkflowNodeRequest {
 
   // Tracks the number of times this node has been retried (e.g., due to JSON schema validation failures)
   int32 inference_retry_count = 12;
+
+  // --- Service-Specific State Contracts ---
+  document.models.v1.AiServiceContract ai_service_contract = 13;
+  document.models.v1.DocServiceContract doc_service_contract = 14;
+  document.models.v1.CacheServiceContract cache_service_contract = 15;
+  document.models.v1.StorageServiceContract storage_service_contract = 16;
 }
 
 message ExecuteWorkflowNodeResponse {

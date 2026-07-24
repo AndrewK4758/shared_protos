@@ -178,3 +178,19 @@ message GenericWorkflowState {
   google.protobuf.Struct state_payload = 3; 
   google.protobuf.Timestamp last_updated = 4;
 }
+
+// --- Service-Specific Root Contracts ---
+
+message AiServiceContract {
+}
+
+message DocServiceContract {
+  DocumentChunkingContract document_chunking = 1;
+}
+
+message CacheServiceContract {
+}
+
+message StorageServiceContract {
+  string document_storage_uri = 1;
+}
