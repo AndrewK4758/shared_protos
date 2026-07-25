@@ -217,6 +217,8 @@ type TraceEvent struct {
 	Metadata      string                 `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	Timestamp     string                 `protobuf:"bytes,12,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	DocumentType  string                 `protobuf:"bytes,13,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	TenantId      string                 `protobuf:"bytes,14,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AppId         string                 `protobuf:"bytes,15,opt,name=app_id,json=appId,proto3" json:"app_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -317,6 +319,20 @@ func (x *TraceEvent) GetTimestamp() string {
 func (x *TraceEvent) GetDocumentType() string {
 	if x != nil {
 		return x.DocumentType
+	}
+	return ""
+}
+
+func (x *TraceEvent) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *TraceEvent) GetAppId() string {
+	if x != nil {
+		return x.AppId
 	}
 	return ""
 }
@@ -682,7 +698,7 @@ const file_traceability_proto_rawDesc = "" +
 	"\x0ecorrelation_id\x18\x01 \x01(\tR\rcorrelationId\x12F\n" +
 	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"O\n" +
 	"\x1bGetCorrelationTraceResponse\x120\n" +
-	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xbe\x02\n" +
+	"\x06events\x18\x01 \x03(\v2\x18.traceability.TraceEventR\x06events\"\xf2\x02\n" +
 	"\n" +
 	"TraceEvent\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12%\n" +
@@ -696,7 +712,9 @@ const file_traceability_proto_rawDesc = "" +
 	"\amessage\x18\a \x01(\tR\amessage\x12\x1a\n" +
 	"\bmetadata\x18\v \x01(\tR\bmetadata\x12\x1c\n" +
 	"\ttimestamp\x18\f \x01(\tR\ttimestamp\x12#\n" +
-	"\rdocument_type\x18\r \x01(\tR\fdocumentTypeJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"\rdocument_type\x18\r \x01(\tR\fdocumentType\x12\x1b\n" +
+	"\ttenant_id\x18\x0e \x01(\tR\btenantId\x12\x15\n" +
+	"\x06app_id\x18\x0f \x01(\tR\x05appIdJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\v\"\xe4\x01\n" +
 	"\x13SaveJobStateRequest\x12_\n" +
