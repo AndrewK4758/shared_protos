@@ -6,7 +6,6 @@ option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Orchestrator.V1";
 
 import "models.proto";
-import "google/protobuf/struct.proto";
 
 service OrchestratorService {
   // Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
@@ -23,28 +22,35 @@ service OrchestratorService {
 }
 
 message ExecuteWorkflowNodeRequest {
-
-  string step_id = 2; // The current node being executed
-  string callback_address = 3; // Where to webhook the mutated state
-
-  google.protobuf.Struct global_state = 4; // The single source of truth payload
-  map<string, string> metadata = 5; // e.g. correlation_id
-
-  document.models.v1.NodeConfiguration node_config = 6;
+  string step_id = 1;
+  string callback_address = 2;
   
-  document.models.v1.InfrastructureIdentity identity = 7;
+  // First-Class Identity & Metadata
+  document.models.v1.InfrastructureIdentity identity = 3;
+  map<string, string> metadata = 4; 
 
-  // Explicit service contracts removed in favor of subject-based routing
-  reserved 8, 9, 10, 11;
+  // Core Configuration
+  document.models.v1.NodeConfiguration node_config = 5;
 
-  // Tracks the number of times this node has been retried (e.g., due to JSON schema validation failures)
+  // Root-Level Service Contracts (Each service handles its own object)
+  document.models.v1.StorageContract storage = 6;
+  document.models.v1.DocumentProcessorContract document_processor = 7;
+  document.models.v1.CacheContract cache = 8;
+  document.models.v1.HumanValidationContract human_validation = 9;
+
+  // The Clean Data Payload 
+  document.models.v1.GlobalState global_state = 10; 
+
+  // Output destination for the LLM inference
+  string node_output_json = 11; 
+
   int32 inference_retry_count = 12;
 
-  // --- Service-Specific State Contracts ---
-  document.models.v1.AiServiceContract ai_service_contract = 13;
-  document.models.v1.DocServiceContract doc_service_contract = 14;
-  document.models.v1.CacheServiceContract cache_service_contract = 15;
-  document.models.v1.StorageServiceContract storage_service_contract = 16;
+  // Execution Status (For callbacks and webhook returns)
+  bool success = 13;
+  document.models.v1.ErrorContract error_contract = 14;
+
+  int32 job_name_id = 15;
 }
 
 message ExecuteWorkflowNodeResponse {
@@ -94,60 +100,18 @@ message PurgeSystemStateResponse {
 }
 
 service OrchestratorCallbackService {
-  rpc OnNodeExecutionComplete(stream NodeExecutionCompleteRequest) returns (stream NodeExecutionCompleteResponse);
-  rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
-  rpc OnJobSuspended(JobSuspendedRequest) returns (JobSuspendedResponse);
+  rpc OnNodeExecutionComplete(stream ExecuteWorkflowNodeRequest) returns (stream NodeExecutionCompleteResponse);
+  rpc OnJobFailed(ExecuteWorkflowNodeRequest) returns (JobFailedResponse);
+  rpc OnJobSuspended(ExecuteWorkflowNodeRequest) returns (JobSuspendedResponse);
 }
 
-message NodeExecutionCompleteRequest {
-
-  string completed_step_id = 2;
-  
-  google.protobuf.Struct global_state = 3; // The mutated state 
-  google.protobuf.Struct node_output = 4;  // The isolated output for dynamic rule evaluation
-  
-  bool success = 5;
-  reserved 6; reserved "error_message";
-  
-  document.models.v1.InfrastructureIdentity identity = 7;
-  map<string, string> metadata = 8;
-  
-  document.models.v1.ErrorContract error_contract = 9;
-}
 
 message NodeExecutionCompleteResponse {
   bool success = 1; 
 }
 
-message JobFailedRequest {
-
-  string failed_step_id = 2;
-  reserved 3; reserved "error_message";
-  
-  document.models.v1.InfrastructureIdentity identity = 4;
-  map<string, string> metadata = 5;
-
-  google.protobuf.Struct global_state = 6;
-  google.protobuf.Struct node_output = 7;
-  
-  document.models.v1.ErrorContract error_contract = 8;
-}
-
 message JobFailedResponse {
   bool success = 1;
-}
-
-message JobSuspendedRequest {
-
-  string suspended_step_id = 2;
-  reserved 3; reserved "reason";
-  document.models.v1.InfrastructureIdentity identity = 4;
-  map<string, string> metadata = 5;
-
-  google.protobuf.Struct global_state = 6;
-  google.protobuf.Struct node_output = 7;
-  
-  document.models.v1.ErrorContract error_contract = 8;
 }
 
 message JobSuspendedResponse {
