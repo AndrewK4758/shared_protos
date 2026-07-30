@@ -45,6 +45,8 @@ message DocumentProcessorContract {
   string doc_type_classified = 4;
   string doc_type_chunked = 5;
   string boundary_detection_prompt = 6;
+  int32 max_pages_before_split = 7;
+  int32 sliding_window_size = 8;
 }
 
 message CacheContract {
@@ -63,10 +65,11 @@ message HumanValidationContract {
 message NodeConfiguration {
   string node_name = 1;
   string system_instructions = 2;
-  string expected_schema = 3;
+  string expected_schema = 3 [deprecated = true];
   string target_worker_subject = 4;
   string state_output_key = 5;
   string inference_input_key = 6;
+  google.protobuf.Struct expected_schema_struct = 7;
 }
 
 message ActionDefinition {
@@ -104,6 +107,8 @@ message GenericWorkflowState {
   google.protobuf.Timestamp last_updated = 4;
   InfrastructureIdentity identity = 5;
 }
+
+
 
 message GlobalState {
   google.protobuf.Struct functional = 1;

@@ -5,6 +5,7 @@ package document.orchestrator.v1;
 option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Orchestrator.V1";
 
+import "google/protobuf/struct.proto";
 import "models.proto";
 
 service OrchestratorService {
@@ -42,7 +43,7 @@ message ExecuteWorkflowNodeRequest {
   document.models.v1.GlobalState global_state = 10; 
 
   // Output destination for the LLM inference
-  string node_output_json = 11; 
+  google.protobuf.Struct node_output = 11; 
 
   int32 inference_retry_count = 12;
 
@@ -70,14 +71,14 @@ message ProgressUpdate {
   string message = 3; // Detailed message, e.g., "Processing chunk 2 of 5"
   
   // Only populated when status == "COMPLETE"
-  string final_results_json = 4;
+  google.protobuf.Struct final_results = 4;
   
   document.models.v1.InfrastructureIdentity identity = 5;
 }
 
 message ResumeJobRequest {
 
-  string corrected_json = 2;
+  google.protobuf.Struct corrected = 2;
   string step_id = 3;
   document.models.v1.InfrastructureIdentity identity = 4;
 }
