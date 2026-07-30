@@ -5,6 +5,7 @@ package document.models.v1;
 option go_package = "github.com/AndrewK4758/shared_protos";
 option csharp_namespace = "Document.Models.V1";
 
+import "google/protobuf/any.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -55,6 +56,8 @@ message CacheContract {
   string lookup_input = 3;
   bool cache_hit = 4;
   float confidence = 5;
+  google.protobuf.Any embedding_lookup = 6;
+  google.protobuf.Struct metadata_lookup = 7;
 }
 
 message HumanValidationContract {
