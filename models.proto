@@ -53,7 +53,6 @@ message DocumentProcessorContract {
 message CacheContract {
   bool enabled = 1;
   string collection_name = 2;
-  string lookup_input = 3;
   bool cache_hit = 4;
   float confidence = 5;
   google.protobuf.Any embedding_lookup = 6;

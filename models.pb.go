@@ -440,7 +440,6 @@ type CacheContract struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	Enabled         bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	CollectionName  string                 `protobuf:"bytes,2,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
-	LookupInput     string                 `protobuf:"bytes,3,opt,name=lookup_input,json=lookupInput,proto3" json:"lookup_input,omitempty"`
 	CacheHit        bool                   `protobuf:"varint,4,opt,name=cache_hit,json=cacheHit,proto3" json:"cache_hit,omitempty"`
 	Confidence      float32                `protobuf:"fixed32,5,opt,name=confidence,proto3" json:"confidence,omitempty"`
 	EmbeddingLookup *anypb.Any             `protobuf:"bytes,6,opt,name=embedding_lookup,json=embeddingLookup,proto3" json:"embedding_lookup,omitempty"`
@@ -489,13 +488,6 @@ func (x *CacheContract) GetEnabled() bool {
 func (x *CacheContract) GetCollectionName() string {
 	if x != nil {
 		return x.CollectionName
-	}
-	return ""
-}
-
-func (x *CacheContract) GetLookupInput() string {
-	if x != nil {
-		return x.LookupInput
 	}
 	return ""
 }
@@ -990,11 +982,10 @@ const file_models_proto_rawDesc = "" +
 	"\x10doc_type_chunked\x18\x05 \x01(\tR\x0edocTypeChunked\x12:\n" +
 	"\x19boundary_detection_prompt\x18\x06 \x01(\tR\x17boundaryDetectionPrompt\x123\n" +
 	"\x16max_pages_before_split\x18\a \x01(\x05R\x13maxPagesBeforeSplit\x12.\n" +
-	"\x13sliding_window_size\x18\b \x01(\x05R\x11slidingWindowSize\"\xb5\x02\n" +
+	"\x13sliding_window_size\x18\b \x01(\x05R\x11slidingWindowSize\"\x92\x02\n" +
 	"\rCacheContract\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12'\n" +
-	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12!\n" +
-	"\flookup_input\x18\x03 \x01(\tR\vlookupInput\x12\x1b\n" +
+	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12\x1b\n" +
 	"\tcache_hit\x18\x04 \x01(\bR\bcacheHit\x12\x1e\n" +
 	"\n" +
 	"confidence\x18\x05 \x01(\x02R\n" +
