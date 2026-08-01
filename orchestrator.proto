@@ -51,7 +51,8 @@ message ExecuteWorkflowNodeRequest {
   bool success = 13;
   document.models.v1.ErrorContract error_contract = 14;
 
-  int32 job_name_id = 15;
+  string graph_id = 15;
+  string initial_node_id = 16;
 }
 
 message ExecuteWorkflowNodeResponse {

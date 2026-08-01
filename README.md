@@ -1,30 +1,21 @@
 # Shared Protos
 
-This repository contains the shared Protocol Buffer definitions for the Document Processor microservices.
+This repository contains the shared Protocol Buffer definitions for the Document Processor microservices. These protos define the unified gRPC contracts that drive communication between all components in the ecosystem.
 
-## Generating Go Code
+## Documentation Index
 
-To generate the Go code from these `.proto` definitions, make sure you have `protoc` and the Go plugins installed:
-```bash
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+- [Core Components](docs/01_Core_Components.md)
+- [How To Implement](docs/02_How_To_Implement.md)
+- [Service Communication](docs/03_Service_Communication.md)
+
+## High-Level Architecture
+
+```mermaid
+graph TD
+    Client[Client Applications] -.->|Imports| Protos[Shared Protos]
+    Orchestrator[Orchestrator Service] -.->|Imports| Protos
+    Processor[Document Processor Service] -.->|Imports| Protos
+    
+    Client -->|gRPC via Protos| Orchestrator
+    Orchestrator -->|gRPC via Protos| Processor
 ```
-
-Then run the generation command inside this directory:
-```bash
-protoc --go_out=. --go_opt=paths=source_relative \
-    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    *.proto
-```
-
-## Services
-
-* **Orchestrator**: Defines the unified workflow interface. The Orchestrator operates as a pure execution engine using a single method `ExecuteWorkflowNode(ExecuteWorkflowNodeRequest)`. Clients pass a specific `NodeConfiguration` along with the current `GlobalState`, which the Orchestrator executes according to the chosen `OrchestratorPrimitive` (e.g. `PRIMITIVE_AI_STEP`, `PRIMITIVE_HUMAN_STEP`), returning state mutations back to the client. **Rule: This interface is not to be altered unless explicitly told to do so.**
-* **Processor**: Defines the AI logic methods for both async document processing and fast synchronous chunk extraction.
-
-## 📜 Data Contracts & No Preemptive Serialization
-
-This service adheres to the strict **No Preemptive Serialization** mandate. 
-- All JSON-based structural state must be parsed natively using `google.protobuf.Struct` (or `structpb.Struct` in Go, `Dictionary<string, object>` in C#).
-- Preemptive stringification (e.g. converting nested objects to strings before the final persistence layer) is forbidden to prevent schema drift, whitespace corruption, and nested parsing bugs.
-- Boundary interfaces rely on typed object mappings rather than dynamic regex or fuzzy key lookups.
