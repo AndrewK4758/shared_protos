@@ -48,7 +48,6 @@ message DocumentProcessorContract {
   string boundary_detection_prompt = 6;
   int32 max_pages_before_split = 7;
   int32 sliding_window_size = 8;
-  bytes raw_document_bytes = 9;
 }
 
 message CacheContract {
