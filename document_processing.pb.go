@@ -103,6 +103,7 @@ type ProcessedDocument struct {
 	RelativeFilePath string                 `protobuf:"bytes,2,opt,name=relative_file_path,json=relativeFilePath,proto3" json:"relative_file_path,omitempty"`
 	PageCount        int32                  `protobuf:"varint,3,opt,name=page_count,json=pageCount,proto3" json:"page_count,omitempty"`
 	RawFileBytes     []byte                 `protobuf:"bytes,4,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
+	IsScanned        bool                   `protobuf:"varint,5,opt,name=is_scanned,json=isScanned,proto3" json:"is_scanned,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -163,6 +164,13 @@ func (x *ProcessedDocument) GetRawFileBytes() []byte {
 		return x.RawFileBytes
 	}
 	return nil
+}
+
+func (x *ProcessedDocument) GetIsScanned() bool {
+	if x != nil {
+		return x.IsScanned
+	}
+	return false
 }
 
 type ChunkingTraceEvent struct {
@@ -303,13 +311,15 @@ const file_document_processing_proto_rawDesc = "" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\\\n" +
 	"\x12document_processor\x18\x03 \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x12_\n" +
 	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12$\n" +
-	"\x0eraw_file_bytes\x18\x05 \x01(\fR\frawFileBytes\"\xab\x01\n" +
+	"\x0eraw_file_bytes\x18\x05 \x01(\fR\frawFileBytes\"\xca\x01\n" +
 	"\x11ProcessedDocument\x12#\n" +
 	"\rdocument_type\x18\x01 \x01(\tR\fdocumentType\x12,\n" +
 	"\x12relative_file_path\x18\x02 \x01(\tR\x10relativeFilePath\x12\x1d\n" +
 	"\n" +
 	"page_count\x18\x03 \x01(\x05R\tpageCount\x12$\n" +
-	"\x0eraw_file_bytes\x18\x04 \x01(\fR\frawFileBytes\"k\n" +
+	"\x0eraw_file_bytes\x18\x04 \x01(\fR\frawFileBytes\x12\x1d\n" +
+	"\n" +
+	"is_scanned\x18\x05 \x01(\bR\tisScanned\"k\n" +
 	"\x12ChunkingTraceEvent\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\tR\ttimestamp\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1d\n" +
