@@ -338,10 +338,10 @@ func (x *TraceEvent) GetAppId() string {
 }
 
 type SaveJobStateRequest struct {
-	state           protoimpl.MessageState      `protogen:"open.v1"`
-	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
-	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
-	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	state           protoimpl.MessageState  `protogen:"open.v1"`
+	OriginalRequest *ExecuteTaskRequest     `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"` // Full config
+	Status          string                  `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                          // "PENDING", "COMPLETED", "FAILED"
+	Identity        *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -376,7 +376,7 @@ func (*SaveJobStateRequest) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *SaveJobStateRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
+func (x *SaveJobStateRequest) GetOriginalRequest() *ExecuteTaskRequest {
 	if x != nil {
 		return x.OriginalRequest
 	}
@@ -530,10 +530,10 @@ func (x *GetPendingJobsResponse) GetJobs() []*JobStateRecord {
 }
 
 type JobStateRecord struct {
-	state           protoimpl.MessageState      `protogen:"open.v1"`
-	OriginalRequest *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
-	Status          string                      `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
-	Identity        *InfrastructureIdentity     `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	state           protoimpl.MessageState  `protogen:"open.v1"`
+	OriginalRequest *ExecuteTaskRequest     `protobuf:"bytes,2,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	Status          string                  `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
+	Identity        *InfrastructureIdentity `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -568,7 +568,7 @@ func (*JobStateRecord) Descriptor() ([]byte, []int) {
 	return file_traceability_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *JobStateRecord) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
+func (x *JobStateRecord) GetOriginalRequest() *ExecuteTaskRequest {
 	if x != nil {
 		return x.OriginalRequest
 	}
@@ -716,9 +716,9 @@ const file_traceability_proto_rawDesc = "" +
 	"\ttenant_id\x18\x0e \x01(\tR\btenantId\x12\x15\n" +
 	"\x06app_id\x18\x0f \x01(\tR\x05appIdJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
-	"\x10\v\"\xe4\x01\n" +
-	"\x13SaveJobStateRequest\x12_\n" +
-	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x10\v\"\xdc\x01\n" +
+	"\x13SaveJobStateRequest\x12W\n" +
+	"\x10original_request\x18\x02 \x01(\v2,.document.orchestrator.v1.ExecuteTaskRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
 	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"0\n" +
 	"\x14SaveJobStateResponse\x12\x18\n" +
@@ -726,9 +726,9 @@ const file_traceability_proto_rawDesc = "" +
 	"\x15GetPendingJobsRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"J\n" +
 	"\x16GetPendingJobsResponse\x120\n" +
-	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xdf\x01\n" +
-	"\x0eJobStateRecord\x12_\n" +
-	"\x10original_request\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12\x16\n" +
+	"\x04jobs\x18\x01 \x03(\v2\x1c.traceability.JobStateRecordR\x04jobs\"\xd7\x01\n" +
+	"\x0eJobStateRecord\x12W\n" +
+	"\x10original_request\x18\x02 \x01(\v2,.document.orchestrator.v1.ExecuteTaskRequestR\x0foriginalRequest\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12F\n" +
 	"\bidentity\x18\x04 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentityJ\x04\b\x01\x10\x02R\x06job_id\"j\n" +
 	"\x12GetJobStateRequest\x12F\n" +
@@ -770,18 +770,18 @@ var file_traceability_proto_goTypes = []any{
 	(*GetJobStateRequest)(nil),          // 10: traceability.GetJobStateRequest
 	(*GetJobStateResponse)(nil),         // 11: traceability.GetJobStateResponse
 	(*InfrastructureIdentity)(nil),      // 12: document.models.v1.InfrastructureIdentity
-	(*ExecuteWorkflowNodeRequest)(nil),  // 13: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ExecuteTaskRequest)(nil),          // 13: document.orchestrator.v1.ExecuteTaskRequest
 }
 var file_traceability_proto_depIdxs = []int32{
 	12, // 0: traceability.GetJobTraceRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	4,  // 1: traceability.GetJobTraceResponse.events:type_name -> traceability.TraceEvent
 	12, // 2: traceability.GetCorrelationTraceRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	4,  // 3: traceability.GetCorrelationTraceResponse.events:type_name -> traceability.TraceEvent
-	13, // 4: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	13, // 4: traceability.SaveJobStateRequest.original_request:type_name -> document.orchestrator.v1.ExecuteTaskRequest
 	12, // 5: traceability.SaveJobStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	12, // 6: traceability.GetPendingJobsRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	9,  // 7: traceability.GetPendingJobsResponse.jobs:type_name -> traceability.JobStateRecord
-	13, // 8: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	13, // 8: traceability.JobStateRecord.original_request:type_name -> document.orchestrator.v1.ExecuteTaskRequest
 	12, // 9: traceability.JobStateRecord.identity:type_name -> document.models.v1.InfrastructureIdentity
 	12, // 10: traceability.GetJobStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	9,  // 11: traceability.GetJobStateResponse.job:type_name -> traceability.JobStateRecord

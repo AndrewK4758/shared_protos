@@ -22,12 +22,12 @@ const (
 )
 
 type ChunkDocumentRequest struct {
-	state             protoimpl.MessageState      `protogen:"open.v1"`
-	Identity          *InfrastructureIdentity     `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
-	StepId            string                      `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	DocumentProcessor *DocumentProcessorContract  `protobuf:"bytes,3,opt,name=document_processor,json=documentProcessor,proto3" json:"document_processor,omitempty"`
-	OriginalRequest   *ExecuteWorkflowNodeRequest `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
-	RawFileBytes      []byte                      `protobuf:"bytes,5,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
+	state             protoimpl.MessageState     `protogen:"open.v1"`
+	Identity          *InfrastructureIdentity    `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	StepId            string                     `protobuf:"bytes,2,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	DocumentProcessor *DocumentProcessorContract `protobuf:"bytes,3,opt,name=document_processor,json=documentProcessor,proto3" json:"document_processor,omitempty"`
+	OriginalRequest   *ExecuteTaskRequest        `protobuf:"bytes,4,opt,name=original_request,json=originalRequest,proto3" json:"original_request,omitempty"`
+	RawFileBytes      []byte                     `protobuf:"bytes,5,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -83,7 +83,7 @@ func (x *ChunkDocumentRequest) GetDocumentProcessor() *DocumentProcessorContract
 	return nil
 }
 
-func (x *ChunkDocumentRequest) GetOriginalRequest() *ExecuteWorkflowNodeRequest {
+func (x *ChunkDocumentRequest) GetOriginalRequest() *ExecuteTaskRequest {
 	if x != nil {
 		return x.OriginalRequest
 	}
@@ -305,12 +305,12 @@ var File_document_processing_proto protoreflect.FileDescriptor
 
 const file_document_processing_proto_rawDesc = "" +
 	"\n" +
-	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\x1a\fmodels.proto\"\xdc\x02\n" +
+	"\x19document_processing.proto\x12\x16document.processing.v1\x1a\x12orchestrator.proto\x1a\fmodels.proto\"\xd4\x02\n" +
 	"\x14ChunkDocumentRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x12\\\n" +
-	"\x12document_processor\x18\x03 \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x12_\n" +
-	"\x10original_request\x18\x04 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\x0foriginalRequest\x12$\n" +
+	"\x12document_processor\x18\x03 \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x12W\n" +
+	"\x10original_request\x18\x04 \x01(\v2,.document.orchestrator.v1.ExecuteTaskRequestR\x0foriginalRequest\x12$\n" +
 	"\x0eraw_file_bytes\x18\x05 \x01(\fR\frawFileBytes\"\xca\x01\n" +
 	"\x11ProcessedDocument\x12#\n" +
 	"\rdocument_type\x18\x01 \x01(\tR\fdocumentType\x12,\n" +
@@ -347,18 +347,18 @@ func file_document_processing_proto_rawDescGZIP() []byte {
 
 var file_document_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_document_processing_proto_goTypes = []any{
-	(*ChunkDocumentRequest)(nil),       // 0: document.processing.v1.ChunkDocumentRequest
-	(*ProcessedDocument)(nil),          // 1: document.processing.v1.ProcessedDocument
-	(*ChunkingTraceEvent)(nil),         // 2: document.processing.v1.ChunkingTraceEvent
-	(*ChunkDocumentResponse)(nil),      // 3: document.processing.v1.ChunkDocumentResponse
-	(*InfrastructureIdentity)(nil),     // 4: document.models.v1.InfrastructureIdentity
-	(*DocumentProcessorContract)(nil),  // 5: document.models.v1.DocumentProcessorContract
-	(*ExecuteWorkflowNodeRequest)(nil), // 6: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ChunkDocumentRequest)(nil),      // 0: document.processing.v1.ChunkDocumentRequest
+	(*ProcessedDocument)(nil),         // 1: document.processing.v1.ProcessedDocument
+	(*ChunkingTraceEvent)(nil),        // 2: document.processing.v1.ChunkingTraceEvent
+	(*ChunkDocumentResponse)(nil),     // 3: document.processing.v1.ChunkDocumentResponse
+	(*InfrastructureIdentity)(nil),    // 4: document.models.v1.InfrastructureIdentity
+	(*DocumentProcessorContract)(nil), // 5: document.models.v1.DocumentProcessorContract
+	(*ExecuteTaskRequest)(nil),        // 6: document.orchestrator.v1.ExecuteTaskRequest
 }
 var file_document_processing_proto_depIdxs = []int32{
 	4, // 0: document.processing.v1.ChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	5, // 1: document.processing.v1.ChunkDocumentRequest.document_processor:type_name -> document.models.v1.DocumentProcessorContract
-	6, // 2: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	6, // 2: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteTaskRequest
 	1, // 3: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
 	2, // 4: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
 	0, // 5: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest

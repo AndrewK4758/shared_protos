@@ -9,76 +9,37 @@ import "google/protobuf/struct.proto";
 import "models.proto";
 
 service OrchestratorService {
-  // Unified endpoint replacing SubmitJob, StartJob, and SubmitStep
-  rpc ExecuteWorkflowNode(ExecuteWorkflowNodeRequest) returns (ExecuteWorkflowNodeResponse);
-
-  // Client listens to this Server Stream to get real-time progress of their JobID
+  rpc ExecuteTask(ExecuteTaskRequest) returns (ExecuteTaskResponse);
   rpc ListenForProgress(ListenRequest) returns (stream ProgressUpdate);
-
-  // Resume a job after human validation has corrected the AI output
   rpc ResumeJob(ResumeJobRequest) returns (ResumeJobResponse);
-
-  // Commands the Orchestrator to cancel jobs and optionally purge streams.
   rpc PurgeSystemState(PurgeSystemStateRequest) returns (PurgeSystemStateResponse);
 }
 
-message ExecuteWorkflowNodeRequest {
-  string step_id = 1;
-  string callback_address = 2;
-  
-  // First-Class Identity & Metadata
-  document.models.v1.InfrastructureIdentity identity = 3;
-  map<string, string> metadata = 4; 
-
-  // Core Configuration
-  document.models.v1.NodeConfiguration node_config = 5;
-
-  // Root-Level Service Contracts (Each service handles its own object)
-  document.models.v1.StorageContract storage = 6;
-  document.models.v1.DocumentProcessorContract document_processor = 7;
-  document.models.v1.CacheContract cache = 8;
-  document.models.v1.HumanValidationContract human_validation = 9;
-
-  // The Clean Data Payload 
-  document.models.v1.GlobalState global_state = 10; 
-
-  // Output destination for the LLM inference
-  google.protobuf.Struct node_output = 11; 
-
-  int32 inference_retry_count = 12;
-
-  // Execution Status (For callbacks and webhook returns)
-  bool success = 13;
-  document.models.v1.ErrorContract error_contract = 14;
-
-  string graph_id = 15;
-  string initial_node_id = 16;
+message ExecuteTaskRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  string task_subject = 2;
+  google.protobuf.Struct payload = 3;
+  string step_id = 4;
 }
 
-message ExecuteWorkflowNodeResponse {
+message ExecuteTaskResponse {
   bool success = 1;
   string message = 2;
   string step_id = 3;
 }
 
 message ListenRequest {
-
   document.models.v1.InfrastructureIdentity identity = 2;
 }
 
 message ProgressUpdate {
-
-  string status = 2; // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
-  string message = 3; // Detailed message, e.g., "Processing chunk 2 of 5"
-  
-  // Only populated when status == "COMPLETE"
+  string status = 2;
+  string message = 3;
   google.protobuf.Struct final_results = 4;
-  
   document.models.v1.InfrastructureIdentity identity = 5;
 }
 
 message ResumeJobRequest {
-
   google.protobuf.Struct corrected = 2;
   string step_id = 3;
   document.models.v1.InfrastructureIdentity identity = 4;
@@ -90,8 +51,7 @@ message ResumeJobResponse {
 }
 
 message PurgeSystemStateRequest {
-         // Scopes the cancellation to a specific tenant/app
-  bool purge_queues = 2;     // Explicit command to purge NATS JetStream queues
+  bool purge_queues = 2;
   document.models.v1.InfrastructureIdentity identity = 3;
 }
 
@@ -102,13 +62,12 @@ message PurgeSystemStateResponse {
 }
 
 service OrchestratorCallbackService {
-  rpc OnNodeExecutionComplete(stream ExecuteWorkflowNodeRequest) returns (stream NodeExecutionCompleteResponse);
-  rpc OnJobFailed(ExecuteWorkflowNodeRequest) returns (JobFailedResponse);
-  rpc OnJobSuspended(ExecuteWorkflowNodeRequest) returns (JobSuspendedResponse);
+  rpc OnTaskExecutionComplete(stream ExecuteTaskRequest) returns (stream TaskExecutionCompleteResponse);
+  rpc OnJobFailed(ExecuteTaskRequest) returns (JobFailedResponse);
+  rpc OnJobSuspended(ExecuteTaskRequest) returns (JobSuspendedResponse);
 }
 
-
-message NodeExecutionCompleteResponse {
+message TaskExecutionCompleteResponse {
   bool success = 1; 
 }
 

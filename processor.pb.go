@@ -193,10 +193,10 @@ func (x *ProcessDocumentResponse) GetStatus() string {
 type PerformActionRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Optional raw binary input (e.g. image, pdf chunk, file content)
-	InputBytes    []byte                      `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
-	Context       *ExecuteWorkflowNodeRequest `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
-	CurrentAction *ActionDefinition           `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
-	ModelChoice   ModelChoice                 `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
+	InputBytes    []byte              `protobuf:"bytes,1,opt,name=input_bytes,json=inputBytes,proto3" json:"input_bytes,omitempty"`
+	Context       *ExecuteTaskRequest `protobuf:"bytes,2,opt,name=context,proto3" json:"context,omitempty"`
+	CurrentAction *ActionDefinition   `protobuf:"bytes,3,opt,name=current_action,json=currentAction,proto3" json:"current_action,omitempty"`
+	ModelChoice   ModelChoice         `protobuf:"varint,4,opt,name=model_choice,json=modelChoice,proto3,enum=document.models.v1.ModelChoice" json:"model_choice,omitempty"`
 	// Optional text input (e.g. plain text, markdown, existing state)
 	InputText     string                  `protobuf:"bytes,5,opt,name=input_text,json=inputText,proto3" json:"input_text,omitempty"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -241,7 +241,7 @@ func (x *PerformActionRequest) GetInputBytes() []byte {
 	return nil
 }
 
-func (x *PerformActionRequest) GetContext() *ExecuteWorkflowNodeRequest {
+func (x *PerformActionRequest) GetContext() *ExecuteTaskRequest {
 	if x != nil {
 		return x.Context
 	}
@@ -461,11 +461,11 @@ const file_processor_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12%\n" +
 	"\x0ecorrelation_id\x18\x03 \x01(\tR\rcorrelationId\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\"\xff\x02\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\xf7\x02\n" +
 	"\x14PerformActionRequest\x12\x1f\n" +
 	"\vinput_bytes\x18\x01 \x01(\fR\n" +
-	"inputBytes\x12N\n" +
-	"\acontext\x18\x02 \x01(\v24.document.orchestrator.v1.ExecuteWorkflowNodeRequestR\acontext\x12K\n" +
+	"inputBytes\x12F\n" +
+	"\acontext\x18\x02 \x01(\v2,.document.orchestrator.v1.ExecuteTaskRequestR\acontext\x12K\n" +
 	"\x0ecurrent_action\x18\x03 \x01(\v2$.document.models.v1.ActionDefinitionR\rcurrentAction\x12B\n" +
 	"\fmodel_choice\x18\x04 \x01(\x0e2\x1f.document.models.v1.ModelChoiceR\vmodelChoice\x12\x1d\n" +
 	"\n" +
@@ -510,7 +510,7 @@ var file_processor_proto_goTypes = []any{
 	(*GetAvailableModelsResponse)(nil), // 5: document.processor.v1.GetAvailableModelsResponse
 	(ModelChoice)(0),                   // 6: document.models.v1.ModelChoice
 	(*InfrastructureIdentity)(nil),     // 7: document.models.v1.InfrastructureIdentity
-	(*ExecuteWorkflowNodeRequest)(nil), // 8: document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	(*ExecuteTaskRequest)(nil),         // 8: document.orchestrator.v1.ExecuteTaskRequest
 	(*ActionDefinition)(nil),           // 9: document.models.v1.ActionDefinition
 	(*structpb.Struct)(nil),            // 10: google.protobuf.Struct
 	(*ErrorContract)(nil),              // 11: document.models.v1.ErrorContract
@@ -518,7 +518,7 @@ var file_processor_proto_goTypes = []any{
 var file_processor_proto_depIdxs = []int32{
 	6,  // 0: document.processor.v1.ProcessDocumentRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	7,  // 1: document.processor.v1.ProcessDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	8,  // 2: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
+	8,  // 2: document.processor.v1.PerformActionRequest.context:type_name -> document.orchestrator.v1.ExecuteTaskRequest
 	9,  // 3: document.processor.v1.PerformActionRequest.current_action:type_name -> document.models.v1.ActionDefinition
 	6,  // 4: document.processor.v1.PerformActionRequest.model_choice:type_name -> document.models.v1.ModelChoice
 	7,  // 5: document.processor.v1.PerformActionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity

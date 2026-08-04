@@ -22,48 +22,30 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ExecuteWorkflowNodeRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	StepId          string                 `protobuf:"bytes,1,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	CallbackAddress string                 `protobuf:"bytes,2,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
-	// First-Class Identity & Metadata
-	Identity *InfrastructureIdentity `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Metadata map[string]string       `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	// Core Configuration
-	NodeConfig *NodeConfiguration `protobuf:"bytes,5,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
-	// Root-Level Service Contracts (Each service handles its own object)
-	Storage           *StorageContract           `protobuf:"bytes,6,opt,name=storage,proto3" json:"storage,omitempty"`
-	DocumentProcessor *DocumentProcessorContract `protobuf:"bytes,7,opt,name=document_processor,json=documentProcessor,proto3" json:"document_processor,omitempty"`
-	Cache             *CacheContract             `protobuf:"bytes,8,opt,name=cache,proto3" json:"cache,omitempty"`
-	HumanValidation   *HumanValidationContract   `protobuf:"bytes,9,opt,name=human_validation,json=humanValidation,proto3" json:"human_validation,omitempty"`
-	// The Clean Data Payload
-	GlobalState *GlobalState `protobuf:"bytes,10,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
-	// Output destination for the LLM inference
-	NodeOutput          *structpb.Struct `protobuf:"bytes,11,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`
-	InferenceRetryCount int32            `protobuf:"varint,12,opt,name=inference_retry_count,json=inferenceRetryCount,proto3" json:"inference_retry_count,omitempty"`
-	// Execution Status (For callbacks and webhook returns)
-	Success       bool           `protobuf:"varint,13,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorContract *ErrorContract `protobuf:"bytes,14,opt,name=error_contract,json=errorContract,proto3" json:"error_contract,omitempty"`
-	GraphId       string         `protobuf:"bytes,15,opt,name=graph_id,json=graphId,proto3" json:"graph_id,omitempty"`
-	InitialNodeId string         `protobuf:"bytes,16,opt,name=initial_node_id,json=initialNodeId,proto3" json:"initial_node_id,omitempty"`
+type ExecuteTaskRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	TaskSubject   string                  `protobuf:"bytes,2,opt,name=task_subject,json=taskSubject,proto3" json:"task_subject,omitempty"`
+	Payload       *structpb.Struct        `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	StepId        string                  `protobuf:"bytes,4,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ExecuteWorkflowNodeRequest) Reset() {
-	*x = ExecuteWorkflowNodeRequest{}
+func (x *ExecuteTaskRequest) Reset() {
+	*x = ExecuteTaskRequest{}
 	mi := &file_orchestrator_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ExecuteWorkflowNodeRequest) String() string {
+func (x *ExecuteTaskRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ExecuteWorkflowNodeRequest) ProtoMessage() {}
+func (*ExecuteTaskRequest) ProtoMessage() {}
 
-func (x *ExecuteWorkflowNodeRequest) ProtoReflect() protoreflect.Message {
+func (x *ExecuteTaskRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_orchestrator_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -75,124 +57,40 @@ func (x *ExecuteWorkflowNodeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteWorkflowNodeRequest.ProtoReflect.Descriptor instead.
-func (*ExecuteWorkflowNodeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ExecuteTaskRequest.ProtoReflect.Descriptor instead.
+func (*ExecuteTaskRequest) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ExecuteWorkflowNodeRequest) GetStepId() string {
-	if x != nil {
-		return x.StepId
-	}
-	return ""
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetCallbackAddress() string {
-	if x != nil {
-		return x.CallbackAddress
-	}
-	return ""
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetIdentity() *InfrastructureIdentity {
+func (x *ExecuteTaskRequest) GetIdentity() *InfrastructureIdentity {
 	if x != nil {
 		return x.Identity
 	}
 	return nil
 }
 
-func (x *ExecuteWorkflowNodeRequest) GetMetadata() map[string]string {
+func (x *ExecuteTaskRequest) GetTaskSubject() string {
 	if x != nil {
-		return x.Metadata
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetNodeConfig() *NodeConfiguration {
-	if x != nil {
-		return x.NodeConfig
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetStorage() *StorageContract {
-	if x != nil {
-		return x.Storage
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetDocumentProcessor() *DocumentProcessorContract {
-	if x != nil {
-		return x.DocumentProcessor
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetCache() *CacheContract {
-	if x != nil {
-		return x.Cache
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetHumanValidation() *HumanValidationContract {
-	if x != nil {
-		return x.HumanValidation
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetGlobalState() *GlobalState {
-	if x != nil {
-		return x.GlobalState
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetNodeOutput() *structpb.Struct {
-	if x != nil {
-		return x.NodeOutput
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetInferenceRetryCount() int32 {
-	if x != nil {
-		return x.InferenceRetryCount
-	}
-	return 0
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetErrorContract() *ErrorContract {
-	if x != nil {
-		return x.ErrorContract
-	}
-	return nil
-}
-
-func (x *ExecuteWorkflowNodeRequest) GetGraphId() string {
-	if x != nil {
-		return x.GraphId
+		return x.TaskSubject
 	}
 	return ""
 }
 
-func (x *ExecuteWorkflowNodeRequest) GetInitialNodeId() string {
+func (x *ExecuteTaskRequest) GetPayload() *structpb.Struct {
 	if x != nil {
-		return x.InitialNodeId
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *ExecuteTaskRequest) GetStepId() string {
+	if x != nil {
+		return x.StepId
 	}
 	return ""
 }
 
-type ExecuteWorkflowNodeResponse struct {
+type ExecuteTaskResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
@@ -201,20 +99,20 @@ type ExecuteWorkflowNodeResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ExecuteWorkflowNodeResponse) Reset() {
-	*x = ExecuteWorkflowNodeResponse{}
+func (x *ExecuteTaskResponse) Reset() {
+	*x = ExecuteTaskResponse{}
 	mi := &file_orchestrator_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ExecuteWorkflowNodeResponse) String() string {
+func (x *ExecuteTaskResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ExecuteWorkflowNodeResponse) ProtoMessage() {}
+func (*ExecuteTaskResponse) ProtoMessage() {}
 
-func (x *ExecuteWorkflowNodeResponse) ProtoReflect() protoreflect.Message {
+func (x *ExecuteTaskResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_orchestrator_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -226,26 +124,26 @@ func (x *ExecuteWorkflowNodeResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteWorkflowNodeResponse.ProtoReflect.Descriptor instead.
-func (*ExecuteWorkflowNodeResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ExecuteTaskResponse.ProtoReflect.Descriptor instead.
+func (*ExecuteTaskResponse) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ExecuteWorkflowNodeResponse) GetSuccess() bool {
+func (x *ExecuteTaskResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
 	return false
 }
 
-func (x *ExecuteWorkflowNodeResponse) GetMessage() string {
+func (x *ExecuteTaskResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-func (x *ExecuteWorkflowNodeResponse) GetStepId() string {
+func (x *ExecuteTaskResponse) GetStepId() string {
 	if x != nil {
 		return x.StepId
 	}
@@ -297,10 +195,9 @@ func (x *ListenRequest) GetIdentity() *InfrastructureIdentity {
 }
 
 type ProgressUpdate struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Status  string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`   // e.g., "CHUNKING", "PROCESSING", "STITCHING", "COMPLETE", "FAILED"
-	Message string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"` // Detailed message, e.g., "Processing chunk 2 of 5"
-	// Only populated when status == "COMPLETE"
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Status        string                  `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                  `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 	FinalResults  *structpb.Struct        `protobuf:"bytes,4,opt,name=final_results,json=finalResults,proto3" json:"final_results,omitempty"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -478,9 +375,8 @@ func (x *ResumeJobResponse) GetMessage() string {
 }
 
 type PurgeSystemStateRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Scopes the cancellation to a specific tenant/app
-	PurgeQueues   bool                    `protobuf:"varint,2,opt,name=purge_queues,json=purgeQueues,proto3" json:"purge_queues,omitempty"` // Explicit command to purge NATS JetStream queues
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	PurgeQueues   bool                    `protobuf:"varint,2,opt,name=purge_queues,json=purgeQueues,proto3" json:"purge_queues,omitempty"`
 	Identity      *InfrastructureIdentity `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -590,27 +486,27 @@ func (x *PurgeSystemStateResponse) GetQueuesPurged() int32 {
 	return 0
 }
 
-type NodeExecutionCompleteResponse struct {
+type TaskExecutionCompleteResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NodeExecutionCompleteResponse) Reset() {
-	*x = NodeExecutionCompleteResponse{}
+func (x *TaskExecutionCompleteResponse) Reset() {
+	*x = TaskExecutionCompleteResponse{}
 	mi := &file_orchestrator_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NodeExecutionCompleteResponse) String() string {
+func (x *TaskExecutionCompleteResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NodeExecutionCompleteResponse) ProtoMessage() {}
+func (*TaskExecutionCompleteResponse) ProtoMessage() {}
 
-func (x *NodeExecutionCompleteResponse) ProtoReflect() protoreflect.Message {
+func (x *TaskExecutionCompleteResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_orchestrator_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -622,12 +518,12 @@ func (x *NodeExecutionCompleteResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NodeExecutionCompleteResponse.ProtoReflect.Descriptor instead.
-func (*NodeExecutionCompleteResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use TaskExecutionCompleteResponse.ProtoReflect.Descriptor instead.
+func (*TaskExecutionCompleteResponse) Descriptor() ([]byte, []int) {
 	return file_orchestrator_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *NodeExecutionCompleteResponse) GetSuccess() bool {
+func (x *TaskExecutionCompleteResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
@@ -726,31 +622,13 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\x94\b\n" +
-	"\x1aExecuteWorkflowNodeRequest\x12\x17\n" +
-	"\astep_id\x18\x01 \x01(\tR\x06stepId\x12)\n" +
-	"\x10callback_address\x18\x02 \x01(\tR\x0fcallbackAddress\x12F\n" +
-	"\bidentity\x18\x03 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12^\n" +
-	"\bmetadata\x18\x04 \x03(\v2B.document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntryR\bmetadata\x12F\n" +
-	"\vnode_config\x18\x05 \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
-	"nodeConfig\x12=\n" +
-	"\astorage\x18\x06 \x01(\v2#.document.models.v1.StorageContractR\astorage\x12\\\n" +
-	"\x12document_processor\x18\a \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x127\n" +
-	"\x05cache\x18\b \x01(\v2!.document.models.v1.CacheContractR\x05cache\x12V\n" +
-	"\x10human_validation\x18\t \x01(\v2+.document.models.v1.HumanValidationContractR\x0fhumanValidation\x12B\n" +
-	"\fglobal_state\x18\n" +
-	" \x01(\v2\x1f.document.models.v1.GlobalStateR\vglobalState\x128\n" +
-	"\vnode_output\x18\v \x01(\v2\x17.google.protobuf.StructR\n" +
-	"nodeOutput\x122\n" +
-	"\x15inference_retry_count\x18\f \x01(\x05R\x13inferenceRetryCount\x12\x18\n" +
-	"\asuccess\x18\r \x01(\bR\asuccess\x12H\n" +
-	"\x0eerror_contract\x18\x0e \x01(\v2!.document.models.v1.ErrorContractR\rerrorContract\x12\x19\n" +
-	"\bgraph_id\x18\x0f \x01(\tR\agraphId\x12&\n" +
-	"\x0finitial_node_id\x18\x10 \x01(\tR\rinitialNodeId\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"j\n" +
-	"\x1bExecuteWorkflowNodeResponse\x12\x18\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\xcb\x01\n" +
+	"\x12ExecuteTaskRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12!\n" +
+	"\ftask_subject\x18\x02 \x01(\tR\vtaskSubject\x121\n" +
+	"\apayload\x18\x03 \x01(\v2\x17.google.protobuf.StructR\apayload\x12\x17\n" +
+	"\astep_id\x18\x04 \x01(\tR\x06stepId\"b\n" +
+	"\x13ExecuteTaskResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
 	"\astep_id\x18\x03 \x01(\tR\x06stepId\"W\n" +
@@ -775,21 +653,21 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12%\n" +
 	"\x0ejobs_cancelled\x18\x02 \x01(\x05R\rjobsCancelled\x12#\n" +
 	"\rqueues_purged\x18\x03 \x01(\x05R\fqueuesPurged\"9\n" +
-	"\x1dNodeExecutionCompleteResponse\x12\x18\n" +
+	"\x1dTaskExecutionCompleteResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"-\n" +
 	"\x11JobFailedResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"0\n" +
 	"\x14JobSuspendedResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe5\x03\n" +
-	"\x13OrchestratorService\x12\x82\x01\n" +
-	"\x13ExecuteWorkflowNode\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a5.document.orchestrator.v1.ExecuteWorkflowNodeResponse\x12h\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xcc\x03\n" +
+	"\x13OrchestratorService\x12j\n" +
+	"\vExecuteTask\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a-.document.orchestrator.v1.ExecuteTaskResponse\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
 	"\tResumeJob\x12*.document.orchestrator.v1.ResumeJobRequest\x1a+.document.orchestrator.v1.ResumeJobResponse\x12y\n" +
-	"\x10PurgeSystemState\x121.document.orchestrator.v1.PurgeSystemStateRequest\x1a2.document.orchestrator.v1.PurgeSystemStateResponse2\x96\x03\n" +
-	"\x1bOrchestratorCallbackService\x12\x8c\x01\n" +
-	"\x17OnNodeExecutionComplete\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a7.document.orchestrator.v1.NodeExecutionCompleteResponse(\x010\x01\x12p\n" +
-	"\vOnJobFailed\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a+.document.orchestrator.v1.JobFailedResponse\x12v\n" +
-	"\x0eOnJobSuspended\x124.document.orchestrator.v1.ExecuteWorkflowNodeRequest\x1a..document.orchestrator.v1.JobSuspendedResponseBAZ$github.com/AndrewK4758/shared_protos\xaa\x02\x18Document.Orchestrator.V1b\x06proto3"
+	"\x10PurgeSystemState\x121.document.orchestrator.v1.PurgeSystemStateRequest\x1a2.document.orchestrator.v1.PurgeSystemStateResponse2\xfe\x02\n" +
+	"\x1bOrchestratorCallbackService\x12\x84\x01\n" +
+	"\x17OnTaskExecutionComplete\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a7.document.orchestrator.v1.TaskExecutionCompleteResponse(\x010\x01\x12h\n" +
+	"\vOnJobFailed\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a+.document.orchestrator.v1.JobFailedResponse\x12n\n" +
+	"\x0eOnJobSuspended\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a..document.orchestrator.v1.JobSuspendedResponseBAZ$github.com/AndrewK4758/shared_protos\xaa\x02\x18Document.Orchestrator.V1b\x06proto3"
 
 var (
 	file_orchestrator_proto_rawDescOnce sync.Once
@@ -803,66 +681,50 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
-var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_orchestrator_proto_goTypes = []any{
-	(*ExecuteWorkflowNodeRequest)(nil),    // 0: document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	(*ExecuteWorkflowNodeResponse)(nil),   // 1: document.orchestrator.v1.ExecuteWorkflowNodeResponse
+	(*ExecuteTaskRequest)(nil),            // 0: document.orchestrator.v1.ExecuteTaskRequest
+	(*ExecuteTaskResponse)(nil),           // 1: document.orchestrator.v1.ExecuteTaskResponse
 	(*ListenRequest)(nil),                 // 2: document.orchestrator.v1.ListenRequest
 	(*ProgressUpdate)(nil),                // 3: document.orchestrator.v1.ProgressUpdate
 	(*ResumeJobRequest)(nil),              // 4: document.orchestrator.v1.ResumeJobRequest
 	(*ResumeJobResponse)(nil),             // 5: document.orchestrator.v1.ResumeJobResponse
 	(*PurgeSystemStateRequest)(nil),       // 6: document.orchestrator.v1.PurgeSystemStateRequest
 	(*PurgeSystemStateResponse)(nil),      // 7: document.orchestrator.v1.PurgeSystemStateResponse
-	(*NodeExecutionCompleteResponse)(nil), // 8: document.orchestrator.v1.NodeExecutionCompleteResponse
+	(*TaskExecutionCompleteResponse)(nil), // 8: document.orchestrator.v1.TaskExecutionCompleteResponse
 	(*JobFailedResponse)(nil),             // 9: document.orchestrator.v1.JobFailedResponse
 	(*JobSuspendedResponse)(nil),          // 10: document.orchestrator.v1.JobSuspendedResponse
-	nil,                                   // 11: document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntry
-	(*InfrastructureIdentity)(nil),        // 12: document.models.v1.InfrastructureIdentity
-	(*NodeConfiguration)(nil),             // 13: document.models.v1.NodeConfiguration
-	(*StorageContract)(nil),               // 14: document.models.v1.StorageContract
-	(*DocumentProcessorContract)(nil),     // 15: document.models.v1.DocumentProcessorContract
-	(*CacheContract)(nil),                 // 16: document.models.v1.CacheContract
-	(*HumanValidationContract)(nil),       // 17: document.models.v1.HumanValidationContract
-	(*GlobalState)(nil),                   // 18: document.models.v1.GlobalState
-	(*structpb.Struct)(nil),               // 19: google.protobuf.Struct
-	(*ErrorContract)(nil),                 // 20: document.models.v1.ErrorContract
+	(*InfrastructureIdentity)(nil),        // 11: document.models.v1.InfrastructureIdentity
+	(*structpb.Struct)(nil),               // 12: google.protobuf.Struct
 }
 var file_orchestrator_proto_depIdxs = []int32{
-	12, // 0: document.orchestrator.v1.ExecuteWorkflowNodeRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	11, // 1: document.orchestrator.v1.ExecuteWorkflowNodeRequest.metadata:type_name -> document.orchestrator.v1.ExecuteWorkflowNodeRequest.MetadataEntry
-	13, // 2: document.orchestrator.v1.ExecuteWorkflowNodeRequest.node_config:type_name -> document.models.v1.NodeConfiguration
-	14, // 3: document.orchestrator.v1.ExecuteWorkflowNodeRequest.storage:type_name -> document.models.v1.StorageContract
-	15, // 4: document.orchestrator.v1.ExecuteWorkflowNodeRequest.document_processor:type_name -> document.models.v1.DocumentProcessorContract
-	16, // 5: document.orchestrator.v1.ExecuteWorkflowNodeRequest.cache:type_name -> document.models.v1.CacheContract
-	17, // 6: document.orchestrator.v1.ExecuteWorkflowNodeRequest.human_validation:type_name -> document.models.v1.HumanValidationContract
-	18, // 7: document.orchestrator.v1.ExecuteWorkflowNodeRequest.global_state:type_name -> document.models.v1.GlobalState
-	19, // 8: document.orchestrator.v1.ExecuteWorkflowNodeRequest.node_output:type_name -> google.protobuf.Struct
-	20, // 9: document.orchestrator.v1.ExecuteWorkflowNodeRequest.error_contract:type_name -> document.models.v1.ErrorContract
-	12, // 10: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	19, // 11: document.orchestrator.v1.ProgressUpdate.final_results:type_name -> google.protobuf.Struct
-	12, // 12: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
-	19, // 13: document.orchestrator.v1.ResumeJobRequest.corrected:type_name -> google.protobuf.Struct
-	12, // 14: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	12, // 15: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	0,  // 16: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	2,  // 17: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	4,  // 18: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	6,  // 19: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
-	0,  // 20: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	0,  // 21: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	0,  // 22: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.ExecuteWorkflowNodeRequest
-	1,  // 23: document.orchestrator.v1.OrchestratorService.ExecuteWorkflowNode:output_type -> document.orchestrator.v1.ExecuteWorkflowNodeResponse
-	3,  // 24: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	5,  // 25: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	7,  // 26: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
-	8,  // 27: document.orchestrator.v1.OrchestratorCallbackService.OnNodeExecutionComplete:output_type -> document.orchestrator.v1.NodeExecutionCompleteResponse
-	9,  // 28: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	10, // 29: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
-	23, // [23:30] is the sub-list for method output_type
-	16, // [16:23] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	11, // 0: document.orchestrator.v1.ExecuteTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 1: document.orchestrator.v1.ExecuteTaskRequest.payload:type_name -> google.protobuf.Struct
+	11, // 2: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 3: document.orchestrator.v1.ProgressUpdate.final_results:type_name -> google.protobuf.Struct
+	11, // 4: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
+	12, // 5: document.orchestrator.v1.ResumeJobRequest.corrected:type_name -> google.protobuf.Struct
+	11, // 6: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	11, // 7: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 8: document.orchestrator.v1.OrchestratorService.ExecuteTask:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	2,  // 9: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	4,  // 10: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	6,  // 11: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
+	0,  // 12: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	0,  // 13: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	0,  // 14: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	1,  // 15: document.orchestrator.v1.OrchestratorService.ExecuteTask:output_type -> document.orchestrator.v1.ExecuteTaskResponse
+	3,  // 16: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	5,  // 17: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	7,  // 18: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
+	8,  // 19: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:output_type -> document.orchestrator.v1.TaskExecutionCompleteResponse
+	9,  // 20: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	10, // 21: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
+	15, // [15:22] is the sub-list for method output_type
+	8,  // [8:15] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }
@@ -877,7 +739,7 @@ func file_orchestrator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
