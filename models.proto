@@ -57,6 +57,7 @@ message CacheContract {
   float confidence = 5;
   google.protobuf.Any embedding_lookup = 6;
   google.protobuf.Struct metadata_lookup = 7;
+  string plain_text_embedding_value = 8;
 }
 
 message HumanValidationContract {
@@ -79,7 +80,6 @@ message ActionDefinition {
   string name = 2;
   string prompt = 3;
   repeated string rules = 4;
-  reserved 5;
   string target_worker_subject = 6;
 }
 
@@ -110,9 +110,33 @@ message GenericWorkflowState {
   InfrastructureIdentity identity = 5;
 }
 
+message ExecuteTaskPayload {
+  NodeConfiguration node_config = 1;
+  google.protobuf.Struct global_state = 2;
+  google.protobuf.Struct node_output = 3;
+  google.protobuf.Struct metadata = 4;
+  CacheContract cache = 5;
+  HumanValidationContract human_validation = 6;
+  StorageContract storage = 7;
+  DocumentProcessorContract document_processor = 8;
+}
+
 
 
 message GlobalState {
   google.protobuf.Struct functional = 1;
   google.protobuf.Struct non_functional = 2;
+}
+
+message RootWorkflowPayload {
+  string graph_id = 1;
+  string initial_node_id = 2;
+
+  google.protobuf.Struct metadata = 4;
+  CacheContract cache = 5;
+  GlobalState global_state = 6;
+  NodeConfiguration node_config = 7;
+  StorageContract storage = 8;
+  DocumentProcessorContract document_processor = 9;
+  google.protobuf.Struct expected_schema_struct = 10;
 }

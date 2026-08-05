@@ -437,15 +437,16 @@ func (x *DocumentProcessorContract) GetSlidingWindowSize() int32 {
 }
 
 type CacheContract struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Enabled         bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	CollectionName  string                 `protobuf:"bytes,2,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
-	CacheHit        bool                   `protobuf:"varint,4,opt,name=cache_hit,json=cacheHit,proto3" json:"cache_hit,omitempty"`
-	Confidence      float32                `protobuf:"fixed32,5,opt,name=confidence,proto3" json:"confidence,omitempty"`
-	EmbeddingLookup *anypb.Any             `protobuf:"bytes,6,opt,name=embedding_lookup,json=embeddingLookup,proto3" json:"embedding_lookup,omitempty"`
-	MetadataLookup  *structpb.Struct       `protobuf:"bytes,7,opt,name=metadata_lookup,json=metadataLookup,proto3" json:"metadata_lookup,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	Enabled                 bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	CollectionName          string                 `protobuf:"bytes,2,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	CacheHit                bool                   `protobuf:"varint,4,opt,name=cache_hit,json=cacheHit,proto3" json:"cache_hit,omitempty"`
+	Confidence              float32                `protobuf:"fixed32,5,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	EmbeddingLookup         *anypb.Any             `protobuf:"bytes,6,opt,name=embedding_lookup,json=embeddingLookup,proto3" json:"embedding_lookup,omitempty"`
+	MetadataLookup          *structpb.Struct       `protobuf:"bytes,7,opt,name=metadata_lookup,json=metadataLookup,proto3" json:"metadata_lookup,omitempty"`
+	PlainTextEmbeddingValue string                 `protobuf:"bytes,8,opt,name=plain_text_embedding_value,json=plainTextEmbeddingValue,proto3" json:"plain_text_embedding_value,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *CacheContract) Reset() {
@@ -518,6 +519,13 @@ func (x *CacheContract) GetMetadataLookup() *structpb.Struct {
 		return x.MetadataLookup
 	}
 	return nil
+}
+
+func (x *CacheContract) GetPlainTextEmbeddingValue() string {
+	if x != nil {
+		return x.PlainTextEmbeddingValue
+	}
+	return ""
 }
 
 type HumanValidationContract struct {
@@ -902,6 +910,106 @@ func (x *GenericWorkflowState) GetIdentity() *InfrastructureIdentity {
 	return nil
 }
 
+type ExecuteTaskPayload struct {
+	state             protoimpl.MessageState     `protogen:"open.v1"`
+	NodeConfig        *NodeConfiguration         `protobuf:"bytes,1,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
+	GlobalState       *structpb.Struct           `protobuf:"bytes,2,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
+	NodeOutput        *structpb.Struct           `protobuf:"bytes,3,opt,name=node_output,json=nodeOutput,proto3" json:"node_output,omitempty"`
+	Metadata          *structpb.Struct           `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Cache             *CacheContract             `protobuf:"bytes,5,opt,name=cache,proto3" json:"cache,omitempty"`
+	HumanValidation   *HumanValidationContract   `protobuf:"bytes,6,opt,name=human_validation,json=humanValidation,proto3" json:"human_validation,omitempty"`
+	Storage           *StorageContract           `protobuf:"bytes,7,opt,name=storage,proto3" json:"storage,omitempty"`
+	DocumentProcessor *DocumentProcessorContract `protobuf:"bytes,8,opt,name=document_processor,json=documentProcessor,proto3" json:"document_processor,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *ExecuteTaskPayload) Reset() {
+	*x = ExecuteTaskPayload{}
+	mi := &file_models_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExecuteTaskPayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExecuteTaskPayload) ProtoMessage() {}
+
+func (x *ExecuteTaskPayload) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExecuteTaskPayload.ProtoReflect.Descriptor instead.
+func (*ExecuteTaskPayload) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ExecuteTaskPayload) GetNodeConfig() *NodeConfiguration {
+	if x != nil {
+		return x.NodeConfig
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetGlobalState() *structpb.Struct {
+	if x != nil {
+		return x.GlobalState
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetNodeOutput() *structpb.Struct {
+	if x != nil {
+		return x.NodeOutput
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetMetadata() *structpb.Struct {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetCache() *CacheContract {
+	if x != nil {
+		return x.Cache
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetHumanValidation() *HumanValidationContract {
+	if x != nil {
+		return x.HumanValidation
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetStorage() *StorageContract {
+	if x != nil {
+		return x.Storage
+	}
+	return nil
+}
+
+func (x *ExecuteTaskPayload) GetDocumentProcessor() *DocumentProcessorContract {
+	if x != nil {
+		return x.DocumentProcessor
+	}
+	return nil
+}
+
 type GlobalState struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Functional    *structpb.Struct       `protobuf:"bytes,1,opt,name=functional,proto3" json:"functional,omitempty"`
@@ -912,7 +1020,7 @@ type GlobalState struct {
 
 func (x *GlobalState) Reset() {
 	*x = GlobalState{}
-	mi := &file_models_proto_msgTypes[10]
+	mi := &file_models_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -924,7 +1032,7 @@ func (x *GlobalState) String() string {
 func (*GlobalState) ProtoMessage() {}
 
 func (x *GlobalState) ProtoReflect() protoreflect.Message {
-	mi := &file_models_proto_msgTypes[10]
+	mi := &file_models_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -937,7 +1045,7 @@ func (x *GlobalState) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GlobalState.ProtoReflect.Descriptor instead.
 func (*GlobalState) Descriptor() ([]byte, []int) {
-	return file_models_proto_rawDescGZIP(), []int{10}
+	return file_models_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GlobalState) GetFunctional() *structpb.Struct {
@@ -950,6 +1058,114 @@ func (x *GlobalState) GetFunctional() *structpb.Struct {
 func (x *GlobalState) GetNonFunctional() *structpb.Struct {
 	if x != nil {
 		return x.NonFunctional
+	}
+	return nil
+}
+
+type RootWorkflowPayload struct {
+	state                protoimpl.MessageState     `protogen:"open.v1"`
+	GraphId              string                     `protobuf:"bytes,1,opt,name=graph_id,json=graphId,proto3" json:"graph_id,omitempty"`
+	InitialNodeId        string                     `protobuf:"bytes,2,opt,name=initial_node_id,json=initialNodeId,proto3" json:"initial_node_id,omitempty"`
+	Metadata             *structpb.Struct           `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Cache                *CacheContract             `protobuf:"bytes,5,opt,name=cache,proto3" json:"cache,omitempty"`
+	GlobalState          *GlobalState               `protobuf:"bytes,6,opt,name=global_state,json=globalState,proto3" json:"global_state,omitempty"`
+	NodeConfig           *NodeConfiguration         `protobuf:"bytes,7,opt,name=node_config,json=nodeConfig,proto3" json:"node_config,omitempty"`
+	Storage              *StorageContract           `protobuf:"bytes,8,opt,name=storage,proto3" json:"storage,omitempty"`
+	DocumentProcessor    *DocumentProcessorContract `protobuf:"bytes,9,opt,name=document_processor,json=documentProcessor,proto3" json:"document_processor,omitempty"`
+	ExpectedSchemaStruct *structpb.Struct           `protobuf:"bytes,10,opt,name=expected_schema_struct,json=expectedSchemaStruct,proto3" json:"expected_schema_struct,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *RootWorkflowPayload) Reset() {
+	*x = RootWorkflowPayload{}
+	mi := &file_models_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RootWorkflowPayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RootWorkflowPayload) ProtoMessage() {}
+
+func (x *RootWorkflowPayload) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RootWorkflowPayload.ProtoReflect.Descriptor instead.
+func (*RootWorkflowPayload) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *RootWorkflowPayload) GetGraphId() string {
+	if x != nil {
+		return x.GraphId
+	}
+	return ""
+}
+
+func (x *RootWorkflowPayload) GetInitialNodeId() string {
+	if x != nil {
+		return x.InitialNodeId
+	}
+	return ""
+}
+
+func (x *RootWorkflowPayload) GetMetadata() *structpb.Struct {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetCache() *CacheContract {
+	if x != nil {
+		return x.Cache
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetGlobalState() *GlobalState {
+	if x != nil {
+		return x.GlobalState
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetNodeConfig() *NodeConfiguration {
+	if x != nil {
+		return x.NodeConfig
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetStorage() *StorageContract {
+	if x != nil {
+		return x.Storage
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetDocumentProcessor() *DocumentProcessorContract {
+	if x != nil {
+		return x.DocumentProcessor
+	}
+	return nil
+}
+
+func (x *RootWorkflowPayload) GetExpectedSchemaStruct() *structpb.Struct {
+	if x != nil {
+		return x.ExpectedSchemaStruct
 	}
 	return nil
 }
@@ -982,7 +1198,7 @@ const file_models_proto_rawDesc = "" +
 	"\x10doc_type_chunked\x18\x05 \x01(\tR\x0edocTypeChunked\x12:\n" +
 	"\x19boundary_detection_prompt\x18\x06 \x01(\tR\x17boundaryDetectionPrompt\x123\n" +
 	"\x16max_pages_before_split\x18\a \x01(\x05R\x13maxPagesBeforeSplit\x12.\n" +
-	"\x13sliding_window_size\x18\b \x01(\x05R\x11slidingWindowSize\"\x92\x02\n" +
+	"\x13sliding_window_size\x18\b \x01(\x05R\x11slidingWindowSize\"\xcf\x02\n" +
 	"\rCacheContract\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12'\n" +
 	"\x0fcollection_name\x18\x02 \x01(\tR\x0ecollectionName\x12\x1b\n" +
@@ -991,7 +1207,8 @@ const file_models_proto_rawDesc = "" +
 	"confidence\x18\x05 \x01(\x02R\n" +
 	"confidence\x12?\n" +
 	"\x10embedding_lookup\x18\x06 \x01(\v2\x14.google.protobuf.AnyR\x0fembeddingLookup\x12@\n" +
-	"\x0fmetadata_lookup\x18\a \x01(\v2\x17.google.protobuf.StructR\x0emetadataLookup\"^\n" +
+	"\x0fmetadata_lookup\x18\a \x01(\v2\x17.google.protobuf.StructR\x0emetadataLookup\x12;\n" +
+	"\x1aplain_text_embedding_value\x18\b \x01(\tR\x17plainTextEmbeddingValue\"^\n" +
 	"\x17HumanValidationContract\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired\x12'\n" +
 	"\x0fbypass_fallback\x18\x02 \x01(\bR\x0ebypassFallback\"\xeb\x02\n" +
@@ -1002,13 +1219,13 @@ const file_models_proto_rawDesc = "" +
 	"\x15target_worker_subject\x18\x04 \x01(\tR\x13targetWorkerSubject\x12(\n" +
 	"\x10state_output_key\x18\x05 \x01(\tR\x0estateOutputKey\x12.\n" +
 	"\x13inference_input_key\x18\x06 \x01(\tR\x11inferenceInputKey\x12M\n" +
-	"\x16expected_schema_struct\x18\a \x01(\v2\x17.google.protobuf.StructR\x14expectedSchemaStruct\"\x9e\x01\n" +
+	"\x16expected_schema_struct\x18\a \x01(\v2\x17.google.protobuf.StructR\x14expectedSchemaStruct\"\x98\x01\n" +
 	"\x10ActionDefinition\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
 	"\x06prompt\x18\x03 \x01(\tR\x06prompt\x12\x14\n" +
 	"\x05rules\x18\x04 \x03(\tR\x05rules\x122\n" +
-	"\x15target_worker_subject\x18\x06 \x01(\tR\x13targetWorkerSubjectJ\x04\b\x05\x10\x06\"\xd5\x01\n" +
+	"\x15target_worker_subject\x18\x06 \x01(\tR\x13targetWorkerSubject\"\xd5\x01\n" +
 	"\x12ActiveJobExecution\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12*\n" +
 	"\x11job_definition_id\x18\x02 \x01(\tR\x0fjobDefinitionId\x12&\n" +
@@ -1023,12 +1240,35 @@ const file_models_proto_rawDesc = "" +
 	"\fstate_reason\x18\x02 \x01(\tR\vstateReason\x12<\n" +
 	"\rstate_payload\x18\x03 \x01(\v2\x17.google.protobuf.StructR\fstatePayload\x12=\n" +
 	"\flast_updated\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vlastUpdated\x12F\n" +
-	"\bidentity\x18\x05 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\x86\x01\n" +
+	"\bidentity\x18\x05 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"\xb5\x04\n" +
+	"\x12ExecuteTaskPayload\x12F\n" +
+	"\vnode_config\x18\x01 \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
+	"nodeConfig\x12:\n" +
+	"\fglobal_state\x18\x02 \x01(\v2\x17.google.protobuf.StructR\vglobalState\x128\n" +
+	"\vnode_output\x18\x03 \x01(\v2\x17.google.protobuf.StructR\n" +
+	"nodeOutput\x123\n" +
+	"\bmetadata\x18\x04 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x127\n" +
+	"\x05cache\x18\x05 \x01(\v2!.document.models.v1.CacheContractR\x05cache\x12V\n" +
+	"\x10human_validation\x18\x06 \x01(\v2+.document.models.v1.HumanValidationContractR\x0fhumanValidation\x12=\n" +
+	"\astorage\x18\a \x01(\v2#.document.models.v1.StorageContractR\astorage\x12\\\n" +
+	"\x12document_processor\x18\b \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\"\x86\x01\n" +
 	"\vGlobalState\x127\n" +
 	"\n" +
 	"functional\x18\x01 \x01(\v2\x17.google.protobuf.StructR\n" +
 	"functional\x12>\n" +
-	"\x0enon_functional\x18\x02 \x01(\v2\x17.google.protobuf.StructR\rnonFunctional*\x9a\x01\n" +
+	"\x0enon_functional\x18\x02 \x01(\v2\x17.google.protobuf.StructR\rnonFunctional\"\xbe\x04\n" +
+	"\x13RootWorkflowPayload\x12\x19\n" +
+	"\bgraph_id\x18\x01 \x01(\tR\agraphId\x12&\n" +
+	"\x0finitial_node_id\x18\x02 \x01(\tR\rinitialNodeId\x123\n" +
+	"\bmetadata\x18\x04 \x01(\v2\x17.google.protobuf.StructR\bmetadata\x127\n" +
+	"\x05cache\x18\x05 \x01(\v2!.document.models.v1.CacheContractR\x05cache\x12B\n" +
+	"\fglobal_state\x18\x06 \x01(\v2\x1f.document.models.v1.GlobalStateR\vglobalState\x12F\n" +
+	"\vnode_config\x18\a \x01(\v2%.document.models.v1.NodeConfigurationR\n" +
+	"nodeConfig\x12=\n" +
+	"\astorage\x18\b \x01(\v2#.document.models.v1.StorageContractR\astorage\x12\\\n" +
+	"\x12document_processor\x18\t \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x12M\n" +
+	"\x16expected_schema_struct\x18\n" +
+	" \x01(\v2\x17.google.protobuf.StructR\x14expectedSchemaStruct*\x9a\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
@@ -1057,7 +1297,7 @@ func file_models_proto_rawDescGZIP() []byte {
 }
 
 var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),                  // 0: document.models.v1.ModelChoice
 	(WorkflowState)(0),                // 1: document.models.v1.WorkflowState
@@ -1071,28 +1311,45 @@ var file_models_proto_goTypes = []any{
 	(*ActionDefinition)(nil),          // 9: document.models.v1.ActionDefinition
 	(*ActiveJobExecution)(nil),        // 10: document.models.v1.ActiveJobExecution
 	(*GenericWorkflowState)(nil),      // 11: document.models.v1.GenericWorkflowState
-	(*GlobalState)(nil),               // 12: document.models.v1.GlobalState
-	(*timestamppb.Timestamp)(nil),     // 13: google.protobuf.Timestamp
-	(*structpb.Struct)(nil),           // 14: google.protobuf.Struct
-	(*anypb.Any)(nil),                 // 15: google.protobuf.Any
+	(*ExecuteTaskPayload)(nil),        // 12: document.models.v1.ExecuteTaskPayload
+	(*GlobalState)(nil),               // 13: document.models.v1.GlobalState
+	(*RootWorkflowPayload)(nil),       // 14: document.models.v1.RootWorkflowPayload
+	(*timestamppb.Timestamp)(nil),     // 15: google.protobuf.Timestamp
+	(*structpb.Struct)(nil),           // 16: google.protobuf.Struct
+	(*anypb.Any)(nil),                 // 17: google.protobuf.Any
 }
 var file_models_proto_depIdxs = []int32{
-	13, // 0: document.models.v1.ErrorContract.timestamp:type_name -> google.protobuf.Timestamp
-	14, // 1: document.models.v1.ErrorContract.client_payload:type_name -> google.protobuf.Struct
-	15, // 2: document.models.v1.CacheContract.embedding_lookup:type_name -> google.protobuf.Any
-	14, // 3: document.models.v1.CacheContract.metadata_lookup:type_name -> google.protobuf.Struct
-	14, // 4: document.models.v1.NodeConfiguration.expected_schema_struct:type_name -> google.protobuf.Struct
+	15, // 0: document.models.v1.ErrorContract.timestamp:type_name -> google.protobuf.Timestamp
+	16, // 1: document.models.v1.ErrorContract.client_payload:type_name -> google.protobuf.Struct
+	17, // 2: document.models.v1.CacheContract.embedding_lookup:type_name -> google.protobuf.Any
+	16, // 3: document.models.v1.CacheContract.metadata_lookup:type_name -> google.protobuf.Struct
+	16, // 4: document.models.v1.NodeConfiguration.expected_schema_struct:type_name -> google.protobuf.Struct
 	1,  // 5: document.models.v1.GenericWorkflowState.current_state:type_name -> document.models.v1.WorkflowState
-	14, // 6: document.models.v1.GenericWorkflowState.state_payload:type_name -> google.protobuf.Struct
-	13, // 7: document.models.v1.GenericWorkflowState.last_updated:type_name -> google.protobuf.Timestamp
+	16, // 6: document.models.v1.GenericWorkflowState.state_payload:type_name -> google.protobuf.Struct
+	15, // 7: document.models.v1.GenericWorkflowState.last_updated:type_name -> google.protobuf.Timestamp
 	3,  // 8: document.models.v1.GenericWorkflowState.identity:type_name -> document.models.v1.InfrastructureIdentity
-	14, // 9: document.models.v1.GlobalState.functional:type_name -> google.protobuf.Struct
-	14, // 10: document.models.v1.GlobalState.non_functional:type_name -> google.protobuf.Struct
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	8,  // 9: document.models.v1.ExecuteTaskPayload.node_config:type_name -> document.models.v1.NodeConfiguration
+	16, // 10: document.models.v1.ExecuteTaskPayload.global_state:type_name -> google.protobuf.Struct
+	16, // 11: document.models.v1.ExecuteTaskPayload.node_output:type_name -> google.protobuf.Struct
+	16, // 12: document.models.v1.ExecuteTaskPayload.metadata:type_name -> google.protobuf.Struct
+	6,  // 13: document.models.v1.ExecuteTaskPayload.cache:type_name -> document.models.v1.CacheContract
+	7,  // 14: document.models.v1.ExecuteTaskPayload.human_validation:type_name -> document.models.v1.HumanValidationContract
+	4,  // 15: document.models.v1.ExecuteTaskPayload.storage:type_name -> document.models.v1.StorageContract
+	5,  // 16: document.models.v1.ExecuteTaskPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
+	16, // 17: document.models.v1.GlobalState.functional:type_name -> google.protobuf.Struct
+	16, // 18: document.models.v1.GlobalState.non_functional:type_name -> google.protobuf.Struct
+	16, // 19: document.models.v1.RootWorkflowPayload.metadata:type_name -> google.protobuf.Struct
+	6,  // 20: document.models.v1.RootWorkflowPayload.cache:type_name -> document.models.v1.CacheContract
+	13, // 21: document.models.v1.RootWorkflowPayload.global_state:type_name -> document.models.v1.GlobalState
+	8,  // 22: document.models.v1.RootWorkflowPayload.node_config:type_name -> document.models.v1.NodeConfiguration
+	4,  // 23: document.models.v1.RootWorkflowPayload.storage:type_name -> document.models.v1.StorageContract
+	5,  // 24: document.models.v1.RootWorkflowPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
+	16, // 25: document.models.v1.RootWorkflowPayload.expected_schema_struct:type_name -> google.protobuf.Struct
+	26, // [26:26] is the sub-list for method output_type
+	26, // [26:26] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
@@ -1106,7 +1363,7 @@ func file_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
