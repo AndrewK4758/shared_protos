@@ -249,8 +249,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrchestratorCallbackServiceClient interface {
 	OnTaskExecutionComplete(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ExecuteTaskRequest, TaskExecutionCompleteResponse], error)
-	OnJobFailed(ctx context.Context, in *ExecuteTaskRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
-	OnJobSuspended(ctx context.Context, in *ExecuteTaskRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error)
+	OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error)
+	OnJobSuspended(ctx context.Context, in *JobSuspendedRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error)
 }
 
 type orchestratorCallbackServiceClient struct {
@@ -274,7 +274,7 @@ func (c *orchestratorCallbackServiceClient) OnTaskExecutionComplete(ctx context.
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type OrchestratorCallbackService_OnTaskExecutionCompleteClient = grpc.BidiStreamingClient[ExecuteTaskRequest, TaskExecutionCompleteResponse]
 
-func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in *ExecuteTaskRequest, opts ...grpc.CallOption) (*JobFailedResponse, error) {
+func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in *JobFailedRequest, opts ...grpc.CallOption) (*JobFailedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(JobFailedResponse)
 	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnJobFailed_FullMethodName, in, out, cOpts...)
@@ -284,7 +284,7 @@ func (c *orchestratorCallbackServiceClient) OnJobFailed(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *orchestratorCallbackServiceClient) OnJobSuspended(ctx context.Context, in *ExecuteTaskRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error) {
+func (c *orchestratorCallbackServiceClient) OnJobSuspended(ctx context.Context, in *JobSuspendedRequest, opts ...grpc.CallOption) (*JobSuspendedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(JobSuspendedResponse)
 	err := c.cc.Invoke(ctx, OrchestratorCallbackService_OnJobSuspended_FullMethodName, in, out, cOpts...)
@@ -299,8 +299,8 @@ func (c *orchestratorCallbackServiceClient) OnJobSuspended(ctx context.Context, 
 // for forward compatibility.
 type OrchestratorCallbackServiceServer interface {
 	OnTaskExecutionComplete(grpc.BidiStreamingServer[ExecuteTaskRequest, TaskExecutionCompleteResponse]) error
-	OnJobFailed(context.Context, *ExecuteTaskRequest) (*JobFailedResponse, error)
-	OnJobSuspended(context.Context, *ExecuteTaskRequest) (*JobSuspendedResponse, error)
+	OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error)
+	OnJobSuspended(context.Context, *JobSuspendedRequest) (*JobSuspendedResponse, error)
 	mustEmbedUnimplementedOrchestratorCallbackServiceServer()
 }
 
@@ -314,10 +314,10 @@ type UnimplementedOrchestratorCallbackServiceServer struct{}
 func (UnimplementedOrchestratorCallbackServiceServer) OnTaskExecutionComplete(grpc.BidiStreamingServer[ExecuteTaskRequest, TaskExecutionCompleteResponse]) error {
 	return status.Error(codes.Unimplemented, "method OnTaskExecutionComplete not implemented")
 }
-func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *ExecuteTaskRequest) (*JobFailedResponse, error) {
+func (UnimplementedOrchestratorCallbackServiceServer) OnJobFailed(context.Context, *JobFailedRequest) (*JobFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobFailed not implemented")
 }
-func (UnimplementedOrchestratorCallbackServiceServer) OnJobSuspended(context.Context, *ExecuteTaskRequest) (*JobSuspendedResponse, error) {
+func (UnimplementedOrchestratorCallbackServiceServer) OnJobSuspended(context.Context, *JobSuspendedRequest) (*JobSuspendedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method OnJobSuspended not implemented")
 }
 func (UnimplementedOrchestratorCallbackServiceServer) mustEmbedUnimplementedOrchestratorCallbackServiceServer() {
@@ -350,7 +350,7 @@ func _OrchestratorCallbackService_OnTaskExecutionComplete_Handler(srv interface{
 type OrchestratorCallbackService_OnTaskExecutionCompleteServer = grpc.BidiStreamingServer[ExecuteTaskRequest, TaskExecutionCompleteResponse]
 
 func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteTaskRequest)
+	in := new(JobFailedRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -362,13 +362,13 @@ func _OrchestratorCallbackService_OnJobFailed_Handler(srv interface{}, ctx conte
 		FullMethod: OrchestratorCallbackService_OnJobFailed_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorCallbackServiceServer).OnJobFailed(ctx, req.(*ExecuteTaskRequest))
+		return srv.(OrchestratorCallbackServiceServer).OnJobFailed(ctx, req.(*JobFailedRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrchestratorCallbackService_OnJobSuspended_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExecuteTaskRequest)
+	in := new(JobSuspendedRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -380,7 +380,7 @@ func _OrchestratorCallbackService_OnJobSuspended_Handler(srv interface{}, ctx co
 		FullMethod: OrchestratorCallbackService_OnJobSuspended_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrchestratorCallbackServiceServer).OnJobSuspended(ctx, req.(*ExecuteTaskRequest))
+		return srv.(OrchestratorCallbackServiceServer).OnJobSuspended(ctx, req.(*JobSuspendedRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

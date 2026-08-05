@@ -63,8 +63,8 @@ message PurgeSystemStateResponse {
 
 service OrchestratorCallbackService {
   rpc OnTaskExecutionComplete(stream ExecuteTaskRequest) returns (stream TaskExecutionCompleteResponse);
-  rpc OnJobFailed(ExecuteTaskRequest) returns (JobFailedResponse);
-  rpc OnJobSuspended(ExecuteTaskRequest) returns (JobSuspendedResponse);
+  rpc OnJobFailed(JobFailedRequest) returns (JobFailedResponse);
+  rpc OnJobSuspended(JobSuspendedRequest) returns (JobSuspendedResponse);
 }
 
 message TaskExecutionCompleteResponse {
@@ -77,4 +77,16 @@ message JobFailedResponse {
 
 message JobSuspendedResponse {
   bool success = 1;
+}
+
+message JobFailedRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  string step_id = 2;
+  document.models.v1.ErrorContract error = 3;
+}
+
+message JobSuspendedRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  string step_id = 2;
+  document.models.v1.ErrorContract error = 3;
 }
