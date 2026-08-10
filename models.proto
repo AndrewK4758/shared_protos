@@ -68,7 +68,7 @@ message HumanValidationContract {
 message NodeConfiguration {
   string node_name = 1;
   string system_instructions = 2;
-  string expected_schema = 3 [deprecated = true];
+
   string target_worker_subject = 4;
   string state_output_key = 5;
   string inference_input_key = 6;

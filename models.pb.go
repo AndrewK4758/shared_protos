@@ -581,15 +581,13 @@ func (x *HumanValidationContract) GetBypassFallback() bool {
 }
 
 type NodeConfiguration struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	NodeName           string                 `protobuf:"bytes,1,opt,name=node_name,json=nodeName,proto3" json:"node_name,omitempty"`
-	SystemInstructions string                 `protobuf:"bytes,2,opt,name=system_instructions,json=systemInstructions,proto3" json:"system_instructions,omitempty"`
-	// Deprecated: Marked as deprecated in models.proto.
-	ExpectedSchema       string           `protobuf:"bytes,3,opt,name=expected_schema,json=expectedSchema,proto3" json:"expected_schema,omitempty"`
-	TargetWorkerSubject  string           `protobuf:"bytes,4,opt,name=target_worker_subject,json=targetWorkerSubject,proto3" json:"target_worker_subject,omitempty"`
-	StateOutputKey       string           `protobuf:"bytes,5,opt,name=state_output_key,json=stateOutputKey,proto3" json:"state_output_key,omitempty"`
-	InferenceInputKey    string           `protobuf:"bytes,6,opt,name=inference_input_key,json=inferenceInputKey,proto3" json:"inference_input_key,omitempty"`
-	ExpectedSchemaStruct *structpb.Struct `protobuf:"bytes,7,opt,name=expected_schema_struct,json=expectedSchemaStruct,proto3" json:"expected_schema_struct,omitempty"`
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	NodeName             string                 `protobuf:"bytes,1,opt,name=node_name,json=nodeName,proto3" json:"node_name,omitempty"`
+	SystemInstructions   string                 `protobuf:"bytes,2,opt,name=system_instructions,json=systemInstructions,proto3" json:"system_instructions,omitempty"`
+	TargetWorkerSubject  string                 `protobuf:"bytes,4,opt,name=target_worker_subject,json=targetWorkerSubject,proto3" json:"target_worker_subject,omitempty"`
+	StateOutputKey       string                 `protobuf:"bytes,5,opt,name=state_output_key,json=stateOutputKey,proto3" json:"state_output_key,omitempty"`
+	InferenceInputKey    string                 `protobuf:"bytes,6,opt,name=inference_input_key,json=inferenceInputKey,proto3" json:"inference_input_key,omitempty"`
+	ExpectedSchemaStruct *structpb.Struct       `protobuf:"bytes,7,opt,name=expected_schema_struct,json=expectedSchemaStruct,proto3" json:"expected_schema_struct,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -634,14 +632,6 @@ func (x *NodeConfiguration) GetNodeName() string {
 func (x *NodeConfiguration) GetSystemInstructions() string {
 	if x != nil {
 		return x.SystemInstructions
-	}
-	return ""
-}
-
-// Deprecated: Marked as deprecated in models.proto.
-func (x *NodeConfiguration) GetExpectedSchema() string {
-	if x != nil {
-		return x.ExpectedSchema
 	}
 	return ""
 }
@@ -1211,11 +1201,10 @@ const file_models_proto_rawDesc = "" +
 	"\x1aplain_text_embedding_value\x18\b \x01(\tR\x17plainTextEmbeddingValue\"^\n" +
 	"\x17HumanValidationContract\x12\x1a\n" +
 	"\brequired\x18\x01 \x01(\bR\brequired\x12'\n" +
-	"\x0fbypass_fallback\x18\x02 \x01(\bR\x0ebypassFallback\"\xeb\x02\n" +
+	"\x0fbypass_fallback\x18\x02 \x01(\bR\x0ebypassFallback\"\xbe\x02\n" +
 	"\x11NodeConfiguration\x12\x1b\n" +
 	"\tnode_name\x18\x01 \x01(\tR\bnodeName\x12/\n" +
-	"\x13system_instructions\x18\x02 \x01(\tR\x12systemInstructions\x12+\n" +
-	"\x0fexpected_schema\x18\x03 \x01(\tB\x02\x18\x01R\x0eexpectedSchema\x122\n" +
+	"\x13system_instructions\x18\x02 \x01(\tR\x12systemInstructions\x122\n" +
 	"\x15target_worker_subject\x18\x04 \x01(\tR\x13targetWorkerSubject\x12(\n" +
 	"\x10state_output_key\x18\x05 \x01(\tR\x0estateOutputKey\x12.\n" +
 	"\x13inference_input_key\x18\x06 \x01(\tR\x11inferenceInputKey\x12M\n" +
