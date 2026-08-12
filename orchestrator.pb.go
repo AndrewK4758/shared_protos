@@ -23,14 +23,15 @@ const (
 )
 
 type ExecuteTaskRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
-	TaskSubject   string                  `protobuf:"bytes,2,opt,name=task_subject,json=taskSubject,proto3" json:"task_subject,omitempty"`
-	Payload       *structpb.Struct        `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
-	StepId        string                  `protobuf:"bytes,4,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
-	Headers       map[string]string       `protobuf:"bytes,5,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState  `protogen:"open.v1"`
+	Identity        *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	TaskSubject     string                  `protobuf:"bytes,2,opt,name=task_subject,json=taskSubject,proto3" json:"task_subject,omitempty"`
+	Payload         *structpb.Struct        `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	StepId          string                  `protobuf:"bytes,4,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
+	Headers         map[string]string       `protobuf:"bytes,5,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CallbackAddress string                  `protobuf:"bytes,6,opt,name=callback_address,json=callbackAddress,proto3" json:"callback_address,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ExecuteTaskRequest) Reset() {
@@ -96,6 +97,13 @@ func (x *ExecuteTaskRequest) GetHeaders() map[string]string {
 		return x.Headers
 	}
 	return nil
+}
+
+func (x *ExecuteTaskRequest) GetCallbackAddress() string {
+	if x != nil {
+		return x.CallbackAddress
+	}
+	return ""
 }
 
 type ExecuteTaskResponse struct {
@@ -750,13 +758,14 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\xdc\x02\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\x87\x03\n" +
 	"\x12ExecuteTaskRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12!\n" +
 	"\ftask_subject\x18\x02 \x01(\tR\vtaskSubject\x121\n" +
 	"\apayload\x18\x03 \x01(\v2\x17.google.protobuf.StructR\apayload\x12\x17\n" +
 	"\astep_id\x18\x04 \x01(\tR\x06stepId\x12S\n" +
-	"\aheaders\x18\x05 \x03(\v29.document.orchestrator.v1.ExecuteTaskRequest.HeadersEntryR\aheaders\x1a:\n" +
+	"\aheaders\x18\x05 \x03(\v29.document.orchestrator.v1.ExecuteTaskRequest.HeadersEntryR\aheaders\x12)\n" +
+	"\x10callback_address\x18\x06 \x01(\tR\x0fcallbackAddress\x1a:\n" +
 	"\fHeadersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"b\n" +
