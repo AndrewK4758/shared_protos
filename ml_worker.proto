@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ml.worker.v1;
+
+option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Ml.Worker.V1";
+
+import "models.proto";
+
+service MlWorkerService {
+  rpc RedactPii(PiiRedactionRequest) returns (PiiRedactionResponse);
+}
+
+enum PiiType {
+  PII_TYPE_UNSPECIFIED = 0;
+  PII_TYPE_PERSON_NAME = 1;
+  PII_TYPE_ADDRESS = 2;
+  PII_TYPE_PHONE_NUMBER = 3;
+  PII_TYPE_EMAIL = 4;
+  PII_TYPE_MONEY = 5;
+  PII_TYPE_PERCENTAGE = 6;
+  PII_TYPE_CONTACT_INFORMATION = 7;
+  PII_TYPE_BARCODE = 8;
+  PII_TYPE_QR_CODE = 9;
+  PII_TYPE_ESIGNATURE = 10;
+  PII_TYPE_IMAGE = 11;
+  PII_TYPE_TIME = 12;
+  PII_TYPE_SSN = 13;
+  PII_TYPE_LENDER = 14;
+  PII_TYPE_ORDER_NUMBER = 15;
+  PII_TYPE_LOAN_NUMBER = 16;
+  PII_TYPE_AGENT = 17;
+  PII_TYPE_SIGNATURE = 18;
+}
+
+message PiiRedactionRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  repeated PiiType target_pii_types = 2;
+  bytes raw_file_bytes = 3;
+}
+
+message PiiRedactionResponse {
+  bool success = 1;
+  string error_message = 2;
+  bytes redacted_file_bytes = 3;
+  int32 redacted_boxes_count = 4;
+}
+
+service CppMlWorkerService {
+  rpc RedactDocument(RedactDocumentRequest) returns (RedactDocumentResponse);
+}
+
+message RedactDocumentRequest {
+  string document_uri = 1;
+  document.models.v1.InfrastructureIdentity identity = 2;
+}
+
+message RedactDocumentResponse {
+  bool success = 1;
+  string error_message = 2;
+}
