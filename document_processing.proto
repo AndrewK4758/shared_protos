@@ -7,9 +7,22 @@ option csharp_namespace = "Document.Processing.V1";
 
 import "orchestrator.proto";
 import "models.proto";
+import "ml_worker.proto";
 
 service DocumentProcessingService {
   rpc ChunkDocument(stream ChunkDocumentRequest) returns (stream ChunkDocumentResponse);
+  rpc ProcessDocument(ProcessDocRequest) returns (ProcessDocResponse);
+}
+
+message ProcessDocRequest {
+  string document_uri = 1;
+  document.models.v1.InfrastructureIdentity identity = 2;
+  repeated ml.worker.v1.PiiType target_pii_types = 3;
+}
+
+message ProcessDocResponse {
+  bool success = 1;
+  string error_message = 2;
 }
 
 message ChunkDocumentRequest {
