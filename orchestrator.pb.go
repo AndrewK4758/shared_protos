@@ -25,28 +25,79 @@ const (
 type WorkerSubject int32
 
 const (
-	WorkerSubject_WORKER_SUBJECT_UNSPECIFIED      WorkerSubject = 0
-	WorkerSubject_WORKER_DOC_INSPECT              WorkerSubject = 1
-	WorkerSubject_WORKER_DOC_PROCESSING_CPP_ML    WorkerSubject = 2
-	WorkerSubject_WORKER_DOC_PROCESSING_DOTNET_ML WorkerSubject = 3
-	WorkerSubject_WORKER_DOC_PROCESSING_DUAL_ML   WorkerSubject = 4
+	WorkerSubject_WORKER_SUBJECT_UNSPECIFIED        WorkerSubject = 0
+	WorkerSubject_WORKER_DOC_INSPECT                WorkerSubject = 1
+	WorkerSubject_WORKER_DOC_PROCESSING_CPP_ML      WorkerSubject = 2
+	WorkerSubject_WORKER_DOC_PROCESSING_DOTNET_ML   WorkerSubject = 3
+	WorkerSubject_WORKER_DOC_PROCESSING_DUAL_ML     WorkerSubject = 4
+	WorkerSubject_WORKER_HUMAN_VALIDATION           WorkerSubject = 5
+	WorkerSubject_WORKER_DOC_CHUNKING               WorkerSubject = 6
+	WorkerSubject_WORKER_DOC_PROCESSING             WorkerSubject = 7
+	WorkerSubject_WORKER_AI_ACTION_CLASSIFICATION   WorkerSubject = 8
+	WorkerSubject_WORKER_AI_INFERENCE               WorkerSubject = 9
+	WorkerSubject_WORKER_AI_INFERENCE_CLOSING       WorkerSubject = 10
+	WorkerSubject_WORKER_AI_INFERENCE_TITLE_OPINION WorkerSubject = 11
+	WorkerSubject_WORKER_CACHE_LOOKUP               WorkerSubject = 12
+	WorkerSubject_WORKER_DOC_CLOSING                WorkerSubject = 13
+	WorkerSubject_WORKER_DOC_OPINION                WorkerSubject = 14
+	WorkerSubject_WORKER_DOC_STORAGE                WorkerSubject = 15
+	WorkerSubject_WORKER_DOC_ATTACHMENT             WorkerSubject = 16
+	WorkerSubject_WORKER_TEST                       WorkerSubject = 17
+	WorkerSubject_WORKER_CACHE_BACKGROUND_UPDATE    WorkerSubject = 18
+	WorkerSubject_WORKER_CACHE_LEARNING             WorkerSubject = 19
+	WorkerSubject_WORKER_AI_VISION                  WorkerSubject = 20
+	WorkerSubject_WORKER_DOC_FALLBACK               WorkerSubject = 21
 )
 
 // Enum value maps for WorkerSubject.
 var (
 	WorkerSubject_name = map[int32]string{
-		0: "WORKER_SUBJECT_UNSPECIFIED",
-		1: "WORKER_DOC_INSPECT",
-		2: "WORKER_DOC_PROCESSING_CPP_ML",
-		3: "WORKER_DOC_PROCESSING_DOTNET_ML",
-		4: "WORKER_DOC_PROCESSING_DUAL_ML",
+		0:  "WORKER_SUBJECT_UNSPECIFIED",
+		1:  "WORKER_DOC_INSPECT",
+		2:  "WORKER_DOC_PROCESSING_CPP_ML",
+		3:  "WORKER_DOC_PROCESSING_DOTNET_ML",
+		4:  "WORKER_DOC_PROCESSING_DUAL_ML",
+		5:  "WORKER_HUMAN_VALIDATION",
+		6:  "WORKER_DOC_CHUNKING",
+		7:  "WORKER_DOC_PROCESSING",
+		8:  "WORKER_AI_ACTION_CLASSIFICATION",
+		9:  "WORKER_AI_INFERENCE",
+		10: "WORKER_AI_INFERENCE_CLOSING",
+		11: "WORKER_AI_INFERENCE_TITLE_OPINION",
+		12: "WORKER_CACHE_LOOKUP",
+		13: "WORKER_DOC_CLOSING",
+		14: "WORKER_DOC_OPINION",
+		15: "WORKER_DOC_STORAGE",
+		16: "WORKER_DOC_ATTACHMENT",
+		17: "WORKER_TEST",
+		18: "WORKER_CACHE_BACKGROUND_UPDATE",
+		19: "WORKER_CACHE_LEARNING",
+		20: "WORKER_AI_VISION",
+		21: "WORKER_DOC_FALLBACK",
 	}
 	WorkerSubject_value = map[string]int32{
-		"WORKER_SUBJECT_UNSPECIFIED":      0,
-		"WORKER_DOC_INSPECT":              1,
-		"WORKER_DOC_PROCESSING_CPP_ML":    2,
-		"WORKER_DOC_PROCESSING_DOTNET_ML": 3,
-		"WORKER_DOC_PROCESSING_DUAL_ML":   4,
+		"WORKER_SUBJECT_UNSPECIFIED":        0,
+		"WORKER_DOC_INSPECT":                1,
+		"WORKER_DOC_PROCESSING_CPP_ML":      2,
+		"WORKER_DOC_PROCESSING_DOTNET_ML":   3,
+		"WORKER_DOC_PROCESSING_DUAL_ML":     4,
+		"WORKER_HUMAN_VALIDATION":           5,
+		"WORKER_DOC_CHUNKING":               6,
+		"WORKER_DOC_PROCESSING":             7,
+		"WORKER_AI_ACTION_CLASSIFICATION":   8,
+		"WORKER_AI_INFERENCE":               9,
+		"WORKER_AI_INFERENCE_CLOSING":       10,
+		"WORKER_AI_INFERENCE_TITLE_OPINION": 11,
+		"WORKER_CACHE_LOOKUP":               12,
+		"WORKER_DOC_CLOSING":                13,
+		"WORKER_DOC_OPINION":                14,
+		"WORKER_DOC_STORAGE":                15,
+		"WORKER_DOC_ATTACHMENT":             16,
+		"WORKER_TEST":                       17,
+		"WORKER_CACHE_BACKGROUND_UPDATE":    18,
+		"WORKER_CACHE_LEARNING":             19,
+		"WORKER_AI_VISION":                  20,
+		"WORKER_DOC_FALLBACK":               21,
 	}
 )
 
@@ -862,13 +913,31 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x13JobSuspendedRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x127\n" +
-	"\x05error\x18\x03 \x01(\v2!.document.models.v1.ErrorContractR\x05error*\xb1\x01\n" +
+	"\x05error\x18\x03 \x01(\v2!.document.models.v1.ErrorContractR\x05error*\x83\x05\n" +
 	"\rWorkerSubject\x12\x1e\n" +
 	"\x1aWORKER_SUBJECT_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12WORKER_DOC_INSPECT\x10\x01\x12 \n" +
 	"\x1cWORKER_DOC_PROCESSING_CPP_ML\x10\x02\x12#\n" +
 	"\x1fWORKER_DOC_PROCESSING_DOTNET_ML\x10\x03\x12!\n" +
-	"\x1dWORKER_DOC_PROCESSING_DUAL_ML\x10\x042\xcc\x03\n" +
+	"\x1dWORKER_DOC_PROCESSING_DUAL_ML\x10\x04\x12\x1b\n" +
+	"\x17WORKER_HUMAN_VALIDATION\x10\x05\x12\x17\n" +
+	"\x13WORKER_DOC_CHUNKING\x10\x06\x12\x19\n" +
+	"\x15WORKER_DOC_PROCESSING\x10\a\x12#\n" +
+	"\x1fWORKER_AI_ACTION_CLASSIFICATION\x10\b\x12\x17\n" +
+	"\x13WORKER_AI_INFERENCE\x10\t\x12\x1f\n" +
+	"\x1bWORKER_AI_INFERENCE_CLOSING\x10\n" +
+	"\x12%\n" +
+	"!WORKER_AI_INFERENCE_TITLE_OPINION\x10\v\x12\x17\n" +
+	"\x13WORKER_CACHE_LOOKUP\x10\f\x12\x16\n" +
+	"\x12WORKER_DOC_CLOSING\x10\r\x12\x16\n" +
+	"\x12WORKER_DOC_OPINION\x10\x0e\x12\x16\n" +
+	"\x12WORKER_DOC_STORAGE\x10\x0f\x12\x19\n" +
+	"\x15WORKER_DOC_ATTACHMENT\x10\x10\x12\x0f\n" +
+	"\vWORKER_TEST\x10\x11\x12\"\n" +
+	"\x1eWORKER_CACHE_BACKGROUND_UPDATE\x10\x12\x12\x19\n" +
+	"\x15WORKER_CACHE_LEARNING\x10\x13\x12\x14\n" +
+	"\x10WORKER_AI_VISION\x10\x14\x12\x17\n" +
+	"\x13WORKER_DOC_FALLBACK\x10\x152\xcc\x03\n" +
 	"\x13OrchestratorService\x12j\n" +
 	"\vExecuteTask\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a-.document.orchestrator.v1.ExecuteTaskResponse\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
