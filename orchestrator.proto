@@ -15,9 +15,17 @@ service OrchestratorService {
   rpc PurgeSystemState(PurgeSystemStateRequest) returns (PurgeSystemStateResponse);
 }
 
+enum WorkerSubject {
+  WORKER_SUBJECT_UNSPECIFIED = 0;
+  WORKER_DOC_INSPECT = 1;
+  WORKER_DOC_PROCESSING_CPP_ML = 2;
+  WORKER_DOC_PROCESSING_DOTNET_ML = 3;
+  WORKER_DOC_PROCESSING_DUAL_ML = 4;
+}
+
 message ExecuteTaskRequest {
   document.models.v1.InfrastructureIdentity identity = 1;
-  string task_subject = 2;
+  WorkerSubject task_subject = 2;
   google.protobuf.Struct payload = 3;
   string step_id = 4;
   map<string, string> headers = 5;

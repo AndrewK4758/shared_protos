@@ -22,10 +22,65 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type WorkerSubject int32
+
+const (
+	WorkerSubject_WORKER_SUBJECT_UNSPECIFIED      WorkerSubject = 0
+	WorkerSubject_WORKER_DOC_INSPECT              WorkerSubject = 1
+	WorkerSubject_WORKER_DOC_PROCESSING_CPP_ML    WorkerSubject = 2
+	WorkerSubject_WORKER_DOC_PROCESSING_DOTNET_ML WorkerSubject = 3
+	WorkerSubject_WORKER_DOC_PROCESSING_DUAL_ML   WorkerSubject = 4
+)
+
+// Enum value maps for WorkerSubject.
+var (
+	WorkerSubject_name = map[int32]string{
+		0: "WORKER_SUBJECT_UNSPECIFIED",
+		1: "WORKER_DOC_INSPECT",
+		2: "WORKER_DOC_PROCESSING_CPP_ML",
+		3: "WORKER_DOC_PROCESSING_DOTNET_ML",
+		4: "WORKER_DOC_PROCESSING_DUAL_ML",
+	}
+	WorkerSubject_value = map[string]int32{
+		"WORKER_SUBJECT_UNSPECIFIED":      0,
+		"WORKER_DOC_INSPECT":              1,
+		"WORKER_DOC_PROCESSING_CPP_ML":    2,
+		"WORKER_DOC_PROCESSING_DOTNET_ML": 3,
+		"WORKER_DOC_PROCESSING_DUAL_ML":   4,
+	}
+)
+
+func (x WorkerSubject) Enum() *WorkerSubject {
+	p := new(WorkerSubject)
+	*p = x
+	return p
+}
+
+func (x WorkerSubject) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WorkerSubject) Descriptor() protoreflect.EnumDescriptor {
+	return file_orchestrator_proto_enumTypes[0].Descriptor()
+}
+
+func (WorkerSubject) Type() protoreflect.EnumType {
+	return &file_orchestrator_proto_enumTypes[0]
+}
+
+func (x WorkerSubject) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WorkerSubject.Descriptor instead.
+func (WorkerSubject) EnumDescriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{0}
+}
+
 type ExecuteTaskRequest struct {
 	state           protoimpl.MessageState  `protogen:"open.v1"`
 	Identity        *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
-	TaskSubject     string                  `protobuf:"bytes,2,opt,name=task_subject,json=taskSubject,proto3" json:"task_subject,omitempty"`
+	TaskSubject     WorkerSubject           `protobuf:"varint,2,opt,name=task_subject,json=taskSubject,proto3,enum=document.orchestrator.v1.WorkerSubject" json:"task_subject,omitempty"`
 	Payload         *structpb.Struct        `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
 	StepId          string                  `protobuf:"bytes,4,opt,name=step_id,json=stepId,proto3" json:"step_id,omitempty"`
 	Headers         map[string]string       `protobuf:"bytes,5,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -71,11 +126,11 @@ func (x *ExecuteTaskRequest) GetIdentity() *InfrastructureIdentity {
 	return nil
 }
 
-func (x *ExecuteTaskRequest) GetTaskSubject() string {
+func (x *ExecuteTaskRequest) GetTaskSubject() WorkerSubject {
 	if x != nil {
 		return x.TaskSubject
 	}
-	return ""
+	return WorkerSubject_WORKER_SUBJECT_UNSPECIFIED
 }
 
 func (x *ExecuteTaskRequest) GetPayload() *structpb.Struct {
@@ -758,10 +813,10 @@ var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
 	"\n" +
-	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\x87\x03\n" +
+	"\x12orchestrator.proto\x12\x18document.orchestrator.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\fmodels.proto\"\xb0\x03\n" +
 	"\x12ExecuteTaskRequest\x12F\n" +
-	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12!\n" +
-	"\ftask_subject\x18\x02 \x01(\tR\vtaskSubject\x121\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12J\n" +
+	"\ftask_subject\x18\x02 \x01(\x0e2'.document.orchestrator.v1.WorkerSubjectR\vtaskSubject\x121\n" +
 	"\apayload\x18\x03 \x01(\v2\x17.google.protobuf.StructR\apayload\x12\x17\n" +
 	"\astep_id\x18\x04 \x01(\tR\x06stepId\x12S\n" +
 	"\aheaders\x18\x05 \x03(\v29.document.orchestrator.v1.ExecuteTaskRequest.HeadersEntryR\aheaders\x12)\n" +
@@ -807,7 +862,13 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x13JobSuspendedRequest\x12F\n" +
 	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x17\n" +
 	"\astep_id\x18\x02 \x01(\tR\x06stepId\x127\n" +
-	"\x05error\x18\x03 \x01(\v2!.document.models.v1.ErrorContractR\x05error2\xcc\x03\n" +
+	"\x05error\x18\x03 \x01(\v2!.document.models.v1.ErrorContractR\x05error*\xb1\x01\n" +
+	"\rWorkerSubject\x12\x1e\n" +
+	"\x1aWORKER_SUBJECT_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12WORKER_DOC_INSPECT\x10\x01\x12 \n" +
+	"\x1cWORKER_DOC_PROCESSING_CPP_ML\x10\x02\x12#\n" +
+	"\x1fWORKER_DOC_PROCESSING_DOTNET_ML\x10\x03\x12!\n" +
+	"\x1dWORKER_DOC_PROCESSING_DUAL_ML\x10\x042\xcc\x03\n" +
 	"\x13OrchestratorService\x12j\n" +
 	"\vExecuteTask\x12,.document.orchestrator.v1.ExecuteTaskRequest\x1a-.document.orchestrator.v1.ExecuteTaskResponse\x12h\n" +
 	"\x11ListenForProgress\x12'.document.orchestrator.v1.ListenRequest\x1a(.document.orchestrator.v1.ProgressUpdate0\x01\x12d\n" +
@@ -830,59 +891,62 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
+var file_orchestrator_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_orchestrator_proto_goTypes = []any{
-	(*ExecuteTaskRequest)(nil),            // 0: document.orchestrator.v1.ExecuteTaskRequest
-	(*ExecuteTaskResponse)(nil),           // 1: document.orchestrator.v1.ExecuteTaskResponse
-	(*ListenRequest)(nil),                 // 2: document.orchestrator.v1.ListenRequest
-	(*ProgressUpdate)(nil),                // 3: document.orchestrator.v1.ProgressUpdate
-	(*ResumeJobRequest)(nil),              // 4: document.orchestrator.v1.ResumeJobRequest
-	(*ResumeJobResponse)(nil),             // 5: document.orchestrator.v1.ResumeJobResponse
-	(*PurgeSystemStateRequest)(nil),       // 6: document.orchestrator.v1.PurgeSystemStateRequest
-	(*PurgeSystemStateResponse)(nil),      // 7: document.orchestrator.v1.PurgeSystemStateResponse
-	(*TaskExecutionCompleteResponse)(nil), // 8: document.orchestrator.v1.TaskExecutionCompleteResponse
-	(*JobFailedResponse)(nil),             // 9: document.orchestrator.v1.JobFailedResponse
-	(*JobSuspendedResponse)(nil),          // 10: document.orchestrator.v1.JobSuspendedResponse
-	(*JobFailedRequest)(nil),              // 11: document.orchestrator.v1.JobFailedRequest
-	(*JobSuspendedRequest)(nil),           // 12: document.orchestrator.v1.JobSuspendedRequest
-	nil,                                   // 13: document.orchestrator.v1.ExecuteTaskRequest.HeadersEntry
-	(*InfrastructureIdentity)(nil),        // 14: document.models.v1.InfrastructureIdentity
-	(*structpb.Struct)(nil),               // 15: google.protobuf.Struct
-	(*ErrorContract)(nil),                 // 16: document.models.v1.ErrorContract
+	(WorkerSubject)(0),                    // 0: document.orchestrator.v1.WorkerSubject
+	(*ExecuteTaskRequest)(nil),            // 1: document.orchestrator.v1.ExecuteTaskRequest
+	(*ExecuteTaskResponse)(nil),           // 2: document.orchestrator.v1.ExecuteTaskResponse
+	(*ListenRequest)(nil),                 // 3: document.orchestrator.v1.ListenRequest
+	(*ProgressUpdate)(nil),                // 4: document.orchestrator.v1.ProgressUpdate
+	(*ResumeJobRequest)(nil),              // 5: document.orchestrator.v1.ResumeJobRequest
+	(*ResumeJobResponse)(nil),             // 6: document.orchestrator.v1.ResumeJobResponse
+	(*PurgeSystemStateRequest)(nil),       // 7: document.orchestrator.v1.PurgeSystemStateRequest
+	(*PurgeSystemStateResponse)(nil),      // 8: document.orchestrator.v1.PurgeSystemStateResponse
+	(*TaskExecutionCompleteResponse)(nil), // 9: document.orchestrator.v1.TaskExecutionCompleteResponse
+	(*JobFailedResponse)(nil),             // 10: document.orchestrator.v1.JobFailedResponse
+	(*JobSuspendedResponse)(nil),          // 11: document.orchestrator.v1.JobSuspendedResponse
+	(*JobFailedRequest)(nil),              // 12: document.orchestrator.v1.JobFailedRequest
+	(*JobSuspendedRequest)(nil),           // 13: document.orchestrator.v1.JobSuspendedRequest
+	nil,                                   // 14: document.orchestrator.v1.ExecuteTaskRequest.HeadersEntry
+	(*InfrastructureIdentity)(nil),        // 15: document.models.v1.InfrastructureIdentity
+	(*structpb.Struct)(nil),               // 16: google.protobuf.Struct
+	(*ErrorContract)(nil),                 // 17: document.models.v1.ErrorContract
 }
 var file_orchestrator_proto_depIdxs = []int32{
-	14, // 0: document.orchestrator.v1.ExecuteTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	15, // 1: document.orchestrator.v1.ExecuteTaskRequest.payload:type_name -> google.protobuf.Struct
-	13, // 2: document.orchestrator.v1.ExecuteTaskRequest.headers:type_name -> document.orchestrator.v1.ExecuteTaskRequest.HeadersEntry
-	14, // 3: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	15, // 4: document.orchestrator.v1.ProgressUpdate.final_results:type_name -> google.protobuf.Struct
-	14, // 5: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
-	15, // 6: document.orchestrator.v1.ResumeJobRequest.corrected:type_name -> google.protobuf.Struct
-	14, // 7: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	14, // 8: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	14, // 9: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	16, // 10: document.orchestrator.v1.JobFailedRequest.error:type_name -> document.models.v1.ErrorContract
-	14, // 11: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	16, // 12: document.orchestrator.v1.JobSuspendedRequest.error:type_name -> document.models.v1.ErrorContract
-	0,  // 13: document.orchestrator.v1.OrchestratorService.ExecuteTask:input_type -> document.orchestrator.v1.ExecuteTaskRequest
-	2,  // 14: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
-	4,  // 15: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
-	6,  // 16: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
-	0,  // 17: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:input_type -> document.orchestrator.v1.ExecuteTaskRequest
-	11, // 18: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
-	12, // 19: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
-	1,  // 20: document.orchestrator.v1.OrchestratorService.ExecuteTask:output_type -> document.orchestrator.v1.ExecuteTaskResponse
-	3,  // 21: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
-	5,  // 22: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
-	7,  // 23: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
-	8,  // 24: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:output_type -> document.orchestrator.v1.TaskExecutionCompleteResponse
-	9,  // 25: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
-	10, // 26: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
-	20, // [20:27] is the sub-list for method output_type
-	13, // [13:20] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	15, // 0: document.orchestrator.v1.ExecuteTaskRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	0,  // 1: document.orchestrator.v1.ExecuteTaskRequest.task_subject:type_name -> document.orchestrator.v1.WorkerSubject
+	16, // 2: document.orchestrator.v1.ExecuteTaskRequest.payload:type_name -> google.protobuf.Struct
+	14, // 3: document.orchestrator.v1.ExecuteTaskRequest.headers:type_name -> document.orchestrator.v1.ExecuteTaskRequest.HeadersEntry
+	15, // 4: document.orchestrator.v1.ListenRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	16, // 5: document.orchestrator.v1.ProgressUpdate.final_results:type_name -> google.protobuf.Struct
+	15, // 6: document.orchestrator.v1.ProgressUpdate.identity:type_name -> document.models.v1.InfrastructureIdentity
+	16, // 7: document.orchestrator.v1.ResumeJobRequest.corrected:type_name -> google.protobuf.Struct
+	15, // 8: document.orchestrator.v1.ResumeJobRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 9: document.orchestrator.v1.PurgeSystemStateRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	15, // 10: document.orchestrator.v1.JobFailedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	17, // 11: document.orchestrator.v1.JobFailedRequest.error:type_name -> document.models.v1.ErrorContract
+	15, // 12: document.orchestrator.v1.JobSuspendedRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	17, // 13: document.orchestrator.v1.JobSuspendedRequest.error:type_name -> document.models.v1.ErrorContract
+	1,  // 14: document.orchestrator.v1.OrchestratorService.ExecuteTask:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	3,  // 15: document.orchestrator.v1.OrchestratorService.ListenForProgress:input_type -> document.orchestrator.v1.ListenRequest
+	5,  // 16: document.orchestrator.v1.OrchestratorService.ResumeJob:input_type -> document.orchestrator.v1.ResumeJobRequest
+	7,  // 17: document.orchestrator.v1.OrchestratorService.PurgeSystemState:input_type -> document.orchestrator.v1.PurgeSystemStateRequest
+	1,  // 18: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:input_type -> document.orchestrator.v1.ExecuteTaskRequest
+	12, // 19: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:input_type -> document.orchestrator.v1.JobFailedRequest
+	13, // 20: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:input_type -> document.orchestrator.v1.JobSuspendedRequest
+	2,  // 21: document.orchestrator.v1.OrchestratorService.ExecuteTask:output_type -> document.orchestrator.v1.ExecuteTaskResponse
+	4,  // 22: document.orchestrator.v1.OrchestratorService.ListenForProgress:output_type -> document.orchestrator.v1.ProgressUpdate
+	6,  // 23: document.orchestrator.v1.OrchestratorService.ResumeJob:output_type -> document.orchestrator.v1.ResumeJobResponse
+	8,  // 24: document.orchestrator.v1.OrchestratorService.PurgeSystemState:output_type -> document.orchestrator.v1.PurgeSystemStateResponse
+	9,  // 25: document.orchestrator.v1.OrchestratorCallbackService.OnTaskExecutionComplete:output_type -> document.orchestrator.v1.TaskExecutionCompleteResponse
+	10, // 26: document.orchestrator.v1.OrchestratorCallbackService.OnJobFailed:output_type -> document.orchestrator.v1.JobFailedResponse
+	11, // 27: document.orchestrator.v1.OrchestratorCallbackService.OnJobSuspended:output_type -> document.orchestrator.v1.JobSuspendedResponse
+	21, // [21:28] is the sub-list for method output_type
+	14, // [14:21] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_orchestrator_proto_init() }
@@ -896,13 +960,14 @@ func file_orchestrator_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
 		GoTypes:           file_orchestrator_proto_goTypes,
 		DependencyIndexes: file_orchestrator_proto_depIdxs,
+		EnumInfos:         file_orchestrator_proto_enumTypes,
 		MessageInfos:      file_orchestrator_proto_msgTypes,
 	}.Build()
 	File_orchestrator_proto = out.File
