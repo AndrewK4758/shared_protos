@@ -1,6 +1,6 @@
 # Shared Protos
 
-This repository contains the shared Protocol Buffer definitions for the Document Processor microservices. These protos define the unified gRPC contracts that drive communication between all components in the ecosystem.
+This repository contains the shared Protocol Buffer definitions for the MPloyee microservices. These protos define the unified gRPC contracts that drive communication between all components in the ecosystem.
 
 ## Documentation Index
 

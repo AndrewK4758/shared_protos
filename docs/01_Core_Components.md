@@ -1,6 +1,6 @@
 # Core Components
 
-This repository contains the shared Protocol Buffer definitions for the Document Processor microservices.
+This repository contains the shared Protocol Buffer definitions for the MPloyee microservices.
 
 ## Services
 
