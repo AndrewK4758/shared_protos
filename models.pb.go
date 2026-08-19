@@ -140,6 +140,58 @@ func (WorkflowState) EnumDescriptor() ([]byte, []int) {
 	return file_models_proto_rawDescGZIP(), []int{1}
 }
 
+type ValidationTier int32
+
+const (
+	ValidationTier_VALIDATION_TIER_UNSPECIFIED   ValidationTier = 0
+	ValidationTier_VALIDATION_TIER_1_EXACT       ValidationTier = 1
+	ValidationTier_VALIDATION_TIER_2_FUZZY       ValidationTier = 2
+	ValidationTier_VALIDATION_TIER_3_LLM_ARBITER ValidationTier = 3
+)
+
+// Enum value maps for ValidationTier.
+var (
+	ValidationTier_name = map[int32]string{
+		0: "VALIDATION_TIER_UNSPECIFIED",
+		1: "VALIDATION_TIER_1_EXACT",
+		2: "VALIDATION_TIER_2_FUZZY",
+		3: "VALIDATION_TIER_3_LLM_ARBITER",
+	}
+	ValidationTier_value = map[string]int32{
+		"VALIDATION_TIER_UNSPECIFIED":   0,
+		"VALIDATION_TIER_1_EXACT":       1,
+		"VALIDATION_TIER_2_FUZZY":       2,
+		"VALIDATION_TIER_3_LLM_ARBITER": 3,
+	}
+)
+
+func (x ValidationTier) Enum() *ValidationTier {
+	p := new(ValidationTier)
+	*p = x
+	return p
+}
+
+func (x ValidationTier) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ValidationTier) Descriptor() protoreflect.EnumDescriptor {
+	return file_models_proto_enumTypes[2].Descriptor()
+}
+
+func (ValidationTier) Type() protoreflect.EnumType {
+	return &file_models_proto_enumTypes[2]
+}
+
+func (x ValidationTier) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ValidationTier.Descriptor instead.
+func (ValidationTier) EnumDescriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{2}
+}
+
 type ErrorContract struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -1160,6 +1212,226 @@ func (x *RootWorkflowPayload) GetExpectedSchemaStruct() *structpb.Struct {
 	return nil
 }
 
+type FieldValidationRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	FieldKey      string                  `protobuf:"bytes,2,opt,name=field_key,json=fieldKey,proto3" json:"field_key,omitempty"`
+	DbValue       string                  `protobuf:"bytes,3,opt,name=db_value,json=dbValue,proto3" json:"db_value,omitempty"`
+	DocumentValue string                  `protobuf:"bytes,4,opt,name=document_value,json=documentValue,proto3" json:"document_value,omitempty"`
+	TargetTier    ValidationTier          `protobuf:"varint,5,opt,name=target_tier,json=targetTier,proto3,enum=document.models.v1.ValidationTier" json:"target_tier,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FieldValidationRequest) Reset() {
+	*x = FieldValidationRequest{}
+	mi := &file_models_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FieldValidationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FieldValidationRequest) ProtoMessage() {}
+
+func (x *FieldValidationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FieldValidationRequest.ProtoReflect.Descriptor instead.
+func (*FieldValidationRequest) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *FieldValidationRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *FieldValidationRequest) GetFieldKey() string {
+	if x != nil {
+		return x.FieldKey
+	}
+	return ""
+}
+
+func (x *FieldValidationRequest) GetDbValue() string {
+	if x != nil {
+		return x.DbValue
+	}
+	return ""
+}
+
+func (x *FieldValidationRequest) GetDocumentValue() string {
+	if x != nil {
+		return x.DocumentValue
+	}
+	return ""
+}
+
+func (x *FieldValidationRequest) GetTargetTier() ValidationTier {
+	if x != nil {
+		return x.TargetTier
+	}
+	return ValidationTier_VALIDATION_TIER_UNSPECIFIED
+}
+
+type FieldValidationResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FieldKey      string                 `protobuf:"bytes,1,opt,name=field_key,json=fieldKey,proto3" json:"field_key,omitempty"`
+	IsValid       bool                   `protobuf:"varint,2,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"`
+	TierPassed    ValidationTier         `protobuf:"varint,3,opt,name=tier_passed,json=tierPassed,proto3,enum=document.models.v1.ValidationTier" json:"tier_passed,omitempty"`
+	Confidence    float32                `protobuf:"fixed32,4,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	Reason        string                 `protobuf:"bytes,5,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FieldValidationResult) Reset() {
+	*x = FieldValidationResult{}
+	mi := &file_models_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FieldValidationResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FieldValidationResult) ProtoMessage() {}
+
+func (x *FieldValidationResult) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FieldValidationResult.ProtoReflect.Descriptor instead.
+func (*FieldValidationResult) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *FieldValidationResult) GetFieldKey() string {
+	if x != nil {
+		return x.FieldKey
+	}
+	return ""
+}
+
+func (x *FieldValidationResult) GetIsValid() bool {
+	if x != nil {
+		return x.IsValid
+	}
+	return false
+}
+
+func (x *FieldValidationResult) GetTierPassed() ValidationTier {
+	if x != nil {
+		return x.TierPassed
+	}
+	return ValidationTier_VALIDATION_TIER_UNSPECIFIED
+}
+
+func (x *FieldValidationResult) GetConfidence() float32 {
+	if x != nil {
+		return x.Confidence
+	}
+	return 0
+}
+
+func (x *FieldValidationResult) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type DocumentValidationReport struct {
+	state          protoimpl.MessageState   `protogen:"open.v1"`
+	Identity       *InfrastructureIdentity  `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	AllFieldsValid bool                     `protobuf:"varint,2,opt,name=all_fields_valid,json=allFieldsValid,proto3" json:"all_fields_valid,omitempty"`
+	FieldResults   []*FieldValidationResult `protobuf:"bytes,3,rep,name=field_results,json=fieldResults,proto3" json:"field_results,omitempty"`
+	HitlRequired   bool                     `protobuf:"varint,4,opt,name=hitl_required,json=hitlRequired,proto3" json:"hitl_required,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DocumentValidationReport) Reset() {
+	*x = DocumentValidationReport{}
+	mi := &file_models_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentValidationReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentValidationReport) ProtoMessage() {}
+
+func (x *DocumentValidationReport) ProtoReflect() protoreflect.Message {
+	mi := &file_models_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentValidationReport.ProtoReflect.Descriptor instead.
+func (*DocumentValidationReport) Descriptor() ([]byte, []int) {
+	return file_models_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DocumentValidationReport) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *DocumentValidationReport) GetAllFieldsValid() bool {
+	if x != nil {
+		return x.AllFieldsValid
+	}
+	return false
+}
+
+func (x *DocumentValidationReport) GetFieldResults() []*FieldValidationResult {
+	if x != nil {
+		return x.FieldResults
+	}
+	return nil
+}
+
+func (x *DocumentValidationReport) GetHitlRequired() bool {
+	if x != nil {
+		return x.HitlRequired
+	}
+	return false
+}
+
 var File_models_proto protoreflect.FileDescriptor
 
 const file_models_proto_rawDesc = "" +
@@ -1257,7 +1529,28 @@ const file_models_proto_rawDesc = "" +
 	"\astorage\x18\b \x01(\v2#.document.models.v1.StorageContractR\astorage\x12\\\n" +
 	"\x12document_processor\x18\t \x01(\v2-.document.models.v1.DocumentProcessorContractR\x11documentProcessor\x12M\n" +
 	"\x16expected_schema_struct\x18\n" +
-	" \x01(\v2\x17.google.protobuf.StructR\x14expectedSchemaStruct*\x9a\x01\n" +
+	" \x01(\v2\x17.google.protobuf.StructR\x14expectedSchemaStruct\"\x84\x02\n" +
+	"\x16FieldValidationRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1b\n" +
+	"\tfield_key\x18\x02 \x01(\tR\bfieldKey\x12\x19\n" +
+	"\bdb_value\x18\x03 \x01(\tR\adbValue\x12%\n" +
+	"\x0edocument_value\x18\x04 \x01(\tR\rdocumentValue\x12C\n" +
+	"\vtarget_tier\x18\x05 \x01(\x0e2\".document.models.v1.ValidationTierR\n" +
+	"targetTier\"\xcc\x01\n" +
+	"\x15FieldValidationResult\x12\x1b\n" +
+	"\tfield_key\x18\x01 \x01(\tR\bfieldKey\x12\x19\n" +
+	"\bis_valid\x18\x02 \x01(\bR\aisValid\x12C\n" +
+	"\vtier_passed\x18\x03 \x01(\x0e2\".document.models.v1.ValidationTierR\n" +
+	"tierPassed\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\x04 \x01(\x02R\n" +
+	"confidence\x12\x16\n" +
+	"\x06reason\x18\x05 \x01(\tR\x06reason\"\x81\x02\n" +
+	"\x18DocumentValidationReport\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12(\n" +
+	"\x10all_fields_valid\x18\x02 \x01(\bR\x0eallFieldsValid\x12N\n" +
+	"\rfield_results\x18\x03 \x03(\v2).document.models.v1.FieldValidationResultR\ffieldResults\x12#\n" +
+	"\rhitl_required\x18\x04 \x01(\bR\fhitlRequired*\x9a\x01\n" +
 	"\vModelChoice\x12\x1c\n" +
 	"\x18MODEL_CHOICE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17MODEL_CHOICE_EXTRACTION\x10\x01\x12\x1f\n" +
@@ -1271,7 +1564,12 @@ const file_models_proto_rawDesc = "" +
 	"\x18WORKFLOW_STATE_SUSPENDED\x10\x03\x12\x1c\n" +
 	"\x18WORKFLOW_STATE_COMPLETED\x10\x04\x12\x19\n" +
 	"\x15WORKFLOW_STATE_FAILED\x10\x05\x12\x1b\n" +
-	"\x17WORKFLOW_STATE_CANCELED\x10\x06B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
+	"\x17WORKFLOW_STATE_CANCELED\x10\x06*\x8e\x01\n" +
+	"\x0eValidationTier\x12\x1f\n" +
+	"\x1bVALIDATION_TIER_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17VALIDATION_TIER_1_EXACT\x10\x01\x12\x1b\n" +
+	"\x17VALIDATION_TIER_2_FUZZY\x10\x02\x12!\n" +
+	"\x1dVALIDATION_TIER_3_LLM_ARBITER\x10\x03B;Z$github.com/AndrewK4758/shared_protos\xaa\x02\x12Document.Models.V1b\x06proto3"
 
 var (
 	file_models_proto_rawDescOnce sync.Once
@@ -1285,60 +1583,69 @@ func file_models_proto_rawDescGZIP() []byte {
 	return file_models_proto_rawDescData
 }
 
-var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_models_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_models_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_models_proto_goTypes = []any{
 	(ModelChoice)(0),                  // 0: document.models.v1.ModelChoice
 	(WorkflowState)(0),                // 1: document.models.v1.WorkflowState
-	(*ErrorContract)(nil),             // 2: document.models.v1.ErrorContract
-	(*InfrastructureIdentity)(nil),    // 3: document.models.v1.InfrastructureIdentity
-	(*StorageContract)(nil),           // 4: document.models.v1.StorageContract
-	(*DocumentProcessorContract)(nil), // 5: document.models.v1.DocumentProcessorContract
-	(*CacheContract)(nil),             // 6: document.models.v1.CacheContract
-	(*HumanValidationContract)(nil),   // 7: document.models.v1.HumanValidationContract
-	(*NodeConfiguration)(nil),         // 8: document.models.v1.NodeConfiguration
-	(*ActionDefinition)(nil),          // 9: document.models.v1.ActionDefinition
-	(*ActiveJobExecution)(nil),        // 10: document.models.v1.ActiveJobExecution
-	(*GenericWorkflowState)(nil),      // 11: document.models.v1.GenericWorkflowState
-	(*ExecuteTaskPayload)(nil),        // 12: document.models.v1.ExecuteTaskPayload
-	(*GlobalState)(nil),               // 13: document.models.v1.GlobalState
-	(*RootWorkflowPayload)(nil),       // 14: document.models.v1.RootWorkflowPayload
-	(*timestamppb.Timestamp)(nil),     // 15: google.protobuf.Timestamp
-	(*structpb.Struct)(nil),           // 16: google.protobuf.Struct
-	(*anypb.Any)(nil),                 // 17: google.protobuf.Any
+	(ValidationTier)(0),               // 2: document.models.v1.ValidationTier
+	(*ErrorContract)(nil),             // 3: document.models.v1.ErrorContract
+	(*InfrastructureIdentity)(nil),    // 4: document.models.v1.InfrastructureIdentity
+	(*StorageContract)(nil),           // 5: document.models.v1.StorageContract
+	(*DocumentProcessorContract)(nil), // 6: document.models.v1.DocumentProcessorContract
+	(*CacheContract)(nil),             // 7: document.models.v1.CacheContract
+	(*HumanValidationContract)(nil),   // 8: document.models.v1.HumanValidationContract
+	(*NodeConfiguration)(nil),         // 9: document.models.v1.NodeConfiguration
+	(*ActionDefinition)(nil),          // 10: document.models.v1.ActionDefinition
+	(*ActiveJobExecution)(nil),        // 11: document.models.v1.ActiveJobExecution
+	(*GenericWorkflowState)(nil),      // 12: document.models.v1.GenericWorkflowState
+	(*ExecuteTaskPayload)(nil),        // 13: document.models.v1.ExecuteTaskPayload
+	(*GlobalState)(nil),               // 14: document.models.v1.GlobalState
+	(*RootWorkflowPayload)(nil),       // 15: document.models.v1.RootWorkflowPayload
+	(*FieldValidationRequest)(nil),    // 16: document.models.v1.FieldValidationRequest
+	(*FieldValidationResult)(nil),     // 17: document.models.v1.FieldValidationResult
+	(*DocumentValidationReport)(nil),  // 18: document.models.v1.DocumentValidationReport
+	(*timestamppb.Timestamp)(nil),     // 19: google.protobuf.Timestamp
+	(*structpb.Struct)(nil),           // 20: google.protobuf.Struct
+	(*anypb.Any)(nil),                 // 21: google.protobuf.Any
 }
 var file_models_proto_depIdxs = []int32{
-	15, // 0: document.models.v1.ErrorContract.timestamp:type_name -> google.protobuf.Timestamp
-	16, // 1: document.models.v1.ErrorContract.client_payload:type_name -> google.protobuf.Struct
-	17, // 2: document.models.v1.CacheContract.embedding_lookup:type_name -> google.protobuf.Any
-	16, // 3: document.models.v1.CacheContract.metadata_lookup:type_name -> google.protobuf.Struct
-	16, // 4: document.models.v1.NodeConfiguration.expected_schema_struct:type_name -> google.protobuf.Struct
+	19, // 0: document.models.v1.ErrorContract.timestamp:type_name -> google.protobuf.Timestamp
+	20, // 1: document.models.v1.ErrorContract.client_payload:type_name -> google.protobuf.Struct
+	21, // 2: document.models.v1.CacheContract.embedding_lookup:type_name -> google.protobuf.Any
+	20, // 3: document.models.v1.CacheContract.metadata_lookup:type_name -> google.protobuf.Struct
+	20, // 4: document.models.v1.NodeConfiguration.expected_schema_struct:type_name -> google.protobuf.Struct
 	1,  // 5: document.models.v1.GenericWorkflowState.current_state:type_name -> document.models.v1.WorkflowState
-	16, // 6: document.models.v1.GenericWorkflowState.state_payload:type_name -> google.protobuf.Struct
-	15, // 7: document.models.v1.GenericWorkflowState.last_updated:type_name -> google.protobuf.Timestamp
-	3,  // 8: document.models.v1.GenericWorkflowState.identity:type_name -> document.models.v1.InfrastructureIdentity
-	8,  // 9: document.models.v1.ExecuteTaskPayload.node_config:type_name -> document.models.v1.NodeConfiguration
-	16, // 10: document.models.v1.ExecuteTaskPayload.global_state:type_name -> google.protobuf.Struct
-	16, // 11: document.models.v1.ExecuteTaskPayload.node_output:type_name -> google.protobuf.Struct
-	16, // 12: document.models.v1.ExecuteTaskPayload.metadata:type_name -> google.protobuf.Struct
-	6,  // 13: document.models.v1.ExecuteTaskPayload.cache:type_name -> document.models.v1.CacheContract
-	7,  // 14: document.models.v1.ExecuteTaskPayload.human_validation:type_name -> document.models.v1.HumanValidationContract
-	4,  // 15: document.models.v1.ExecuteTaskPayload.storage:type_name -> document.models.v1.StorageContract
-	5,  // 16: document.models.v1.ExecuteTaskPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
-	16, // 17: document.models.v1.GlobalState.functional:type_name -> google.protobuf.Struct
-	16, // 18: document.models.v1.GlobalState.non_functional:type_name -> google.protobuf.Struct
-	16, // 19: document.models.v1.RootWorkflowPayload.metadata:type_name -> google.protobuf.Struct
-	6,  // 20: document.models.v1.RootWorkflowPayload.cache:type_name -> document.models.v1.CacheContract
-	13, // 21: document.models.v1.RootWorkflowPayload.global_state:type_name -> document.models.v1.GlobalState
-	8,  // 22: document.models.v1.RootWorkflowPayload.node_config:type_name -> document.models.v1.NodeConfiguration
-	4,  // 23: document.models.v1.RootWorkflowPayload.storage:type_name -> document.models.v1.StorageContract
-	5,  // 24: document.models.v1.RootWorkflowPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
-	16, // 25: document.models.v1.RootWorkflowPayload.expected_schema_struct:type_name -> google.protobuf.Struct
-	26, // [26:26] is the sub-list for method output_type
-	26, // [26:26] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	20, // 6: document.models.v1.GenericWorkflowState.state_payload:type_name -> google.protobuf.Struct
+	19, // 7: document.models.v1.GenericWorkflowState.last_updated:type_name -> google.protobuf.Timestamp
+	4,  // 8: document.models.v1.GenericWorkflowState.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 9: document.models.v1.ExecuteTaskPayload.node_config:type_name -> document.models.v1.NodeConfiguration
+	20, // 10: document.models.v1.ExecuteTaskPayload.global_state:type_name -> google.protobuf.Struct
+	20, // 11: document.models.v1.ExecuteTaskPayload.node_output:type_name -> google.protobuf.Struct
+	20, // 12: document.models.v1.ExecuteTaskPayload.metadata:type_name -> google.protobuf.Struct
+	7,  // 13: document.models.v1.ExecuteTaskPayload.cache:type_name -> document.models.v1.CacheContract
+	8,  // 14: document.models.v1.ExecuteTaskPayload.human_validation:type_name -> document.models.v1.HumanValidationContract
+	5,  // 15: document.models.v1.ExecuteTaskPayload.storage:type_name -> document.models.v1.StorageContract
+	6,  // 16: document.models.v1.ExecuteTaskPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
+	20, // 17: document.models.v1.GlobalState.functional:type_name -> google.protobuf.Struct
+	20, // 18: document.models.v1.GlobalState.non_functional:type_name -> google.protobuf.Struct
+	20, // 19: document.models.v1.RootWorkflowPayload.metadata:type_name -> google.protobuf.Struct
+	7,  // 20: document.models.v1.RootWorkflowPayload.cache:type_name -> document.models.v1.CacheContract
+	14, // 21: document.models.v1.RootWorkflowPayload.global_state:type_name -> document.models.v1.GlobalState
+	9,  // 22: document.models.v1.RootWorkflowPayload.node_config:type_name -> document.models.v1.NodeConfiguration
+	5,  // 23: document.models.v1.RootWorkflowPayload.storage:type_name -> document.models.v1.StorageContract
+	6,  // 24: document.models.v1.RootWorkflowPayload.document_processor:type_name -> document.models.v1.DocumentProcessorContract
+	20, // 25: document.models.v1.RootWorkflowPayload.expected_schema_struct:type_name -> google.protobuf.Struct
+	4,  // 26: document.models.v1.FieldValidationRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	2,  // 27: document.models.v1.FieldValidationRequest.target_tier:type_name -> document.models.v1.ValidationTier
+	2,  // 28: document.models.v1.FieldValidationResult.tier_passed:type_name -> document.models.v1.ValidationTier
+	4,  // 29: document.models.v1.DocumentValidationReport.identity:type_name -> document.models.v1.InfrastructureIdentity
+	17, // 30: document.models.v1.DocumentValidationReport.field_results:type_name -> document.models.v1.FieldValidationResult
+	31, // [31:31] is the sub-list for method output_type
+	31, // [31:31] is the sub-list for method input_type
+	31, // [31:31] is the sub-list for extension type_name
+	31, // [31:31] is the sub-list for extension extendee
+	0,  // [0:31] is the sub-list for field type_name
 }
 
 func init() { file_models_proto_init() }
@@ -1351,8 +1658,8 @@ func file_models_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_models_proto_rawDesc), len(file_models_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   13,
+			NumEnums:      3,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

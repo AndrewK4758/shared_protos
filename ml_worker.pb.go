@@ -246,17 +246,280 @@ func (x *PiiRedactionResponse) GetRedactedBoxesCount() int32 {
 	return 0
 }
 
+type NormalizedRedactionBox struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	X0            float32                `protobuf:"fixed32,1,opt,name=x0,proto3" json:"x0,omitempty"`
+	Y0            float32                `protobuf:"fixed32,2,opt,name=y0,proto3" json:"y0,omitempty"`
+	X1            float32                `protobuf:"fixed32,3,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1            float32                `protobuf:"fixed32,4,opt,name=y1,proto3" json:"y1,omitempty"`
+	PageNumber    int32                  `protobuf:"varint,5,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	PiiType       PiiType                `protobuf:"varint,6,opt,name=pii_type,json=piiType,proto3,enum=ml.worker.v1.PiiType" json:"pii_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NormalizedRedactionBox) Reset() {
+	*x = NormalizedRedactionBox{}
+	mi := &file_ml_worker_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NormalizedRedactionBox) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NormalizedRedactionBox) ProtoMessage() {}
+
+func (x *NormalizedRedactionBox) ProtoReflect() protoreflect.Message {
+	mi := &file_ml_worker_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NormalizedRedactionBox.ProtoReflect.Descriptor instead.
+func (*NormalizedRedactionBox) Descriptor() ([]byte, []int) {
+	return file_ml_worker_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *NormalizedRedactionBox) GetX0() float32 {
+	if x != nil {
+		return x.X0
+	}
+	return 0
+}
+
+func (x *NormalizedRedactionBox) GetY0() float32 {
+	if x != nil {
+		return x.Y0
+	}
+	return 0
+}
+
+func (x *NormalizedRedactionBox) GetX1() float32 {
+	if x != nil {
+		return x.X1
+	}
+	return 0
+}
+
+func (x *NormalizedRedactionBox) GetY1() float32 {
+	if x != nil {
+		return x.Y1
+	}
+	return 0
+}
+
+func (x *NormalizedRedactionBox) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *NormalizedRedactionBox) GetPiiType() PiiType {
+	if x != nil {
+		return x.PiiType
+	}
+	return PiiType_PII_TYPE_UNSPECIFIED
+}
+
+type ExtractedSpan struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	X0            float32                `protobuf:"fixed32,2,opt,name=x0,proto3" json:"x0,omitempty"`
+	Y0            float32                `protobuf:"fixed32,3,opt,name=y0,proto3" json:"y0,omitempty"`
+	X1            float32                `protobuf:"fixed32,4,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1            float32                `protobuf:"fixed32,5,opt,name=y1,proto3" json:"y1,omitempty"`
+	Label         string                 `protobuf:"bytes,6,opt,name=label,proto3" json:"label,omitempty"`
+	Confidence    float32                `protobuf:"fixed32,7,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	PageNumber    int32                  `protobuf:"varint,8,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExtractedSpan) Reset() {
+	*x = ExtractedSpan{}
+	mi := &file_ml_worker_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExtractedSpan) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExtractedSpan) ProtoMessage() {}
+
+func (x *ExtractedSpan) ProtoReflect() protoreflect.Message {
+	mi := &file_ml_worker_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExtractedSpan.ProtoReflect.Descriptor instead.
+func (*ExtractedSpan) Descriptor() ([]byte, []int) {
+	return file_ml_worker_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ExtractedSpan) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+func (x *ExtractedSpan) GetX0() float32 {
+	if x != nil {
+		return x.X0
+	}
+	return 0
+}
+
+func (x *ExtractedSpan) GetY0() float32 {
+	if x != nil {
+		return x.Y0
+	}
+	return 0
+}
+
+func (x *ExtractedSpan) GetX1() float32 {
+	if x != nil {
+		return x.X1
+	}
+	return 0
+}
+
+func (x *ExtractedSpan) GetY1() float32 {
+	if x != nil {
+		return x.Y1
+	}
+	return 0
+}
+
+func (x *ExtractedSpan) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+func (x *ExtractedSpan) GetConfidence() float32 {
+	if x != nil {
+		return x.Confidence
+	}
+	return 0
+}
+
+func (x *ExtractedSpan) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+type SpatialFeatureVector struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber    int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	HeaderDensity float32                `protobuf:"fixed32,2,opt,name=header_density,json=headerDensity,proto3" json:"header_density,omitempty"`
+	BodyDensity   float32                `protobuf:"fixed32,3,opt,name=body_density,json=bodyDensity,proto3" json:"body_density,omitempty"`
+	LineCount     int32                  `protobuf:"varint,4,opt,name=line_count,json=lineCount,proto3" json:"line_count,omitempty"`
+	HasTopHeader  bool                   `protobuf:"varint,5,opt,name=has_top_header,json=hasTopHeader,proto3" json:"has_top_header,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SpatialFeatureVector) Reset() {
+	*x = SpatialFeatureVector{}
+	mi := &file_ml_worker_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SpatialFeatureVector) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SpatialFeatureVector) ProtoMessage() {}
+
+func (x *SpatialFeatureVector) ProtoReflect() protoreflect.Message {
+	mi := &file_ml_worker_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SpatialFeatureVector.ProtoReflect.Descriptor instead.
+func (*SpatialFeatureVector) Descriptor() ([]byte, []int) {
+	return file_ml_worker_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SpatialFeatureVector) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *SpatialFeatureVector) GetHeaderDensity() float32 {
+	if x != nil {
+		return x.HeaderDensity
+	}
+	return 0
+}
+
+func (x *SpatialFeatureVector) GetBodyDensity() float32 {
+	if x != nil {
+		return x.BodyDensity
+	}
+	return 0
+}
+
+func (x *SpatialFeatureVector) GetLineCount() int32 {
+	if x != nil {
+		return x.LineCount
+	}
+	return 0
+}
+
+func (x *SpatialFeatureVector) GetHasTopHeader() bool {
+	if x != nil {
+		return x.HasTopHeader
+	}
+	return false
+}
+
 type RedactDocumentRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	DocumentUri   string                  `protobuf:"bytes,1,opt,name=document_uri,json=documentUri,proto3" json:"document_uri,omitempty"`
-	Identity      *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	state         protoimpl.MessageState    `protogen:"open.v1"`
+	DocumentUri   string                    `protobuf:"bytes,1,opt,name=document_uri,json=documentUri,proto3" json:"document_uri,omitempty"`
+	Identity      *InfrastructureIdentity   `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	DynamicLabels []string                  `protobuf:"bytes,7,rep,name=dynamic_labels,json=dynamicLabels,proto3" json:"dynamic_labels,omitempty"`
+	CustomBoxes   []*NormalizedRedactionBox `protobuf:"bytes,8,rep,name=custom_boxes,json=customBoxes,proto3" json:"custom_boxes,omitempty"`
+	RawFileBytes  []byte                    `protobuf:"bytes,9,opt,name=raw_file_bytes,json=rawFileBytes,proto3" json:"raw_file_bytes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RedactDocumentRequest) Reset() {
 	*x = RedactDocumentRequest{}
-	mi := &file_ml_worker_proto_msgTypes[2]
+	mi := &file_ml_worker_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -268,7 +531,7 @@ func (x *RedactDocumentRequest) String() string {
 func (*RedactDocumentRequest) ProtoMessage() {}
 
 func (x *RedactDocumentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_ml_worker_proto_msgTypes[2]
+	mi := &file_ml_worker_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -281,7 +544,7 @@ func (x *RedactDocumentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedactDocumentRequest.ProtoReflect.Descriptor instead.
 func (*RedactDocumentRequest) Descriptor() ([]byte, []int) {
-	return file_ml_worker_proto_rawDescGZIP(), []int{2}
+	return file_ml_worker_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RedactDocumentRequest) GetDocumentUri() string {
@@ -298,17 +561,41 @@ func (x *RedactDocumentRequest) GetIdentity() *InfrastructureIdentity {
 	return nil
 }
 
+func (x *RedactDocumentRequest) GetDynamicLabels() []string {
+	if x != nil {
+		return x.DynamicLabels
+	}
+	return nil
+}
+
+func (x *RedactDocumentRequest) GetCustomBoxes() []*NormalizedRedactionBox {
+	if x != nil {
+		return x.CustomBoxes
+	}
+	return nil
+}
+
+func (x *RedactDocumentRequest) GetRawFileBytes() []byte {
+	if x != nil {
+		return x.RawFileBytes
+	}
+	return nil
+}
+
 type RedactDocumentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorMessage  string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Success            bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMessage       string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	RedactedFileBytes  []byte                 `protobuf:"bytes,3,opt,name=redacted_file_bytes,json=redactedFileBytes,proto3" json:"redacted_file_bytes,omitempty"`
+	RedactedBoxesCount int32                  `protobuf:"varint,4,opt,name=redacted_boxes_count,json=redactedBoxesCount,proto3" json:"redacted_boxes_count,omitempty"`
+	ExtractedSpans     []*ExtractedSpan       `protobuf:"bytes,5,rep,name=extracted_spans,json=extractedSpans,proto3" json:"extracted_spans,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *RedactDocumentResponse) Reset() {
 	*x = RedactDocumentResponse{}
-	mi := &file_ml_worker_proto_msgTypes[3]
+	mi := &file_ml_worker_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -320,7 +607,7 @@ func (x *RedactDocumentResponse) String() string {
 func (*RedactDocumentResponse) ProtoMessage() {}
 
 func (x *RedactDocumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_ml_worker_proto_msgTypes[3]
+	mi := &file_ml_worker_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -333,7 +620,7 @@ func (x *RedactDocumentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedactDocumentResponse.ProtoReflect.Descriptor instead.
 func (*RedactDocumentResponse) Descriptor() ([]byte, []int) {
-	return file_ml_worker_proto_rawDescGZIP(), []int{3}
+	return file_ml_worker_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RedactDocumentResponse) GetSuccess() bool {
@@ -350,6 +637,27 @@ func (x *RedactDocumentResponse) GetErrorMessage() string {
 	return ""
 }
 
+func (x *RedactDocumentResponse) GetRedactedFileBytes() []byte {
+	if x != nil {
+		return x.RedactedFileBytes
+	}
+	return nil
+}
+
+func (x *RedactDocumentResponse) GetRedactedBoxesCount() int32 {
+	if x != nil {
+		return x.RedactedBoxesCount
+	}
+	return 0
+}
+
+func (x *RedactDocumentResponse) GetExtractedSpans() []*ExtractedSpan {
+	if x != nil {
+		return x.ExtractedSpans
+	}
+	return nil
+}
+
 var File_ml_worker_proto protoreflect.FileDescriptor
 
 const file_ml_worker_proto_rawDesc = "" +
@@ -363,13 +671,47 @@ const file_ml_worker_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12.\n" +
 	"\x13redacted_file_bytes\x18\x03 \x01(\fR\x11redactedFileBytes\x120\n" +
-	"\x14redacted_boxes_count\x18\x04 \x01(\x05R\x12redactedBoxesCount\"\x82\x01\n" +
+	"\x14redacted_boxes_count\x18\x04 \x01(\x05R\x12redactedBoxesCount\"\xab\x01\n" +
+	"\x16NormalizedRedactionBox\x12\x0e\n" +
+	"\x02x0\x18\x01 \x01(\x02R\x02x0\x12\x0e\n" +
+	"\x02y0\x18\x02 \x01(\x02R\x02y0\x12\x0e\n" +
+	"\x02x1\x18\x03 \x01(\x02R\x02x1\x12\x0e\n" +
+	"\x02y1\x18\x04 \x01(\x02R\x02y1\x12\x1f\n" +
+	"\vpage_number\x18\x05 \x01(\x05R\n" +
+	"pageNumber\x120\n" +
+	"\bpii_type\x18\x06 \x01(\x0e2\x15.ml.worker.v1.PiiTypeR\apiiType\"\xba\x01\n" +
+	"\rExtractedSpan\x12\x12\n" +
+	"\x04text\x18\x01 \x01(\tR\x04text\x12\x0e\n" +
+	"\x02x0\x18\x02 \x01(\x02R\x02x0\x12\x0e\n" +
+	"\x02y0\x18\x03 \x01(\x02R\x02y0\x12\x0e\n" +
+	"\x02x1\x18\x04 \x01(\x02R\x02x1\x12\x0e\n" +
+	"\x02y1\x18\x05 \x01(\x02R\x02y1\x12\x14\n" +
+	"\x05label\x18\x06 \x01(\tR\x05label\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\a \x01(\x02R\n" +
+	"confidence\x12\x1f\n" +
+	"\vpage_number\x18\b \x01(\x05R\n" +
+	"pageNumber\"\xc6\x01\n" +
+	"\x14SpatialFeatureVector\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12%\n" +
+	"\x0eheader_density\x18\x02 \x01(\x02R\rheaderDensity\x12!\n" +
+	"\fbody_density\x18\x03 \x01(\x02R\vbodyDensity\x12\x1d\n" +
+	"\n" +
+	"line_count\x18\x04 \x01(\x05R\tlineCount\x12$\n" +
+	"\x0ehas_top_header\x18\x05 \x01(\bR\fhasTopHeader\"\x98\x02\n" +
 	"\x15RedactDocumentRequest\x12!\n" +
 	"\fdocument_uri\x18\x01 \x01(\tR\vdocumentUri\x12F\n" +
-	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\"W\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12%\n" +
+	"\x0edynamic_labels\x18\a \x03(\tR\rdynamicLabels\x12G\n" +
+	"\fcustom_boxes\x18\b \x03(\v2$.ml.worker.v1.NormalizedRedactionBoxR\vcustomBoxes\x12$\n" +
+	"\x0eraw_file_bytes\x18\t \x01(\fR\frawFileBytes\"\xff\x01\n" +
 	"\x16RedactDocumentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage*\xc5\x03\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12.\n" +
+	"\x13redacted_file_bytes\x18\x03 \x01(\fR\x11redactedFileBytes\x120\n" +
+	"\x14redacted_boxes_count\x18\x04 \x01(\x05R\x12redactedBoxesCount\x12D\n" +
+	"\x0fextracted_spans\x18\x05 \x03(\v2\x1b.ml.worker.v1.ExtractedSpanR\x0eextractedSpans*\xc5\x03\n" +
 	"\aPiiType\x12\x18\n" +
 	"\x14PII_TYPE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14PII_TYPE_PERSON_NAME\x10\x01\x12\x14\n" +
@@ -409,28 +751,34 @@ func file_ml_worker_proto_rawDescGZIP() []byte {
 }
 
 var file_ml_worker_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ml_worker_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_ml_worker_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_ml_worker_proto_goTypes = []any{
 	(PiiType)(0),                   // 0: ml.worker.v1.PiiType
 	(*PiiRedactionRequest)(nil),    // 1: ml.worker.v1.PiiRedactionRequest
 	(*PiiRedactionResponse)(nil),   // 2: ml.worker.v1.PiiRedactionResponse
-	(*RedactDocumentRequest)(nil),  // 3: ml.worker.v1.RedactDocumentRequest
-	(*RedactDocumentResponse)(nil), // 4: ml.worker.v1.RedactDocumentResponse
-	(*InfrastructureIdentity)(nil), // 5: document.models.v1.InfrastructureIdentity
+	(*NormalizedRedactionBox)(nil), // 3: ml.worker.v1.NormalizedRedactionBox
+	(*ExtractedSpan)(nil),          // 4: ml.worker.v1.ExtractedSpan
+	(*SpatialFeatureVector)(nil),   // 5: ml.worker.v1.SpatialFeatureVector
+	(*RedactDocumentRequest)(nil),  // 6: ml.worker.v1.RedactDocumentRequest
+	(*RedactDocumentResponse)(nil), // 7: ml.worker.v1.RedactDocumentResponse
+	(*InfrastructureIdentity)(nil), // 8: document.models.v1.InfrastructureIdentity
 }
 var file_ml_worker_proto_depIdxs = []int32{
-	5, // 0: ml.worker.v1.PiiRedactionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	8, // 0: ml.worker.v1.PiiRedactionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	0, // 1: ml.worker.v1.PiiRedactionRequest.target_pii_types:type_name -> ml.worker.v1.PiiType
-	5, // 2: ml.worker.v1.RedactDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	1, // 3: ml.worker.v1.MlWorkerService.RedactPii:input_type -> ml.worker.v1.PiiRedactionRequest
-	3, // 4: ml.worker.v1.CppMlWorkerService.RedactDocument:input_type -> ml.worker.v1.RedactDocumentRequest
-	2, // 5: ml.worker.v1.MlWorkerService.RedactPii:output_type -> ml.worker.v1.PiiRedactionResponse
-	4, // 6: ml.worker.v1.CppMlWorkerService.RedactDocument:output_type -> ml.worker.v1.RedactDocumentResponse
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 2: ml.worker.v1.NormalizedRedactionBox.pii_type:type_name -> ml.worker.v1.PiiType
+	8, // 3: ml.worker.v1.RedactDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	3, // 4: ml.worker.v1.RedactDocumentRequest.custom_boxes:type_name -> ml.worker.v1.NormalizedRedactionBox
+	4, // 5: ml.worker.v1.RedactDocumentResponse.extracted_spans:type_name -> ml.worker.v1.ExtractedSpan
+	1, // 6: ml.worker.v1.MlWorkerService.RedactPii:input_type -> ml.worker.v1.PiiRedactionRequest
+	6, // 7: ml.worker.v1.CppMlWorkerService.RedactDocument:input_type -> ml.worker.v1.RedactDocumentRequest
+	2, // 8: ml.worker.v1.MlWorkerService.RedactPii:output_type -> ml.worker.v1.PiiRedactionResponse
+	7, // 9: ml.worker.v1.CppMlWorkerService.RedactDocument:output_type -> ml.worker.v1.RedactDocumentResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_ml_worker_proto_init() }
@@ -445,7 +793,7 @@ func file_ml_worker_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ml_worker_proto_rawDesc), len(file_ml_worker_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

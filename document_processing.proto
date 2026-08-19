@@ -53,3 +53,21 @@ message ChunkDocumentResponse {
   repeated ProcessedDocument processed_documents = 3;
   repeated ChunkingTraceEvent trace_events = 4;
 }
+
+message PageEvaluation {
+  int32 page_number = 1;
+  bool is_first_page = 2;
+  bool is_last_page = 3;
+  string document_type = 4;
+  float boundary_confidence = 5;
+  float spatial_density = 6;
+  repeated float logits = 7;
+}
+
+message LogicalBoundaryDecision {
+  int32 page_number = 1;
+  string decision = 2; // e.g. "START_NEW_DOCUMENT", "CONTINUE_CURRENT", "SPLIT_HERE"
+  float confidence = 3;
+  string reason = 4;
+}
+

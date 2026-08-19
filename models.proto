@@ -140,3 +140,34 @@ message RootWorkflowPayload {
   DocumentProcessorContract document_processor = 9;
   google.protobuf.Struct expected_schema_struct = 10;
 }
+
+enum ValidationTier {
+  VALIDATION_TIER_UNSPECIFIED = 0;
+  VALIDATION_TIER_1_EXACT = 1;
+  VALIDATION_TIER_2_FUZZY = 2;
+  VALIDATION_TIER_3_LLM_ARBITER = 3;
+}
+
+message FieldValidationRequest {
+  InfrastructureIdentity identity = 1;
+  string field_key = 2;
+  string db_value = 3;
+  string document_value = 4;
+  ValidationTier target_tier = 5;
+}
+
+message FieldValidationResult {
+  string field_key = 1;
+  bool is_valid = 2;
+  ValidationTier tier_passed = 3;
+  float confidence = 4;
+  string reason = 5;
+}
+
+message DocumentValidationReport {
+  InfrastructureIdentity identity = 1;
+  bool all_fields_valid = 2;
+  repeated FieldValidationResult field_results = 3;
+  bool hitl_required = 4;
+}
+

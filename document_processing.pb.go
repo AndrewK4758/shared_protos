@@ -413,6 +413,166 @@ func (x *ChunkDocumentResponse) GetTraceEvents() []*ChunkingTraceEvent {
 	return nil
 }
 
+type PageEvaluation struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber         int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	IsFirstPage        bool                   `protobuf:"varint,2,opt,name=is_first_page,json=isFirstPage,proto3" json:"is_first_page,omitempty"`
+	IsLastPage         bool                   `protobuf:"varint,3,opt,name=is_last_page,json=isLastPage,proto3" json:"is_last_page,omitempty"`
+	DocumentType       string                 `protobuf:"bytes,4,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	BoundaryConfidence float32                `protobuf:"fixed32,5,opt,name=boundary_confidence,json=boundaryConfidence,proto3" json:"boundary_confidence,omitempty"`
+	SpatialDensity     float32                `protobuf:"fixed32,6,opt,name=spatial_density,json=spatialDensity,proto3" json:"spatial_density,omitempty"`
+	Logits             []float32              `protobuf:"fixed32,7,rep,packed,name=logits,proto3" json:"logits,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *PageEvaluation) Reset() {
+	*x = PageEvaluation{}
+	mi := &file_document_processing_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PageEvaluation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PageEvaluation) ProtoMessage() {}
+
+func (x *PageEvaluation) ProtoReflect() protoreflect.Message {
+	mi := &file_document_processing_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PageEvaluation.ProtoReflect.Descriptor instead.
+func (*PageEvaluation) Descriptor() ([]byte, []int) {
+	return file_document_processing_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PageEvaluation) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *PageEvaluation) GetIsFirstPage() bool {
+	if x != nil {
+		return x.IsFirstPage
+	}
+	return false
+}
+
+func (x *PageEvaluation) GetIsLastPage() bool {
+	if x != nil {
+		return x.IsLastPage
+	}
+	return false
+}
+
+func (x *PageEvaluation) GetDocumentType() string {
+	if x != nil {
+		return x.DocumentType
+	}
+	return ""
+}
+
+func (x *PageEvaluation) GetBoundaryConfidence() float32 {
+	if x != nil {
+		return x.BoundaryConfidence
+	}
+	return 0
+}
+
+func (x *PageEvaluation) GetSpatialDensity() float32 {
+	if x != nil {
+		return x.SpatialDensity
+	}
+	return 0
+}
+
+func (x *PageEvaluation) GetLogits() []float32 {
+	if x != nil {
+		return x.Logits
+	}
+	return nil
+}
+
+type LogicalBoundaryDecision struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageNumber    int32                  `protobuf:"varint,1,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
+	Decision      string                 `protobuf:"bytes,2,opt,name=decision,proto3" json:"decision,omitempty"` // e.g. "START_NEW_DOCUMENT", "CONTINUE_CURRENT", "SPLIT_HERE"
+	Confidence    float32                `protobuf:"fixed32,3,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	Reason        string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogicalBoundaryDecision) Reset() {
+	*x = LogicalBoundaryDecision{}
+	mi := &file_document_processing_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogicalBoundaryDecision) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogicalBoundaryDecision) ProtoMessage() {}
+
+func (x *LogicalBoundaryDecision) ProtoReflect() protoreflect.Message {
+	mi := &file_document_processing_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogicalBoundaryDecision.ProtoReflect.Descriptor instead.
+func (*LogicalBoundaryDecision) Descriptor() ([]byte, []int) {
+	return file_document_processing_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *LogicalBoundaryDecision) GetPageNumber() int32 {
+	if x != nil {
+		return x.PageNumber
+	}
+	return 0
+}
+
+func (x *LogicalBoundaryDecision) GetDecision() string {
+	if x != nil {
+		return x.Decision
+	}
+	return ""
+}
+
+func (x *LogicalBoundaryDecision) GetConfidence() float32 {
+	if x != nil {
+		return x.Confidence
+	}
+	return 0
+}
+
+func (x *LogicalBoundaryDecision) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
 var File_document_processing_proto protoreflect.FileDescriptor
 
 const file_document_processing_proto_rawDesc = "" +
@@ -448,7 +608,25 @@ const file_document_processing_proto_rawDesc = "" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\x12Z\n" +
 	"\x13processed_documents\x18\x03 \x03(\v2).document.processing.v1.ProcessedDocumentR\x12processedDocuments\x12M\n" +
-	"\ftrace_events\x18\x04 \x03(\v2*.document.processing.v1.ChunkingTraceEventR\vtraceEvents2\xf7\x01\n" +
+	"\ftrace_events\x18\x04 \x03(\v2*.document.processing.v1.ChunkingTraceEventR\vtraceEvents\"\x8e\x02\n" +
+	"\x0ePageEvaluation\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12\"\n" +
+	"\ris_first_page\x18\x02 \x01(\bR\visFirstPage\x12 \n" +
+	"\fis_last_page\x18\x03 \x01(\bR\n" +
+	"isLastPage\x12#\n" +
+	"\rdocument_type\x18\x04 \x01(\tR\fdocumentType\x12/\n" +
+	"\x13boundary_confidence\x18\x05 \x01(\x02R\x12boundaryConfidence\x12'\n" +
+	"\x0fspatial_density\x18\x06 \x01(\x02R\x0espatialDensity\x12\x16\n" +
+	"\x06logits\x18\a \x03(\x02R\x06logits\"\x8e\x01\n" +
+	"\x17LogicalBoundaryDecision\x12\x1f\n" +
+	"\vpage_number\x18\x01 \x01(\x05R\n" +
+	"pageNumber\x12\x1a\n" +
+	"\bdecision\x18\x02 \x01(\tR\bdecision\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\x03 \x01(\x02R\n" +
+	"confidence\x12\x16\n" +
+	"\x06reason\x18\x04 \x01(\tR\x06reason2\xf7\x01\n" +
 	"\x19DocumentProcessingService\x12p\n" +
 	"\rChunkDocument\x12,.document.processing.v1.ChunkDocumentRequest\x1a-.document.processing.v1.ChunkDocumentResponse(\x010\x01\x12h\n" +
 	"\x0fProcessDocument\x12).document.processing.v1.ProcessDocRequest\x1a*.document.processing.v1.ProcessDocResponseB?Z$github.com/AndrewK4758/shared_protos\xaa\x02\x16Document.Processing.V1b\x06proto3"
@@ -465,7 +643,7 @@ func file_document_processing_proto_rawDescGZIP() []byte {
 	return file_document_processing_proto_rawDescData
 }
 
-var file_document_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_document_processing_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_document_processing_proto_goTypes = []any{
 	(*ProcessDocRequest)(nil),         // 0: document.processing.v1.ProcessDocRequest
 	(*ProcessDocResponse)(nil),        // 1: document.processing.v1.ProcessDocResponse
@@ -473,28 +651,30 @@ var file_document_processing_proto_goTypes = []any{
 	(*ProcessedDocument)(nil),         // 3: document.processing.v1.ProcessedDocument
 	(*ChunkingTraceEvent)(nil),        // 4: document.processing.v1.ChunkingTraceEvent
 	(*ChunkDocumentResponse)(nil),     // 5: document.processing.v1.ChunkDocumentResponse
-	(*InfrastructureIdentity)(nil),    // 6: document.models.v1.InfrastructureIdentity
-	(PiiType)(0),                      // 7: ml.worker.v1.PiiType
-	(*DocumentProcessorContract)(nil), // 8: document.models.v1.DocumentProcessorContract
-	(*ExecuteTaskRequest)(nil),        // 9: document.orchestrator.v1.ExecuteTaskRequest
+	(*PageEvaluation)(nil),            // 6: document.processing.v1.PageEvaluation
+	(*LogicalBoundaryDecision)(nil),   // 7: document.processing.v1.LogicalBoundaryDecision
+	(*InfrastructureIdentity)(nil),    // 8: document.models.v1.InfrastructureIdentity
+	(PiiType)(0),                      // 9: ml.worker.v1.PiiType
+	(*DocumentProcessorContract)(nil), // 10: document.models.v1.DocumentProcessorContract
+	(*ExecuteTaskRequest)(nil),        // 11: document.orchestrator.v1.ExecuteTaskRequest
 }
 var file_document_processing_proto_depIdxs = []int32{
-	6, // 0: document.processing.v1.ProcessDocRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	7, // 1: document.processing.v1.ProcessDocRequest.target_pii_types:type_name -> ml.worker.v1.PiiType
-	6, // 2: document.processing.v1.ChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	8, // 3: document.processing.v1.ChunkDocumentRequest.document_processor:type_name -> document.models.v1.DocumentProcessorContract
-	9, // 4: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteTaskRequest
-	3, // 5: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
-	4, // 6: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
-	2, // 7: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
-	0, // 8: document.processing.v1.DocumentProcessingService.ProcessDocument:input_type -> document.processing.v1.ProcessDocRequest
-	5, // 9: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
-	1, // 10: document.processing.v1.DocumentProcessingService.ProcessDocument:output_type -> document.processing.v1.ProcessDocResponse
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	8,  // 0: document.processing.v1.ProcessDocRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	9,  // 1: document.processing.v1.ProcessDocRequest.target_pii_types:type_name -> ml.worker.v1.PiiType
+	8,  // 2: document.processing.v1.ChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	10, // 3: document.processing.v1.ChunkDocumentRequest.document_processor:type_name -> document.models.v1.DocumentProcessorContract
+	11, // 4: document.processing.v1.ChunkDocumentRequest.original_request:type_name -> document.orchestrator.v1.ExecuteTaskRequest
+	3,  // 5: document.processing.v1.ChunkDocumentResponse.processed_documents:type_name -> document.processing.v1.ProcessedDocument
+	4,  // 6: document.processing.v1.ChunkDocumentResponse.trace_events:type_name -> document.processing.v1.ChunkingTraceEvent
+	2,  // 7: document.processing.v1.DocumentProcessingService.ChunkDocument:input_type -> document.processing.v1.ChunkDocumentRequest
+	0,  // 8: document.processing.v1.DocumentProcessingService.ProcessDocument:input_type -> document.processing.v1.ProcessDocRequest
+	5,  // 9: document.processing.v1.DocumentProcessingService.ChunkDocument:output_type -> document.processing.v1.ChunkDocumentResponse
+	1,  // 10: document.processing.v1.DocumentProcessingService.ProcessDocument:output_type -> document.processing.v1.ProcessDocResponse
+	9,  // [9:11] is the sub-list for method output_type
+	7,  // [7:9] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_document_processing_proto_init() }
@@ -511,7 +691,7 @@ func file_document_processing_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_document_processing_proto_rawDesc), len(file_document_processing_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

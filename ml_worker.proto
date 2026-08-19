@@ -46,6 +46,34 @@ message PiiRedactionResponse {
   int32 redacted_boxes_count = 4;
 }
 
+message NormalizedRedactionBox {
+  float x0 = 1;
+  float y0 = 2;
+  float x1 = 3;
+  float y1 = 4;
+  int32 page_number = 5;
+  PiiType pii_type = 6;
+}
+
+message ExtractedSpan {
+  string text = 1;
+  float x0 = 2;
+  float y0 = 3;
+  float x1 = 4;
+  float y1 = 5;
+  string label = 6;
+  float confidence = 7;
+  int32 page_number = 8;
+}
+
+message SpatialFeatureVector {
+  int32 page_number = 1;
+  float header_density = 2;
+  float body_density = 3;
+  int32 line_count = 4;
+  bool has_top_header = 5;
+}
+
 service CppMlWorkerService {
   rpc RedactDocument(RedactDocumentRequest) returns (RedactDocumentResponse);
 }
@@ -53,9 +81,16 @@ service CppMlWorkerService {
 message RedactDocumentRequest {
   string document_uri = 1;
   document.models.v1.InfrastructureIdentity identity = 2;
+  repeated string dynamic_labels = 7;
+  repeated NormalizedRedactionBox custom_boxes = 8;
+  bytes raw_file_bytes = 9;
 }
 
 message RedactDocumentResponse {
   bool success = 1;
   string error_message = 2;
+  bytes redacted_file_bytes = 3;
+  int32 redacted_boxes_count = 4;
+  repeated ExtractedSpan extracted_spans = 5;
 }
+
