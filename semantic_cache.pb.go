@@ -1252,6 +1252,482 @@ func (x *SemanticChunkDocumentResponse) GetTotalTokens() int32 {
 	return 0
 }
 
+type SparseVectorProto struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Indices       []uint32               `protobuf:"varint,1,rep,packed,name=indices,proto3" json:"indices,omitempty"`
+	Values        []float32              `protobuf:"fixed32,2,rep,packed,name=values,proto3" json:"values,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SparseVectorProto) Reset() {
+	*x = SparseVectorProto{}
+	mi := &file_semantic_cache_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SparseVectorProto) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SparseVectorProto) ProtoMessage() {}
+
+func (x *SparseVectorProto) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SparseVectorProto.ProtoReflect.Descriptor instead.
+func (*SparseVectorProto) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *SparseVectorProto) GetIndices() []uint32 {
+	if x != nil {
+		return x.Indices
+	}
+	return nil
+}
+
+func (x *SparseVectorProto) GetValues() []float32 {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+type GenerateSparseEmbeddingRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Identity      *InfrastructureIdentity `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	Text          string                  `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateSparseEmbeddingRequest) Reset() {
+	*x = GenerateSparseEmbeddingRequest{}
+	mi := &file_semantic_cache_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateSparseEmbeddingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateSparseEmbeddingRequest) ProtoMessage() {}
+
+func (x *GenerateSparseEmbeddingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateSparseEmbeddingRequest.ProtoReflect.Descriptor instead.
+func (*GenerateSparseEmbeddingRequest) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GenerateSparseEmbeddingRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *GenerateSparseEmbeddingRequest) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+type GenerateSparseEmbeddingResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SparseVector  *SparseVectorProto     `protobuf:"bytes,1,opt,name=sparse_vector,json=sparseVector,proto3" json:"sparse_vector,omitempty"`
+	UniqueTerms   int32                  `protobuf:"varint,2,opt,name=unique_terms,json=uniqueTerms,proto3" json:"unique_terms,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateSparseEmbeddingResponse) Reset() {
+	*x = GenerateSparseEmbeddingResponse{}
+	mi := &file_semantic_cache_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateSparseEmbeddingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateSparseEmbeddingResponse) ProtoMessage() {}
+
+func (x *GenerateSparseEmbeddingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateSparseEmbeddingResponse.ProtoReflect.Descriptor instead.
+func (*GenerateSparseEmbeddingResponse) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *GenerateSparseEmbeddingResponse) GetSparseVector() *SparseVectorProto {
+	if x != nil {
+		return x.SparseVector
+	}
+	return nil
+}
+
+func (x *GenerateSparseEmbeddingResponse) GetUniqueTerms() int32 {
+	if x != nil {
+		return x.UniqueTerms
+	}
+	return 0
+}
+
+type HybridCheckCacheRequest struct {
+	state               protoimpl.MessageState  `protogen:"open.v1"`
+	CollectionName      string                  `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	Identity            *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	QueryText           string                  `protobuf:"bytes,3,opt,name=query_text,json=queryText,proto3" json:"query_text,omitempty"`
+	DenseVector         []float32               `protobuf:"fixed32,4,rep,packed,name=dense_vector,json=denseVector,proto3" json:"dense_vector,omitempty"`
+	SparseVector        *SparseVectorProto      `protobuf:"bytes,5,opt,name=sparse_vector,json=sparseVector,proto3" json:"sparse_vector,omitempty"`
+	MetadataLookup      *structpb.Struct        `protobuf:"bytes,6,opt,name=metadata_lookup,json=metadataLookup,proto3" json:"metadata_lookup,omitempty"`
+	ConfidenceThreshold float32                 `protobuf:"fixed32,7,opt,name=confidence_threshold,json=confidenceThreshold,proto3" json:"confidence_threshold,omitempty"`
+	Alpha               float32                 `protobuf:"fixed32,8,opt,name=alpha,proto3" json:"alpha,omitempty"` // weight for dense vector (e.g. 0.7)
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *HybridCheckCacheRequest) Reset() {
+	*x = HybridCheckCacheRequest{}
+	mi := &file_semantic_cache_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HybridCheckCacheRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HybridCheckCacheRequest) ProtoMessage() {}
+
+func (x *HybridCheckCacheRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HybridCheckCacheRequest.ProtoReflect.Descriptor instead.
+func (*HybridCheckCacheRequest) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *HybridCheckCacheRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
+func (x *HybridCheckCacheRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *HybridCheckCacheRequest) GetQueryText() string {
+	if x != nil {
+		return x.QueryText
+	}
+	return ""
+}
+
+func (x *HybridCheckCacheRequest) GetDenseVector() []float32 {
+	if x != nil {
+		return x.DenseVector
+	}
+	return nil
+}
+
+func (x *HybridCheckCacheRequest) GetSparseVector() *SparseVectorProto {
+	if x != nil {
+		return x.SparseVector
+	}
+	return nil
+}
+
+func (x *HybridCheckCacheRequest) GetMetadataLookup() *structpb.Struct {
+	if x != nil {
+		return x.MetadataLookup
+	}
+	return nil
+}
+
+func (x *HybridCheckCacheRequest) GetConfidenceThreshold() float32 {
+	if x != nil {
+		return x.ConfidenceThreshold
+	}
+	return 0
+}
+
+func (x *HybridCheckCacheRequest) GetAlpha() float32 {
+	if x != nil {
+		return x.Alpha
+	}
+	return 0
+}
+
+type HybridCheckCacheResponse struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Hit              bool                   `protobuf:"varint,1,opt,name=hit,proto3" json:"hit,omitempty"`
+	ExtractedPayload string                 `protobuf:"bytes,2,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
+	CombinedScore    float32                `protobuf:"fixed32,3,opt,name=combined_score,json=combinedScore,proto3" json:"combined_score,omitempty"`
+	DenseScore       float32                `protobuf:"fixed32,4,opt,name=dense_score,json=denseScore,proto3" json:"dense_score,omitempty"`
+	SparseScore      float32                `protobuf:"fixed32,5,opt,name=sparse_score,json=sparseScore,proto3" json:"sparse_score,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *HybridCheckCacheResponse) Reset() {
+	*x = HybridCheckCacheResponse{}
+	mi := &file_semantic_cache_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HybridCheckCacheResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HybridCheckCacheResponse) ProtoMessage() {}
+
+func (x *HybridCheckCacheResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HybridCheckCacheResponse.ProtoReflect.Descriptor instead.
+func (*HybridCheckCacheResponse) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *HybridCheckCacheResponse) GetHit() bool {
+	if x != nil {
+		return x.Hit
+	}
+	return false
+}
+
+func (x *HybridCheckCacheResponse) GetExtractedPayload() string {
+	if x != nil {
+		return x.ExtractedPayload
+	}
+	return ""
+}
+
+func (x *HybridCheckCacheResponse) GetCombinedScore() float32 {
+	if x != nil {
+		return x.CombinedScore
+	}
+	return 0
+}
+
+func (x *HybridCheckCacheResponse) GetDenseScore() float32 {
+	if x != nil {
+		return x.DenseScore
+	}
+	return 0
+}
+
+func (x *HybridCheckCacheResponse) GetSparseScore() float32 {
+	if x != nil {
+		return x.SparseScore
+	}
+	return 0
+}
+
+type HybridStoreExtractionRequest struct {
+	state            protoimpl.MessageState  `protogen:"open.v1"`
+	CollectionName   string                  `protobuf:"bytes,1,opt,name=collection_name,json=collectionName,proto3" json:"collection_name,omitempty"`
+	Identity         *InfrastructureIdentity `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	DocumentType     string                  `protobuf:"bytes,3,opt,name=document_type,json=documentType,proto3" json:"document_type,omitempty"`
+	SectionTitle     string                  `protobuf:"bytes,4,opt,name=section_title,json=sectionTitle,proto3" json:"section_title,omitempty"`
+	ExtractedPayload string                  `protobuf:"bytes,5,opt,name=extracted_payload,json=extractedPayload,proto3" json:"extracted_payload,omitempty"`
+	DenseVector      []float32               `protobuf:"fixed32,6,rep,packed,name=dense_vector,json=denseVector,proto3" json:"dense_vector,omitempty"`
+	SparseVector     *SparseVectorProto      `protobuf:"bytes,7,opt,name=sparse_vector,json=sparseVector,proto3" json:"sparse_vector,omitempty"`
+	Metadata         *structpb.Struct        `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *HybridStoreExtractionRequest) Reset() {
+	*x = HybridStoreExtractionRequest{}
+	mi := &file_semantic_cache_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HybridStoreExtractionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HybridStoreExtractionRequest) ProtoMessage() {}
+
+func (x *HybridStoreExtractionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HybridStoreExtractionRequest.ProtoReflect.Descriptor instead.
+func (*HybridStoreExtractionRequest) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *HybridStoreExtractionRequest) GetCollectionName() string {
+	if x != nil {
+		return x.CollectionName
+	}
+	return ""
+}
+
+func (x *HybridStoreExtractionRequest) GetIdentity() *InfrastructureIdentity {
+	if x != nil {
+		return x.Identity
+	}
+	return nil
+}
+
+func (x *HybridStoreExtractionRequest) GetDocumentType() string {
+	if x != nil {
+		return x.DocumentType
+	}
+	return ""
+}
+
+func (x *HybridStoreExtractionRequest) GetSectionTitle() string {
+	if x != nil {
+		return x.SectionTitle
+	}
+	return ""
+}
+
+func (x *HybridStoreExtractionRequest) GetExtractedPayload() string {
+	if x != nil {
+		return x.ExtractedPayload
+	}
+	return ""
+}
+
+func (x *HybridStoreExtractionRequest) GetDenseVector() []float32 {
+	if x != nil {
+		return x.DenseVector
+	}
+	return nil
+}
+
+func (x *HybridStoreExtractionRequest) GetSparseVector() *SparseVectorProto {
+	if x != nil {
+		return x.SparseVector
+	}
+	return nil
+}
+
+func (x *HybridStoreExtractionRequest) GetMetadata() *structpb.Struct {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type HybridStoreExtractionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HybridStoreExtractionResponse) Reset() {
+	*x = HybridStoreExtractionResponse{}
+	mi := &file_semantic_cache_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HybridStoreExtractionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HybridStoreExtractionResponse) ProtoMessage() {}
+
+func (x *HybridStoreExtractionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_semantic_cache_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HybridStoreExtractionResponse.ProtoReflect.Descriptor instead.
+func (*HybridStoreExtractionResponse) Descriptor() ([]byte, []int) {
+	return file_semantic_cache_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *HybridStoreExtractionResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_semantic_cache_proto protoreflect.FileDescriptor
 
 const file_semantic_cache_proto_rawDesc = "" +
@@ -1360,7 +1836,44 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\ftotal_tokens\x18\x04 \x01(\x05R\vtotalTokens\x1a?\n" +
 	"\x11SurrogateMapEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xd9\x06\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"E\n" +
+	"\x11SparseVectorProto\x12\x18\n" +
+	"\aindices\x18\x01 \x03(\rR\aindices\x12\x16\n" +
+	"\x06values\x18\x02 \x03(\x02R\x06values\"|\n" +
+	"\x1eGenerateSparseEmbeddingRequest\x12F\n" +
+	"\bidentity\x18\x01 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\"\x8e\x01\n" +
+	"\x1fGenerateSparseEmbeddingResponse\x12H\n" +
+	"\rsparse_vector\x18\x01 \x01(\v2#.semanticcache.v1.SparseVectorProtoR\fsparseVector\x12!\n" +
+	"\funique_terms\x18\x02 \x01(\x05R\vuniqueTerms\"\xa1\x03\n" +
+	"\x17HybridCheckCacheRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12\x1d\n" +
+	"\n" +
+	"query_text\x18\x03 \x01(\tR\tqueryText\x12!\n" +
+	"\fdense_vector\x18\x04 \x03(\x02R\vdenseVector\x12H\n" +
+	"\rsparse_vector\x18\x05 \x01(\v2#.semanticcache.v1.SparseVectorProtoR\fsparseVector\x12@\n" +
+	"\x0fmetadata_lookup\x18\x06 \x01(\v2\x17.google.protobuf.StructR\x0emetadataLookup\x121\n" +
+	"\x14confidence_threshold\x18\a \x01(\x02R\x13confidenceThreshold\x12\x14\n" +
+	"\x05alpha\x18\b \x01(\x02R\x05alpha\"\xc4\x01\n" +
+	"\x18HybridCheckCacheResponse\x12\x10\n" +
+	"\x03hit\x18\x01 \x01(\bR\x03hit\x12+\n" +
+	"\x11extracted_payload\x18\x02 \x01(\tR\x10extractedPayload\x12%\n" +
+	"\x0ecombined_score\x18\x03 \x01(\x02R\rcombinedScore\x12\x1f\n" +
+	"\vdense_score\x18\x04 \x01(\x02R\n" +
+	"denseScore\x12!\n" +
+	"\fsparse_score\x18\x05 \x01(\x02R\vsparseScore\"\xa8\x03\n" +
+	"\x1cHybridStoreExtractionRequest\x12'\n" +
+	"\x0fcollection_name\x18\x01 \x01(\tR\x0ecollectionName\x12F\n" +
+	"\bidentity\x18\x02 \x01(\v2*.document.models.v1.InfrastructureIdentityR\bidentity\x12#\n" +
+	"\rdocument_type\x18\x03 \x01(\tR\fdocumentType\x12#\n" +
+	"\rsection_title\x18\x04 \x01(\tR\fsectionTitle\x12+\n" +
+	"\x11extracted_payload\x18\x05 \x01(\tR\x10extractedPayload\x12!\n" +
+	"\fdense_vector\x18\x06 \x03(\x02R\vdenseVector\x12H\n" +
+	"\rsparse_vector\x18\a \x01(\v2#.semanticcache.v1.SparseVectorProtoR\fsparseVector\x123\n" +
+	"\bmetadata\x18\b \x01(\v2\x17.google.protobuf.StructR\bmetadata\"9\n" +
+	"\x1dHybridStoreExtractionResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xbe\t\n" +
 	"\x14SemanticCacheService\x12W\n" +
 	"\n" +
 	"CheckCache\x12#.semanticcache.v1.CheckCacheRequest\x1a$.semanticcache.v1.CheckCacheResponse\x12f\n" +
@@ -1370,7 +1883,10 @@ const file_semantic_cache_proto_rawDesc = "" +
 	"\x12QueryBlankDocument\x12+.semanticcache.v1.QueryBlankDocumentRequest\x1a,.semanticcache.v1.QueryBlankDocumentResponse\x12x\n" +
 	"\x15RegisterBlankDocument\x12..semanticcache.v1.RegisterBlankDocumentRequest\x1a/.semanticcache.v1.RegisterBlankDocumentResponse\x12]\n" +
 	"\fMaskEntities\x12%.semanticcache.v1.MaskEntitiesRequest\x1a&.semanticcache.v1.MaskEntitiesResponse\x12x\n" +
-	"\x15SemanticChunkDocument\x12..semanticcache.v1.SemanticChunkDocumentRequest\x1a/.semanticcache.v1.SemanticChunkDocumentResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
+	"\x15SemanticChunkDocument\x12..semanticcache.v1.SemanticChunkDocumentRequest\x1a/.semanticcache.v1.SemanticChunkDocumentResponse\x12~\n" +
+	"\x17GenerateSparseEmbedding\x120.semanticcache.v1.GenerateSparseEmbeddingRequest\x1a1.semanticcache.v1.GenerateSparseEmbeddingResponse\x12i\n" +
+	"\x10HybridCheckCache\x12).semanticcache.v1.HybridCheckCacheRequest\x1a*.semanticcache.v1.HybridCheckCacheResponse\x12x\n" +
+	"\x15HybridStoreExtraction\x12..semanticcache.v1.HybridStoreExtractionRequest\x1a/.semanticcache.v1.HybridStoreExtractionResponseB&Z$github.com/AndrewK4758/shared_protosb\x06proto3"
 
 var (
 	file_semantic_cache_proto_rawDescOnce sync.Once
@@ -1384,78 +1900,99 @@ func file_semantic_cache_proto_rawDescGZIP() []byte {
 	return file_semantic_cache_proto_rawDescData
 }
 
-var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_semantic_cache_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_semantic_cache_proto_goTypes = []any{
-	(*CheckCacheRequest)(nil),             // 0: semanticcache.v1.CheckCacheRequest
-	(*CheckCacheResponse)(nil),            // 1: semanticcache.v1.CheckCacheResponse
-	(*StoreExtractionRequest)(nil),        // 2: semanticcache.v1.StoreExtractionRequest
-	(*StoreExtractionResponse)(nil),       // 3: semanticcache.v1.StoreExtractionResponse
-	(*SeedCacheRequest)(nil),              // 4: semanticcache.v1.SeedCacheRequest
-	(*SeedCacheResponse)(nil),             // 5: semanticcache.v1.SeedCacheResponse
-	(*CacheStoreMessage)(nil),             // 6: semanticcache.v1.CacheStoreMessage
-	(*CheckMetadataRequest)(nil),          // 7: semanticcache.v1.CheckMetadataRequest
-	(*CheckMetadataResponse)(nil),         // 8: semanticcache.v1.CheckMetadataResponse
-	(*QueryBlankDocumentRequest)(nil),     // 9: semanticcache.v1.QueryBlankDocumentRequest
-	(*QueryBlankDocumentResponse)(nil),    // 10: semanticcache.v1.QueryBlankDocumentResponse
-	(*RegisterBlankDocumentRequest)(nil),  // 11: semanticcache.v1.RegisterBlankDocumentRequest
-	(*RegisterBlankDocumentResponse)(nil), // 12: semanticcache.v1.RegisterBlankDocumentResponse
-	(*ExtractedEntity)(nil),               // 13: semanticcache.v1.ExtractedEntity
-	(*MaskEntitiesRequest)(nil),           // 14: semanticcache.v1.MaskEntitiesRequest
-	(*MaskEntitiesResponse)(nil),          // 15: semanticcache.v1.MaskEntitiesResponse
-	(*SemanticChunk)(nil),                 // 16: semanticcache.v1.SemanticChunk
-	(*SemanticChunkDocumentRequest)(nil),  // 17: semanticcache.v1.SemanticChunkDocumentRequest
-	(*SemanticChunkDocumentResponse)(nil), // 18: semanticcache.v1.SemanticChunkDocumentResponse
-	nil,                                   // 19: semanticcache.v1.MaskEntitiesResponse.SurrogateMapEntry
-	nil,                                   // 20: semanticcache.v1.SemanticChunkDocumentResponse.SurrogateMapEntry
-	(*anypb.Any)(nil),                     // 21: google.protobuf.Any
-	(*structpb.Struct)(nil),               // 22: google.protobuf.Struct
-	(*InfrastructureIdentity)(nil),        // 23: document.models.v1.InfrastructureIdentity
+	(*CheckCacheRequest)(nil),               // 0: semanticcache.v1.CheckCacheRequest
+	(*CheckCacheResponse)(nil),              // 1: semanticcache.v1.CheckCacheResponse
+	(*StoreExtractionRequest)(nil),          // 2: semanticcache.v1.StoreExtractionRequest
+	(*StoreExtractionResponse)(nil),         // 3: semanticcache.v1.StoreExtractionResponse
+	(*SeedCacheRequest)(nil),                // 4: semanticcache.v1.SeedCacheRequest
+	(*SeedCacheResponse)(nil),               // 5: semanticcache.v1.SeedCacheResponse
+	(*CacheStoreMessage)(nil),               // 6: semanticcache.v1.CacheStoreMessage
+	(*CheckMetadataRequest)(nil),            // 7: semanticcache.v1.CheckMetadataRequest
+	(*CheckMetadataResponse)(nil),           // 8: semanticcache.v1.CheckMetadataResponse
+	(*QueryBlankDocumentRequest)(nil),       // 9: semanticcache.v1.QueryBlankDocumentRequest
+	(*QueryBlankDocumentResponse)(nil),      // 10: semanticcache.v1.QueryBlankDocumentResponse
+	(*RegisterBlankDocumentRequest)(nil),    // 11: semanticcache.v1.RegisterBlankDocumentRequest
+	(*RegisterBlankDocumentResponse)(nil),   // 12: semanticcache.v1.RegisterBlankDocumentResponse
+	(*ExtractedEntity)(nil),                 // 13: semanticcache.v1.ExtractedEntity
+	(*MaskEntitiesRequest)(nil),             // 14: semanticcache.v1.MaskEntitiesRequest
+	(*MaskEntitiesResponse)(nil),            // 15: semanticcache.v1.MaskEntitiesResponse
+	(*SemanticChunk)(nil),                   // 16: semanticcache.v1.SemanticChunk
+	(*SemanticChunkDocumentRequest)(nil),    // 17: semanticcache.v1.SemanticChunkDocumentRequest
+	(*SemanticChunkDocumentResponse)(nil),   // 18: semanticcache.v1.SemanticChunkDocumentResponse
+	(*SparseVectorProto)(nil),               // 19: semanticcache.v1.SparseVectorProto
+	(*GenerateSparseEmbeddingRequest)(nil),  // 20: semanticcache.v1.GenerateSparseEmbeddingRequest
+	(*GenerateSparseEmbeddingResponse)(nil), // 21: semanticcache.v1.GenerateSparseEmbeddingResponse
+	(*HybridCheckCacheRequest)(nil),         // 22: semanticcache.v1.HybridCheckCacheRequest
+	(*HybridCheckCacheResponse)(nil),        // 23: semanticcache.v1.HybridCheckCacheResponse
+	(*HybridStoreExtractionRequest)(nil),    // 24: semanticcache.v1.HybridStoreExtractionRequest
+	(*HybridStoreExtractionResponse)(nil),   // 25: semanticcache.v1.HybridStoreExtractionResponse
+	nil,                                     // 26: semanticcache.v1.MaskEntitiesResponse.SurrogateMapEntry
+	nil,                                     // 27: semanticcache.v1.SemanticChunkDocumentResponse.SurrogateMapEntry
+	(*anypb.Any)(nil),                       // 28: google.protobuf.Any
+	(*structpb.Struct)(nil),                 // 29: google.protobuf.Struct
+	(*InfrastructureIdentity)(nil),          // 30: document.models.v1.InfrastructureIdentity
 }
 var file_semantic_cache_proto_depIdxs = []int32{
-	21, // 0: semanticcache.v1.CheckCacheRequest.embedding_lookup:type_name -> google.protobuf.Any
-	22, // 1: semanticcache.v1.CheckCacheRequest.metadata_lookup:type_name -> google.protobuf.Struct
-	23, // 2: semanticcache.v1.CheckCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	23, // 3: semanticcache.v1.StoreExtractionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	22, // 4: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
-	21, // 5: semanticcache.v1.StoreExtractionRequest.embedding_payload:type_name -> google.protobuf.Any
-	23, // 6: semanticcache.v1.SeedCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	22, // 7: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
-	21, // 8: semanticcache.v1.SeedCacheRequest.embedding_payload:type_name -> google.protobuf.Any
+	28, // 0: semanticcache.v1.CheckCacheRequest.embedding_lookup:type_name -> google.protobuf.Any
+	29, // 1: semanticcache.v1.CheckCacheRequest.metadata_lookup:type_name -> google.protobuf.Struct
+	30, // 2: semanticcache.v1.CheckCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	30, // 3: semanticcache.v1.StoreExtractionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	29, // 4: semanticcache.v1.StoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
+	28, // 5: semanticcache.v1.StoreExtractionRequest.embedding_payload:type_name -> google.protobuf.Any
+	30, // 6: semanticcache.v1.SeedCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	29, // 7: semanticcache.v1.SeedCacheRequest.metadata:type_name -> google.protobuf.Struct
+	28, // 8: semanticcache.v1.SeedCacheRequest.embedding_payload:type_name -> google.protobuf.Any
 	2,  // 9: semanticcache.v1.CacheStoreMessage.request:type_name -> semanticcache.v1.StoreExtractionRequest
-	23, // 10: semanticcache.v1.CheckMetadataRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	22, // 11: semanticcache.v1.CheckMetadataRequest.metadata:type_name -> google.protobuf.Struct
-	21, // 12: semanticcache.v1.QueryBlankDocumentRequest.embedding_lookup:type_name -> google.protobuf.Any
-	23, // 13: semanticcache.v1.QueryBlankDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	21, // 14: semanticcache.v1.RegisterBlankDocumentRequest.embedding_payload:type_name -> google.protobuf.Any
-	23, // 15: semanticcache.v1.RegisterBlankDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
-	23, // 16: semanticcache.v1.MaskEntitiesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	30, // 10: semanticcache.v1.CheckMetadataRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	29, // 11: semanticcache.v1.CheckMetadataRequest.metadata:type_name -> google.protobuf.Struct
+	28, // 12: semanticcache.v1.QueryBlankDocumentRequest.embedding_lookup:type_name -> google.protobuf.Any
+	30, // 13: semanticcache.v1.QueryBlankDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	28, // 14: semanticcache.v1.RegisterBlankDocumentRequest.embedding_payload:type_name -> google.protobuf.Any
+	30, // 15: semanticcache.v1.RegisterBlankDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	30, // 16: semanticcache.v1.MaskEntitiesRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	13, // 17: semanticcache.v1.MaskEntitiesRequest.entities:type_name -> semanticcache.v1.ExtractedEntity
-	19, // 18: semanticcache.v1.MaskEntitiesResponse.surrogate_map:type_name -> semanticcache.v1.MaskEntitiesResponse.SurrogateMapEntry
-	23, // 19: semanticcache.v1.SemanticChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	26, // 18: semanticcache.v1.MaskEntitiesResponse.surrogate_map:type_name -> semanticcache.v1.MaskEntitiesResponse.SurrogateMapEntry
+	30, // 19: semanticcache.v1.SemanticChunkDocumentRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
 	13, // 20: semanticcache.v1.SemanticChunkDocumentRequest.entities:type_name -> semanticcache.v1.ExtractedEntity
 	16, // 21: semanticcache.v1.SemanticChunkDocumentResponse.chunks:type_name -> semanticcache.v1.SemanticChunk
-	20, // 22: semanticcache.v1.SemanticChunkDocumentResponse.surrogate_map:type_name -> semanticcache.v1.SemanticChunkDocumentResponse.SurrogateMapEntry
-	0,  // 23: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
-	2,  // 24: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
-	4,  // 25: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
-	7,  // 26: semanticcache.v1.SemanticCacheService.CheckMetadataExists:input_type -> semanticcache.v1.CheckMetadataRequest
-	9,  // 27: semanticcache.v1.SemanticCacheService.QueryBlankDocument:input_type -> semanticcache.v1.QueryBlankDocumentRequest
-	11, // 28: semanticcache.v1.SemanticCacheService.RegisterBlankDocument:input_type -> semanticcache.v1.RegisterBlankDocumentRequest
-	14, // 29: semanticcache.v1.SemanticCacheService.MaskEntities:input_type -> semanticcache.v1.MaskEntitiesRequest
-	17, // 30: semanticcache.v1.SemanticCacheService.SemanticChunkDocument:input_type -> semanticcache.v1.SemanticChunkDocumentRequest
-	1,  // 31: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
-	3,  // 32: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
-	5,  // 33: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
-	8,  // 34: semanticcache.v1.SemanticCacheService.CheckMetadataExists:output_type -> semanticcache.v1.CheckMetadataResponse
-	10, // 35: semanticcache.v1.SemanticCacheService.QueryBlankDocument:output_type -> semanticcache.v1.QueryBlankDocumentResponse
-	12, // 36: semanticcache.v1.SemanticCacheService.RegisterBlankDocument:output_type -> semanticcache.v1.RegisterBlankDocumentResponse
-	15, // 37: semanticcache.v1.SemanticCacheService.MaskEntities:output_type -> semanticcache.v1.MaskEntitiesResponse
-	18, // 38: semanticcache.v1.SemanticCacheService.SemanticChunkDocument:output_type -> semanticcache.v1.SemanticChunkDocumentResponse
-	31, // [31:39] is the sub-list for method output_type
-	23, // [23:31] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	27, // 22: semanticcache.v1.SemanticChunkDocumentResponse.surrogate_map:type_name -> semanticcache.v1.SemanticChunkDocumentResponse.SurrogateMapEntry
+	30, // 23: semanticcache.v1.GenerateSparseEmbeddingRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	19, // 24: semanticcache.v1.GenerateSparseEmbeddingResponse.sparse_vector:type_name -> semanticcache.v1.SparseVectorProto
+	30, // 25: semanticcache.v1.HybridCheckCacheRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	19, // 26: semanticcache.v1.HybridCheckCacheRequest.sparse_vector:type_name -> semanticcache.v1.SparseVectorProto
+	29, // 27: semanticcache.v1.HybridCheckCacheRequest.metadata_lookup:type_name -> google.protobuf.Struct
+	30, // 28: semanticcache.v1.HybridStoreExtractionRequest.identity:type_name -> document.models.v1.InfrastructureIdentity
+	19, // 29: semanticcache.v1.HybridStoreExtractionRequest.sparse_vector:type_name -> semanticcache.v1.SparseVectorProto
+	29, // 30: semanticcache.v1.HybridStoreExtractionRequest.metadata:type_name -> google.protobuf.Struct
+	0,  // 31: semanticcache.v1.SemanticCacheService.CheckCache:input_type -> semanticcache.v1.CheckCacheRequest
+	2,  // 32: semanticcache.v1.SemanticCacheService.StoreExtraction:input_type -> semanticcache.v1.StoreExtractionRequest
+	4,  // 33: semanticcache.v1.SemanticCacheService.SeedCache:input_type -> semanticcache.v1.SeedCacheRequest
+	7,  // 34: semanticcache.v1.SemanticCacheService.CheckMetadataExists:input_type -> semanticcache.v1.CheckMetadataRequest
+	9,  // 35: semanticcache.v1.SemanticCacheService.QueryBlankDocument:input_type -> semanticcache.v1.QueryBlankDocumentRequest
+	11, // 36: semanticcache.v1.SemanticCacheService.RegisterBlankDocument:input_type -> semanticcache.v1.RegisterBlankDocumentRequest
+	14, // 37: semanticcache.v1.SemanticCacheService.MaskEntities:input_type -> semanticcache.v1.MaskEntitiesRequest
+	17, // 38: semanticcache.v1.SemanticCacheService.SemanticChunkDocument:input_type -> semanticcache.v1.SemanticChunkDocumentRequest
+	20, // 39: semanticcache.v1.SemanticCacheService.GenerateSparseEmbedding:input_type -> semanticcache.v1.GenerateSparseEmbeddingRequest
+	22, // 40: semanticcache.v1.SemanticCacheService.HybridCheckCache:input_type -> semanticcache.v1.HybridCheckCacheRequest
+	24, // 41: semanticcache.v1.SemanticCacheService.HybridStoreExtraction:input_type -> semanticcache.v1.HybridStoreExtractionRequest
+	1,  // 42: semanticcache.v1.SemanticCacheService.CheckCache:output_type -> semanticcache.v1.CheckCacheResponse
+	3,  // 43: semanticcache.v1.SemanticCacheService.StoreExtraction:output_type -> semanticcache.v1.StoreExtractionResponse
+	5,  // 44: semanticcache.v1.SemanticCacheService.SeedCache:output_type -> semanticcache.v1.SeedCacheResponse
+	8,  // 45: semanticcache.v1.SemanticCacheService.CheckMetadataExists:output_type -> semanticcache.v1.CheckMetadataResponse
+	10, // 46: semanticcache.v1.SemanticCacheService.QueryBlankDocument:output_type -> semanticcache.v1.QueryBlankDocumentResponse
+	12, // 47: semanticcache.v1.SemanticCacheService.RegisterBlankDocument:output_type -> semanticcache.v1.RegisterBlankDocumentResponse
+	15, // 48: semanticcache.v1.SemanticCacheService.MaskEntities:output_type -> semanticcache.v1.MaskEntitiesResponse
+	18, // 49: semanticcache.v1.SemanticCacheService.SemanticChunkDocument:output_type -> semanticcache.v1.SemanticChunkDocumentResponse
+	21, // 50: semanticcache.v1.SemanticCacheService.GenerateSparseEmbedding:output_type -> semanticcache.v1.GenerateSparseEmbeddingResponse
+	23, // 51: semanticcache.v1.SemanticCacheService.HybridCheckCache:output_type -> semanticcache.v1.HybridCheckCacheResponse
+	25, // 52: semanticcache.v1.SemanticCacheService.HybridStoreExtraction:output_type -> semanticcache.v1.HybridStoreExtractionResponse
+	42, // [42:53] is the sub-list for method output_type
+	31, // [31:42] is the sub-list for method input_type
+	31, // [31:31] is the sub-list for extension type_name
+	31, // [31:31] is the sub-list for extension extendee
+	0,  // [0:31] is the sub-list for field type_name
 }
 
 func init() { file_semantic_cache_proto_init() }
@@ -1470,7 +2007,7 @@ func file_semantic_cache_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_semantic_cache_proto_rawDesc), len(file_semantic_cache_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

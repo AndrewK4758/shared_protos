@@ -19,14 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SemanticCacheService_CheckCache_FullMethodName            = "/semanticcache.v1.SemanticCacheService/CheckCache"
-	SemanticCacheService_StoreExtraction_FullMethodName       = "/semanticcache.v1.SemanticCacheService/StoreExtraction"
-	SemanticCacheService_SeedCache_FullMethodName             = "/semanticcache.v1.SemanticCacheService/SeedCache"
-	SemanticCacheService_CheckMetadataExists_FullMethodName   = "/semanticcache.v1.SemanticCacheService/CheckMetadataExists"
-	SemanticCacheService_QueryBlankDocument_FullMethodName    = "/semanticcache.v1.SemanticCacheService/QueryBlankDocument"
-	SemanticCacheService_RegisterBlankDocument_FullMethodName = "/semanticcache.v1.SemanticCacheService/RegisterBlankDocument"
-	SemanticCacheService_MaskEntities_FullMethodName          = "/semanticcache.v1.SemanticCacheService/MaskEntities"
-	SemanticCacheService_SemanticChunkDocument_FullMethodName = "/semanticcache.v1.SemanticCacheService/SemanticChunkDocument"
+	SemanticCacheService_CheckCache_FullMethodName              = "/semanticcache.v1.SemanticCacheService/CheckCache"
+	SemanticCacheService_StoreExtraction_FullMethodName         = "/semanticcache.v1.SemanticCacheService/StoreExtraction"
+	SemanticCacheService_SeedCache_FullMethodName               = "/semanticcache.v1.SemanticCacheService/SeedCache"
+	SemanticCacheService_CheckMetadataExists_FullMethodName     = "/semanticcache.v1.SemanticCacheService/CheckMetadataExists"
+	SemanticCacheService_QueryBlankDocument_FullMethodName      = "/semanticcache.v1.SemanticCacheService/QueryBlankDocument"
+	SemanticCacheService_RegisterBlankDocument_FullMethodName   = "/semanticcache.v1.SemanticCacheService/RegisterBlankDocument"
+	SemanticCacheService_MaskEntities_FullMethodName            = "/semanticcache.v1.SemanticCacheService/MaskEntities"
+	SemanticCacheService_SemanticChunkDocument_FullMethodName   = "/semanticcache.v1.SemanticCacheService/SemanticChunkDocument"
+	SemanticCacheService_GenerateSparseEmbedding_FullMethodName = "/semanticcache.v1.SemanticCacheService/GenerateSparseEmbedding"
+	SemanticCacheService_HybridCheckCache_FullMethodName        = "/semanticcache.v1.SemanticCacheService/HybridCheckCache"
+	SemanticCacheService_HybridStoreExtraction_FullMethodName   = "/semanticcache.v1.SemanticCacheService/HybridStoreExtraction"
 )
 
 // SemanticCacheServiceClient is the client API for SemanticCacheService service.
@@ -41,6 +44,9 @@ type SemanticCacheServiceClient interface {
 	RegisterBlankDocument(ctx context.Context, in *RegisterBlankDocumentRequest, opts ...grpc.CallOption) (*RegisterBlankDocumentResponse, error)
 	MaskEntities(ctx context.Context, in *MaskEntitiesRequest, opts ...grpc.CallOption) (*MaskEntitiesResponse, error)
 	SemanticChunkDocument(ctx context.Context, in *SemanticChunkDocumentRequest, opts ...grpc.CallOption) (*SemanticChunkDocumentResponse, error)
+	GenerateSparseEmbedding(ctx context.Context, in *GenerateSparseEmbeddingRequest, opts ...grpc.CallOption) (*GenerateSparseEmbeddingResponse, error)
+	HybridCheckCache(ctx context.Context, in *HybridCheckCacheRequest, opts ...grpc.CallOption) (*HybridCheckCacheResponse, error)
+	HybridStoreExtraction(ctx context.Context, in *HybridStoreExtractionRequest, opts ...grpc.CallOption) (*HybridStoreExtractionResponse, error)
 }
 
 type semanticCacheServiceClient struct {
@@ -131,6 +137,36 @@ func (c *semanticCacheServiceClient) SemanticChunkDocument(ctx context.Context, 
 	return out, nil
 }
 
+func (c *semanticCacheServiceClient) GenerateSparseEmbedding(ctx context.Context, in *GenerateSparseEmbeddingRequest, opts ...grpc.CallOption) (*GenerateSparseEmbeddingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GenerateSparseEmbeddingResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_GenerateSparseEmbedding_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *semanticCacheServiceClient) HybridCheckCache(ctx context.Context, in *HybridCheckCacheRequest, opts ...grpc.CallOption) (*HybridCheckCacheResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HybridCheckCacheResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_HybridCheckCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *semanticCacheServiceClient) HybridStoreExtraction(ctx context.Context, in *HybridStoreExtractionRequest, opts ...grpc.CallOption) (*HybridStoreExtractionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HybridStoreExtractionResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_HybridStoreExtraction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SemanticCacheServiceServer is the server API for SemanticCacheService service.
 // All implementations must embed UnimplementedSemanticCacheServiceServer
 // for forward compatibility.
@@ -143,6 +179,9 @@ type SemanticCacheServiceServer interface {
 	RegisterBlankDocument(context.Context, *RegisterBlankDocumentRequest) (*RegisterBlankDocumentResponse, error)
 	MaskEntities(context.Context, *MaskEntitiesRequest) (*MaskEntitiesResponse, error)
 	SemanticChunkDocument(context.Context, *SemanticChunkDocumentRequest) (*SemanticChunkDocumentResponse, error)
+	GenerateSparseEmbedding(context.Context, *GenerateSparseEmbeddingRequest) (*GenerateSparseEmbeddingResponse, error)
+	HybridCheckCache(context.Context, *HybridCheckCacheRequest) (*HybridCheckCacheResponse, error)
+	HybridStoreExtraction(context.Context, *HybridStoreExtractionRequest) (*HybridStoreExtractionResponse, error)
 	mustEmbedUnimplementedSemanticCacheServiceServer()
 }
 
@@ -176,6 +215,15 @@ func (UnimplementedSemanticCacheServiceServer) MaskEntities(context.Context, *Ma
 }
 func (UnimplementedSemanticCacheServiceServer) SemanticChunkDocument(context.Context, *SemanticChunkDocumentRequest) (*SemanticChunkDocumentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SemanticChunkDocument not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) GenerateSparseEmbedding(context.Context, *GenerateSparseEmbeddingRequest) (*GenerateSparseEmbeddingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GenerateSparseEmbedding not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) HybridCheckCache(context.Context, *HybridCheckCacheRequest) (*HybridCheckCacheResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HybridCheckCache not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) HybridStoreExtraction(context.Context, *HybridStoreExtractionRequest) (*HybridStoreExtractionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method HybridStoreExtraction not implemented")
 }
 func (UnimplementedSemanticCacheServiceServer) mustEmbedUnimplementedSemanticCacheServiceServer() {}
 func (UnimplementedSemanticCacheServiceServer) testEmbeddedByValue()                              {}
@@ -342,6 +390,60 @@ func _SemanticCacheService_SemanticChunkDocument_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SemanticCacheService_GenerateSparseEmbedding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateSparseEmbeddingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).GenerateSparseEmbedding(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_GenerateSparseEmbedding_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).GenerateSparseEmbedding(ctx, req.(*GenerateSparseEmbeddingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SemanticCacheService_HybridCheckCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HybridCheckCacheRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).HybridCheckCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_HybridCheckCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).HybridCheckCache(ctx, req.(*HybridCheckCacheRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SemanticCacheService_HybridStoreExtraction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HybridStoreExtractionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).HybridStoreExtraction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_HybridStoreExtraction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).HybridStoreExtraction(ctx, req.(*HybridStoreExtractionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SemanticCacheService_ServiceDesc is the grpc.ServiceDesc for SemanticCacheService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -380,6 +482,18 @@ var SemanticCacheService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SemanticChunkDocument",
 			Handler:    _SemanticCacheService_SemanticChunkDocument_Handler,
+		},
+		{
+			MethodName: "GenerateSparseEmbedding",
+			Handler:    _SemanticCacheService_GenerateSparseEmbedding_Handler,
+		},
+		{
+			MethodName: "HybridCheckCache",
+			Handler:    _SemanticCacheService_HybridCheckCache_Handler,
+		},
+		{
+			MethodName: "HybridStoreExtraction",
+			Handler:    _SemanticCacheService_HybridStoreExtraction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
