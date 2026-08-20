@@ -3,6 +3,7 @@ syntax = "proto3";
 package document.validation.v1;
 
 option go_package = "github.com/AndrewK4758/shared_protos";
+option csharp_namespace = "Document.Validation.V1";
 
 import "models.proto";
 import "google/protobuf/struct.proto";
@@ -13,6 +14,12 @@ service HumanValidationService {
 
   // Retrieve pending tasks for review
   rpc GetPendingTasks(GetPendingTasksRequest) returns (stream PendingTask);
+
+  // Claim a pending task for operator review with a lease timeout
+  rpc ClaimTask(ClaimTaskRequest) returns (ClaimTaskResponse);
+
+  // Release a claimed task back to the pending queue
+  rpc ReleaseTask(ReleaseTaskRequest) returns (ReleaseTaskResponse);
 
   // Submit corrected JSON from human UI or script
   rpc SubmitCorrection(SubmitCorrectionRequest) returns (SubmitCorrectionResponse);
@@ -48,12 +55,36 @@ message CreateTaskRequest {
 
 message CreateTaskResponse {
   string task_id = 1;
-  string status = 2; // e.g., "CREATED"
+  string status = 2; // e.g., "CREATED", "EXISTS"
 }
 
 message GetPendingTasksRequest {
   string filter_status = 1;
   document.models.v1.InfrastructureIdentity identity = 2;
+}
+
+message ClaimTaskRequest {
+  string task_id = 1;
+  string operator_id = 2;
+  int32 lease_seconds = 3;
+  document.models.v1.InfrastructureIdentity identity = 4;
+}
+
+message ClaimTaskResponse {
+  bool success = 1;
+  string message = 2;
+  int64 lease_expires_at = 3;
+}
+
+message ReleaseTaskRequest {
+  string task_id = 1;
+  string operator_id = 2;
+  document.models.v1.InfrastructureIdentity identity = 3;
+}
+
+message ReleaseTaskResponse {
+  bool success = 1;
+  string message = 2;
 }
 
 message PendingTask {
@@ -65,13 +96,15 @@ message PendingTask {
   string prompt_instructions = 6;
   string error_message = 7;
   repeated string target_fields = 8;
-  string status = 9; // e.g., "PENDING", "RESOLVED"
+  string status = 9; // e.g., "PENDING", "PROCESSING", "RESOLVED"
   document.models.v1.GlobalState global_state = 10;
   reserved 11; reserved "job_name";
   string step_id = 12;
   string step_context_input = 13;
   map<string, string> metadata = 14;
   google.protobuf.Struct expected_schema = 15;
+  string claimed_by = 16;
+  int64 lease_expires_at = 17;
 }
 
 message GetPendingTasksResponse {

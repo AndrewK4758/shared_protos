@@ -13,7 +13,11 @@ service SemanticCacheService {
   rpc CheckMetadataExists(CheckMetadataRequest) returns (CheckMetadataResponse);
   rpc QueryBlankDocument(QueryBlankDocumentRequest) returns (QueryBlankDocumentResponse);
   rpc RegisterBlankDocument(RegisterBlankDocumentRequest) returns (RegisterBlankDocumentResponse);
+  rpc MaskEntities(MaskEntitiesRequest) returns (MaskEntitiesResponse);
+  rpc SemanticChunkDocument(SemanticChunkDocumentRequest) returns (SemanticChunkDocumentResponse);
 }
+
+
 
 message CheckCacheRequest {
   bool enabled = 1;
@@ -94,3 +98,51 @@ message RegisterBlankDocumentRequest {
 message RegisterBlankDocumentResponse {
   bool success = 1;
 }
+
+message ExtractedEntity {
+  string entity_type = 1; // "PERSON", "LOCATION", "ORGANIZATION", "DATE", "TAX_ID"
+  string raw_value = 2;
+  string canonical_value = 3;
+  int32 page_number = 4;
+}
+
+message MaskEntitiesRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  string document_text = 2;
+  repeated ExtractedEntity entities = 3;
+}
+
+message MaskEntitiesResponse {
+  string masked_text = 1;
+  map<string, string> surrogate_map = 2;
+  int32 total_replacements = 3;
+}
+
+message SemanticChunk {
+  string chunk_id = 1;
+  string content = 2; // full formatted markdown chunk with header
+  string section_title = 3;
+  int32 section_level = 4;
+  int32 chunk_index = 5;
+  int32 token_count = 6;
+  bool is_table_continuation = 7;
+}
+
+message SemanticChunkDocumentRequest {
+  document.models.v1.InfrastructureIdentity identity = 1;
+  string document_type = 2;
+  string document_text = 3;
+  repeated ExtractedEntity entities = 4;
+  int32 max_chunk_tokens = 5;
+  int32 overlap_tokens = 6;
+  bool apply_masking = 7;
+}
+
+message SemanticChunkDocumentResponse {
+  repeated SemanticChunk chunks = 1;
+  map<string, string> surrogate_map = 2;
+  int32 total_chunks = 3;
+  int32 total_tokens = 4;
+}
+
+

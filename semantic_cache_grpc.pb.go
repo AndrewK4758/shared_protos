@@ -25,6 +25,8 @@ const (
 	SemanticCacheService_CheckMetadataExists_FullMethodName   = "/semanticcache.v1.SemanticCacheService/CheckMetadataExists"
 	SemanticCacheService_QueryBlankDocument_FullMethodName    = "/semanticcache.v1.SemanticCacheService/QueryBlankDocument"
 	SemanticCacheService_RegisterBlankDocument_FullMethodName = "/semanticcache.v1.SemanticCacheService/RegisterBlankDocument"
+	SemanticCacheService_MaskEntities_FullMethodName          = "/semanticcache.v1.SemanticCacheService/MaskEntities"
+	SemanticCacheService_SemanticChunkDocument_FullMethodName = "/semanticcache.v1.SemanticCacheService/SemanticChunkDocument"
 )
 
 // SemanticCacheServiceClient is the client API for SemanticCacheService service.
@@ -37,6 +39,8 @@ type SemanticCacheServiceClient interface {
 	CheckMetadataExists(ctx context.Context, in *CheckMetadataRequest, opts ...grpc.CallOption) (*CheckMetadataResponse, error)
 	QueryBlankDocument(ctx context.Context, in *QueryBlankDocumentRequest, opts ...grpc.CallOption) (*QueryBlankDocumentResponse, error)
 	RegisterBlankDocument(ctx context.Context, in *RegisterBlankDocumentRequest, opts ...grpc.CallOption) (*RegisterBlankDocumentResponse, error)
+	MaskEntities(ctx context.Context, in *MaskEntitiesRequest, opts ...grpc.CallOption) (*MaskEntitiesResponse, error)
+	SemanticChunkDocument(ctx context.Context, in *SemanticChunkDocumentRequest, opts ...grpc.CallOption) (*SemanticChunkDocumentResponse, error)
 }
 
 type semanticCacheServiceClient struct {
@@ -107,6 +111,26 @@ func (c *semanticCacheServiceClient) RegisterBlankDocument(ctx context.Context, 
 	return out, nil
 }
 
+func (c *semanticCacheServiceClient) MaskEntities(ctx context.Context, in *MaskEntitiesRequest, opts ...grpc.CallOption) (*MaskEntitiesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MaskEntitiesResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_MaskEntities_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *semanticCacheServiceClient) SemanticChunkDocument(ctx context.Context, in *SemanticChunkDocumentRequest, opts ...grpc.CallOption) (*SemanticChunkDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SemanticChunkDocumentResponse)
+	err := c.cc.Invoke(ctx, SemanticCacheService_SemanticChunkDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SemanticCacheServiceServer is the server API for SemanticCacheService service.
 // All implementations must embed UnimplementedSemanticCacheServiceServer
 // for forward compatibility.
@@ -117,6 +141,8 @@ type SemanticCacheServiceServer interface {
 	CheckMetadataExists(context.Context, *CheckMetadataRequest) (*CheckMetadataResponse, error)
 	QueryBlankDocument(context.Context, *QueryBlankDocumentRequest) (*QueryBlankDocumentResponse, error)
 	RegisterBlankDocument(context.Context, *RegisterBlankDocumentRequest) (*RegisterBlankDocumentResponse, error)
+	MaskEntities(context.Context, *MaskEntitiesRequest) (*MaskEntitiesResponse, error)
+	SemanticChunkDocument(context.Context, *SemanticChunkDocumentRequest) (*SemanticChunkDocumentResponse, error)
 	mustEmbedUnimplementedSemanticCacheServiceServer()
 }
 
@@ -144,6 +170,12 @@ func (UnimplementedSemanticCacheServiceServer) QueryBlankDocument(context.Contex
 }
 func (UnimplementedSemanticCacheServiceServer) RegisterBlankDocument(context.Context, *RegisterBlankDocumentRequest) (*RegisterBlankDocumentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RegisterBlankDocument not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) MaskEntities(context.Context, *MaskEntitiesRequest) (*MaskEntitiesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method MaskEntities not implemented")
+}
+func (UnimplementedSemanticCacheServiceServer) SemanticChunkDocument(context.Context, *SemanticChunkDocumentRequest) (*SemanticChunkDocumentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SemanticChunkDocument not implemented")
 }
 func (UnimplementedSemanticCacheServiceServer) mustEmbedUnimplementedSemanticCacheServiceServer() {}
 func (UnimplementedSemanticCacheServiceServer) testEmbeddedByValue()                              {}
@@ -274,6 +306,42 @@ func _SemanticCacheService_RegisterBlankDocument_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SemanticCacheService_MaskEntities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MaskEntitiesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).MaskEntities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_MaskEntities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).MaskEntities(ctx, req.(*MaskEntitiesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SemanticCacheService_SemanticChunkDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SemanticChunkDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SemanticCacheServiceServer).SemanticChunkDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SemanticCacheService_SemanticChunkDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SemanticCacheServiceServer).SemanticChunkDocument(ctx, req.(*SemanticChunkDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SemanticCacheService_ServiceDesc is the grpc.ServiceDesc for SemanticCacheService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -304,6 +372,14 @@ var SemanticCacheService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterBlankDocument",
 			Handler:    _SemanticCacheService_RegisterBlankDocument_Handler,
+		},
+		{
+			MethodName: "MaskEntities",
+			Handler:    _SemanticCacheService_MaskEntities_Handler,
+		},
+		{
+			MethodName: "SemanticChunkDocument",
+			Handler:    _SemanticCacheService_SemanticChunkDocument_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

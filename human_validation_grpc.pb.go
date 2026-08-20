@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	HumanValidationService_CreateValidationTask_FullMethodName = "/document.validation.v1.HumanValidationService/CreateValidationTask"
 	HumanValidationService_GetPendingTasks_FullMethodName      = "/document.validation.v1.HumanValidationService/GetPendingTasks"
+	HumanValidationService_ClaimTask_FullMethodName            = "/document.validation.v1.HumanValidationService/ClaimTask"
+	HumanValidationService_ReleaseTask_FullMethodName          = "/document.validation.v1.HumanValidationService/ReleaseTask"
 	HumanValidationService_SubmitCorrection_FullMethodName     = "/document.validation.v1.HumanValidationService/SubmitCorrection"
 	HumanValidationService_DeleteTask_FullMethodName           = "/document.validation.v1.HumanValidationService/DeleteTask"
 )
@@ -33,6 +35,10 @@ type HumanValidationServiceClient interface {
 	CreateValidationTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*CreateTaskResponse, error)
 	// Retrieve pending tasks for review
 	GetPendingTasks(ctx context.Context, in *GetPendingTasksRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[PendingTask], error)
+	// Claim a pending task for operator review with a lease timeout
+	ClaimTask(ctx context.Context, in *ClaimTaskRequest, opts ...grpc.CallOption) (*ClaimTaskResponse, error)
+	// Release a claimed task back to the pending queue
+	ReleaseTask(ctx context.Context, in *ReleaseTaskRequest, opts ...grpc.CallOption) (*ReleaseTaskResponse, error)
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(ctx context.Context, in *SubmitCorrectionRequest, opts ...grpc.CallOption) (*SubmitCorrectionResponse, error)
 	// Force delete a corrupt or legacy task from the in-memory queue without resuming the job
@@ -76,6 +82,26 @@ func (c *humanValidationServiceClient) GetPendingTasks(ctx context.Context, in *
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type HumanValidationService_GetPendingTasksClient = grpc.ServerStreamingClient[PendingTask]
 
+func (c *humanValidationServiceClient) ClaimTask(ctx context.Context, in *ClaimTaskRequest, opts ...grpc.CallOption) (*ClaimTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClaimTaskResponse)
+	err := c.cc.Invoke(ctx, HumanValidationService_ClaimTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *humanValidationServiceClient) ReleaseTask(ctx context.Context, in *ReleaseTaskRequest, opts ...grpc.CallOption) (*ReleaseTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReleaseTaskResponse)
+	err := c.cc.Invoke(ctx, HumanValidationService_ReleaseTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *humanValidationServiceClient) SubmitCorrection(ctx context.Context, in *SubmitCorrectionRequest, opts ...grpc.CallOption) (*SubmitCorrectionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SubmitCorrectionResponse)
@@ -104,6 +130,10 @@ type HumanValidationServiceServer interface {
 	CreateValidationTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error)
 	// Retrieve pending tasks for review
 	GetPendingTasks(*GetPendingTasksRequest, grpc.ServerStreamingServer[PendingTask]) error
+	// Claim a pending task for operator review with a lease timeout
+	ClaimTask(context.Context, *ClaimTaskRequest) (*ClaimTaskResponse, error)
+	// Release a claimed task back to the pending queue
+	ReleaseTask(context.Context, *ReleaseTaskRequest) (*ReleaseTaskResponse, error)
 	// Submit corrected JSON from human UI or script
 	SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error)
 	// Force delete a corrupt or legacy task from the in-memory queue without resuming the job
@@ -123,6 +153,12 @@ func (UnimplementedHumanValidationServiceServer) CreateValidationTask(context.Co
 }
 func (UnimplementedHumanValidationServiceServer) GetPendingTasks(*GetPendingTasksRequest, grpc.ServerStreamingServer[PendingTask]) error {
 	return status.Error(codes.Unimplemented, "method GetPendingTasks not implemented")
+}
+func (UnimplementedHumanValidationServiceServer) ClaimTask(context.Context, *ClaimTaskRequest) (*ClaimTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ClaimTask not implemented")
+}
+func (UnimplementedHumanValidationServiceServer) ReleaseTask(context.Context, *ReleaseTaskRequest) (*ReleaseTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReleaseTask not implemented")
 }
 func (UnimplementedHumanValidationServiceServer) SubmitCorrection(context.Context, *SubmitCorrectionRequest) (*SubmitCorrectionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SubmitCorrection not implemented")
@@ -181,6 +217,42 @@ func _HumanValidationService_GetPendingTasks_Handler(srv interface{}, stream grp
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type HumanValidationService_GetPendingTasksServer = grpc.ServerStreamingServer[PendingTask]
 
+func _HumanValidationService_ClaimTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClaimTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HumanValidationServiceServer).ClaimTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HumanValidationService_ClaimTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HumanValidationServiceServer).ClaimTask(ctx, req.(*ClaimTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HumanValidationService_ReleaseTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReleaseTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HumanValidationServiceServer).ReleaseTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HumanValidationService_ReleaseTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HumanValidationServiceServer).ReleaseTask(ctx, req.(*ReleaseTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _HumanValidationService_SubmitCorrection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SubmitCorrectionRequest)
 	if err := dec(in); err != nil {
@@ -227,6 +299,14 @@ var HumanValidationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateValidationTask",
 			Handler:    _HumanValidationService_CreateValidationTask_Handler,
+		},
+		{
+			MethodName: "ClaimTask",
+			Handler:    _HumanValidationService_ClaimTask_Handler,
+		},
+		{
+			MethodName: "ReleaseTask",
+			Handler:    _HumanValidationService_ReleaseTask_Handler,
 		},
 		{
 			MethodName: "SubmitCorrection",
